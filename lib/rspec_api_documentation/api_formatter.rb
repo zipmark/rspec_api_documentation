@@ -1,50 +1,52 @@
 require 'rspec/core/formatters/base_formatter'
 
-class APIFormatter < RSpec::Core::Formatters::BaseFormatter
-  def initialize(output)
-    super(output)
+module RspecApiDocumentation
+  class APIFormatter < RSpec::Core::Formatters::BaseFormatter
+    def initialize(output)
+      super(output)
 
-    puts "Generating API docs"
-  end
-
-  def clear_docs
-    unless @cleared
-      ApiDocumentation.clear_docs
+      puts "Generating API docs"
     end
 
-    @cleared = true
-  end
+    def clear_docs
+      unless @cleared
+        ApiDocumentation.clear_docs
+      end
 
-  def example_group_started(example_group)
-    clear_docs
+      @cleared = true
+    end
 
-    puts "\t * #{example_group.resource_name}"
-  end
+    def example_group_started(example_group)
+      clear_docs
 
-  def example_group_finished(example_group)
-    ApiDocumentation.index(example_group)
-    example_group.symlink_public_examples
-  end
+      puts "\t * #{example_group.resource_name}"
+    end
 
-  def example_passed(example)
-    return unless example.should_document?
+    def example_group_finished(example_group)
+      ApiDocumentation.index(example_group)
+      example_group.symlink_public_examples
+    end
 
-    puts "\t\t * #{example.description}"
+    def example_passed(example)
+      return unless example.should_document?
 
-    ApiDocumentation.document_example(example, template)
-  end
+      puts "\t\t * #{example.description}"
 
-  def example_failed(example)
-    application_callers = example.metadata[:caller].select { |file_line| file_line =~ /^#{Rails.root}/ }
-    puts "\t*** EXAMPLE FAILED ***. #{example.resource_name}. Tests should pass before we generate docs."
-    puts "\t\tDetails: #{example.metadata[:execution_result][:exception]}"
-    print "\t\tApplication Backtrace:\n\t\t"
-    puts application_callers.join("\n\t\t")
-  end
+      ApiDocumentation.document_example(example, template)
+    end
 
-  private
-  def template
-    File.read(File.join(File.dirname(__FILE__), '..', 'templates', 'example_template.html'))
+    def example_failed(example)
+      application_callers = example.metadata[:caller].select { |file_line| file_line =~ /^#{Rails.root}/ }
+      puts "\t*** EXAMPLE FAILED ***. #{example.resource_name}. Tests should pass before we generate docs."
+      puts "\t\tDetails: #{example.metadata[:execution_result][:exception]}"
+      print "\t\tApplication Backtrace:\n\t\t"
+      puts application_callers.join("\n\t\t")
+    end
+
+    private
+    def template
+      File.read(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'example_template.html'))
+    end
   end
 end
 
