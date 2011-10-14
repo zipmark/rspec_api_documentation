@@ -48,90 +48,90 @@ module RspecApiDocumentation
       File.read(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'example_template.html'))
     end
   end
-end
 
-module DocumentResource
-  def resource_name
-    metadata[:resource_name]
+  module DocumentResource
+    def resource_name
+      metadata[:resource_name]
+    end
   end
-end
 
-class ApiDocumentation
-  class << self
-    attr_accessor :docs_dir, :public_docs_dir, :private_example_link, :public_example_link,
-      :private_index_extension, :public_index_extension
+  class ApiDocumentation
+    class << self
+      attr_accessor :docs_dir, :public_docs_dir, :private_example_link, :public_example_link,
+        :private_index_extension, :public_index_extension
 
-    def document_example(example, template)
-      FileUtils.mkdir_p(docs_dir.join(example.dirname))
+      def document_example(example, template)
+        FileUtils.mkdir_p(docs_dir.join(example.dirname))
 
-      File.open(example.filepath(docs_dir), "w+") do |f|
-        f.write(example.render(template))
-      end
-    end
-
-    def index(example_group)
-      File.open(docs_dir.join("index.#{private_index_extension}"), "a+") do |f|
-        f.write("<h1>#{example_group.resource_name}</h1>")
-        f.write("<ul>")
-        example_group.documented_examples.each do |example|
-          link = Mustache.render(private_example_link, :link => "#{example.dirname}/#{example.filename}")
-          f.write(%{<li><a href="#{link}">#{example.description}</a></li>})
+        File.open(example.filepath(docs_dir), "w+") do |f|
+          f.write(example.render(template))
         end
-        f.write("</ul>")
       end
 
-      return if example_group.public_examples.empty?
-
-      File.open(public_docs_dir.join("index.#{public_index_extension}"), "a+") do |f|
-        f.write("<h1>#{example_group.resource_name}</h1>")
-        f.write("<ul>")
-        example_group.public_examples.each do |example|
-          link = Mustache.render(public_example_link, :link => "#{example.dirname}/#{example.filename}")
-          f.write(%{<li><a href="#{link}">#{example.description}</a></li>})
+      def index(example_group)
+        File.open(docs_dir.join("index.#{private_index_extension}"), "a+") do |f|
+          f.write("<h1>#{example_group.resource_name}</h1>")
+          f.write("<ul>")
+          example_group.documented_examples.each do |example|
+            link = Mustache.render(private_example_link, :link => "#{example.dirname}/#{example.filename}")
+            f.write(%{<li><a href="#{link}">#{example.description}</a></li>})
+          end
+          f.write("</ul>")
         end
-        f.write("</ul>")
+
+        return if example_group.public_examples.empty?
+
+        File.open(public_docs_dir.join("index.#{public_index_extension}"), "a+") do |f|
+          f.write("<h1>#{example_group.resource_name}</h1>")
+          f.write("<ul>")
+          example_group.public_examples.each do |example|
+            link = Mustache.render(public_example_link, :link => "#{example.dirname}/#{example.filename}")
+            f.write(%{<li><a href="#{link}">#{example.description}</a></li>})
+          end
+          f.write("</ul>")
+        end
       end
-    end
 
-    def clear_docs
-      puts "\tClearing out #{ApiDocumentation.docs_dir}"
-      puts "\tClearing out #{ApiDocumentation.public_docs_dir}"
+      def clear_docs
+        puts "\tClearing out #{ApiDocumentation.docs_dir}"
+        puts "\tClearing out #{ApiDocumentation.public_docs_dir}"
 
-      FileUtils.rm_rf(docs_dir, :secure => true)
-      FileUtils.mkdir_p(docs_dir)
+        FileUtils.rm_rf(docs_dir, :secure => true)
+        FileUtils.mkdir_p(docs_dir)
 
-      FileUtils.rm_rf(public_docs_dir, :secure => true)
-      FileUtils.mkdir_p(public_docs_dir)
-    end
+        FileUtils.rm_rf(public_docs_dir, :secure => true)
+        FileUtils.mkdir_p(public_docs_dir)
+      end
 
-    def docs_dir
-      @docs_dir ||= Rails.root.join("docs")
-    end
+      def docs_dir
+        @docs_dir ||= Rails.root.join("docs")
+      end
 
-    def public_docs_dir
-      @public_docs_dir ||= Rails.root.join("public", "docs")
-    end
+      def public_docs_dir
+        @public_docs_dir ||= Rails.root.join("public", "docs")
+      end
 
-    def private_example_link
-      @private_example_link ||= "{{ link }}"
-    end
+      def private_example_link
+        @private_example_link ||= "{{ link }}"
+      end
 
-    def public_example_link
-      @public_example_link ||= "/docs/{{ link }}"
-    end
+      def public_example_link
+        @public_example_link ||= "/docs/{{ link }}"
+      end
 
-    def private_index_extension
-      @private_index_extension ||= "html"
-    end
+      def private_index_extension
+        @private_index_extension ||= "html"
+      end
 
-    def public_index_extension
-      @public_index_extension ||= "html"
+      def public_index_extension
+        @public_index_extension ||= "html"
+      end
     end
   end
 end
 
 class RSpec::Core::ExampleGroup
-  extend DocumentResource
+  extend RspecApiDocumentation::DocumentResource
 
   def self.dirname
     resource_name.downcase.gsub(/\s+/, '_')
@@ -150,8 +150,8 @@ class RSpec::Core::ExampleGroup
   end
 
   def self.symlink_public_examples
-    public_dir = ApiDocumentation.public_docs_dir.join(dirname)
-    private_dir = ApiDocumentation.docs_dir.join(dirname)
+    public_dir = RspecApiDocumentation::ApiDocumentation.public_docs_dir.join(dirname)
+    private_dir = RspecApiDocumentation::ApiDocumentation.docs_dir.join(dirname)
 
     unless public_examples.empty?
       FileUtils.mkdir_p public_dir
@@ -164,7 +164,7 @@ class RSpec::Core::ExampleGroup
 end
 
 class RSpec::Core::Example
-  include DocumentResource
+  include RspecApiDocumentation::DocumentResource
 
   def filename
     description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '') + ".html"
