@@ -1,4 +1,4 @@
-class ApiTestClient < Struct.new(:session, :client_application)
+class ApiTestClient < Struct.new(:session)
   attr_accessor :user
   attr_reader :last_headers
 
