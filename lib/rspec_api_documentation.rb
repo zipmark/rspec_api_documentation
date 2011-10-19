@@ -1,11 +1,14 @@
-require 'rspec_api_documentation/api_documentation'
-require 'rspec_api_documentation/document_resource'
-require 'rspec_api_documentation/api_formatter'
-require 'rspec_api_documentation/example'
-require 'rspec_api_documentation/example_group'
-require 'rspec_api_documentation/test_client'
-
 load 'tasks/docs.rake'
 
 module RspecApiDocumentation
+  extend ActiveSupport::Autoload
+
+  eager_autoload do
+    autoload :ApiDocumentation
+    autoload :DocumentResource
+    autoload :ApiFormatter
+    autoload :Example
+    autoload :ExampleGroup
+    autoload :TestClient
+  end
 end
