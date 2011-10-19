@@ -1,7 +1,7 @@
-load 'tasks/docs.rake'
-
 module RspecApiDocumentation
   extend ActiveSupport::Autoload
+
+  require 'rspec_api_documentation/railtie' if defined?(Rails)
 
   eager_autoload do
     autoload :ApiDocumentation
