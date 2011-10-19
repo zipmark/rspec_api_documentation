@@ -1,3 +1,5 @@
+require 'rspec_api_documentation/api_documentation'
+require 'rspec_api_documentation/document_resource'
 require 'rspec_api_documentation/api_formatter'
 require 'rspec_api_documentation/example'
 require 'rspec_api_documentation/example_group'
