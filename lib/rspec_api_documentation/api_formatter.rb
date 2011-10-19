@@ -1,7 +1,7 @@
 require 'rspec/core/formatters/base_formatter'
 
 module RspecApiDocumentation
-  class APIFormatter < RSpec::Core::Formatters::BaseFormatter
+  class ApiFormatter < RSpec::Core::Formatters::BaseFormatter
     def initialize(output)
       super(output)
 
