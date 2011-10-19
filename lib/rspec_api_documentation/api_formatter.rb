@@ -19,16 +19,16 @@ module RspecApiDocumentation
     def example_group_started(example_group)
       clear_docs
 
-      puts "\t * #{example_group.resource_name}"
+      puts "\t * #{ExampleGroup.new(example_group).resource_name}"
     end
 
     def example_group_finished(example_group)
       ApiDocumentation.index(example_group)
-      example_group.symlink_public_examples
+      ExampleGroup.new(example_group).symlink_public_examples
     end
 
     def example_passed(example)
-      return unless example.should_document?
+      return unless Example.new(example).should_document?
 
       puts "\t\t * #{example.description}"
 
@@ -37,6 +37,7 @@ module RspecApiDocumentation
 
     def example_failed(example)
       application_callers = example.metadata[:caller].select { |file_line| file_line =~ /^#{Rails.root}/ }
+      example = Example.new(example)
       puts "\t*** EXAMPLE FAILED ***. #{example.resource_name}. Tests should pass before we generate docs."
       puts "\t\tDetails: #{example.metadata[:execution_result][:exception]}"
       print "\t\tApplication Backtrace:\n\t\t"
@@ -60,7 +61,8 @@ module RspecApiDocumentation
       attr_accessor :docs_dir, :public_docs_dir, :private_example_link, :public_example_link,
         :private_index_extension, :public_index_extension
 
-      def document_example(example, template)
+      def document_example(rspec_example, template)
+        example = Example.new(rspec_example)
         FileUtils.mkdir_p(docs_dir.join(example.dirname))
 
         File.open(example.filepath(docs_dir), "w+") do |f|
@@ -68,11 +70,13 @@ module RspecApiDocumentation
         end
       end
 
-      def index(example_group)
+      def index(rspec_example_group)
+        example_group = ExampleGroup.new(rspec_example_group)
         File.open(docs_dir.join("index.#{private_index_extension}"), "a+") do |f|
           f.write("<h1>#{example_group.resource_name}</h1>")
           f.write("<ul>")
           example_group.documented_examples.each do |example|
+            example = Example.new(example)
             link = Mustache.render(private_example_link, :link => "#{example.dirname}/#{example.filename}")
             f.write(%{<li><a href="#{link}">#{example.description}</a></li>})
           end
@@ -85,6 +89,7 @@ module RspecApiDocumentation
           f.write("<h1>#{example_group.resource_name}</h1>")
           f.write("<ul>")
           example_group.public_examples.each do |example|
+            example = Example.new(example)
             link = Mustache.render(public_example_link, :link => "#{example.dirname}/#{example.filename}")
             f.write(%{<li><a href="#{link}">#{example.description}</a></li>})
           end
@@ -128,70 +133,94 @@ module RspecApiDocumentation
       end
     end
   end
-end
 
-class RSpec::Core::ExampleGroup
-  extend RspecApiDocumentation::DocumentResource
+  class ExampleGroup
+    attr_accessor :example_group
 
-  def self.dirname
-    resource_name.downcase.gsub(/\s+/, '_')
-  end
-
-  def self.documented_examples
-    examples.select { |e| e.should_document? }
-  end
-
-  def self.public_examples
-    documented_examples.select { |e| e.public? }
-  end
-
-  def self.document_example(text)
-    metadata[:documentation] = text
-  end
-
-  def self.symlink_public_examples
-    public_dir = RspecApiDocumentation::ApiDocumentation.public_docs_dir.join(dirname)
-    private_dir = RspecApiDocumentation::ApiDocumentation.docs_dir.join(dirname)
-
-    unless public_examples.empty?
-      FileUtils.mkdir_p public_dir
+    def initialize(example_group)
+      @example_group = example_group
     end
 
-    public_examples.each do |example|
-      FileUtils.ln_s(private_dir.join(example.filename), public_dir.join(example.filename))
+    def method_missing(method_sym, *args, &block)
+      example_group.send(method_sym, *args, &block)
+    end
+
+    def resource_name
+      metadata[:resource_name]
+    end
+
+    def dirname
+      resource_name.downcase.gsub(/\s+/, '_')
+    end
+
+    def documented_examples
+      examples.select { |e| Example.new(e).should_document? }
+    end
+
+    def public_examples
+      documented_examples.select { |e| Example.new(e).public? }
+    end
+
+    def document_example(text)
+      metadata[:documentation] = text
+    end
+
+    def symlink_public_examples
+      public_dir = RspecApiDocumentation::ApiDocumentation.public_docs_dir.join(dirname)
+      private_dir = RspecApiDocumentation::ApiDocumentation.docs_dir.join(dirname)
+
+      unless public_examples.empty?
+        FileUtils.mkdir_p public_dir
+      end
+
+      public_examples.each do |example|
+        example = Example.new(example)
+        FileUtils.ln_s(private_dir.join(example.filename), public_dir.join(example.filename))
+      end
+    end
+  end
+
+  class Example
+    attr_accessor :example
+
+    def initialize(example)
+      @example = example
+    end
+
+    def method_missing(method_sym, *args, &block)
+      example.send(method_sym, *args, &block)
+    end
+
+    def filename
+      description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '') + ".html"
+    end
+
+    def resource_name
+      metadata[:resource_name]
+    end
+
+    def dirname
+      ExampleGroup.new(example.example_group).dirname
+    end
+
+    def filepath(base_dir)
+      base_dir.join(dirname, filename)
+    end
+
+    def should_document?
+      !pending? && metadata[:resource_name] && metadata[:document]
+    end
+
+    def render(template)
+      Mustache.render(template, template_content)
+    end
+
+    def template_content
+      example_group.metadata.merge :action => metadata
+    end
+
+    def public?
+      metadata[:public]
     end
   end
 end
-
-class RSpec::Core::Example
-  include RspecApiDocumentation::DocumentResource
-
-  def filename
-    description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '') + ".html"
-  end
-
-  def dirname
-    example_group.dirname
-  end
-
-  def filepath(base_dir)
-    base_dir.join(dirname, filename)
-  end
-
-  def should_document?
-    !pending? && metadata[:resource_name] && metadata[:document]
-  end
-
-  def render(template)
-    Mustache.render(template, template_content)
-  end
-
-  def template_content
-    example_group.metadata.merge :action => metadata
-  end
-
-  def public?
-    metadata[:public]
-  end
-end
-
