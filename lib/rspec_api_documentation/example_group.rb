@@ -24,10 +24,6 @@ module RspecApiDocumentation
       documented_examples.select { |e| Example.new(e).public? }
     end
 
-    def document_example(text)
-      metadata[:documentation] = text
-    end
-
     def symlink_public_examples
       public_dir = RspecApiDocumentation::ApiDocumentation.public_docs_dir.join(dirname)
       private_dir = RspecApiDocumentation::ApiDocumentation.docs_dir.join(dirname)
