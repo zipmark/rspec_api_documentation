@@ -1,6 +1,6 @@
 module RspecApiDocumentation
   class Configuration
-    def self.add_setting(name, opts)
+    def self.add_setting(name, opts = {})
       define_method("#{name}=") { |value| settings[name] = value }
       define_method("#{name}") { settings.has_key?(name) ? settings[name] : opts[:default] }
     end
