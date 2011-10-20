@@ -8,25 +8,23 @@
       <h1>{{resource_name}} API</h1>
       <p>{{documentation}}</p>
 
-      {{# action }}
-        <div class="article">
-          <h2>{{ description }}</h2>
+      <div class="article">
+        <h2>{{ description }}</h2>
 
-          <h3>Request</h3>
-          <pre class="headers">{{ request_headers }}</pre>
-          <pre class="request highlight">{{ method }} {{ route }}</pre>
-          {{# parameters }}
-            <pre class="request highlight">{{ parameters }}</pre>
-          {{/ parameters }}
+        <h3>Request</h3>
+        <pre class="headers">{{ request_headers }}</pre>
+        <pre class="request highlight">{{ method }} {{ route }}</pre>
+        {{# parameters }}
+          <pre class="request highlight">{{ parameters }}</pre>
+        {{/ parameters }}
 
-          <h3>Response</h3>
-          <pre class="headers">{{ response_headers }}</pre>
-          <pre class="response_status">{{ response_status }} {{ response_status_text}}</pre>
-          {{# response_body }}
-            <pre class="response highlight">{{ response_body }}</pre>
-          {{/ response_body }}
-        </div>
-      {{/ action }}
+        <h3>Response</h3>
+        <pre class="headers">{{ response_headers }}</pre>
+        <pre class="response_status">{{ response_status }} {{ response_status_text}}</pre>
+        {{# response_body }}
+          <pre class="response highlight">{{ response_body }}</pre>
+        {{/ response_body }}
+      </div>
     </div>
   </body>
 </html>

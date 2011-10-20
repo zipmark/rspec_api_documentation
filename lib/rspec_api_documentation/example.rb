@@ -29,11 +29,7 @@ module RspecApiDocumentation
     end
 
     def render(template)
-      Mustache.render(template, template_content)
-    end
-
-    def template_content
-      example_group.metadata.merge :action => metadata
+      Mustache.render(template, metadata)
     end
 
     def public?
