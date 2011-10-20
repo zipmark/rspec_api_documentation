@@ -25,8 +25,8 @@ module RspecApiDocumentation
     end
 
     def symlink_public_examples
-      public_dir = RspecApiDocumentation::ApiDocumentation.public_docs_dir.join(dirname)
-      private_dir = RspecApiDocumentation::ApiDocumentation.docs_dir.join(dirname)
+      public_dir = RspecApiDocumentation.configuration.public_docs_dir.join(dirname)
+      private_dir = RspecApiDocumentation.configuration.docs_dir.join(dirname)
 
       unless public_examples.empty?
         FileUtils.mkdir_p public_dir
