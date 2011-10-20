@@ -8,17 +8,13 @@ module RspecApiDocumentation
       puts "Generating API docs"
     end
 
-    def clear_docs
-      unless @cleared
-        ApiDocumentation.clear_docs
-      end
+    def start(example_count)
+      super(example_count)
 
-      @cleared = true
+      ApiDocumentation.clear_docs
     end
 
     def example_group_started(example_group)
-      clear_docs
-
       puts "\t * #{ExampleGroup.new(example_group).resource_name}"
     end
 
