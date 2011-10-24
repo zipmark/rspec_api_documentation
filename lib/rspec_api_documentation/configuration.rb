@@ -15,5 +15,14 @@ module RspecApiDocumentation
     def settings
       @settings ||= {}
     end
+
+    def clear_docs
+      [docs_dir, public_docs_dir].each do |dir|
+        if File.exists?(dir)
+          FileUtils.rm_rf(dir, :secure => true)
+        end
+        FileUtils.mkdir_p(dir)
+      end
+    end
   end
 end
