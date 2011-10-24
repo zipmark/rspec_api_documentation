@@ -23,6 +23,12 @@ module RspecApiDocumentation
       examples << wrapped_example if wrapped_example.should_document?
     end
 
+    def write_examples
+      examples.each do |example|
+        write_example(example)
+      end
+    end
+
     def write_example(wrapped_example)
       dir = docs_dir.join(wrapped_example.dirname)
       file = dir.join("#{wrapped_example.filename}.#{configuration.example_extension}")

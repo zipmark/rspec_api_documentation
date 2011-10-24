@@ -67,6 +67,21 @@ describe RspecApiDocumentation::ApiDocumentation do
     end
   end
 
+  describe "#write_examples" do
+    let(:examples) { Array.new(2) { stub } }
+
+    before do
+      documentation.stub!(:examples).and_return(examples)
+    end
+
+    it "should write each example" do
+      examples.each do |example|
+        documentation.should_receive(:write_example).with(example)
+      end
+      documentation.write_examples
+    end
+  end
+
   describe "#write_example" do
     include FakeFS::SpecHelpers
 
