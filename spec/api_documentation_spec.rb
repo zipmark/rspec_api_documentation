@@ -66,4 +66,29 @@ describe RspecApiDocumentation::ApiDocumentation do
       end
     end
   end
+
+  describe "#write_example" do
+    include FakeFS::SpecHelpers
+
+    let(:metadata) { stub }
+    let(:wrapped_example) { stub(:metadata => metadata) }
+
+    before do
+      wrapped_example.stub!(:dirname).and_return('test_dir')
+      wrapped_example.stub!(:filename).and_return('test_file')
+      Mustache.stub!(:render).and_return('rendered content')
+
+      documentation.clear_docs
+    end
+
+    it "should use Mustache to render the example's metadata with the configured template" do
+      Mustache.should_receive(:render).with(configuration.example_template, metadata)
+      documentation.write_example(wrapped_example)
+    end
+
+    it "should write the rendered content to the correct file" do
+      documentation.write_example(wrapped_example)
+      File.read(configuration.docs_dir.join('test_dir', 'test_file.html')).should eq('rendered content')
+    end
+  end
 end

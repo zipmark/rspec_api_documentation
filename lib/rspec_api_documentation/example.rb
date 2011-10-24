@@ -13,7 +13,7 @@ module RspecApiDocumentation
     end
 
     def filename
-      description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '') + ".html"
+      description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '')
     end
 
     def dirname
