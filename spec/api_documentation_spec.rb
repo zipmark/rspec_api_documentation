@@ -7,6 +7,8 @@ describe RspecApiDocumentation::ApiDocumentation do
   subject { documentation }
 
   its(:configuration) { should equal(configuration) }
+  its(:private_index) { should be_a(RspecApiDocumentation::Index) }
+  its(:public_index) { should be_a(RspecApiDocumentation::Index) }
   its(:examples) { should be_empty }
 
   describe "#clear_docs" do
@@ -37,7 +39,7 @@ describe RspecApiDocumentation::ApiDocumentation do
 
   describe "#document_example" do
     let(:example) { stub }
-    let(:wrapped_example) { stub(:should_document? => true) }
+    let(:wrapped_example) { stub(:should_document? => true, :public? => false) }
 
     before do
       RspecApiDocumentation::Example.stub!(:new).and_return(wrapped_example)
@@ -55,6 +57,29 @@ describe RspecApiDocumentation::ApiDocumentation do
         documentation.document_example(example)
         documentation.examples.last.should equal(wrapped_example)
       end
+
+      it "should add the example to the private index" do
+        documentation.private_index.should_receive(:add_example).with(example)
+        documentation.document_example(example)
+      end
+
+      context "when the given example should be publicly documented" do
+        before { wrapped_example.stub!(:public? => true) }
+
+        it "should add the given example to the public index" do
+          documentation.public_index.should_receive(:add_example).with(example)
+          documentation.document_example(example)
+        end
+      end
+
+      context "when the given example should not be publicly documented" do
+        before { wrapped_example.stub!(:public? => false) }
+
+        it "should not add the given example to the public index" do
+          documentation.public_index.should_not_receive(:add_example)
+          documentation.document_example(example)
+        end
+      end
     end
 
     context "when the given example should not be documented" do
@@ -63,6 +88,16 @@ describe RspecApiDocumentation::ApiDocumentation do
       it "should not add the wrapped example to the list of examples" do
         documentation.document_example(example)
         documentation.examples.should_not include(wrapped_example)
+      end
+
+      it "should not add the example to the private index" do
+        documentation.private_index.should_not_receive(:add_example)
+        documentation.document_example(example)
+      end
+
+      it "should not add the example to the public index" do
+        documentation.public_index.should_not_receive(:add_example)
+        documentation.document_example(example)
       end
     end
   end

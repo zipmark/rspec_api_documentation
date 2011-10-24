@@ -1,12 +1,14 @@
 module RspecApiDocumentation
   class ApiDocumentation
-    attr_reader :configuration, :examples
+    attr_reader :configuration, :examples, :private_index, :public_index
 
     delegate :docs_dir, :public_docs_dir, :example_template, :to => :configuration
 
     def initialize(configuration)
       @configuration = configuration
       @examples = []
+      @private_index = Index.new
+      @public_index = Index.new
     end
 
     def clear_docs
@@ -20,7 +22,11 @@ module RspecApiDocumentation
 
     def document_example(example)
       wrapped_example = Example.new(example)
-      examples << wrapped_example if wrapped_example.should_document?
+      if wrapped_example.should_document?
+        examples << wrapped_example
+        private_index.add_example(example)
+        public_index.add_example(example) if wrapped_example.public?
+      end
     end
 
     def write_examples
