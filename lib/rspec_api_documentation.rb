@@ -4,6 +4,7 @@ module RspecApiDocumentation
   require 'rspec_api_documentation/railtie' if defined?(Rails)
 
   eager_autoload do
+    autoload :ConfigurationSet
     autoload :Configuration
     autoload :ApiDocumentation
     autoload :DocumentResource
