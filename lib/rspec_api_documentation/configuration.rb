@@ -5,12 +5,17 @@ module RspecApiDocumentation
       define_method("#{name}") { settings.has_key?(name) ? settings[name] : opts[:default] }
     end
 
+    def self.default_example_template
+      File.read(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'example_template.html'))
+    end
+
     add_setting :docs_dir, :default => Rails.root.join("docs")
     add_setting :public_docs_dir, :default => Rails.root.join("public", "docs")
     add_setting :private_example_link, :default => "{{ link }}"
     add_setting :public_example_link, :default => "/docs/{{ link }}"
     add_setting :private_index_extension, :default => "html"
     add_setting :public_index_extension, :default => "html"
+    add_setting :example_template, :default => default_example_template
 
     def settings
       @settings ||= {}

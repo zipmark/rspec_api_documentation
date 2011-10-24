@@ -19,12 +19,18 @@ describe RspecApiDocumentation::Configuration do
   end
 
   describe "default settings" do
+    let(:default_example_template) do
+      filepath = File.join(File.dirname(__FILE__), '..', 'templates', 'example_template.html')
+      File.read(filepath)
+    end
+
     its(:docs_dir) { should == Rails.root.join("docs") }
     its(:public_docs_dir) { should == Rails.root.join("public", "docs") }
     its(:private_example_link) { should == "{{ link }}" }
     its(:public_example_link) { should == "/docs/{{ link }}" }
     its(:private_index_extension) { should == "html" }
     its(:public_index_extension) { should == "html" }
+    its(:example_template) { should == default_example_template }
 
     its(:settings) { should == {} }
   end
