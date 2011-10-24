@@ -1,11 +1,12 @@
 module RspecApiDocumentation
   class ApiDocumentation
-    attr_reader :configuration
+    attr_reader :configuration, :examples
 
     delegate :docs_dir, :public_docs_dir, :to => :configuration
 
     def initialize(configuration)
       @configuration = configuration
+      @examples = []
     end
 
     def clear_docs
@@ -16,6 +17,12 @@ module RspecApiDocumentation
         FileUtils.mkdir_p(dir)
       end
     end
+
+    def document_example(example)
+      wrapped_example = Example.new(example)
+      examples << wrapped_example if wrapped_example.should_document?
+    end
+
     #class << self
     #  delegate :configuration, :to => :RspecApiDocumentation
 
