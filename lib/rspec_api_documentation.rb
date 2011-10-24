@@ -11,6 +11,7 @@ module RspecApiDocumentation
     autoload :ApiFormatter
     autoload :Example
     autoload :ExampleGroup
+    autoload :Index
     autoload :TestClient
   end
 
