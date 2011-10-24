@@ -23,6 +23,10 @@ describe RspecApiDocumentation::Configuration do
       filepath = File.join(File.dirname(__FILE__), '..', 'templates', 'example_template.html')
       File.read(filepath)
     end
+    let(:default_index_template) do
+      filepath = File.join(File.dirname(__FILE__), '..', 'templates', 'index_template.html')
+      File.read(filepath)
+    end
 
     its(:docs_dir) { should == Rails.root.join("docs") }
     its(:public_docs_dir) { should == Rails.root.join("public", "docs") }
@@ -32,6 +36,7 @@ describe RspecApiDocumentation::Configuration do
     its(:public_index_extension) { should == "html" }
     its(:example_extension) { should == "html" }
     its(:example_template) { should == default_example_template }
+    its(:index_template) { should == default_index_template }
 
     its(:settings) { should == {} }
   end

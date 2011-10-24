@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>API Documentation</title>
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.1.1.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>API Documentation</h1>
+
+      {{# example_groups }}
+        <div class="article">
+          <h2>{{ resource_name }}</h2>
+
+          <ul>
+            {{# examples }}
+              <li>
+                <a href="{{ link }}">{{ description }}</a>
+              </li>
+            {{/ examples }}
+          </ul>
+        </div>
+      {{/ example_groups }}
+    </div>
+  </body>
+</html>
