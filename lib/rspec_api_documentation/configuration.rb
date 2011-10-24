@@ -15,6 +15,7 @@ module RspecApiDocumentation
     add_setting :public_example_link, :default => "/docs/{{ link }}"
     add_setting :private_index_extension, :default => "html"
     add_setting :public_index_extension, :default => "html"
+    add_setting :example_extension, :default => "html"
     add_setting :example_template, :default => default_example_template
 
     def settings
