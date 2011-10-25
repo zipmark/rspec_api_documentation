@@ -1,7 +1,7 @@
 module RspecApiDocumentation
   class Index < Mustache
     def add_example(example)
-      examples << Example.new(example)
+      examples << example
     end
 
     def example_groups

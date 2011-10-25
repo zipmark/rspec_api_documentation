@@ -22,12 +22,7 @@ describe RspecApiDocumentation::Index do
       RspecApiDocumentation::ExampleGroup.stub!(:new).with(bar_example_group).and_return(wrapped_bar_example_group)
     end
 
-    it "should wrap the given example group" do
-      RspecApiDocumentation::Example.should_receive(:new).with(foo_examples.first)
-      index.add_example(foo_examples.first)
-    end
-
-    it "should wrap the given example's group and add to example_groups" do
+    it "should wrap and add the given example's group to example_groups" do
       index.add_example(foo_examples.first)
       index.example_groups.should eq([wrapped_foo_example_group])
     end
