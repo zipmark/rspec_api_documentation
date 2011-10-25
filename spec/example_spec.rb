@@ -20,6 +20,7 @@ describe RspecApiDocumentation::Example do
 
   it "should delegate to the rspec example for any method it doesn't understand" do
     rspec_example.should_receive(:foo).with(:bar, :baz)
+    example.should respond_to(:foo)
     example.foo(:bar, :baz)
   end
 

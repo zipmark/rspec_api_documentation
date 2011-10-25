@@ -12,6 +12,10 @@ module RspecApiDocumentation
       example_group.send(method_sym, *args, &block)
     end
 
+    def respond_to?(method_sym, include_private = false)
+      super || example_group.respond_to?(method_sym, include_private)
+    end
+
     def dirname
       resource_name.downcase.gsub(/\s+/, '_')
     end

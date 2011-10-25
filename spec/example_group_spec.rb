@@ -22,6 +22,7 @@ describe RspecApiDocumentation::ExampleGroup do
 
   it "should delegate to the rspec example group for any method it doesn't understand" do
     rspec_example_group.should_receive(:foo).with(:bar, :baz)
+    example_group.should respond_to(:foo)
     example_group.foo(:bar, :baz)
   end
 

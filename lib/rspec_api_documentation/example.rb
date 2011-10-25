@@ -12,6 +12,10 @@ module RspecApiDocumentation
       example.send(method_sym, *args, &block)
     end
 
+    def respond_to?(method_sym, include_private = false)
+      super || example.respond_to?(method_sym, include_private)
+    end
+
     def example_group
       ExampleGroup.new(example.example_group)
     end
