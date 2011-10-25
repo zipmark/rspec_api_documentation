@@ -18,10 +18,25 @@ describe RspecApiDocumentation::Example do
 
   its(:example) { should equal(rspec_example) }
 
-  it "should delegate to the rspec example for any method it doesn't understand" do
-    rspec_example.should_receive(:foo).with(:bar, :baz)
-    example.should respond_to(:foo)
-    example.foo(:bar, :baz)
+  describe "method delegation" do
+    context "when the example's metadata has a key for the given method selector" do
+      let(:metadata) {{ :foo => :bar }}
+
+      it "should return the metadata value for the given method selector as a key" do
+        example.should respond_to(:foo)
+        example.foo.should eq(:bar)
+      end
+    end
+
+    context "when the example's metadata has no key for the given method selector" do
+      before { metadata.delete(:foo) }
+
+      it "should delegate the method to the example" do
+        rspec_example.should_receive(:foo).with(:bar, :baz)
+        example.should respond_to(:foo)
+        example.foo(:bar, :baz)
+      end
+    end
   end
 
   describe "#method" do
