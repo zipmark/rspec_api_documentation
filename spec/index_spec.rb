@@ -3,8 +3,9 @@ require 'spec_helper'
 describe RspecApiDocumentation::Index do
   let(:foo_example_group) { RSpec::Core::ExampleGroup.describe("Foo", :resource_name => "Foo", :document => true) }
   let(:bar_example_group) { RSpec::Core::ExampleGroup.describe("Bar", :resource_name => "Bar", :document => true) }
-  let(:foo_examples) { Array.new(2) { |i| foo_example_group.example("Foo #{i}") } }
-  let(:bar_examples) { Array.new(2) { |i| bar_example_group.example("Bar #{i}") } }
+  let(:foo_examples) { Array.new(2) { |i| foo_example_group.example("Foo #{i}") {} } }
+  let(:bar_examples) { Array.new(2) { |i| bar_example_group.example("Bar #{i}") {} } }
+  let(:examples) { foo_examples + bar_examples }
   let(:index) { RspecApiDocumentation::Index.new }
 
   subject { index }
@@ -38,6 +39,19 @@ describe RspecApiDocumentation::Index do
         index.add_example(example)
       end
       index.example_groups.should eq([wrapped_foo_example_group])
+    end
+  end
+
+  describe "#examples" do
+    let(:wrapped_examples) { [stub] * examples.count }
+
+    before do
+      RspecApiDocumentation::Example.stub!(:new).and_return(*wrapped_examples)
+      examples.each { |example| index.add_example(example) }
+    end
+
+    it "should return the added examples, wrapped" do
+      index.examples.should eq(wrapped_examples)
     end
   end
 end
