@@ -1,11 +1,11 @@
 module RspecApiDocumentation
-  class ExampleGroup
+  class ExampleGroup < Mustache
     include DocumentResource
 
     attr_accessor :example_group
 
     def initialize(example_group)
-      @example_group = example_group
+      self.example_group = example_group
     end
 
     def method_missing(method_sym, *args, &block)
@@ -16,12 +16,16 @@ module RspecApiDocumentation
       resource_name.downcase.gsub(/\s+/, '_')
     end
 
+    def examples
+      example_group.examples.map { |e| Example.new(e) }
+    end
+
     def documented_examples
-      examples.select { |e| Example.new(e).should_document? }
+      examples.select(&:should_document?)
     end
 
     def public_examples
-      documented_examples.select { |e| Example.new(e).public? }
+      documented_examples.select(&:public?)
     end
 
     def symlink_public_examples
