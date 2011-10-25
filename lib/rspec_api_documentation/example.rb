@@ -16,6 +16,10 @@ module RspecApiDocumentation
       super || example.respond_to?(method_sym, include_private)
     end
 
+    def method
+      metadata[:method]
+    end
+
     def example_group
       ExampleGroup.new(example.example_group)
     end

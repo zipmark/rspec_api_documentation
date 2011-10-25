@@ -24,6 +24,14 @@ describe RspecApiDocumentation::Example do
     example.foo(:bar, :baz)
   end
 
+  describe "#method" do
+    let(:metadata) {{ :method => "GET" }}
+
+    it "should return what is in the metadata" do
+      example.method.should == "GET"
+    end
+  end
+
   describe "#example_group" do
     it "should return the wrapped example group" do
       example.example_group.should equal(wrapped_example_group)
