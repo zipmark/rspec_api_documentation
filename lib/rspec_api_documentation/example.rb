@@ -1,35 +1,31 @@
 module RspecApiDocumentation
-  class Example
+  class Example < Mustache
     include DocumentResource
 
     attr_accessor :example
 
     def initialize(example)
-      @example = example
+      self.example = example
     end
 
     def method_missing(method_sym, *args, &block)
       example.send(method_sym, *args, &block)
     end
 
+    def example_group
+      ExampleGroup.new(example.example_group)
+    end
+
+    def dirname
+      example_group.dirname
+    end
+
     def filename
       description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '')
     end
 
-    def dirname
-      ExampleGroup.new(example.example_group).dirname
-    end
-
-    def filepath(base_dir)
-      base_dir.join(dirname, filename)
-    end
-
     def should_document?
       !pending? && metadata[:resource_name] && metadata[:document]
-    end
-
-    def render(template)
-      Mustache.render(template, metadata)
     end
 
     def public?
