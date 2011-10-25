@@ -5,7 +5,11 @@ describe RspecApiDocumentation do
 
   describe "#configurations" do
     before do
-      RspecApiDocumentation::ConfigurationSet.stub(:new).and_return(configuration_set, nil)
+      # if other tests call RspecApiDocumentation.configurations, the value will
+      # already be cached. force it to nil for this test
+      RspecApiDocumentation.instance_variable_set(:@configurations, nil)
+
+      RspecApiDocumentation::ConfigurationSet.stub!(:new).and_return(configuration_set, nil)
     end
 
     it "should be a configuration set" do
