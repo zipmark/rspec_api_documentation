@@ -21,8 +21,9 @@ describe RspecApiDocumentation do
     end
 
     it "should take a block" do
-      shibboleth = stub
-      RspecApiDocumentation.configure { shibboleth }.should equal(shibboleth)
+      called = false
+      RspecApiDocumentation.configure { called = true }
+      called.should be_true
     end
 
     it "should yield the configuration set to the block" do
