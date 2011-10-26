@@ -16,6 +16,14 @@ module RspecApiDocumentation
       super || example_group.respond_to?(method_sym, include_private)
     end
 
+    def eql?(other)
+      example_group.eql?(other.example_group)
+    end
+
+    def hash
+      example_group.hash
+    end
+
     def dirname
       resource_name.downcase.gsub(/\s+/, '_')
     end

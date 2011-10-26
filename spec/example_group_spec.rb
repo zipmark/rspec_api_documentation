@@ -20,6 +20,14 @@ describe RspecApiDocumentation::ExampleGroup do
 
   its(:example_group) { should equal(rspec_example_group) }
 
+  it "should delegate equality to the rspec example group" do
+    g = RSpec::Core::ExampleGroup.describe("g1")
+    g1 = RspecApiDocumentation::ExampleGroup.new(g)
+    g2 = RspecApiDocumentation::ExampleGroup.new(g)
+    g1.hash.should eq(g2.hash)
+    g1.should eql(g2)
+  end
+
   it "should delegate to the rspec example group for any method it doesn't understand" do
     rspec_example_group.should_receive(:foo).with(:bar, :baz)
     example_group.should respond_to(:foo)
