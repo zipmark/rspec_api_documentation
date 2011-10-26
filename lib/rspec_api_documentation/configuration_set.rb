@@ -3,7 +3,7 @@ module RspecApiDocumentation
     include Enumerable
 
     def method_missing(selector, *args)
-      configuration = Configuration.new
+      configuration = Configuration.new(selector)
       yield configuration if block_given?
       configurations[selector] = ApiDocumentation.new(configuration)
     end

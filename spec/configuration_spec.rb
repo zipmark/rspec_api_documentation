@@ -1,9 +1,12 @@
 require 'spec_helper'
 
 describe RspecApiDocumentation::Configuration do
-  let(:configuration) { RspecApiDocumentation::Configuration.new }
+  let(:format) { :blah }
+  let(:configuration) { RspecApiDocumentation::Configuration.new(format) }
 
   subject { configuration }
+
+  its(:format) { should equal(format) }
 
   describe ".add_setting" do
     it 'should allow creating a new setting' do
@@ -24,24 +27,17 @@ describe RspecApiDocumentation::Configuration do
   end
 
   describe "default settings" do
-    let(:default_example_template) do
-      filepath = File.join(File.dirname(__FILE__), '..', 'templates', 'example_template.html')
-      File.read(filepath)
-    end
-    let(:default_index_template) do
-      filepath = File.join(File.dirname(__FILE__), '..', 'templates', 'index_template.html')
-      File.read(filepath)
-    end
+    let(:default_template_path) { File.expand_path("../../templates", __FILE__) }
 
     its(:docs_dir) { should == Rails.root.join("docs") }
     its(:public_docs_dir) { should == Rails.root.join("public", "docs") }
     its(:private_example_link) { should == "{{ link }}" }
     its(:public_example_link) { should == "/docs/{{ link }}" }
-    its(:private_index_extension) { should == "html" }
-    its(:public_index_extension) { should == "html" }
-    its(:example_extension) { should == "html" }
-    its(:example_template) { should == default_example_template }
-    its(:index_template) { should == default_index_template }
+    its(:private_index_extension) { should == format }
+    its(:public_index_extension) { should == format }
+    its(:example_extension) { should == format }
+    its(:template_extension) { should == format }
+    its(:template_path) { should == default_template_path }
 
     its(:settings) { should == {} }
   end

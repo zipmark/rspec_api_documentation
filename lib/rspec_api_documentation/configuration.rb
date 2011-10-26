@@ -1,5 +1,11 @@
 module RspecApiDocumentation
   class Configuration
+    attr_reader :format
+
+    def initialize(format)
+      @format = format
+    end
+
     def self.add_setting(name, opts = {})
       define_method("#{name}=") { |value| settings[name] = value }
       define_method("#{name}") do
@@ -13,23 +19,15 @@ module RspecApiDocumentation
       end
     end
 
-    def self.default_example_template
-      File.read(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'example_template.html'))
-    end
-
-    def self.default_index_template
-      File.read(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'index_template.html'))
-    end
-
     add_setting :docs_dir, :default => Rails.root.join("docs")
     add_setting :public_docs_dir, :default => Rails.root.join("public", "docs")
     add_setting :private_example_link, :default => "{{ link }}"
     add_setting :public_example_link, :default => "/docs/{{ link }}"
-    add_setting :private_index_extension, :default => "html"
-    add_setting :public_index_extension, :default => "html"
-    add_setting :example_extension, :default => "html"
-    add_setting :example_template, :default => default_example_template
-    add_setting :index_template, :default => default_index_template
+    add_setting :private_index_extension, :default => lambda { |config| config.format }
+    add_setting :public_index_extension, :default => lambda { |config| config.format }
+    add_setting :example_extension, :default => lambda { |config| config.format }
+    add_setting :template_extension, :default => lambda { |config| config.format }
+    add_setting :template_path, :default => File.expand_path("../../../templates", __FILE__)
 
     def settings
       @settings ||= {}

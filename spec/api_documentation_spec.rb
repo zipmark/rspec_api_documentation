@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe RspecApiDocumentation::ApiDocumentation do
-  let(:configuration) { RspecApiDocumentation::Configuration.new }
+  let(:format) { :html }
+  let(:configuration) { RspecApiDocumentation::Configuration.new(format) }
   let(:documentation) { RspecApiDocumentation::ApiDocumentation.new(configuration) }
 
   subject { documentation }
