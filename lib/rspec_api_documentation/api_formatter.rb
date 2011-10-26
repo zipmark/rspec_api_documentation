@@ -3,46 +3,48 @@ require 'rspec/core/formatters/base_formatter'
 module RspecApiDocumentation
   class ApiFormatter < RSpec::Core::Formatters::BaseFormatter
     def initialize(output)
-      super(output)
+      super
 
-      puts "Generating API docs"
+      output.puts "Generating API Docs"
     end
 
     def start(example_count)
-      super(example_count)
+      super
 
-      ApiDocumentation.clear_docs
+      RspecApiDocumentation.configurations.each(&:clear_docs)
     end
 
     def example_group_started(example_group)
-      puts "\t * #{ExampleGroup.new(example_group).resource_name}"
-    end
+      super
 
-    def example_group_finished(example_group)
-      ApiDocumentation.index(example_group)
-      ExampleGroup.new(example_group).symlink_public_examples
+      output.puts "  #{example_group.description}"
     end
 
     def example_passed(example)
-      return unless Example.new(example).should_document?
+      super
 
-      puts "\t\t * #{example.description}"
+      output.puts "    * #{example.description}"
 
-      ApiDocumentation.document_example(example, template)
+      RspecApiDocumentation.configurations.each do |documentation|
+        documentation.document_example(example)
+      end
     end
 
     def example_failed(example)
-      application_callers = example.metadata[:caller].select { |file_line| file_line =~ /^#{Rails.root}/ }
-      example = Example.new(example)
-      puts "\t*** EXAMPLE FAILED ***. #{example.resource_name}. Tests should pass before we generate docs."
-      puts "\t\tDetails: #{example.metadata[:execution_result][:exception]}"
-      print "\t\tApplication Backtrace:\n\t\t"
-      puts application_callers.join("\n\t\t")
+      super
+
+      output.puts "    ! #{example.description} (FAILED)"
     end
 
-    private
-    def template
-      File.read(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'example_template.html'))
+    def stop
+      super
+
+      RspecApiDocumentation.configurations.each do |documentation|
+        documentation.write_private_index
+        documentation.write_public_index
+        documentation.write_examples
+        documentation.symlink_public_examples
+      end
     end
   end
 end

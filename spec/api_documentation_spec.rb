@@ -103,6 +103,80 @@ describe RspecApiDocumentation::ApiDocumentation do
     end
   end
 
+  describe "#write_private_index" do
+    include FakeFS::SpecHelpers
+
+    let(:index) { stub }
+
+    before do
+      documentation.stub!(:private_index).and_return(index)
+      index.stub(:render).and_return('rendered content')
+      index.stub(:template_path=)
+      index.stub(:template_extension=)
+    end
+
+    it "should set the template path to the configuration value" do
+      template_path = stub
+      configuration.stub!(:template_path).and_return(template_path)
+      index.should_receive(:template_path=).with(template_path)
+      documentation.write_private_index
+    end
+
+    it "should set the template extension to the configuration value" do
+      template_extension = stub
+      configuration.stub!(:template_extension).and_return(template_extension)
+      index.should_receive(:template_extension=).with(template_extension)
+      documentation.write_private_index
+    end
+
+    it "should render the index" do
+      index.should_receive(:render)
+      documentation.write_private_index
+    end
+
+    it "should write the rendered content to the correct file" do
+      documentation.write_private_index
+      File.read(configuration.docs_dir.join('index.html')).should eq('rendered content')
+    end
+  end
+
+  describe "#write_public_index" do
+    include FakeFS::SpecHelpers
+
+    let(:index) { stub }
+
+    before do
+      documentation.stub!(:public_index).and_return(index)
+      index.stub(:render).and_return('rendered content')
+      index.stub(:template_path=)
+      index.stub(:template_extension=)
+    end
+
+    it "should set the template path to the configuration value" do
+      template_path = stub
+      configuration.stub!(:template_path).and_return(template_path)
+      index.should_receive(:template_path=).with(template_path)
+      documentation.write_public_index
+    end
+
+    it "should set the template extension to the configuration value" do
+      template_extension = stub
+      configuration.stub!(:template_extension).and_return(template_extension)
+      index.should_receive(:template_extension=).with(template_extension)
+      documentation.write_public_index
+    end
+
+    it "should render the index" do
+      index.should_receive(:render)
+      documentation.write_public_index
+    end
+
+    it "should write the rendered content to the correct file" do
+      documentation.write_public_index
+      File.read(configuration.public_docs_dir.join('index.html')).should eq('rendered content')
+    end
+  end
+
   describe "#write_examples" do
     let(:examples) { Array.new(2) { stub } }
 
@@ -148,7 +222,7 @@ describe RspecApiDocumentation::ApiDocumentation do
       documentation.write_example(wrapped_example)
     end
 
-    it "should use Mustache to render the example's metadata with the configured template" do
+    it "should render the example" do
       wrapped_example.should_receive(:render)
       documentation.write_example(wrapped_example)
     end
@@ -156,6 +230,37 @@ describe RspecApiDocumentation::ApiDocumentation do
     it "should write the rendered content to the correct file" do
       documentation.write_example(wrapped_example)
       File.read(configuration.docs_dir.join('test_dir', 'test_file.html')).should eq('rendered content')
+    end
+  end
+
+  describe "#symlink_public_examples" do
+    include FakeFS::SpecHelpers
+    let(:example) { stub }
+
+    before do
+      example.stub!(
+        :dirname => "dir",
+        :filename => "file"
+      )
+      documentation.stub!(
+        :docs_dir => "doc",
+        :public_docs_dir => "pubdoc",
+        :example_extension => "ext",
+        :public_index => stub(:examples => [example])
+      )
+
+      FileUtils.mkdir_p("doc/dir")
+      File.open("doc/dir/file.ext", "w+") { |f| f.write "Hello, world!" }
+    end
+
+    it "should create the public doc's example group directories" do
+      documentation.symlink_public_examples
+      File.directory?("pubdoc/dir")
+    end
+
+    it "should link the documentation" do
+      documentation.symlink_public_examples
+      File.read("pubdoc/dir/file.ext").should eq("Hello, world!")
     end
   end
 end

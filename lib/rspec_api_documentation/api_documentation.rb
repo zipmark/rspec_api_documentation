@@ -2,7 +2,7 @@ module RspecApiDocumentation
   class ApiDocumentation
     attr_reader :configuration, :examples, :private_index, :public_index
 
-    delegate :docs_dir, :public_docs_dir, :template_path, :template_extension, :to => :configuration
+    delegate :docs_dir, :public_docs_dir, :template_path, :template_extension, :private_index_extension, :public_index_extension, :example_extension, :to => :configuration
 
     def initialize(configuration)
       @configuration = configuration
@@ -29,6 +29,26 @@ module RspecApiDocumentation
       end
     end
 
+    def write_private_index
+      file = File.join(docs_dir, "index.#{private_index_extension}")
+
+      private_index.template_path = template_path
+      private_index.template_extension = template_extension
+
+      FileUtils.mkdir_p(docs_dir)
+      File.open(file, 'w') { |f| f.write private_index.render }
+    end
+
+    def write_public_index
+      file = File.join(public_docs_dir, "index.#{public_index_extension}")
+
+      public_index.template_path = template_path
+      public_index.template_extension = template_extension
+
+      FileUtils.mkdir_p(public_docs_dir)
+      File.open(file, 'w') { |f| f.write public_index.render }
+    end
+
     def write_examples
       examples.each do |example|
         write_example(example)
@@ -37,7 +57,7 @@ module RspecApiDocumentation
 
     def write_example(wrapped_example)
       dir = docs_dir.join(wrapped_example.dirname)
-      file = dir.join("#{wrapped_example.filename}.#{configuration.example_extension}")
+      file = dir.join("#{wrapped_example.filename}.#{example_extension}")
 
       wrapped_example.template_path = template_path
       wrapped_example.template_extension = template_extension
@@ -46,55 +66,14 @@ module RspecApiDocumentation
       File.open(file, 'w') { |f| f.write wrapped_example.render }
     end
 
-    #class << self
-    #  delegate :configuration, :to => :RspecApiDocumentation
-
-    #  def document_example(rspec_example, template)
-    #    example = Example.new(rspec_example)
-    #    FileUtils.mkdir_p(configuration.docs_dir.join(example.dirname))
-
-    #    File.open(example.filepath(configuration.docs_dir), "w+") do |f|
-    #      f.write(example.render(template))
-    #    end
-    #  end
-
-    #  def index(rspec_example_group)
-    #    example_group = ExampleGroup.new(rspec_example_group)
-    #    File.open(configuration.docs_dir.join("index.#{configuration.private_index_extension}"), "a+") do |f|
-    #      f.write("<h1>#{example_group.resource_name}</h1>")
-    #      f.write("<ul>")
-    #      example_group.documented_examples.each do |example|
-    #        example = Example.new(example)
-    #        link = Mustache.render(configuration.private_example_link, :link => "#{example.dirname}/#{example.filename}")
-    #        f.write(%{<li><a href="#{link}">#{example.description}</a></li>})
-    #      end
-    #      f.write("</ul>")
-    #    end
-
-    #    return if example_group.public_examples.empty?
-
-    #    File.open(configuration.public_docs_dir.join("index.#{configuration.public_index_extension}"), "a+") do |f|
-    #      f.write("<h1>#{example_group.resource_name}</h1>")
-    #      f.write("<ul>")
-    #      example_group.public_examples.each do |example|
-    #        example = Example.new(example)
-    #        link = Mustache.render(configuration.public_example_link, :link => "#{example.dirname}/#{example.filename}")
-    #        f.write(%{<li><a href="#{link}">#{example.description}</a></li>})
-    #      end
-    #      f.write("</ul>")
-    #    end
-    #  end
-
-    #  def clear_docs
-    #    puts "\tClearing out #{configuration.docs_dir}"
-    #    puts "\tClearing out #{configuration.public_docs_dir}"
-
-    #    FileUtils.rm_rf(configuration.docs_dir, :secure => true)
-    #    FileUtils.mkdir_p(configuration.docs_dir)
-
-    #    FileUtils.rm_rf(configuration.public_docs_dir, :secure => true)
-    #    FileUtils.mkdir_p(configuration.public_docs_dir)
-    #  end
-    #end
+    def symlink_public_examples
+      public_index.examples.each do |example|
+        FileUtils.mkdir_p(File.join(public_docs_dir, example.dirname))
+        filename = "#{example.filename}.#{example_extension}"
+        private_doc = File.join(docs_dir, example.dirname, filename)
+        public_doc = File.join(public_docs_dir, example.dirname, filename)
+        FileUtils.ln_s(private_doc, public_doc)
+      end
+    end
   end
 end
