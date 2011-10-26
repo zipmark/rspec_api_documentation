@@ -9,7 +9,11 @@ module RspecApiDocumentation
     end
 
     def method_missing(method_sym, *args, &block)
-      example.metadata[method_sym] || example.send(method_sym, *args, &block)
+      if example.metadata.has_key?(method_sym)
+        example.metadata[method_sym]
+      else
+        example.send(method_sym, *args, &block)
+      end
     end
 
     def respond_to?(method_sym, include_private = false)
