@@ -2,7 +2,15 @@ module RspecApiDocumentation
   class Configuration
     def self.add_setting(name, opts = {})
       define_method("#{name}=") { |value| settings[name] = value }
-      define_method("#{name}") { settings.has_key?(name) ? settings[name] : opts[:default] }
+      define_method("#{name}") do
+        if settings.has_key?(name)
+          settings[name]
+        elsif opts[:default].respond_to?(:call)
+          opts[:default].call(self)
+        else
+          opts[:default]
+        end
+      end
     end
 
     def self.default_example_template
