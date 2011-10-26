@@ -4,11 +4,11 @@ module RspecApiDocumentation
 
     attr_reader :example, :configuration
 
-    delegate :template_path, :template_extension, :to => :configuration
-
     def initialize(example, configuration)
       @example = example
       @configuration = configuration
+      @template_path = configuration.template_path
+      @template_extension = configuration.template_extension
     end
 
     def method_missing(method_sym, *args, &block)

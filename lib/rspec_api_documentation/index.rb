@@ -2,10 +2,10 @@ module RspecApiDocumentation
   class Index < Mustache
     attr_reader :configuration
 
-    delegate :template_path, :template_extension, :to => :configuration
-
     def initialize(configuration)
       @configuration = configuration
+      @template_path = configuration.template_path
+      @template_extension = configuration.template_extension
     end
 
     def add_example(example)
