@@ -6,7 +6,8 @@ describe RspecApiDocumentation::Example do
   let(:rspec_example_group) { RSpec::Core::ExampleGroup.describe("foobar") }
   let(:rspec_example) { rspec_example_group.example(description, metadata) {} }
   let(:wrapped_example_group) { stub }
-  let(:example) { RspecApiDocumentation::Example.new(rspec_example) }
+  let(:configuration) { RspecApiDocumentation::Configuration.new(:html) }
+  let(:example) { RspecApiDocumentation::Example.new(rspec_example, configuration) }
 
   subject { example }
 
@@ -17,6 +18,7 @@ describe RspecApiDocumentation::Example do
   it { should be_a(Mustache) }
 
   its(:example) { should equal(rspec_example) }
+  its(:configuration) { should equal(configuration) }
 
   describe "method delegation" do
     context "when the example's metadata has a key for the given method selector" do

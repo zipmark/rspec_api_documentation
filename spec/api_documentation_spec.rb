@@ -42,14 +42,14 @@ describe RspecApiDocumentation::ApiDocumentation do
     let(:metadata) {{ :should_document => true, :public? => false }}
     let(:group) { RSpec::Core::ExampleGroup.describe("test group") }
     let(:example) { group.example("test example", metadata) }
-    let!(:wrapped_example) { RspecApiDocumentation::Example.new(example) }
+    let!(:wrapped_example) { RspecApiDocumentation::Example.new(example, configuration) }
 
     before do
       RspecApiDocumentation::Example.stub!(:new).and_return(wrapped_example)
     end
 
     it "should create a new wrapped example" do
-      RspecApiDocumentation::Example.should_receive(:new).with(example).and_return(wrapped_example)
+      RspecApiDocumentation::Example.should_receive(:new).with(example, configuration).and_return(wrapped_example)
       documentation.document_example(example)
     end
 

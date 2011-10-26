@@ -2,10 +2,11 @@ module RspecApiDocumentation
   class Example < Mustache
     include DocumentResource
 
-    attr_accessor :example
+    attr_reader :example, :configuration
 
-    def initialize(example)
-      self.example = example
+    def initialize(example, configuration)
+      @example = example
+      @configuration = configuration
     end
 
     def method_missing(method_sym, *args, &block)

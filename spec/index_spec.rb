@@ -19,7 +19,7 @@ describe RspecApiDocumentation::Index do
     let(:wrapped_example) { stub(:index= => nil) }
 
     before do
-      RspecApiDocumentation::Example.stub!(:new).with(examples.first).and_return(wrapped_example)
+      RspecApiDocumentation::Example.stub!(:new).with(examples.first, configuration).and_return(wrapped_example)
     end
 
     it "should wrap the given example and add it to examples" do
@@ -30,8 +30,8 @@ describe RspecApiDocumentation::Index do
 
   describe "#sections" do
     it "should have one for each documented resource" do
-      wrapped_foo_examples = foo_examples.map { |example| RspecApiDocumentation::Example.new(example) }
-      wrapped_bar_examples = bar_examples.map { |example| RspecApiDocumentation::Example.new(example) }
+      wrapped_foo_examples = foo_examples.map { |example| RspecApiDocumentation::Example.new(example, configuration) }
+      wrapped_bar_examples = bar_examples.map { |example| RspecApiDocumentation::Example.new(example, configuration) }
 
       RspecApiDocumentation::Example.stub!(:new).and_return(*(wrapped_foo_examples + wrapped_bar_examples))
 
