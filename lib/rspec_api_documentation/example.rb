@@ -47,5 +47,23 @@ module RspecApiDocumentation
     def public?
       metadata[:public]
     end
+
+    def json
+      {
+        :resource => resource_name,
+        :description => description,
+        :request => {
+          :headers => request_headers,
+          :method => method,
+          :route => route,
+          :parameters => parameters
+        },
+        :response => {
+          :headers => response_headers,
+          :status => response_status,
+          :body => response_body
+        }
+      }.to_json
+    end
   end
 end

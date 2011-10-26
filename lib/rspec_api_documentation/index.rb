@@ -21,5 +21,21 @@ module RspecApiDocumentation
     def examples
       @examples ||= []
     end
+
+    def json
+      sections.inject({}) do |h, section|
+        h[:resources] ||= []
+        h[:resources].push(
+          :name => section[:resource_name],
+          :examples => examples.map { |example|
+            {
+              :description => example.description,
+              :link => "#{example.dirname}/#{example.filename}"
+            }
+          }
+        )
+        h
+      end.to_json
+    end
   end
 end
