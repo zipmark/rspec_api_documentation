@@ -4,6 +4,8 @@ module RspecApiDocumentation
 
     attr_reader :example, :configuration
 
+    delegate :template_path, :template_extension, :to => :configuration
+
     def initialize(example, configuration)
       @example = example
       @configuration = configuration

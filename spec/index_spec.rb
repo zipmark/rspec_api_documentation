@@ -14,6 +14,8 @@ describe RspecApiDocumentation::Index do
   it { should be_a(Mustache) }
 
   its(:configuration) { should equal(configuration) }
+  its(:template_path) { should eq(configuration.template_path) }
+  its(:template_extension) { should eq(configuration.template_extension) }
 
   describe "#add_example" do
     let(:wrapped_example) { stub(:index= => nil) }

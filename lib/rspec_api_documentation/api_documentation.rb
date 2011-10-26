@@ -32,18 +32,12 @@ module RspecApiDocumentation
     def write_private_index
       file = File.join(docs_dir, "index.#{private_index_extension}")
 
-      private_index.template_path = template_path
-      private_index.template_extension = template_extension
-
       FileUtils.mkdir_p(docs_dir)
       File.open(file, 'w') { |f| f.write private_index.render }
     end
 
     def write_public_index
       file = File.join(public_docs_dir, "index.#{public_index_extension}")
-
-      public_index.template_path = template_path
-      public_index.template_extension = template_extension
 
       FileUtils.mkdir_p(public_docs_dir)
       File.open(file, 'w') { |f| f.write public_index.render }
@@ -58,9 +52,6 @@ module RspecApiDocumentation
     def write_example(wrapped_example)
       dir = docs_dir.join(wrapped_example.dirname)
       file = dir.join("#{wrapped_example.filename}.#{example_extension}")
-
-      wrapped_example.template_path = template_path
-      wrapped_example.template_extension = template_extension
 
       FileUtils.mkdir_p(dir)
       File.open(file, 'w') { |f| f.write wrapped_example.render }

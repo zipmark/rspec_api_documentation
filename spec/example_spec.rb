@@ -19,6 +19,8 @@ describe RspecApiDocumentation::Example do
 
   its(:example) { should equal(rspec_example) }
   its(:configuration) { should equal(configuration) }
+  its(:template_path) { should eq(configuration.template_path) }
+  its(:template_extension) { should eq(configuration.template_extension) }
 
   describe "method delegation" do
     context "when the example's metadata has a key for the given method selector" do

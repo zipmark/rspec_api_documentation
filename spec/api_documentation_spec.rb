@@ -115,16 +115,6 @@ describe RspecApiDocumentation::ApiDocumentation do
       index.stub(:render).and_return('rendered content')
     end
 
-    it "should set the template path to the configuration value" do
-      index.should_receive(:template_path=).with(configuration.template_path)
-      documentation.write_private_index
-    end
-
-    it "should set the template extension to the configuration value" do
-      index.should_receive(:template_extension=).with(configuration.template_extension)
-      documentation.write_private_index
-    end
-
     it "should render the index" do
       index.should_receive(:render)
       documentation.write_private_index
@@ -144,16 +134,6 @@ describe RspecApiDocumentation::ApiDocumentation do
     before do
       documentation.stub!(:public_index).and_return(index)
       index.stub(:render).and_return('rendered content')
-    end
-
-    it "should set the template path to the configuration value" do
-      index.should_receive(:template_path=).with(configuration.template_path)
-      documentation.write_public_index
-    end
-
-    it "should set the template extension to the configuration value" do
-      index.should_receive(:template_extension=).with(configuration.template_extension)
-      documentation.write_public_index
     end
 
     it "should render the index" do
@@ -191,25 +171,9 @@ describe RspecApiDocumentation::ApiDocumentation do
     before do
       wrapped_example.stub!(:dirname).and_return('test_dir')
       wrapped_example.stub!(:filename).and_return('test_file')
-      wrapped_example.stub!(:template_path=)
-      wrapped_example.stub!(:template_extension=)
       wrapped_example.stub!(:render).and_return('rendered content')
 
       documentation.clear_docs
-    end
-
-    it "should set the template path to the configuration value" do
-      template_path = stub
-      configuration.stub!(:template_path).and_return(template_path)
-      wrapped_example.should_receive(:template_path=).with(template_path)
-      documentation.write_example(wrapped_example)
-    end
-
-    it "should set the template extension to the configuration value" do
-      template_extension = stub
-      configuration.stub!(:template_extension).and_return(template_extension)
-      wrapped_example.should_receive(:template_extension=).with(template_extension)
-      documentation.write_example(wrapped_example)
     end
 
     it "should render the example" do
