@@ -170,7 +170,7 @@ describe RspecApiDocumentation::ApiDocumentation do
 
     before do
       wrapped_example.stub!(:dirname).and_return('test_dir')
-      wrapped_example.stub!(:filename).and_return('test_file')
+      wrapped_example.stub!(:filename).and_return('test_file.html')
       wrapped_example.stub!(:render).and_return('rendered content')
 
       documentation.clear_docs
@@ -196,11 +196,10 @@ describe RspecApiDocumentation::ApiDocumentation do
     before do
       configuration.docs_dir = "doc"
       configuration.public_docs_dir = "pub"
-      configuration.example_extension = "ext"
       documentation.stub!(:public_index).and_return(public_index)
 
       FileUtils.mkdir_p("doc/dir")
-      File.open("doc/dir/file.ext", "w+") { |f| f.write "Hello, world!" }
+      File.open("doc/dir/file", "w+") { |f| f.write "Hello, world!" }
     end
 
     it "should create the public doc's example group directories" do
@@ -210,7 +209,7 @@ describe RspecApiDocumentation::ApiDocumentation do
 
     it "should link the documentation" do
       documentation.symlink_public_examples
-      File.read("pub/dir/file.ext").should eq("Hello, world!")
+      File.read("pub/dir/file").should eq("Hello, world!")
     end
   end
 end

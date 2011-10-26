@@ -51,7 +51,7 @@ module RspecApiDocumentation
 
     def write_example(wrapped_example)
       dir = docs_dir.join(wrapped_example.dirname)
-      file = dir.join("#{wrapped_example.filename}.#{example_extension}")
+      file = dir.join(wrapped_example.filename)
 
       FileUtils.mkdir_p(dir)
       File.open(file, 'w') { |f| f.write wrapped_example.render }
@@ -60,9 +60,8 @@ module RspecApiDocumentation
     def symlink_public_examples
       public_index.examples.each do |example|
         FileUtils.mkdir_p(File.join(public_docs_dir, example.dirname))
-        filename = "#{example.filename}.#{example_extension}"
-        private_doc = File.join(docs_dir, example.dirname, filename)
-        public_doc = File.join(public_docs_dir, example.dirname, filename)
+        private_doc = File.join(docs_dir, example.dirname, example.filename)
+        public_doc = File.join(public_docs_dir, example.dirname, example.filename)
         FileUtils.ln_s(private_doc, public_doc)
       end
     end

@@ -36,7 +36,8 @@ module RspecApiDocumentation
     end
 
     def filename
-      description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '')
+      basename = description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '')
+      "#{basename}.#{configuration.example_extension}"
     end
 
     def should_document?

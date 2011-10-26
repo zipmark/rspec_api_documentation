@@ -68,7 +68,8 @@ describe RspecApiDocumentation::Example do
   describe "#filename" do
     let(:description) { "Some$T:hing\n\tComPlicaTed" }
     it "should return a sanitized, filename-safe representation of the description" do
-      example.filename.should eq("something_complicated")
+      configuration.stub(:example_extension).and_return(:html)
+      example.filename.should eq("something_complicated.html")
     end
   end
 
