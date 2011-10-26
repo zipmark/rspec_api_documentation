@@ -31,8 +31,6 @@ describe RspecApiDocumentation::Configuration do
 
     its(:docs_dir) { should == Rails.root.join("docs") }
     its(:public_docs_dir) { should == Rails.root.join("public", "docs") }
-    its(:private_example_link) { should == "{{ link }}" }
-    its(:public_example_link) { should == "/docs/{{ link }}" }
     its(:private_index_extension) { should == format }
     its(:public_index_extension) { should == format }
     its(:example_extension) { should == format }
