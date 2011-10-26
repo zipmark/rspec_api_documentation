@@ -12,38 +12,40 @@ describe RspecApiDocumentation::Index do
 
   it { should be_a(Mustache) }
 
-  its(:example_groups) { should be_empty }
-
   describe "#add_example" do
-    let(:wrapped_foo_example_group) { stub }
-    let(:wrapped_bar_example_group) { stub }
+    let(:wrapped_example) { stub(:index= => nil) }
 
     before do
-      RspecApiDocumentation::ExampleGroup.stub!(:new).with(foo_example_group).and_return(wrapped_foo_example_group)
-      RspecApiDocumentation::ExampleGroup.stub!(:new).with(bar_example_group).and_return(wrapped_bar_example_group)
+      RspecApiDocumentation::Example.stub!(:new).with(examples.first).and_return(wrapped_example)
     end
 
-    it "should wrap and add the given example's group to example_groups" do
-      index.add_example(foo_examples.first)
-      index.example_groups.should eq([wrapped_foo_example_group])
+    it "should wrap the given example and add it to examples" do
+      index.add_example(examples.first)
+      index.examples.last.should equal(wrapped_example)
     end
+  end
 
-    it "should support multiple example groups" do
-      index.add_example(foo_examples.first)
-      index.add_example(bar_examples.first)
-      index.example_groups.should eq([wrapped_foo_example_group, wrapped_bar_example_group])
-    end
+  describe "#sections" do
+    it "should have one for each documented resource" do
+      wrapped_foo_examples = foo_examples.map { |example| RspecApiDocumentation::Example.new(example) }
+      wrapped_bar_examples = bar_examples.map { |example| RspecApiDocumentation::Example.new(example) }
 
-    it "should not add the same example group twice" do
-      foo_examples.each do |example|
-        index.add_example(example)
-      end
-      index.example_groups.should eq([wrapped_foo_example_group])
+      RspecApiDocumentation::Example.stub!(:new).and_return(*(wrapped_foo_examples + wrapped_bar_examples))
+
+      foo_examples.each { |example| index.add_example(example) }
+      bar_examples.each { |example| index.add_example(example) }
+
+      index.sections.should eq(
+        [
+          {:resource_name => "Foo", :examples => wrapped_foo_examples},
+          {:resource_name => "Bar", :examples => wrapped_bar_examples}
+        ]
+      )
     end
   end
 
   describe "#examples" do
-    let(:wrapped_examples) { [stub] * examples.count }
+    let(:wrapped_examples) { [stub(:index= => nil)] * examples.count }
 
     before do
       RspecApiDocumentation::Example.stub!(:new).and_return(*wrapped_examples)

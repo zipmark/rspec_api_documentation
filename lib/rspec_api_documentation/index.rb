@@ -4,8 +4,10 @@ module RspecApiDocumentation
       examples << Example.new(example)
     end
 
-    def example_groups
-      examples.map(&:example_group).uniq
+    def sections
+      examples.group_by(&:resource_name).inject([]) do |arr, (resource_name, examples)|
+        arr << { :resource_name => resource_name, :examples => examples }
+      end
     end
 
     def examples
