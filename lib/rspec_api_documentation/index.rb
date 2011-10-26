@@ -1,5 +1,11 @@
 module RspecApiDocumentation
   class Index < Mustache
+    attr_reader :configuration
+
+    def initialize(configuration)
+      @configuration = configuration
+    end
+
     def add_example(example)
       examples << Example.new(example)
     end

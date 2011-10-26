@@ -7,8 +7,8 @@ module RspecApiDocumentation
     def initialize(configuration)
       @configuration = configuration
       @examples = []
-      @private_index = Index.new
-      @public_index = Index.new
+      @private_index = Index.new(configuration)
+      @public_index = Index.new(configuration)
     end
 
     def clear_docs

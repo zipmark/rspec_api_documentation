@@ -6,11 +6,14 @@ describe RspecApiDocumentation::Index do
   let(:foo_examples) { Array.new(2) { |i| foo_example_group.example("Foo #{i}") {} } }
   let(:bar_examples) { Array.new(2) { |i| bar_example_group.example("Bar #{i}") {} } }
   let(:examples) { foo_examples + bar_examples }
-  let(:index) { RspecApiDocumentation::Index.new }
+  let(:configuration) { RspecApiDocumentation::Configuration.new(:html) }
+  let(:index) { RspecApiDocumentation::Index.new(configuration) }
 
   subject { index }
 
   it { should be_a(Mustache) }
+
+  its(:configuration) { should equal(configuration) }
 
   describe "#add_example" do
     let(:wrapped_example) { stub(:index= => nil) }

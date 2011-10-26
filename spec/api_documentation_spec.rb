@@ -108,7 +108,7 @@ describe RspecApiDocumentation::ApiDocumentation do
   describe "#write_private_index" do
     include FakeFS::SpecHelpers
 
-    let(:index) { RspecApiDocumentation::Index.new }
+    let(:index) { RspecApiDocumentation::Index.new(configuration) }
 
     before do
       documentation.stub!(:private_index).and_return(index)
@@ -139,7 +139,7 @@ describe RspecApiDocumentation::ApiDocumentation do
   describe "#write_public_index" do
     include FakeFS::SpecHelpers
 
-    let(:index) { RspecApiDocumentation::Index.new }
+    let(:index) { RspecApiDocumentation::Index.new(configuration) }
 
     before do
       documentation.stub!(:public_index).and_return(index)
