@@ -2,7 +2,7 @@ module RspecApiDocumentation
   class ApiDocumentation
     attr_reader :configuration, :examples, :private_index, :public_index
 
-    delegate :docs_dir, :public_docs_dir, :example_template, :to => :configuration
+    delegate :docs_dir, :public_docs_dir, :template_path, :template_extension, :to => :configuration
 
     def initialize(configuration)
       @configuration = configuration
@@ -38,10 +38,12 @@ module RspecApiDocumentation
     def write_example(wrapped_example)
       dir = docs_dir.join(wrapped_example.dirname)
       file = dir.join("#{wrapped_example.filename}.#{configuration.example_extension}")
-      rendered_output = Mustache.render(example_template, wrapped_example.metadata)
+
+      wrapped_example.template_path = template_path
+      wrapped_example.template_extension = template_extension
 
       FileUtils.mkdir_p(dir)
-      File.open(file, 'w') { |f| f.write rendered_output }
+      File.open(file, 'w') { |f| f.write wrapped_example.render }
     end
 
     #class << self

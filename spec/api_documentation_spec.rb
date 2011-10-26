@@ -127,13 +127,29 @@ describe RspecApiDocumentation::ApiDocumentation do
     before do
       wrapped_example.stub!(:dirname).and_return('test_dir')
       wrapped_example.stub!(:filename).and_return('test_file')
-      Mustache.stub!(:render).and_return('rendered content')
+      wrapped_example.stub!(:template_path=)
+      wrapped_example.stub!(:template_extension=)
+      wrapped_example.stub!(:render).and_return('rendered content')
 
       documentation.clear_docs
     end
 
+    it "should set the template path to the configuration value" do
+      template_path = stub
+      configuration.stub!(:template_path).and_return(template_path)
+      wrapped_example.should_receive(:template_path=).with(template_path)
+      documentation.write_example(wrapped_example)
+    end
+
+    it "should set the template extension to the configuration value" do
+      template_extension = stub
+      configuration.stub!(:template_extension).and_return(template_extension)
+      wrapped_example.should_receive(:template_extension=).with(template_extension)
+      documentation.write_example(wrapped_example)
+    end
+
     it "should use Mustache to render the example's metadata with the configured template" do
-      Mustache.should_receive(:render).with(configuration.example_template, metadata)
+      wrapped_example.should_receive(:render)
       documentation.write_example(wrapped_example)
     end
 
