@@ -61,16 +61,16 @@ describe RspecApiDocumentation::ApiDocumentation do
         documentation.examples.last.should equal(wrapped_example)
       end
 
-      it "should add the example to the private index" do
-        documentation.private_index.should_receive(:add_example).with(example)
+      it "should add the wrapped example to the private index" do
+        documentation.private_index.should_receive(:add_example).with(wrapped_example)
         documentation.document_example(example)
       end
 
       context "when the given example should be publicly documented" do
         before { wrapped_example.stub!(:public? => true) }
 
-        it "should add the given example to the public index" do
-          documentation.public_index.should_receive(:add_example).with(example)
+        it "should add the wrapped example to the public index" do
+          documentation.public_index.should_receive(:add_example).with(wrapped_example)
           documentation.document_example(example)
         end
       end
@@ -78,7 +78,7 @@ describe RspecApiDocumentation::ApiDocumentation do
       context "when the given example should not be publicly documented" do
         before { wrapped_example.stub!(:public? => false) }
 
-        it "should not add the given example to the public index" do
+        it "should not add the wrapped example to the public index" do
           documentation.public_index.should_not_receive(:add_example)
           documentation.document_example(example)
         end
@@ -93,12 +93,12 @@ describe RspecApiDocumentation::ApiDocumentation do
         documentation.examples.should_not include(wrapped_example)
       end
 
-      it "should not add the example to the private index" do
+      it "should not add the wrapped example to the private index" do
         documentation.private_index.should_not_receive(:add_example)
         documentation.document_example(example)
       end
 
-      it "should not add the example to the public index" do
+      it "should not add the wrapped example to the public index" do
         documentation.public_index.should_not_receive(:add_example)
         documentation.document_example(example)
       end

@@ -9,7 +9,7 @@ module RspecApiDocumentation
     end
 
     def add_example(example)
-      examples << Example.new(example, configuration)
+      examples << example
     end
 
     def sections

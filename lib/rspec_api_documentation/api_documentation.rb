@@ -20,12 +20,12 @@ module RspecApiDocumentation
       end
     end
 
-    def document_example(example)
-      wrapped_example = Example.new(example, configuration)
-      if wrapped_example.should_document?
-        examples << wrapped_example
+    def document_example(rspec_example)
+      example = Example.new(rspec_example, configuration)
+      if example.should_document?
+        examples << example
         private_index.add_example(example)
-        public_index.add_example(example) if wrapped_example.public?
+        public_index.add_example(example) if example.public?
       end
     end
 
