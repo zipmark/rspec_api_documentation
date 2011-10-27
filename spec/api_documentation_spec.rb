@@ -10,7 +10,6 @@ describe RspecApiDocumentation::ApiDocumentation do
   its(:configuration) { should equal(configuration) }
   its(:private_index) { should be_a(RspecApiDocumentation::Index) }
   its(:public_index) { should be_a(RspecApiDocumentation::Index) }
-  its(:examples) { should be_empty }
 
   describe "#clear_docs" do
     include FakeFS::SpecHelpers
@@ -56,11 +55,6 @@ describe RspecApiDocumentation::ApiDocumentation do
     context "when the given example should be documented" do
       before { wrapped_example.stub!(:should_document?).and_return(true) }
 
-      it "should add the wrapped example to the list of examples" do
-        documentation.document_example(example)
-        documentation.examples.last.should equal(wrapped_example)
-      end
-
       it "should add the wrapped example to the private index" do
         documentation.document_example(example)
         documentation.private_index.examples.should eq([wrapped_example])
@@ -87,11 +81,6 @@ describe RspecApiDocumentation::ApiDocumentation do
 
     context "when the given example should not be documented" do
       before { wrapped_example.stub!(:should_document?).and_return(false) }
-
-      it "should not add the wrapped example to the list of examples" do
-        documentation.document_example(example)
-        documentation.examples.should_not include(wrapped_example)
-      end
 
       it "should not add the wrapped example to the private index" do
         documentation.document_example(example)
@@ -151,10 +140,10 @@ describe RspecApiDocumentation::ApiDocumentation do
     let(:examples) { Array.new(2) { stub } }
 
     before do
-      documentation.stub!(:examples).and_return(examples)
+      documentation.private_index.stub!(:examples).and_return(examples)
     end
 
-    it "should write each example" do
+    it "should write each example that should be documented" do
       examples.each do |example|
         documentation.should_receive(:write_example).with(example)
       end
