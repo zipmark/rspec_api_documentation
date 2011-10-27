@@ -62,16 +62,16 @@ describe RspecApiDocumentation::ApiDocumentation do
       end
 
       it "should add the wrapped example to the private index" do
-        documentation.private_index.should_receive(:add_example).with(wrapped_example)
         documentation.document_example(example)
+        documentation.private_index.examples.should eq([wrapped_example])
       end
 
       context "when the given example should be publicly documented" do
         before { wrapped_example.stub!(:public? => true) }
 
         it "should add the wrapped example to the public index" do
-          documentation.public_index.should_receive(:add_example).with(wrapped_example)
           documentation.document_example(example)
+          documentation.public_index.examples.should eq([wrapped_example])
         end
       end
 
@@ -79,8 +79,8 @@ describe RspecApiDocumentation::ApiDocumentation do
         before { wrapped_example.stub!(:public? => false) }
 
         it "should not add the wrapped example to the public index" do
-          documentation.public_index.should_not_receive(:add_example)
           documentation.document_example(example)
+          documentation.public_index.examples.should be_empty
         end
       end
     end
@@ -94,13 +94,13 @@ describe RspecApiDocumentation::ApiDocumentation do
       end
 
       it "should not add the wrapped example to the private index" do
-        documentation.private_index.should_not_receive(:add_example)
         documentation.document_example(example)
+        documentation.private_index.examples.should be_empty
       end
 
       it "should not add the wrapped example to the public index" do
-        documentation.public_index.should_not_receive(:add_example)
         documentation.document_example(example)
+        documentation.public_index.examples.should be_empty
       end
     end
   end

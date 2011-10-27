@@ -24,8 +24,8 @@ module RspecApiDocumentation
       example = Example.new(rspec_example, configuration)
       if example.should_document?
         examples << example
-        private_index.add_example(example)
-        public_index.add_example(example) if example.public?
+        private_index.examples << example
+        public_index.examples << example if example.public?
       end
     end
 

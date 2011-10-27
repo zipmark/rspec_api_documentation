@@ -8,10 +8,6 @@ module RspecApiDocumentation
       @template_extension = configuration.template_extension
     end
 
-    def add_example(example)
-      examples << example
-    end
-
     def sections
       examples.group_by(&:resource_name).inject([]) do |arr, (resource_name, examples)|
         arr << { :resource_name => resource_name, :examples => examples }
