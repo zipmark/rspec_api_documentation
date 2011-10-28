@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rspec'
-gem 'rails'
+gem 'activesupport'
 gem 'mustache'
 
 group :test do

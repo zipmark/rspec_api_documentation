@@ -40,4 +40,10 @@ describe RspecApiDocumentation::Index do
       index.examples.should eq(examples)
     end
   end
+
+  describe "#json" do
+    it "should return a json representation" do
+      index.json.should_not be_nil
+    end
+  end
 end
