@@ -27,12 +27,8 @@ module RspecApiDocumentation
       metadata[:method]
     end
 
-    def example_group
-      ExampleGroup.new(example.example_group)
-    end
-
     def dirname
-      example_group.dirname
+      resource_name.downcase.gsub(/\s+/, '_')
     end
 
     def filename

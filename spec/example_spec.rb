@@ -5,15 +5,10 @@ describe RspecApiDocumentation::Example do
   let(:metadata) {{ :resource_name => "foo", :document => true }}
   let(:rspec_example_group) { RSpec::Core::ExampleGroup.describe("foobar") }
   let(:rspec_example) { rspec_example_group.example(description, metadata) {} }
-  let(:wrapped_example_group) { stub }
   let(:configuration) { RspecApiDocumentation::Configuration.new(:html) }
   let(:example) { RspecApiDocumentation::Example.new(rspec_example, configuration) }
 
   subject { example }
-
-  before do
-    RspecApiDocumentation::ExampleGroup.stub!(:new).with(rspec_example_group).and_return(wrapped_example_group)
-  end
 
   it { should be_a(Mustache) }
 
@@ -51,17 +46,11 @@ describe RspecApiDocumentation::Example do
     end
   end
 
-  describe "#example_group" do
-    it "should return the wrapped example group" do
-      example.example_group.should equal(wrapped_example_group)
-    end
-  end
-
   describe "#dirname" do
-    it "should return the wrapped example group's dirname" do
-      dirname = stub
-      wrapped_example_group.stub!(:dirname).and_return(dirname)
-      example.dirname.should equal(dirname)
+    let(:metadata) {{ :resource_name => "something\n  More \tcomplicAtEd" }}
+
+    it "should be a sanitized, filename-safe representation of the resource name" do
+      example.dirname.should eq("something_more_complicated")
     end
   end
 
