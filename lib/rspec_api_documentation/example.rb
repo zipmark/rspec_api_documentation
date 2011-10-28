@@ -1,7 +1,5 @@
 module RspecApiDocumentation
   class Example < Mustache
-    include DocumentResource
-
     attr_reader :example, :configuration
 
     def initialize(example, configuration)
