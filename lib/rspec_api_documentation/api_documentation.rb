@@ -2,7 +2,7 @@ module RspecApiDocumentation
   class ApiDocumentation
     attr_reader :configuration, :private_index, :public_index
 
-    delegate :docs_dir, :public_docs_dir, :template_path, :template_extension, :private_index_extension, :public_index_extension, :example_extension, :to => :configuration
+    delegate :docs_dir, :public_docs_dir, :private_index_extension, :public_index_extension, :to => :configuration
 
     def initialize(configuration)
       @configuration = configuration
