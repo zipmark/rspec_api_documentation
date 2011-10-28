@@ -40,7 +40,7 @@ module RspecApiDocumentation
     def document_example(method, action, params)
       return unless metadata[:document]
 
-      metadata[:public] = metadata[:document] == :public
+      metadata[:public] = (metadata[:document] == :public)
       metadata[:method] = method.to_s.upcase
       metadata[:route] = action
       metadata[:parameters] = nil
@@ -53,6 +53,7 @@ module RspecApiDocumentation
 
     def format_headers(headers)
       headers.map do |key, value|
+        # HTTP_ACCEPT_CHARSET => Accept-Charset
         formatted_key = key.gsub(/^HTTP_/, '').titleize.split.join("-")
         "#{formatted_key}: #{value}"
       end.join("\n")

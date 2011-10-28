@@ -19,8 +19,7 @@ module RspecApiDocumentation
     end
 
     def json
-      sections.inject({}) do |h, section|
-        h[:resources] ||= []
+      sections.inject({:resources => []}) do |h, section|
         h[:resources].push(
           :name => section[:resource_name],
           :examples => examples.map { |example|
