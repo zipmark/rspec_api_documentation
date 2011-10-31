@@ -3,37 +3,20 @@ module RspecApiDocumentation
     extend ActiveSupport::Concern
 
     module ClassMethods
-      def get(*args, &block)
-        options = if args.last.is_a?(Hash) then args.pop else {} end
-        options[:method] = :get
-        options[:path] = args.first
-        args.push(options)
-        context(*args, &block)
+      def self.define_action(method)
+        define_method method do |*args, &block|
+          options = if args.last.is_a?(Hash) then args.pop else {} end
+          options[:method] = method
+          options[:path] = args.first
+          args.push(options)
+          context(*args, &block)
+        end
       end
 
-      def post(*args, &block)
-        options = if args.last.is_a?(Hash) then args.pop else {} end
-        options[:method] = :post
-        options[:path] = args.first
-        args.push(options)
-        context(*args, &block)
-      end
-
-      def put(*args, &block)
-        options = if args.last.is_a?(Hash) then args.pop else {} end
-        options[:method] = :put
-        options[:path] = args.first
-        args.push(options)
-        context(*args, &block)
-      end
-
-      def delete(*args, &block)
-        options = if args.last.is_a?(Hash) then args.pop else {} end
-        options[:method] = :delete
-        options[:path] = args.first
-        args.push(options)
-        context(*args, &block)
-      end
+      define_action :get
+      define_action :post
+      define_action :put
+      define_action :delete
 
       def parameter(name, description)
         metadata[:parameters] ||= {}
@@ -58,9 +41,7 @@ module RspecApiDocumentation
 
       def params
         example.metadata[:parameters].inject({}) do |h, (k, v)|
-          if respond_to?(k)
-            h[k] = send(k)
-          end
+          h[k] = send(k) if respond_to?(k)
           h
         end
       end
