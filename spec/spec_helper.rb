@@ -1,3 +1,4 @@
+require 'active_support/concern'
 require 'active_support/dependencies/autoload'
 require 'active_support/core_ext/module/delegation.rb'
 require 'active_support/json'

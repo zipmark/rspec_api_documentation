@@ -16,6 +16,8 @@ module RspecApiDocumentation
     autoload :TestClient
   end
 
+  autoload :DSL
+
   def self.configurations
     @configurations ||= ConfigurationSet.new
   end
