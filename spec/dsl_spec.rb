@@ -21,6 +21,33 @@ resource "Order" do
     end
   end
 
+  [:post, :get, :put, :delete].each do |http_method|
+    send(http_method, "/path") do
+      specify { example.example_group.description.should eq("#{http_method.to_s.upcase} /path") }
+
+      describe "example metadata" do
+        subject { example.metadata }
+
+        its([:method]) { should eq(http_method) }
+        its([:path]) { should eq("/path") }
+      end
+
+      describe "example context" do
+        subject { self }
+
+        its(:method) { should eq(http_method) }
+        its(:path) { should eq("/path") }
+
+        describe "do_request" do
+          it "should call the correct method on the client" do
+            client.should_receive(http_method)
+            do_request
+          end
+        end
+      end
+    end
+  end
+
   post "/orders" do
     parameter :type, "The type of drink you want."
     parameter :size, "The size of drink you want."
@@ -31,13 +58,8 @@ resource "Order" do
     let(:type) { "coffee" }
     let(:size) { "medium" }
 
-    specify { example.example_group.description.should eq("POST /orders") }
-
     describe "example metadata" do
       subject { example.metadata }
-
-      its([:method]) { should eq(:post) }
-      its([:path]) { should eq("/orders") }
 
       it "should include the documentated parameters" do
         subject[:parameters].should eq(
@@ -51,94 +73,9 @@ resource "Order" do
     describe "example context" do
       subject { self }
 
-      its(:method) { should eq(:post) }
-      its(:path) { should eq("/orders") }
-
       describe "params" do
         it "should equal the assigned parameter values" do
           params.should eq(:type => "coffee", :size => "medium")
-        end
-      end
-
-      describe "do_request" do
-        it "should call the correct method on the client" do
-          client.should_receive(:post)
-          do_request
-        end
-      end
-    end
-  end
-
-  get "/orders/:id" do
-    specify { example.example_group.description.should eq("GET /orders/:id") }
-
-    describe "example metadata" do
-      subject { example.metadata }
-
-      its([:method]) { should eq(:get) }
-      its([:path]) { should eq("/orders/:id") }
-    end
-
-    describe "example context" do
-      subject { self }
-
-      its(:method) { should eq(:get) }
-      its(:path) { should eq("/orders/:id") }
-
-      describe "do_request" do
-        it "should call the correct method on the client" do
-          client.should_receive(:get)
-          do_request
-        end
-      end
-    end
-  end
-
-  put "/orders/:id" do
-    specify { example.example_group.description.should eq("PUT /orders/:id") }
-
-    describe "example metadata" do
-      subject { example.metadata }
-
-      its([:method]) { should eq(:put) }
-      its([:path]) { should eq("/orders/:id") }
-    end
-
-    describe "example context" do
-      subject { self }
-
-      its(:method) { should eq(:put) }
-      its(:path) { should eq("/orders/:id") }
-
-      describe "do_request" do
-        it "should call the correct method on the client" do
-          client.should_receive(:put)
-          do_request
-        end
-      end
-    end
-  end
-
-  delete "/orders/:id" do
-    specify { example.example_group.description.should eq("DELETE /orders/:id") }
-
-    describe "example metadata" do
-      subject { example.metadata }
-
-      its([:method]) { should eq(:delete) }
-      its([:path]) { should eq("/orders/:id") }
-    end
-
-    describe "example context" do
-      subject { self }
-
-      its(:method) { should eq(:delete) }
-      its(:path) { should eq("/orders/:id") }
-
-      describe "do_request" do
-        it "should call the correct method on the client" do
-          client.should_receive(:delete)
-          do_request
         end
       end
     end
