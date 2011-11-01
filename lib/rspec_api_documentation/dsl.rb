@@ -1,3 +1,5 @@
+require 'rack/test/methods'
+
 module RspecApiDocumentation
   module DSL
     extend ActiveSupport::Concern
@@ -75,3 +77,4 @@ def self.resource(*args, &block)
 end
 
 RSpec.configuration.include RspecApiDocumentation::DSL, :api_docs_dsl => true
+RSpec.configuration.include Rack::Test::Methods, :api_docs_dsl => true
