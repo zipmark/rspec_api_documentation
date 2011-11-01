@@ -1,6 +1,12 @@
 require 'spec_helper'
 require 'rspec_api_documentation/dsl'
 
+describe "Non-api documentation specs" do
+  it "should not be polluted by the rspec api dsl" do
+    example.example_group.should_not include(RspecApiDocumentation::DSL)
+  end
+end
+
 resource "Order" do
   describe "example metadata" do
     subject { example.metadata }

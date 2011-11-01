@@ -68,9 +68,10 @@ end
 
 def self.resource(*args, &block)
   options = if args.last.is_a?(Hash) then args.pop else {} end
+  options[:api_docs_dsl] = true
   options[:resource_name] = args.first
   args.push(options)
   describe(*args, &block)
 end
 
-RSpec.configuration.include RspecApiDocumentation::DSL
+RSpec.configuration.include RspecApiDocumentation::DSL, :api_docs_dsl => true
