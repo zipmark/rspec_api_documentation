@@ -5,16 +5,20 @@ resource "Order" do
   let(:order) { stub(:id => 1) }
   let(:id) { order.id }
 
-  it "should set the resource name metadata" do
-    example.metadata[:resource_name].should eq("Order")
+  describe "example metadata" do
+    subject { example.metadata }
+
+    its([:resource_name]) { should eq("Order") }
   end
 
-  it "it should provide a client" do
-    client.should be_a(RspecApiDocumentation::TestClient)
-  end
+  describe "example context" do
+    it "should provide a client" do
+      client.should be_a(RspecApiDocumentation::TestClient)
+    end
 
-  it "should return the same client every time" do
-    client.should equal(client)
+    it "should return the same client every time" do
+      client.should equal(client)
+    end
   end
 
   post "/orders" do
@@ -27,17 +31,14 @@ resource "Order" do
     let(:type) { "coffee" }
     let(:size) { "medium" }
 
-    describe "metadata" do
-      it "should include method information" do
-        example.metadata[:method].should eq(:post)
-      end
+    describe "example metadata" do
+      subject { example.metadata }
 
-      it "should include path information" do
-        example.metadata[:path].should eq("/orders")
-      end
+      its([:method]) { should eq(:post) }
+      its([:path]) { should eq("/orders") }
 
-      it "should include parameter information" do
-        example.metadata[:parameters].should eq(
+      it "should include the documentated parameters" do
+        subject[:parameters].should eq(
           :type => { :description => "The type of drink you want.", :required => true },
           :size => { :description => "The size of drink you want.", :required => true },
           :note => { :description => "Any additional notes about your order." }
@@ -45,59 +46,72 @@ resource "Order" do
       end
     end
 
-    describe "#method" do
-      it "should expose the method" do
-        method.should eq(:post)
-      end
-    end
+    describe "example context" do
+      subject { self }
 
-    describe "#path" do
-      it "should expose the path" do
-        path.should eq("/orders")
-      end
-    end
+      its(:method) { should eq(:post) }
+      its(:path) { should eq("/orders") }
 
-    describe "#params" do
-      it "should expose set parameter values" do
-        params.should eq(:type => "coffee", :size => "medium")
+      describe "params" do
+        it "should equal the assigned parameter values" do
+          params.should eq(:type => "coffee", :size => "medium")
+        end
       end
-    end
 
-    describe "#do_request" do
-      it "should call the correct method on the client" do
-        client.should_receive(:post)
-        do_request
+      describe "do_request" do
+        it "should call the correct method on the client" do
+          client.should_receive(:post)
+          do_request
+        end
       end
     end
   end
 
   get "/orders/:id" do
-    it "should set the method metadata" do
-      example.metadata[:method].should eq(:get)
+    describe "example metadata" do
+      subject { example.metadata }
+
+      its([:method]) { should eq(:get) }
+      its([:path]) { should eq("/orders/:id") }
     end
 
-    it "should set the path metadata" do
-      example.metadata[:path].should eq("/orders/:id")
+    describe "example context" do
+      subject { self }
+
+      its(:method) { should eq(:get) }
+      its(:path) { should eq("/orders/:id") }
     end
   end
 
   put "/orders/:id" do
-    it "should set the method metadata" do
-      example.metadata[:method].should eq(:put)
+    describe "example metadata" do
+      subject { example.metadata }
+
+      its([:method]) { should eq(:put) }
+      its([:path]) { should eq("/orders/:id") }
     end
 
-    it "should set the path metadata" do
-      example.metadata[:path].should eq("/orders/:id")
+    describe "example context" do
+      subject { self }
+
+      its(:method) { should eq(:put) }
+      its(:path) { should eq("/orders/:id") }
     end
   end
 
   delete "/orders/:id" do
-    it "should set the method metadata" do
-      example.metadata[:method].should eq(:delete)
+    describe "example metadata" do
+      subject { example.metadata }
+
+      its([:method]) { should eq(:delete) }
+      its([:path]) { should eq("/orders/:id") }
     end
 
-    it "should set the path metadata" do
-      example.metadata[:path].should eq("/orders/:id")
+    describe "example context" do
+      subject { self }
+
+      its(:method) { should eq(:delete) }
+      its(:path) { should eq("/orders/:id") }
     end
   end
 
