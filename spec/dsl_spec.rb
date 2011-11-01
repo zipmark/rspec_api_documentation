@@ -76,6 +76,24 @@ resource "Order" do
         end
       end
     end
+
+    describe "do_request" do
+      context "when raw_post is defined" do
+        let(:raw_post) { { :bill => params }.to_json }
+
+        it "should send the raw post body" do
+          client.should_receive(method).with(path, raw_post)
+          do_request
+        end
+      end
+
+      context "when raw_post is not defined" do
+        it "should send the params hash" do
+          client.should_receive(method).with(path, params)
+          do_request
+        end
+      end
+    end
   end
 
   get "/orders/:id" do

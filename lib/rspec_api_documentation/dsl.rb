@@ -37,10 +37,12 @@ module RspecApiDocumentation
       end
 
       def do_request
-        client.send(method, path)
+        params_or_body = respond_to?(:raw_post) ? raw_post : params
+        client.send(method, path, params_or_body)
       end
 
       def params
+        return unless example.metadata[:parameters]
         example.metadata[:parameters].inject({}) do |h, (k, v)|
           h[k] = send(k) if respond_to?(k)
           h
