@@ -20,13 +20,13 @@ module RspecApiDocumentation
       define_action :delete
 
       def parameter(name, description)
-        metadata[:parameters] ||= {}
-        metadata[:parameters][name] = {:description => description}
+        metadata[:request_parameters] ||= {}
+        metadata[:request_parameters][name] = {:description => description}
       end
 
       def required_parameters(*names)
         names.each do |name|
-          metadata[:parameters][name][:required] = true
+          metadata[:request_parameters][name][:required] = true
         end
       end
     end
@@ -42,8 +42,8 @@ module RspecApiDocumentation
       end
 
       def params
-        return unless example.metadata[:parameters]
-        example.metadata[:parameters].inject({}) do |h, (k, v)|
+        return unless example.metadata[:request_parameters]
+        example.metadata[:request_parameters].inject({}) do |h, (k, v)|
           h[k] = send(k) if respond_to?(k)
           h
         end
