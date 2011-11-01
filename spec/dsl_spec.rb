@@ -17,6 +17,7 @@ resource "Order" do
     subject { example.metadata }
 
     its([:resource_name]) { should eq("Order") }
+    its([:document]) { should be_true }
   end
 
   describe "example context" do

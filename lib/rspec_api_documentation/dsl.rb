@@ -72,6 +72,7 @@ def self.resource(*args, &block)
   options = if args.last.is_a?(Hash) then args.pop else {} end
   options[:api_docs_dsl] = true
   options[:resource_name] = args.first
+  options[:document] = true
   args.push(options)
   describe(*args, &block)
 end
