@@ -52,7 +52,13 @@ module RspecApiDocumentation
       end
 
       def path
-        example.metadata[:path]
+        example.metadata[:path].gsub(/:(\w+)/) do |match|
+          if respond_to?($1)
+            send($1)
+          else
+            match
+          end
+        end
       end
     end
   end

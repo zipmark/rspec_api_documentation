@@ -2,9 +2,6 @@ require 'spec_helper'
 require 'rspec_api_documentation/dsl'
 
 resource "Order" do
-  let(:order) { stub(:id => 1) }
-  let(:id) { order.id }
-
   describe "example metadata" do
     subject { example.metadata }
 
@@ -76,6 +73,28 @@ resource "Order" do
       describe "params" do
         it "should equal the assigned parameter values" do
           params.should eq(:type => "coffee", :size => "medium")
+        end
+      end
+    end
+  end
+
+  get "/orders/:id" do
+    let(:order) { stub(:id => 1) }
+
+    describe "path" do
+      subject { self.path }
+
+      context "when id has been defined" do
+        let(:id) { order.id }
+
+        it "should have the value of id subtituted for :id" do
+          subject.should eq("/orders/1")
+        end
+      end
+
+      context "when id has not been defined" do
+        it "should be unchanged" do
+          subject.should eq("/orders/:id")
         end
       end
     end
