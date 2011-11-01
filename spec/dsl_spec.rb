@@ -84,6 +84,13 @@ resource "Order" do
 
       its(:method) { should eq(:get) }
       its(:path) { should eq("/orders/:id") }
+
+      describe "do_request" do
+        it "should call the correct method on the client" do
+          client.should_receive(:get)
+          do_request
+        end
+      end
     end
   end
 
@@ -102,6 +109,13 @@ resource "Order" do
 
       its(:method) { should eq(:put) }
       its(:path) { should eq("/orders/:id") }
+
+      describe "do_request" do
+        it "should call the correct method on the client" do
+          client.should_receive(:put)
+          do_request
+        end
+      end
     end
   end
 
@@ -120,6 +134,13 @@ resource "Order" do
 
       its(:method) { should eq(:delete) }
       its(:path) { should eq("/orders/:id") }
+
+      describe "do_request" do
+        it "should call the correct method on the client" do
+          client.should_receive(:delete)
+          do_request
+        end
+      end
     end
   end
 
