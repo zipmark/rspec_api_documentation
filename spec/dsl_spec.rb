@@ -31,6 +31,8 @@ resource "Order" do
     let(:type) { "coffee" }
     let(:size) { "medium" }
 
+    specify { example.example_group.description.should eq("POST /orders") }
+
     describe "example metadata" do
       subject { example.metadata }
 
@@ -68,6 +70,8 @@ resource "Order" do
   end
 
   get "/orders/:id" do
+    specify { example.example_group.description.should eq("GET /orders/:id") }
+
     describe "example metadata" do
       subject { example.metadata }
 
@@ -84,6 +88,8 @@ resource "Order" do
   end
 
   put "/orders/:id" do
+    specify { example.example_group.description.should eq("PUT /orders/:id") }
+
     describe "example metadata" do
       subject { example.metadata }
 
@@ -100,6 +106,8 @@ resource "Order" do
   end
 
   delete "/orders/:id" do
+    specify { example.example_group.description.should eq("DELETE /orders/:id") }
+
     describe "example metadata" do
       subject { example.metadata }
 

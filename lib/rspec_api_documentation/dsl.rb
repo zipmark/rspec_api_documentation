@@ -9,6 +9,7 @@ module RspecApiDocumentation
           options[:method] = method
           options[:path] = args.first
           args.push(options)
+          args[0] = "#{method.to_s.upcase} #{args[0]}"
           context(*args, &block)
         end
       end
