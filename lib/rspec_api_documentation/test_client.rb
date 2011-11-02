@@ -1,9 +1,8 @@
 module RspecApiDocumentation
   class TestClient < Struct.new(:session)
     attr_accessor :user
-    attr_reader :last_headers
 
-    delegate :example, :last_response, :to => :session
+    delegate :example, :last_response, :last_request, :to => :session
     delegate :metadata, :to => :example
 
     def get(*args)
@@ -22,12 +21,18 @@ module RspecApiDocumentation
       process :delete, *args
     end
 
-    def set_headers(method, action, params = {})
-      session.request.env.merge!(headers(method, action, params))
-    end
-
     def sign_in(user)
       @user = user
+    end
+
+    def last_headers
+      session.last_request.env.select do |k, v|
+        k =~ /^(HTTP_|CONTENT_TYPE)/
+      end
+    end
+
+    def headers(method, action, params)
+      {}
     end
 
     private
@@ -40,10 +45,14 @@ module RspecApiDocumentation
     def document_example(method, action, params)
       return unless metadata[:document]
 
+      input = last_request.env["rack.input"]
+      input.rewind
+      request_body = input.read
+
       metadata[:public] = (metadata[:document] == :public)
       metadata[:method] = method.to_s.upcase
       metadata[:route] = action
-      metadata[:parameters] = nil
+      metadata[:request_body] = prettify_json(request_body)
       metadata[:request_headers] = format_headers(last_headers)
       metadata[:response_status] = last_response.status
       metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
@@ -60,15 +69,11 @@ module RspecApiDocumentation
     end
 
     def prettify_json(json)
-      if json.strip.blank?
-        nil
-      else
+      begin
         JSON.pretty_generate(JSON.parse(json))
+      rescue
+        nil
       end
-    end
-
-    def headers(method, action, params)
-      @last_headers = {}
     end
   end
 end

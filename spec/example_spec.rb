@@ -110,7 +110,7 @@ describe RspecApiDocumentation::Example do
     it "should produce json" do
       # TODO this is probably a smell
       example.metadata.merge!(:request_headers => [], :route => [], :method => [],
-                              :resource_name => [], :parameters => [], :response_headers => [],
+                              :resource_name => [], :request_body => [], :response_headers => [],
                               :response_status => [], :response_body => [])
 
       example.json.should_not be_nil

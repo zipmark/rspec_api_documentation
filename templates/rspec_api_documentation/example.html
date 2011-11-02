@@ -13,9 +13,9 @@
         <h3>Request</h3>
         <pre class="headers">{{ request_headers }}</pre>
         <pre class="request highlight">{{ method }} {{ route }}</pre>
-        {{# parameters }}
-          <pre class="request highlight">{{ parameters }}</pre>
-        {{/ parameters }}
+        {{# request_body }}
+          <pre class="request highlight">{{ request_body }}</pre>
+        {{/ request_body }}
 
         <h3>Response</h3>
         <pre class="headers">{{ response_headers }}</pre>

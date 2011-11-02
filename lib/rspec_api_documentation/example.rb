@@ -50,7 +50,7 @@ module RspecApiDocumentation
           :headers => request_headers,
           :method => method,
           :route => route,
-          :parameters => parameters
+          :parameters => request_body
         },
         :response => {
           :headers => response_headers,
