@@ -1,7 +1,15 @@
 <html>
   <head>
     <title>{{resource_name}} API</title>
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.1.1.min.css">
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
+    <style>
+      td.required .name:after {
+        float: right;
+        content: "required";
+        font-weight: normal;
+        color: #F08080;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -9,6 +17,30 @@
 
       <div class="article">
         <h2>{{ description }}</h2>
+
+        {{# has_parameters? }}
+          <h3>Parameters</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{# parameters }}
+              <tr>
+                <td{{# required }} class="required"{{/ required }}>
+                  <span class="name">{{ name }}</span>
+                </th>
+                <td>
+                  <span class="description">{{ description }}</span>
+                </td>
+              </tr>
+              {{/ parameters }}
+            </tbody>
+          </table>
+        {{/ has_parameters? }}
 
         <h3>Request</h3>
         <pre class="headers">{{ request_headers }}</pre>
