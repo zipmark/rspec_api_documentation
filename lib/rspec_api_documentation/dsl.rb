@@ -22,13 +22,15 @@ module RspecApiDocumentation
       define_action :delete
 
       def parameter(name, description)
-        metadata[:parameters] ||= {}
-        metadata[:parameters][name] = {:description => description}
+        metadata[:parameters] ||= []
+        metadata[:parameters].push(:name => name.to_s, :description => description)
       end
 
       def required_parameters(*names)
         names.each do |name|
-          metadata[:parameters][name][:required] = true
+          param = metadata[:parameters].find { |param| param[:name] == name.to_s }
+          raise "Undefined parameters can not be required." unless param
+          param[:required] = true
         end
       end
     end
@@ -45,7 +47,8 @@ module RspecApiDocumentation
 
       def params
         return unless example.metadata[:parameters]
-        example.metadata[:parameters].inject({}) do |h, (k, v)|
+        example.metadata[:parameters].inject({}) do |h, param|
+          k = param[:name]
           h[k] = send(k) if respond_to?(k)
           h
         end

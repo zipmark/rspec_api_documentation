@@ -72,9 +72,11 @@ resource "Order" do
 
       it "should include the documentated parameters" do
         subject[:parameters].should eq(
-          :type => { :description => "The type of drink you want.", :required => true },
-          :size => { :description => "The size of drink you want.", :required => true },
-          :note => { :description => "Any additional notes about your order." }
+          [
+            { :name => "type", :description => "The type of drink you want.", :required => true },
+            { :name => "size", :description => "The size of drink you want.", :required => true },
+            { :name => "note", :description => "Any additional notes about your order." }
+          ]
         )
       end
     end
@@ -84,7 +86,7 @@ resource "Order" do
 
       describe "params" do
         it "should equal the assigned parameter values" do
-          params.should eq(:type => "coffee", :size => "medium")
+          params.should eq("type" => "coffee", "size" => "medium")
         end
       end
     end
