@@ -106,6 +106,26 @@ describe RspecApiDocumentation::Example do
     end
   end
 
+  describe "has_parameters?" do
+    subject { example.has_parameters? }
+
+    context "when parameters are defined" do
+      before { example.stub!(:parameters).and_return([stub]) }
+
+      it { should be_true }
+    end
+
+    context "when parameters are empty" do
+      before { example.stub!(:parameters).and_return([]) }
+
+      it { should be_false }
+    end
+
+    context "when parameters are not defined" do
+      it { should be_false }
+    end
+  end
+
   describe "json" do
     it "should produce json" do
       # TODO this is probably a smell

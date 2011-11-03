@@ -42,6 +42,10 @@ module RspecApiDocumentation
       metadata[:public]
     end
 
+    def has_parameters?
+      respond_to?(:parameters) && parameters.present?
+    end
+
     def json
       {
         :resource => resource_name,
