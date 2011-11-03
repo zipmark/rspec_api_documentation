@@ -71,7 +71,7 @@ resource "Order" do
       subject { example.metadata }
 
       it "should include the documentated parameters" do
-        subject[:request_parameters].should eq(
+        subject[:parameters].should eq(
           :type => { :description => "The type of drink you want.", :required => true },
           :size => { :description => "The size of drink you want.", :required => true },
           :note => { :description => "Any additional notes about your order." }
