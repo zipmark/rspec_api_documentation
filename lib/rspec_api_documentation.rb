@@ -17,6 +17,7 @@ module RspecApiDocumentation
   end
 
   autoload :DSL
+  autoload :TestServer
 
   def self.configurations
     @configurations ||= ConfigurationSet.new
