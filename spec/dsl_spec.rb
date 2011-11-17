@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'rspec_api_documentation/dsl'
+require 'net/http'
 
 describe "Non-api documentation specs" do
   it "should not be polluted by the rspec api dsl" do
@@ -170,6 +171,60 @@ resource "Order" do
 
       it 'should have 2 parameters' do
         example.metadata[:parameters].length.should == 2
+      end
+    end
+  end
+
+  callback "Order creation notification callback" do
+    it "should provide a destination" do
+      destination.should be_a(RspecApiDocumentation::TestServer)
+    end
+
+    it "should return the same destination every time" do
+      destination.should equal(destination)
+    end
+
+    describe "trigger_callback" do
+      let(:callback_url) { stub }
+      let(:callbacks_triggered) { [] }
+
+      trigger_callback do
+        callbacks_triggered << nil
+      end
+
+      it "should get called once when do_callback is called" do
+        do_callback
+        callbacks_triggered.length.should eq(1)
+      end
+    end
+
+    describe "do_callback" do
+      trigger_callback do
+        uri = URI.parse(callback_url)
+        Net::HTTP.start(uri.host, uri.port) do |http|
+          # debugger
+          http.request Net::HTTP::Post.new(uri.path)
+        end
+      end
+
+      context "when callback_url is defined" do
+        let(:callback_url) { "http://www.example.net/callback" }
+
+        it "should mock requests to the callback url to be handled by the destination" do
+          called = false
+          destination.stub!(:call).and_return do
+            called = true
+            [200, {}, []]
+          end
+          do_callback
+          called.should be_true
+        end
+      end
+
+      context "when callback_url is not defined" do
+        it "should raise an exception" do
+          expect { do_callback }.to raise_error("You must define callback_url")
+        end
       end
     end
   end

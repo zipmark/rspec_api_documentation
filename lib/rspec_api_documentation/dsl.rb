@@ -1,4 +1,6 @@
 require 'rack/test/methods'
+require 'rack'
+require 'webmock'
 
 module RspecApiDocumentation
   module DSL
@@ -36,11 +38,31 @@ module RspecApiDocumentation
           param[:required] = true
         end
       end
+
+      def callback(description, &block)
+        self.send(:include, WebMock::API)
+        context(description, &block)
+      end
+
+      def trigger_callback(&block)
+        define_method(:do_callback) do
+          stub_request(:any, callback_url).to_rack(destination)
+          instance_eval &block
+        end
+      end
     end
 
     module InstanceMethods
       def client
         @client ||= TestClient.new(self)
+      end
+
+      def destination
+        @destination ||= TestServer.new(self)
+      end
+
+      def callback_url
+        raise "You must define callback_url"
       end
 
       def do_request
