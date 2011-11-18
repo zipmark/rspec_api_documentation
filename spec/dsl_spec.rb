@@ -156,4 +156,21 @@ resource "Order" do
   #    should_respond_with_body json_eql({:errors => {:size => ["can't be blank"]}}.to_json)
   #  end
   #end
+  #
+
+  describe "nested parameters" do
+    parameter :per_page, "Number of results on a page"
+
+    it "should only have 1 parameter" do
+      example.metadata[:parameters].length.should == 1
+    end
+
+    context "another parameter" do
+      parameter :page, "Current page"
+
+      it 'should have 2 parameters' do
+        example.metadata[:parameters].length.should == 2
+      end
+    end
+  end
 end
