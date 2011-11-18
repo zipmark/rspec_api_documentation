@@ -174,3 +174,11 @@ resource "Order" do
     end
   end
 end
+
+resource "top leve parameters" do
+  parameter :page, "Current page"
+
+  it 'should have 1 parameter' do
+    example.metadata[:parameters].length.should == 1
+  end
+end

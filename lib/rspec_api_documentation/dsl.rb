@@ -23,7 +23,7 @@ module RspecApiDocumentation
 
       def parameter(name, description)
         metadata[:parameters] ||= []
-        if metadata[:parameters].equal?(superclass_metadata[:parameters])
+        if superclass_metadata && metadata[:parameters].equal?(superclass_metadata[:parameters])
           metadata[:parameters] = superclass_metadata[:parameters].clone
         end
         metadata[:parameters].push(:name => name.to_s, :description => description)
