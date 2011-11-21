@@ -44,7 +44,7 @@ describe RspecApiDocumentation::TestServer do
         example.metadata[:public].should be_false
         example.metadata[:method].should eq("POST")
         example.metadata[:route].should eq(path)
-        example.metadata[:request_body].should eq(body)
+        example.metadata[:request_body].should eq("{\n  \"foo\": \"bar\",\n  \"baz\": \"quux\"\n}")
         example.metadata[:request_headers].should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ")
       end
     end

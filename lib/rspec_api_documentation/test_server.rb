@@ -9,7 +9,7 @@ module RspecApiDocumentation
       metadata[:public] = (metadata[:document] == :public)
       metadata[:method] = env["REQUEST_METHOD"]
       metadata[:route] = env["PATH_INFO"]
-      metadata[:request_body] = env["rack.input"].read
+      metadata[:request_body] = prettify_json(env["rack.input"].read)
       metadata[:request_headers] = headers(env)
 
       return [200, {}, [""]]
@@ -27,6 +27,14 @@ module RspecApiDocumentation
           formatted_key = key.gsub(/^HTTP_/, '').titleize.split.join("-")
           "#{formatted_key}: #{value}"
         end.join("\n")
+    end
+
+    def prettify_json(json)
+      begin
+        JSON.pretty_generate(JSON.parse(json))
+      rescue
+        nil
+      end
     end
   end
 end
