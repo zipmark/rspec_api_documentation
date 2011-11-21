@@ -49,12 +49,14 @@
           <pre class="request highlight">{{ request_body }}</pre>
         {{/ request_body }}
 
-        <h3>Response</h3>
-        <pre class="headers">{{ response_headers }}</pre>
-        <pre class="response_status">{{ response_status }} {{ response_status_text}}</pre>
-        {{# response_body }}
-          <pre class="response highlight">{{ response_body }}</pre>
-        {{/ response_body }}
+        {{# response_status }}
+          <h3>Response</h3>
+          <pre class="headers">{{ response_headers }}</pre>
+          <pre class="response_status">{{ response_status }} {{ response_status_text}}</pre>
+          {{# response_body }}
+            <pre class="response highlight">{{ response_body }}</pre>
+          {{/ response_body }}
+        {{/ response_status }}
       </div>
     </div>
   </body>
