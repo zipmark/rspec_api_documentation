@@ -6,6 +6,7 @@ module RspecApiDocumentation
     def call(env)
       env["rack.input"].rewind
 
+      metadata[:public] = (metadata[:document] == :public)
       metadata[:method] = env["REQUEST_METHOD"]
       metadata[:route] = env["PATH_INFO"]
       metadata[:request_body] = env["rack.input"].read
