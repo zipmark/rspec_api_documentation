@@ -31,6 +31,18 @@ module RspecApiDocumentation
       end
     end
 
+    def last_query_string
+      session.last_request.env["QUERY_STRING"]
+    end
+
+    def last_query_hash
+      strings = last_query_string.split("&")
+      arrays = strings.map do |segment|
+        segment.split("=")
+      end
+      Hash[arrays]
+    end
+
     def headers(method, action, params)
       {}
     end
@@ -54,6 +66,7 @@ module RspecApiDocumentation
       metadata[:route] = action
       metadata[:request_body] = prettify_json(request_body)
       metadata[:request_headers] = format_headers(last_headers)
+      metadata[:request_query_string] = format_query_hash(last_query_hash)
       metadata[:response_status] = last_response.status
       metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
       metadata[:response_body] = prettify_json(last_response.body)
@@ -65,6 +78,12 @@ module RspecApiDocumentation
         # HTTP_ACCEPT_CHARSET => Accept-Charset
         formatted_key = key.gsub(/^HTTP_/, '').titleize.split.join("-")
         "#{formatted_key}: #{value}"
+      end.join("\n")
+    end
+
+    def format_query_hash(query_hash)
+      query_hash.map do |key, value|
+        "#{key}: #{value}"
       end.join("\n")
     end
 

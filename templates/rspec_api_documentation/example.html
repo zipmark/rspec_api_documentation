@@ -45,6 +45,8 @@
         <h3>Request</h3>
         <pre class="headers">{{ request_headers }}</pre>
         <pre class="request highlight">{{ method }} {{ route }}</pre>
+        <h4>Query</h4>
+        <pre class="request highlight">{{ request_query_string }}</pre>
         {{# request_body }}
           <pre class="request highlight">{{ request_body }}</pre>
         {{/ request_body }}
