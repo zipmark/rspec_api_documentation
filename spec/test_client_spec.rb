@@ -109,7 +109,7 @@ describe RspecApiDocumentation::TestClient do
         example.metadata[:route].should eq("/greet?test_query=true")
         example.metadata[:request_body].should eq("{\n  \"target\": \"nurse\"\n}")
         example.metadata[:request_headers].should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ")
-        example.metadata[:request_query_string].should eq("test_query: true")
+        example.metadata[:request_query_parameters].should eq("test_query: true")
         example.metadata[:response_status].should eq(200)
         example.metadata[:response_status_text].should eq("OK")
         example.metadata[:response_body].should eq("{\n  \"hello\": \"nurse\"\n}")

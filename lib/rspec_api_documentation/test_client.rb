@@ -66,7 +66,7 @@ module RspecApiDocumentation
       metadata[:route] = action
       metadata[:request_body] = prettify_json(request_body)
       metadata[:request_headers] = format_headers(last_headers)
-      metadata[:request_query_string] = format_query_hash(last_query_hash)
+      metadata[:request_query_parameters] = format_query_hash(last_query_hash)
       metadata[:response_status] = last_response.status
       metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
       metadata[:response_body] = prettify_json(last_response.body)
