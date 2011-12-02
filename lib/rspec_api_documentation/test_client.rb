@@ -82,6 +82,7 @@ module RspecApiDocumentation
     end
 
     def format_query_hash(query_hash)
+      return if query_hash.blank?
       query_hash.map do |key, value|
         "#{key}: #{value}"
       end.join("\n")
