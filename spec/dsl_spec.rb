@@ -227,10 +227,34 @@ resource "Order" do
         end
       end
     end
+
+    describe "post vs get data" do
+      parameter :id, "User id"
+      parameter :page, "Page to list"
+      parameter :message, "Message on the order"
+
+      let(:message) { "Thank you" }
+      let(:page) { 2 }
+      let(:id) { 1 }
+
+      get "/users/:id/orders" do
+        example "Page should be in the query string" do
+          client.should_receive(method).with("/users/1/orders?page=2&message=Thank+you", nil)
+          do_request
+        end
+      end
+
+      post "/users/:id/orders" do
+        example "Page should be in the post body" do
+          client.should_receive(method).with("/users/1/orders", {"page" => 2, "message" => "Thank you"})
+          do_request
+        end
+      end
+    end
   end
 end
 
-resource "top leve parameters" do
+resource "top level parameters" do
   parameter :page, "Current page"
 
   it 'should have 1 parameter' do

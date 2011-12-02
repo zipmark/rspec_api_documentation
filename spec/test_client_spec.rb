@@ -46,6 +46,26 @@ describe RspecApiDocumentation::TestClient do
     end
   end
 
+  describe "#last_query_string" do
+    before do
+      test_client.get "/?query_string=true"
+    end
+
+    it 'should contain the query_string' do
+      test_client.last_query_string.should == "query_string=true"
+    end
+  end
+
+  describe "#last_query_hash" do
+    before do
+      test_client.get "/?query_hash=true"
+    end
+
+    it 'should contain the query_hash' do
+      test_client.last_query_hash.should == { "query_hash" => "true" }
+    end
+  end
+
   describe "#last_headers" do
     before do
       header "Accept", "application/json"
@@ -79,16 +99,17 @@ describe RspecApiDocumentation::TestClient do
     before do
       header "Content-Type", "application/json"
       header "X-Custom-Header", "custom header value"
-      test_client.post "/greet", { :target => "nurse" }.to_json
+      test_client.post "/greet?test_query=true", { :target => "nurse" }.to_json
     end
 
     context "when examples should be documented", :document => true do
       it "should augment the metadata with information about the request" do
         example.metadata[:public].should be_false
         example.metadata[:method].should eq("POST")
-        example.metadata[:route].should eq("/greet")
+        example.metadata[:route].should eq("/greet?test_query=true")
         example.metadata[:request_body].should eq("{\n  \"target\": \"nurse\"\n}")
         example.metadata[:request_headers].should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ")
+        example.metadata[:request_query_parameters].should eq("test_query: true")
         example.metadata[:response_status].should eq(200)
         example.metadata[:response_status_text].should eq("OK")
         example.metadata[:response_body].should eq("{\n  \"hello\": \"nurse\"\n}")

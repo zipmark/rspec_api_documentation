@@ -66,21 +66,45 @@ module RspecApiDocumentation
       end
 
       def do_request
-        params_or_body = respond_to?(:raw_post) ? raw_post : params
-        client.send(method, path, params_or_body)
+        params_or_body = nil
+        path_or_query = path
+
+        if method == :get && !query_string.blank?
+          path_or_query = path + "?#{query_string}"
+        else
+          params_or_body = respond_to?(:raw_post) ? raw_post : params
+        end
+
+        client.send(method, path_or_query, params_or_body)
+      end
+
+      def query_string
+        query = params.to_a.map do |param|
+          param.map! { |a| CGI.escape(a.to_s) }
+          param.join("=")
+        end
+        query.join("&")
       end
 
       def params
         return unless example.metadata[:parameters]
         example.metadata[:parameters].inject({}) do |h, param|
           k = param[:name]
-          h[k] = send(k) if respond_to?(k)
+          h[k] = send(k) if respond_to?(k) && !in_path?(k)
           h
         end
       end
 
       def method
         example.metadata[:method]
+      end
+
+      def in_path?(param)
+        path_params.include?(param)
+      end
+
+      def path_params
+        example.metadata[:path].scan(/:(\w+)/).flatten
       end
 
       def path
