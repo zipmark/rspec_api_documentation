@@ -108,6 +108,11 @@ resource "Order" do
           do_request
         end
       end
+
+      it "should allow extra parameters to be passed in" do
+        client.should_receive(method).with(path, params.merge("extra" => true))
+        do_request(:extra => true)
+      end
     end
   end
 

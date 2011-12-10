@@ -65,7 +65,8 @@ module RspecApiDocumentation
         raise "You must define callback_url"
       end
 
-      def do_request
+      def do_request(extra_params = {})
+        @extra_params = extra_params
         params_or_body = nil
         path_or_query = path
 
@@ -88,11 +89,13 @@ module RspecApiDocumentation
 
       def params
         return unless example.metadata[:parameters]
-        example.metadata[:parameters].inject({}) do |h, param|
+        parameters = example.metadata[:parameters].inject({}) do |h, param|
           k = param[:name]
           h[k] = send(k) if respond_to?(k) && !in_path?(k)
           h
         end
+        parameters.merge!(extra_params)
+        parameters
       end
 
       def method
@@ -114,6 +117,15 @@ module RspecApiDocumentation
           else
             match
           end
+        end
+      end
+
+      private
+      def extra_params
+        return {} if @extra_params.nil?
+        @extra_params.inject({}) do |h, (k, v)|
+          h[k.to_s] = v
+          h
         end
       end
     end
