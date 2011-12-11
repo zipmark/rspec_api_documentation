@@ -113,6 +113,11 @@ resource "Order" do
         client.should_receive(method).with(path, params.merge("extra" => true))
         do_request(:extra => true)
       end
+
+      it "should overwrite parameters" do
+        client.should_receive(method).with(path, params.merge("size" => "large"))
+        do_request(:size => "large")
+      end
     end
   end
 
