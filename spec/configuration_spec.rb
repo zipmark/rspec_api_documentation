@@ -35,6 +35,7 @@ describe RspecApiDocumentation::Configuration do
     its(:format) { should == :html }
     its(:template_path) { should == default_template_path }
     its(:filter) { should == :all }
+    its(:exclusion_filter) { should == nil }
   end
 
   describe "#define_groups" do

@@ -87,6 +87,31 @@ describe RspecApiDocumentation::Example do
 
       it { should be_false }
     end
+
+    context "configuration sets a filter" do
+      before do 
+        configuration.filter = :public
+        configuration.exclusion_filter = :excluded
+      end
+
+      context "when the example does match the filter" do
+        let(:metadata) { { :resource_name => "foo", :document => :public } }
+
+        it { should be_true }
+      end
+
+      context "when the example does not match the filter" do
+        let(:metadata) { { :resource_name => "foo", :document => :private } }
+
+        it { should be_false }
+      end
+
+      context "when the example is excluded" do
+        let(:metadata) { { :resource_name => "foo", :document => [:public, :excluded] } }
+
+        it { should be_false }
+      end
+    end
   end
 
   describe "#public?" do
