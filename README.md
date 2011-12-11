@@ -6,11 +6,30 @@ Generate pretty API docs for your Rails APIs.
 
 Add rspec_api_documentation to your Gemfile
 
-		gem 'rspec_api_documentation'
+    gem 'rspec_api_documentation'
 
 Bundle it!
 
-		$> bundle install
+    $> bundle install
+
+
+## Configuration options
+- docs_dir - Output folder
+- format - Output format
+- template_path - Location of templates
+- filter - Filter by example document type
+- exclusion_filter - Filter by example document type
+
+### Example Configuration
+`spec/spec_helper.rb`
+
+    RspecApiDocumentation.configure do |config|
+      config.docs_dir = Rails.root.join("app", "views", "pages")
+
+      config.define_group :public do |config|
+        config.docs_dir = Rails.root.join("public", "docs")
+      end
+    end
 
 ## Usage
 
@@ -28,9 +47,10 @@ Bundle it!
         let(:account) { Factory(:account) }
         let(:id) { account.id }
 
-        example "Get an account" do
+        example "Get an account", :document => :public do
           do_request
           last_response.status.should be_ok
         end
       end
     end
+
