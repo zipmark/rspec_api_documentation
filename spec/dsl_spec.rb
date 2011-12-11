@@ -267,6 +267,14 @@ resource "Order" do
     it "should provide access to the configurations app" do
       app.should == RspecApiDocumentation.configuration.app
     end
+
+    context "defining a new app, in an example" do
+      let(:app) { "Sinatra" }
+
+      it "should use the user defined app" do
+        app.should == "Sinatra"
+      end
+    end
   end
 end
 
