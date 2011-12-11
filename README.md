@@ -14,6 +14,7 @@ Bundle it!
 
 
 ## Configuration options
+- app - Set the application that Rack::Test uses, defaults to `Rails.application`
 - docs_dir - Output folder
 - format - Output format
 - template_path - Location of templates

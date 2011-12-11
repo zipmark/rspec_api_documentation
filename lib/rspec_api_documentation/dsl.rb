@@ -120,6 +120,10 @@ module RspecApiDocumentation
         end
       end
 
+      def app
+        RspecApiDocumentation.configuration.app
+      end
+
       private
       def extra_params
         return {} if @extra_params.nil?

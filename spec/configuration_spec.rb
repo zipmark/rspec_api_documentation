@@ -36,6 +36,17 @@ describe RspecApiDocumentation::Configuration do
     its(:template_path) { should == default_template_path }
     its(:filter) { should == :all }
     its(:exclusion_filter) { should == nil }
+    its(:app) { should == Rails.application }
+
+    context "no rails" do
+      before do
+        Object.class_eval do
+          remove_const(:Rails)
+        end
+      end
+
+      its(:app) { should be_nil }
+    end
   end
 
   describe "#define_groups" do

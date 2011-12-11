@@ -262,6 +262,12 @@ resource "Order" do
       end
     end
   end
+
+  context "#app" do
+    it "should provide access to the configurations app" do
+      app.should == RspecApiDocumentation.configuration.app
+    end
+  end
 end
 
 resource "top level parameters" do
