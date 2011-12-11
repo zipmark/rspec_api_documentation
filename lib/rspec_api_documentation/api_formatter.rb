@@ -11,7 +11,7 @@ module RspecApiDocumentation
     def start(example_count)
       super
 
-      RspecApiDocumentation.configurations.each(&:clear_docs)
+      RspecApiDocumentation.documentations.each(&:clear_docs)
     end
 
     def example_group_started(example_group)
@@ -25,7 +25,7 @@ module RspecApiDocumentation
 
       output.puts "    * #{example.description}"
 
-      RspecApiDocumentation.configurations.each do |documentation|
+      RspecApiDocumentation.documentations.each do |documentation|
         documentation.document_example(example)
       end
     end
@@ -39,11 +39,9 @@ module RspecApiDocumentation
     def stop
       super
 
-      RspecApiDocumentation.configurations.each do |documentation|
-        documentation.write_private_index
-        documentation.write_public_index
+      RspecApiDocumentation.documentations.each do |documentation|
+        documentation.write_index
         documentation.write_examples
-        documentation.symlink_public_examples
       end
     end
   end

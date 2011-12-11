@@ -1,27 +1,29 @@
 require 'spec_helper'
 
 describe RspecApiDocumentation do
-  let(:configuration_set) { stub }
+  let(:configuration) { stub }
 
-  describe "#configurations" do
+  describe "#configuration" do
     before do
-      # if other tests call RspecApiDocumentation.configurations, the value will
+      # if other tests call RspecApiDocumentation.configuration, the value will
       # already be cached. force it to nil for this test
-      RspecApiDocumentation.instance_variable_set(:@configurations, nil)
+      RspecApiDocumentation.instance_variable_set(:@configuration, nil)
 
-      RspecApiDocumentation::ConfigurationSet.stub!(:new).and_return(configuration_set, nil)
+      RspecApiDocumentation::Configuration.stub!(:new).and_return(configuration, nil)
     end
 
-    it "should be a configuration set" do
-      2.times {
-        RspecApiDocumentation.configurations.should equal(configuration_set)
-      }
+    it "should be a configuration" do
+      RspecApiDocumentation.configuration.should equal(configuration)
+    end
+
+    it "returns the same configuration every time" do
+      RspecApiDocumentation.configuration.should equal(RspecApiDocumentation.configuration)
     end
   end
 
   describe "#configure" do
     before do
-      RspecApiDocumentation.stub!(:configurations).and_return(configuration_set)
+      RspecApiDocumentation.stub!(:configuration).and_return(configuration)
     end
 
     it "should take a block" do
@@ -30,9 +32,9 @@ describe RspecApiDocumentation do
       called.should be_true
     end
 
-    it "should yield the configuration set to the block" do
-      RspecApiDocumentation.configure do |format|
-        format.should equal(configuration_set)
+    it "should yield the configuration to the block" do
+      RspecApiDocumentation.configure do |config|
+        config.should equal(configuration)
       end
     end
   end

@@ -1,12 +1,14 @@
 require 'spec_helper'
 
 describe RspecApiDocumentation::Configuration do
-  let(:format) { :blah }
-  let(:configuration) { RspecApiDocumentation::Configuration.new(format) }
+  let(:parent) { nil }
+  let(:configuration) { RspecApiDocumentation::Configuration.new(parent) }
 
   subject { configuration }
 
-  its(:format) { should equal(format) }
+  its(:parent) { should equal(parent) }
+  its(:settings) { should == {} }
+  its(:groups) { should == [] }
 
   describe ".add_setting" do
     it 'should allow creating a new setting' do
@@ -30,13 +32,67 @@ describe RspecApiDocumentation::Configuration do
     let(:default_template_path) { File.expand_path("../../templates", __FILE__) }
 
     its(:docs_dir) { should == Rails.root.join("docs") }
-    its(:public_docs_dir) { should == Rails.root.join("public", "docs") }
-    its(:private_index_extension) { should == format }
-    its(:public_index_extension) { should == format }
-    its(:example_extension) { should == format }
-    its(:template_extension) { should == format }
+    its(:format) { should == :html }
     its(:template_path) { should == default_template_path }
+    its(:filter) { should == :all }
+  end
 
-    its(:settings) { should == {} }
+  describe "#define_groups" do
+    it "should take a block" do
+      called = false
+      subject.define_group(:foo) { called = true }
+      called.should eq(true)
+    end
+
+    it "should yield a sub-configuration" do
+      subject.define_group(:foo) do |config|
+        config.should be_a(described_class)
+        config.parent.should equal(subject)
+      end
+    end
+
+    it "should set the sub-configuration filter" do
+      subject.define_group(:foo) do |config|
+        config.filter.should eq(:foo)
+      end
+    end
+
+    it "should inherit its parents configurations" do
+      subject.format = :json
+      subject.define_group(:sub) do |config|
+        config.format.should == :json
+      end
+    end
+
+    it "should scope the documentation directory" do
+      subject.define_group(:sub) do |config|
+        config.docs_dir.should == subject.docs_dir.join('sub')
+      end
+    end
+  end
+
+  it { should be_a(Enumerable) }
+
+  it "should enumerate through recursively and include self" do
+    configs = [subject]
+    subject.define_group(:sub1) do |config|
+      configs << config
+      config.define_group(:sub2) do |config|
+        configs << config
+        config.define_group(:sub3) do |config|
+          configs << config
+        end
+      end
+    end
+    subject.to_a.should eq(configs)
+  end
+
+  describe "#groups" do
+    it "should list all of the defined groups" do
+      subject.define_group(:sub) do |config|
+      end
+
+      subject.groups.should have(1).group
+    end
   end
 end

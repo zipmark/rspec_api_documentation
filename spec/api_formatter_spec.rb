@@ -6,31 +6,22 @@ describe RspecApiDocumentation::ApiFormatter do
   let(:output) { StringIO.new }
   let(:formatter) { RspecApiDocumentation::ApiFormatter.new(output) }
 
-  before do
-    RspecApiDocumentation.configure do |format|
-      format.html
-      format.json
-    end
-  end
-
   describe "generating documentation" do
     include FakeFS::SpecHelpers
 
     before do
-      RspecApiDocumentation.configurations.each do |configuration|
+      RspecApiDocumentation.documentations.each do |configuration|
         configuration.stub!(
           :clear_docs => nil,
           :document_example => nil,
-          :write_private_index => nil,
-          :write_public_index => nil,
-          :write_examples => nil,
-          :symlink_public_examples => nil
+          :write_index => nil,
+          :write_examples => nil
         )
       end
     end
 
     it "should clear all docs on start" do
-      RspecApiDocumentation.configurations.each do |configuration|
+      RspecApiDocumentation.documentations.each do |configuration|
         configuration.should_receive(:clear_docs)
       end
 
@@ -40,40 +31,24 @@ describe RspecApiDocumentation::ApiFormatter do
     it "should document passing examples" do
       example = group.example("Ordering a cup of coffee") {}
 
-      RspecApiDocumentation.configurations.each do |configuration|
+      RspecApiDocumentation.documentations.each do |configuration|
         configuration.should_receive(:document_example).with(example)
       end
 
       formatter.example_passed(example)
     end
 
-    it "should write the private index on stop" do
-      RspecApiDocumentation.configurations.each do |configuration|
-        configuration.should_receive(:write_private_index)
-      end
-
-      formatter.stop
-    end
-
-    it "should write the public index on stop" do
-      RspecApiDocumentation.configurations.each do |configuration|
-        configuration.should_receive(:write_public_index)
+    it "should write the index on stop" do
+      RspecApiDocumentation.documentations.each do |configuration|
+        configuration.should_receive(:write_index)
       end
 
       formatter.stop
     end
 
     it "should write examples on stop" do
-      RspecApiDocumentation.configurations.each do |configuration|
+      RspecApiDocumentation.documentations.each do |configuration|
         configuration.should_receive(:write_examples)
-      end
-
-      formatter.stop
-    end
-
-    it "should symlink public examples on stop" do
-      RspecApiDocumentation.configurations.each do |configuration|
-        configuration.should_receive(:symlink_public_examples)
       end
 
       formatter.stop
@@ -83,7 +58,7 @@ describe RspecApiDocumentation::ApiFormatter do
   describe "output" do
     before do
       # don't do any work
-      RspecApiDocumentation.stub!(:configurations).and_return([])
+      RspecApiDocumentation.stub!(:documentations).and_return([])
     end
 
     context "with passing examples" do

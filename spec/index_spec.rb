@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe RspecApiDocumentation::Index do
-  let(:configuration) { RspecApiDocumentation::Configuration.new(:html) }
+  let(:configuration) { RspecApiDocumentation::Configuration.new }
   let(:index) { RspecApiDocumentation::Index.new(configuration) }
 
   subject { index }
@@ -10,7 +10,7 @@ describe RspecApiDocumentation::Index do
 
   its(:configuration) { should equal(configuration) }
   its(:template_path) { should eq(configuration.template_path) }
-  its(:template_extension) { should eq(configuration.template_extension) }
+  its(:template_extension) { should eq(configuration.format.to_s) }
 
   describe "#sections" do
     let(:foo_examples) { Array.new(2) { stub(:resource_name => "Foo") } }

@@ -1,9 +1,24 @@
 module RspecApiDocumentation
   class Configuration
-    attr_reader :format
+    include Enumerable
 
-    def initialize(format)
-      @format = format
+    attr_reader :parent
+
+    def initialize(parent = nil)
+      @parent = parent
+      @settings = parent.settings.clone if parent
+    end
+
+    def groups
+      @groups ||= []
+    end
+
+    def define_group(name, &block)
+      subconfig = self.class.new(self)
+      subconfig.filter = name
+      subconfig.docs_dir = self.docs_dir.join(name.to_s)
+      yield subconfig
+      groups << subconfig
     end
 
     def self.add_setting(name, opts = {})
@@ -20,15 +35,17 @@ module RspecApiDocumentation
     end
 
     add_setting :docs_dir, :default => Rails.root.join("docs")
-    add_setting :public_docs_dir, :default => Rails.root.join("public", "docs")
-    add_setting :private_index_extension, :default => lambda { |config| config.format }
-    add_setting :public_index_extension, :default => lambda { |config| config.format }
-    add_setting :example_extension, :default => lambda { |config| config.format }
-    add_setting :template_extension, :default => lambda { |config| config.format }
+    add_setting :format, :default => :html
     add_setting :template_path, :default => File.expand_path("../../../templates", __FILE__)
+    add_setting :filter, :default => :all
 
     def settings
       @settings ||= {}
+    end
+
+    def each(&block)
+      yield self
+      groups.map { |g| g.each &block }
     end
   end
 end

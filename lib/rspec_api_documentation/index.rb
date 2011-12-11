@@ -5,7 +5,7 @@ module RspecApiDocumentation
     def initialize(configuration)
       @configuration = configuration
       self.template_path = configuration.template_path
-      self.template_extension = configuration.template_extension
+      self.template_extension = configuration.format.to_s
     end
 
     def sections

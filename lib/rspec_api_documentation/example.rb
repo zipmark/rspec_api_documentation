@@ -6,7 +6,7 @@ module RspecApiDocumentation
       @example = example
       @configuration = configuration
       self.template_path = configuration.template_path
-      self.template_extension = configuration.template_extension
+      self.template_extension = configuration.format.to_s
     end
 
     def method_missing(method_sym, *args, &block)
@@ -31,7 +31,7 @@ module RspecApiDocumentation
 
     def filename
       basename = description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '')
-      "#{basename}.#{configuration.example_extension}"
+      "#{basename}.#{configuration.format}"
     end
 
     def should_document?

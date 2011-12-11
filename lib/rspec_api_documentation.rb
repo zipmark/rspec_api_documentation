@@ -5,7 +5,6 @@ module RspecApiDocumentation
   include ActiveSupport::JSON
 
   eager_autoload do
-    autoload :ConfigurationSet
     autoload :Configuration
     autoload :ApiDocumentation
     autoload :DocumentResource
@@ -19,11 +18,15 @@ module RspecApiDocumentation
   autoload :DSL
   autoload :TestServer
 
-  def self.configurations
-    @configurations ||= ConfigurationSet.new
+  def self.configuration
+    @configuration ||= Configuration.new
+  end
+
+  def self.documentations
+    @documentations ||= configuration.to_a.map { |config| ApiDocumentation.new(config) }
   end
 
   def self.configure
-    yield configurations if block_given?
+    yield configuration if block_given?
   end
 end

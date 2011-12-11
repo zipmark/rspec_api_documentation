@@ -5,7 +5,7 @@ describe RspecApiDocumentation::Example do
   let(:metadata) {{ :resource_name => "foo", :document => true }}
   let(:rspec_example_group) { RSpec::Core::ExampleGroup.describe("foobar") }
   let(:rspec_example) { rspec_example_group.example(description, metadata) {} }
-  let(:configuration) { RspecApiDocumentation::Configuration.new(:html) }
+  let(:configuration) { RspecApiDocumentation::Configuration.new }
   let(:example) { RspecApiDocumentation::Example.new(rspec_example, configuration) }
 
   subject { example }
@@ -15,7 +15,7 @@ describe RspecApiDocumentation::Example do
   its(:example) { should equal(rspec_example) }
   its(:configuration) { should equal(configuration) }
   its(:template_path) { should eq(configuration.template_path) }
-  its(:template_extension) { should eq(configuration.template_extension) }
+  its(:template_extension) { should eq(configuration.format.to_s) }
 
   describe "method delegation" do
     context "when the example's metadata has a key for the given method selector" do
@@ -57,7 +57,6 @@ describe RspecApiDocumentation::Example do
   describe "#filename" do
     let(:description) { "Some$T:hing\n\tComPlicaTed" }
     it "should return a sanitized, filename-safe representation of the description" do
-      configuration.stub(:example_extension).and_return(:html)
       example.filename.should eq("something_complicated.html")
     end
   end
