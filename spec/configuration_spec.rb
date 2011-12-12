@@ -40,9 +40,7 @@ describe RspecApiDocumentation::Configuration do
 
     context "no rails" do
       before do
-        Object.class_eval do
-          remove_const(:Rails)
-        end
+        Object.send(:remove_const, :Rails)
       end
 
       its(:app) { should be_nil }
