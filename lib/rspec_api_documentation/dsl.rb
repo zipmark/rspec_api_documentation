@@ -23,12 +23,12 @@ module RspecApiDocumentation
       define_action :put
       define_action :delete
 
-      def parameter(name, description)
+      def parameter(name, description, options = {})
         metadata[:parameters] ||= []
         if superclass_metadata && metadata[:parameters].equal?(superclass_metadata[:parameters])
           metadata[:parameters] = superclass_metadata[:parameters].clone
         end
-        metadata[:parameters].push(:name => name.to_s, :description => description)
+        metadata[:parameters].push(options.merge(:name => name.to_s, :description => description))
       end
 
       def required_parameters(*names)
@@ -48,6 +48,21 @@ module RspecApiDocumentation
         define_method(:do_callback) do
           stub_request(:any, callback_url).to_rack(destination)
           instance_eval &block
+        end
+      end
+
+      def post_params(scope, keys)
+        return unless metadata[:parameters]
+
+        if keys == :all
+          keys = metadata[:parameters].map { |param| param[:name] }.map(&:to_s)
+        else
+          keys.map!(&:to_s)
+        end
+
+        keys.each do |key|
+          param = metadata[:parameters].detect { |param| param[:name] == key }
+          param[:scope] = scope if param
         end
       end
     end
@@ -91,7 +106,14 @@ module RspecApiDocumentation
         return unless example.metadata[:parameters]
         parameters = example.metadata[:parameters].inject({}) do |h, param|
           k = param[:name]
-          h[k] = send(k) if respond_to?(k) && !in_path?(k)
+          if respond_to?(k) && !in_path?(k)
+            if param[:scope]
+              h[param[:scope].to_s] ||= {}
+              h[param[:scope].to_s][k] = send(k)
+            else
+              h[k] = send(k)
+            end
+          end
           h
         end
         parameters.merge!(extra_params)

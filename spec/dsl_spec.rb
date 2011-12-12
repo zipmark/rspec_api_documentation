@@ -276,6 +276,57 @@ resource "Order" do
       end
     end
   end
+
+  context "#post_params" do
+    post "/orders" do
+      let(:api_key) { "1234" }
+      let(:name) { "Order 5" }
+      let(:size) { 5 }
+
+      context "parameters except scope" do
+        parameter :type, "Order type", :scope => :order
+
+        it "should save the scope" do
+          param = example.metadata[:parameters].detect { |param| param[:name] == "type" }
+          param[:scope].should == :order
+        end
+      end
+
+      context "certain parameters" do
+        parameter :api_key, "API Key"
+        parameter :name, "Order name"
+        parameter :size, "Size of order"
+
+        post_params :order, [:name, :size]
+
+        it 'should set the scope on listed parameters' do
+          param = example.metadata[:parameters].detect { |param| param[:name] == "name" }
+          param[:scope].should == :order
+        end
+
+        it 'parameters should be scoped appropriately' do
+          params.should == { "api_key" => api_key, "order" => { "name" => name, "size" => size } }
+        end
+      end
+
+      context "all parameters" do
+        parameter :api_key, "API Key"
+        parameter :name, "Order name"
+        parameter :size, "Size of order"
+
+        post_params :order, :all
+
+        it "should scope all parameters under order" do
+          params.should == { "order" => { "api_key" => api_key, "name" => name, "size" => size } }
+        end
+      end
+
+      context "param does not exist" do
+        post_params :order, [:not_there]
+        post_params :order, :all
+      end
+    end
+  end
 end
 
 resource "top level parameters" do
