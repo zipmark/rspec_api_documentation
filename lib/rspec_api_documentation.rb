@@ -1,3 +1,5 @@
+require 'mustache'
+
 module RspecApiDocumentation
   extend ActiveSupport::Autoload
 
