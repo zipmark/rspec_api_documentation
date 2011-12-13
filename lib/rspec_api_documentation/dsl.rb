@@ -55,15 +55,24 @@ module RspecApiDocumentation
         return unless metadata[:parameters]
 
         if keys == :all
-          keys = metadata[:parameters].map { |param| param[:name] }.map(&:to_s)
+          keys = parameter_keys.map(&:to_s)
         else
-          keys.map!(&:to_s)
+          keys = keys.map(&:to_s)
         end
 
         keys.each do |key|
-          param = metadata[:parameters].detect { |param| param[:name] == key }
+          param = parameters.detect { |param| param[:name] == key }
           param[:scope] = scope if param
         end
+      end
+
+      private
+      def parameters
+        metadata[:parameters]
+      end
+
+      def parameter_keys
+        parameters.map { |param| param[:name] }
       end
     end
 
@@ -104,17 +113,8 @@ module RspecApiDocumentation
 
       def params
         return unless example.metadata[:parameters]
-        parameters = example.metadata[:parameters].inject({}) do |h, param|
-          k = param[:name]
-          if respond_to?(k) && !in_path?(k)
-            if param[:scope]
-              h[param[:scope].to_s] ||= {}
-              h[param[:scope].to_s][k] = send(k)
-            else
-              h[k] = send(k)
-            end
-          end
-          h
+        parameters = example.metadata[:parameters].inject({}) do |hash, param|
+          set_param(hash, param)
         end
         parameters.merge!(extra_params)
         parameters
@@ -153,6 +153,20 @@ module RspecApiDocumentation
           h[k.to_s] = v
           h
         end
+      end
+
+      def set_param(hash, param)
+        key = param[:name]
+        return hash if !respond_to?(key) || in_path?(key)
+
+        if param[:scope]
+          hash[param[:scope].to_s] ||= {}
+          hash[param[:scope].to_s][key] = send(key)
+        else
+          hash[key] = send(key)
+        end
+
+        hash
       end
     end
   end
