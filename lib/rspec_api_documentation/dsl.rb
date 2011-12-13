@@ -51,7 +51,7 @@ module RspecApiDocumentation
         end
       end
 
-      def post_params(scope, keys)
+      def scope_parameters(scope, keys)
         return unless metadata[:parameters]
 
         if keys == :all
