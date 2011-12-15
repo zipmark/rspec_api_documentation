@@ -99,8 +99,10 @@ describe RspecApiDocumentation::TestClient do
     before do
       header "Content-Type", "application/json"
       header "X-Custom-Header", "custom header value"
-      test_client.post "/greet?test_query=true", { :target => "nurse" }.to_json
+      test_client.post "/greet?test_query=true", post_data
     end
+
+    let(:post_data) { { :target => "nurse" }.to_json }
 
     context "when examples should be documented", :document => true do
       it "should augment the metadata with information about the request" do
@@ -114,6 +116,22 @@ describe RspecApiDocumentation::TestClient do
         example.metadata[:response_status_text].should eq("OK")
         example.metadata[:response_body].should eq("{\n  \"hello\": \"nurse\"\n}")
         example.metadata[:response_headers].should eq("Content-Type: application/json\nContent-Length: 17")
+      end
+
+      context "when post data is not json" do
+        let(:post_data) { { :target => "nurse", :email => "email@example.com" } }
+
+        it "should not nil out request_body" do
+          example.metadata[:request_body].should eq("target=nurse\nemail=email@example.com")
+        end
+      end
+
+      context "when post data is nil" do
+        let(:post_data) { }
+
+        it "should not nil out request_body" do
+          example.metadata[:request_body].should eq(nil)
+        end
       end
     end
 

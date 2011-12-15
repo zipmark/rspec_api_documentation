@@ -64,7 +64,11 @@ module RspecApiDocumentation
       metadata[:public] = (metadata[:document] == :public)
       metadata[:method] = method.to_s.upcase
       metadata[:route] = action
-      metadata[:request_body] = prettify_json(request_body)
+      if is_json?(request_body)
+        metadata[:request_body] = prettify_json(request_body)
+      else
+        metadata[:request_body] = prettify_request_body(request_body)
+      end
       metadata[:request_headers] = format_headers(last_headers)
       metadata[:request_query_parameters] = format_query_hash(last_query_hash)
       metadata[:response_status] = last_response.status
@@ -93,6 +97,19 @@ module RspecApiDocumentation
         JSON.pretty_generate(JSON.parse(json))
       rescue
         nil
+      end
+    end
+
+    def prettify_request_body(string)
+      return if string.blank?
+      CGI.unescape(string.split("&").join("\n"))
+    end
+
+    def is_json?(string)
+      begin
+        JSON.parse(string)
+      rescue
+        false
       end
     end
   end
