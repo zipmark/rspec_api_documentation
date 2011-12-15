@@ -39,8 +39,6 @@ See the `example` folder for a sample Rails app that has been documented.
 ## Usage
 
     resource "Account" do
-      let(:app) { Rails.application }
-
       get "/accounts" do
         example "Get a list of all accounts" do
           do_request
@@ -49,6 +47,8 @@ See the `example` folder for a sample Rails app that has been documented.
       end
 
       get "/accounts/:id" do
+        parameter :id, "Account ID"
+
         let(:account) { Factory(:account) }
         let(:id) { account.id }
 
