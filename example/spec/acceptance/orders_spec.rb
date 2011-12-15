@@ -4,11 +4,17 @@ require 'rspec_api_documentation/dsl'
 resource "Orders" do
   parameter :format, "Format of response"
 
+  required_parameters :format
+
   let(:format) { :json }
 
   let(:order) { Order.create(:name => "Old Name", :paid => true, :email => "email@example.com") }
 
   get "/orders.:format" do
+    parameter :page, "Current page of orders"
+
+    let(:page) { 1 }
+
     before do
       2.times do |i|
         Order.create(:name => "Order #{i}", :email => "email#{i}@example.com", :paid => true)

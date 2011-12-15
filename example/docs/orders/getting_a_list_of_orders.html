@@ -28,11 +28,19 @@
             </thead>
             <tbody>
               <tr>
-                <td>
+                <td class="required">
                   <span class="name">format</span>
                 </th>
                 <td>
                   <span class="description">Format of response</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="name">page</span>
+                </th>
+                <td>
+                  <span class="description">Current page of orders</span>
                 </td>
               </tr>
             </tbody>
@@ -41,7 +49,9 @@
         <h3>Request</h3>
         <pre class="headers">Host: example.org
 Cookie: </pre>
-        <pre class="request highlight">GET /orders.json</pre>
+        <pre class="request highlight">GET /orders.json?page=1</pre>
+          <h4>Query Parameters</h4>
+          <pre class="request highlight">page: 1</pre>
 
           <h3>Response</h3>
           <pre class="headers">Content-Type: application/json; charset=utf-8
