@@ -12,6 +12,10 @@ Bundle it!
 
     $> bundle install
 
+## Sample App
+
+See the `example` folder for a sample Rails app that has been documented.
+
 
 ## Configuration options
 - app - Set the application that Rack::Test uses, defaults to `Rails.application`
