@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <title>Orders API</title>
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
+    <style>
+      td.required .name:after {
+        float: right;
+        content: "required";
+        font-weight: normal;
+        color: #F08080;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Orders API</h1>
+
+      <div class="article">
+        <h2>Getting a specific order</h2>
+
+          <h3>Parameters</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="name">format</span>
+                </th>
+                <td>
+                  <span class="description">Format of response</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="name">id</span>
+                </th>
+                <td>
+                  <span class="description">ID of order</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        <h3>Request</h3>
+        <pre class="headers">Host: example.org
+Cookie: </pre>
+        <pre class="request highlight">GET /orders/1.json</pre>
+
+          <h3>Response</h3>
+          <pre class="headers">Content-Type: application/json; charset=utf-8
+X-Ua-Compatible: IE=Edge,chrome=1
+E-Tag: &quot;d9eaba14696a65b9dfc66bf203d25a13&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Runtime: 0.004344
+Content-Length: 59</pre>
+          <pre class="response_status">200 OK</pre>
+            <pre class="response highlight">{
+  &quot;email&quot;: &quot;email@example.com&quot;,
+  &quot;name&quot;: &quot;Old Name&quot;,
+  &quot;paid&quot;: true
+}</pre>
+      </div>
+    </div>
+  </body>
+</html>
