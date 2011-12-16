@@ -39,10 +39,7 @@ module RspecApiDocumentation
     def stop
       super
 
-      RspecApiDocumentation.documentations.each do |documentation|
-        documentation.write_index
-        documentation.write_examples
-      end
+      RspecApiDocumentation.documentations.each(&:write)
     end
   end
 end

@@ -14,8 +14,7 @@ describe RspecApiDocumentation::ApiFormatter do
         configuration.stub!(
           :clear_docs => nil,
           :document_example => nil,
-          :write_index => nil,
-          :write_examples => nil
+          :write => nil
         )
       end
     end
@@ -38,17 +37,9 @@ describe RspecApiDocumentation::ApiFormatter do
       formatter.example_passed(example)
     end
 
-    it "should write the index on stop" do
+    it "should write the docs on stop" do
       RspecApiDocumentation.documentations.each do |configuration|
-        configuration.should_receive(:write_index)
-      end
-
-      formatter.stop
-    end
-
-    it "should write examples on stop" do
-      RspecApiDocumentation.documentations.each do |configuration|
-        configuration.should_receive(:write_examples)
+        configuration.should_receive(:write)
       end
 
       formatter.stop

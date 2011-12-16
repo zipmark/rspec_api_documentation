@@ -23,25 +23,8 @@ module RspecApiDocumentation
       end
     end
 
-    def write_index
-      file = File.join(docs_dir, "index.#{format}")
-
-      FileUtils.mkdir_p(docs_dir)
-      File.open(file, 'w') { |f| f.write index.render }
-    end
-
-    def write_examples
-      index.examples.each do |example|
-        write_example(example)
-      end
-    end
-
-    def write_example(wrapped_example)
-      dir = docs_dir.join(wrapped_example.dirname)
-      file = dir.join(wrapped_example.filename)
-
-      FileUtils.mkdir_p(dir)
-      File.open(file, 'w') { |f| f.write wrapped_example.render }
+    def write
+      #DocumentWriter.write_docs(index, configuration)
     end
   end
 end

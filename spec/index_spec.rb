@@ -1,16 +1,9 @@
 require 'spec_helper'
 
 describe RspecApiDocumentation::Index do
-  let(:configuration) { RspecApiDocumentation::Configuration.new }
-  let(:index) { RspecApiDocumentation::Index.new(configuration) }
+  let(:index) { RspecApiDocumentation::Index.new }
 
   subject { index }
-
-  it { should be_a(Mustache) }
-
-  its(:configuration) { should equal(configuration) }
-  its(:template_path) { should eq(configuration.template_path) }
-  its(:template_extension) { should eq(configuration.format.to_s) }
 
   describe "#sections" do
     let(:foo_examples) { Array.new(2) { stub(:resource_name => "Foo") } }
@@ -38,12 +31,6 @@ describe RspecApiDocumentation::Index do
 
     it "should contain all added examples" do
       index.examples.should eq(examples)
-    end
-  end
-
-  describe "#json" do
-    it "should return a json representation" do
-      index.json.should_not be_nil
     end
   end
 end

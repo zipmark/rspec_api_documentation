@@ -36,7 +36,6 @@ module RspecApiDocumentation
 
     add_setting :docs_dir, :default => Rails.root.join("docs")
     add_setting :format, :default => :html
-    add_setting :template_path, :default => File.expand_path("../../../templates", __FILE__)
     add_setting :filter, :default => :all
     add_setting :exclusion_filter, :default => nil
     add_setting :app, :default => lambda { |config|

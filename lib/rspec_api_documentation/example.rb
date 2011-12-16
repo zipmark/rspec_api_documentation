@@ -1,12 +1,10 @@
 module RspecApiDocumentation
-  class Example < Mustache
+  class Example
     attr_reader :example, :configuration
 
     def initialize(example, configuration)
       @example = example
       @configuration = configuration
-      self.template_path = configuration.template_path
-      self.template_extension = configuration.format.to_s
     end
 
     def method_missing(method_sym, *args, &block)
@@ -25,15 +23,6 @@ module RspecApiDocumentation
       metadata[:method]
     end
 
-    def dirname
-      resource_name.downcase.gsub(/\s+/, '_')
-    end
-
-    def filename
-      basename = description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '')
-      "#{basename}.#{configuration.format}"
-    end
-
     def should_document?
       return false if pending? || !metadata[:resource_name] || !metadata[:document]
       return true if configuration.filter == :all
@@ -47,26 +36,6 @@ module RspecApiDocumentation
 
     def has_parameters?
       respond_to?(:parameters) && parameters.present?
-    end
-
-    def json
-      request = {
-        :headers => request_headers,
-        :method => method,
-        :route => route,
-        :parameters => request_body
-      } if respond_to?(:request_headers)
-      response = {
-        :headers => response_headers,
-        :status => response_status,
-        :body => response_body
-      } if respond_to?(:response_status)
-      {
-        :resource => resource_name,
-        :description => description,
-        :request => request,
-        :response => response
-      }.to_json
     end
   end
 end

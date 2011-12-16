@@ -33,7 +33,6 @@ describe RspecApiDocumentation::Configuration do
 
     its(:docs_dir) { should == Rails.root.join("docs") }
     its(:format) { should == :html }
-    its(:template_path) { should == default_template_path }
     its(:filter) { should == :all }
     its(:exclusion_filter) { should == nil }
     its(:app) { should == Rails.application }
