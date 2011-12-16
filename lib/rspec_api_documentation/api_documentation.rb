@@ -6,7 +6,7 @@ module RspecApiDocumentation
 
     def initialize(configuration)
       @configuration = configuration
-      @index = Index.new(configuration)
+      @index = Index.new
     end
 
     def clear_docs
