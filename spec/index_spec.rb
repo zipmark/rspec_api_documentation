@@ -5,23 +5,6 @@ describe RspecApiDocumentation::Index do
 
   subject { index }
 
-  describe "#sections" do
-    let(:foo_examples) { Array.new(2) { stub(:resource_name => "Foo") } }
-    let(:bar_examples) { Array.new(2) { stub(:resource_name => "Bar") } }
-
-    it "should have one for each documented resource" do
-      index.examples.push(*foo_examples)
-      index.examples.push(*bar_examples)
-
-      index.sections.should eq(
-        [
-          {:resource_name => "Foo", :examples => foo_examples},
-          {:resource_name => "Bar", :examples => bar_examples}
-        ]
-      )
-    end
-  end
-
   describe "#examples" do
     let(:examples) { [stub, stub] }
 

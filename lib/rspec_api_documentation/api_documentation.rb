@@ -24,7 +24,15 @@ module RspecApiDocumentation
     end
 
     def write
-      #DocumentWriter.write_docs(index, configuration)
+      writers.each do |writer|
+        writer.write(index, configuration)
+      end
+    end
+
+    def writers
+      [*configuration.format].map do |format|
+        RspecApiDocumentation.const_get("#{format}_writer".classify)
+      end
     end
   end
 end

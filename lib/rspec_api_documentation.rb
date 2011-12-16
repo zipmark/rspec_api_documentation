@@ -20,6 +20,7 @@ module RspecApiDocumentation
 
   autoload :DSL
   autoload :TestServer
+  autoload :HtmlWriter
 
   def self.configuration
     @configuration ||= Configuration.new
