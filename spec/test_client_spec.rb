@@ -99,7 +99,7 @@ describe RspecApiDocumentation::TestClient do
     before do
       header "Content-Type", "application/json"
       header "X-Custom-Header", "custom header value"
-      test_client.post "/greet?test_query=true", post_data
+      test_client.post "/greet?query=test+query", post_data
     end
 
     let(:post_data) { { :target => "nurse" }.to_json }
@@ -108,10 +108,10 @@ describe RspecApiDocumentation::TestClient do
       it "should augment the metadata with information about the request" do
         example.metadata[:public].should be_false
         example.metadata[:method].should eq("POST")
-        example.metadata[:route].should eq("/greet?test_query=true")
+        example.metadata[:route].should eq("/greet?query=test+query")
         example.metadata[:request_body].should eq("{\n  \"target\": \"nurse\"\n}")
         example.metadata[:request_headers].should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ")
-        example.metadata[:request_query_parameters].should eq("test_query: true")
+        example.metadata[:request_query_parameters].should eq("query: test query")
         example.metadata[:response_status].should eq(200)
         example.metadata[:response_status_text].should eq("OK")
         example.metadata[:response_body].should eq("{\n  \"hello\": \"nurse\"\n}")

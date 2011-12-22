@@ -88,7 +88,7 @@ module RspecApiDocumentation
     def format_query_hash(query_hash)
       return if query_hash.blank?
       query_hash.map do |key, value|
-        "#{key}: #{value}"
+        "#{key}: #{CGI.unescape(value)}"
       end.join("\n")
     end
 
