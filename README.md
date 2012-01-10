@@ -12,6 +12,8 @@ Bundle it!
 
     $> bundle install
 
+See the wiki for additional setup. [Setting up RSpec API Documentation](https://github.com/zipmark/rspec_api_documentation/wiki/Setting-up-RspecApiDocumentation)
+
 ## Sample App
 
 See the `example` folder for a sample Rails app that has been documented.
