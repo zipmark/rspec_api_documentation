@@ -58,6 +58,40 @@ resource "Order" do
     end
   end
 
+  context "required_parameters" do
+    parameter :type, "The type of drink you want."
+    parameter :size, "The size of drink you want."
+    parameter :note, "Any additional notes about your order."
+
+    subject { example.metadata }
+
+    post "/orders" do
+      required_parameters :type, :size
+
+      it "should have type and size required" do
+        subject[:parameters].should eq(
+          [
+            { :name => "type", :description => "The type of drink you want.", :required => true },
+            { :name => "size", :description => "The size of drink you want.", :required => true },
+            { :name => "note", :description => "Any additional notes about your order." }
+          ]
+        )
+      end
+    end
+
+    get "/orders" do
+      it "should not have type and size required" do
+        subject[:parameters].should eq(
+          [
+            { :name => "type", :description => "The type of drink you want." },
+            { :name => "size", :description => "The size of drink you want." },
+            { :name => "note", :description => "Any additional notes about your order." }
+          ]
+        )
+      end
+    end
+  end
+
   post "/orders" do
     parameter :type, "The type of drink you want."
     parameter :size, "The size of drink you want."

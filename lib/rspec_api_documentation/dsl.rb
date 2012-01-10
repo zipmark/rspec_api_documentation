@@ -24,16 +24,12 @@ module RspecApiDocumentation
       define_action :delete
 
       def parameter(name, description, options = {})
-        metadata[:parameters] ||= []
-        if superclass_metadata && metadata[:parameters].equal?(superclass_metadata[:parameters])
-          metadata[:parameters] = superclass_metadata[:parameters].clone
-        end
-        metadata[:parameters].push(options.merge(:name => name.to_s, :description => description))
+        parameters.push(options.merge(:name => name.to_s, :description => description))
       end
 
       def required_parameters(*names)
         names.each do |name|
-          param = metadata[:parameters].find { |param| param[:name] == name.to_s }
+          param = parameters.find { |param| param[:name] == name.to_s }
           raise "Undefined parameters can not be required." unless param
           param[:required] = true
         end
@@ -68,6 +64,10 @@ module RspecApiDocumentation
 
       private
       def parameters
+        metadata[:parameters] ||= []
+        if superclass_metadata && metadata[:parameters].equal?(superclass_metadata[:parameters])
+          metadata[:parameters] = Marshal.load(Marshal.dump(superclass_metadata[:parameters]))
+        end
         metadata[:parameters]
       end
 
