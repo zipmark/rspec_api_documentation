@@ -1,7 +1,7 @@
 PATH
   remote: ../
   specs:
-    rspec_api_documentation (0.1.0)
+    rspec_api_documentation (0.2.0)
       mustache
       rails
       rspec
@@ -133,7 +133,7 @@ GEM
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
     webmock (1.7.8)
-      addressable (~> 2.2, > 2.2.5)
+      addressable (> 2.2.5, ~> 2.2)
       crack (>= 0.1.7)
 
 PLATFORMS
