@@ -22,6 +22,7 @@ module RspecApiDocumentation
   autoload :TestServer
   autoload :HtmlWriter
   autoload :JsonWriter
+  autoload :IndexWriter
 
   def self.configuration
     @configuration ||= Configuration.new

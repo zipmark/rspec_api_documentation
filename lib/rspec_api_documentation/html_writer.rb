@@ -34,7 +34,7 @@ module RspecApiDocumentation
     end
 
     def sections
-      @index.sections
+      IndexWriter.sections(examples)
     end
 
     def examples
