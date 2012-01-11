@@ -6,7 +6,7 @@ Generate pretty API docs for your Rails APIs.
 
 Add rspec_api_documentation to your Gemfile
 
-    gem 'rspec_api_documentation'
+    gem 'rspec_api_documentation', :git => "git://github.com/zipmark/rspec_api_documentation.git"
 
 Bundle it!
 
