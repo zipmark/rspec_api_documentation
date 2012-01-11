@@ -146,6 +146,10 @@ module RspecApiDocumentation
         RspecApiDocumentation.configuration.app
       end
 
+      def explanation(text)
+        example.metadata[:explanation] = text
+      end
+
       private
       def extra_params
         return {} if @extra_params.nil?

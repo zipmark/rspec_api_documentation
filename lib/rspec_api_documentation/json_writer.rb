@@ -95,6 +95,7 @@ module RspecApiDocumentation
       {
         :resource => resource_name,
         :description => description,
+        :explanation => explanation,
         :request => request,
         :response => response
       }.to_json

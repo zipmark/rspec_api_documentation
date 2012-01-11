@@ -37,5 +37,9 @@ module RspecApiDocumentation
     def has_parameters?
       respond_to?(:parameters) && parameters.present?
     end
+
+    def explanation
+      metadata[:explanation] || ""
+    end
   end
 end

@@ -130,4 +130,15 @@ describe RspecApiDocumentation::Example do
       it { should be_false }
     end
   end
+
+  describe "#explanation" do
+    it "should return the metadata explanation" do
+      example.metadata[:explanation] = "Here is an explanation"
+      example.explanation.should == "Here is an explanation"
+    end
+
+    it "should return an empty string when not set" do
+      example.explanation.should == ""
+    end
+  end
 end

@@ -365,6 +365,15 @@ resource "Order" do
       end
     end
   end
+
+  context "#explanation" do
+    post "/orders" do
+      example "Creating an order" do
+        explanation "By creating an order..."
+        example.metadata[:explanation].should == "By creating an order..."
+      end
+    end
+  end
 end
 
 resource "top level parameters" do

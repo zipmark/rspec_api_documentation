@@ -9,6 +9,11 @@
         font-weight: normal;
         color: #F08080;
       }
+
+      p {
+        padding: 15px;
+        font-size: 130%;
+      }
     </style>
   </head>
   <body>
@@ -17,6 +22,11 @@
 
       <div class="article">
         <h2>{{ description }}</h2>
+        {{# explanation }}
+          <p class="explanation">
+            {{ explanation }}
+          </p>
+        {{/ explanation }}
 
         {{# has_parameters? }}
           <h3>Parameters</h3>
