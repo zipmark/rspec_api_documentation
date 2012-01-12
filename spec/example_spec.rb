@@ -138,7 +138,7 @@ describe RspecApiDocumentation::Example do
     end
 
     it "should return an empty string when not set" do
-      example.explanation.should == ""
+      example.explanation.should == nil
     end
   end
 end

@@ -39,7 +39,7 @@ module RspecApiDocumentation
     end
 
     def explanation
-      metadata[:explanation] || ""
+      metadata[:explanation] || nil
     end
   end
 end
