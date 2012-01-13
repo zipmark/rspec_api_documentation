@@ -9,6 +9,11 @@
         font-weight: normal;
         color: #F08080;
       }
+
+      p {
+        padding: 15px;
+        font-size: 130%;
+      }
     </style>
   </head>
   <body>
@@ -28,14 +33,6 @@
             </thead>
             <tbody>
               <tr>
-                <td class="required">
-                  <span class="name">format</span>
-                </th>
-                <td>
-                  <span class="description">Format of response</span>
-                </td>
-              </tr>
-              <tr>
                 <td>
                   <span class="name">page</span>
                 </th>
@@ -46,29 +43,37 @@
             </tbody>
           </table>
 
-        <h3>Request</h3>
-        <pre class="headers">Host: example.org
+          <h3>Request</h3>
+          <h4>Headers</h4>
+          <pre class="headers">Accept: application/json
+Host: example.org
 Cookie: </pre>
-        <pre class="request highlight">GET /orders.json?page=1</pre>
-          <h4>Query Parameters</h4>
-          <pre class="request highlight">page: 1</pre>
+          <h4>Route</h4>
+          <pre class="request highlight">GET /orders?page=1</pre>
+            <h4>Query Parameters</h4>
+            <pre class="request highlight">page: 1</pre>
 
-          <h3>Response</h3>
-          <pre class="headers">Content-Type: application/json; charset=utf-8
+            <h3>Response</h3>
+            <h4>Headers</h4>
+            <pre class="headers">Content-Type: application/json; charset=utf-8
 X-Ua-Compatible: IE=Edge,chrome=1
-E-Tag: &quot;6cd5831e98b0090b64672b5604d9eb2a&quot;
+E-Tag: &quot;e65c101c58df99acdf58f4897bc14e57&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.069162
-Content-Length: 121</pre>
-          <pre class="response_status">200 OK</pre>
-            <pre class="response highlight">[
+X-Runtime: 0.068696
+Content-Length: 135</pre>
+            <h4>Status</h4>
+            <pre class="response_status">200 OK</pre>
+              <h4>Body</h4>
+              <pre class="response highlight">[
   {
     &quot;email&quot;: &quot;email0@example.com&quot;,
+    &quot;id&quot;: 1,
     &quot;name&quot;: &quot;Order 0&quot;,
     &quot;paid&quot;: true
   },
   {
     &quot;email&quot;: &quot;email1@example.com&quot;,
+    &quot;id&quot;: 2,
     &quot;name&quot;: &quot;Order 1&quot;,
     &quot;paid&quot;: true
   }

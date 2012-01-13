@@ -2,15 +2,11 @@ require 'spec_helper'
 require 'rspec_api_documentation/dsl'
 
 resource "Orders" do
-  parameter :format, "Format of response"
-
-  required_parameters :format
-
-  let(:format) { :json }
-
   let(:order) { Order.create(:name => "Old Name", :paid => true, :email => "email@example.com") }
 
-  get "/orders.:format" do
+  let(:client) { RspecApiDocumentation::TestClient.new(self, :headers => { "HTTP_ACCEPT" => "application/json" }) }
+
+  get "/orders" do
     parameter :page, "Current page of orders"
 
     let(:page) { 1 }
@@ -29,7 +25,7 @@ resource "Orders" do
     end
   end
 
-  post "/orders.:format" do
+  post "/orders" do
     parameter :name, "Name of order"
     parameter :paid, "If the order has been paid for"
     parameter :email, "Email of user that placed the order"
@@ -44,16 +40,20 @@ resource "Orders" do
       do_request
 
       last_response.status.should == 201
-      json = JSON.parse(last_response.body)
-      json.should == {
-        "name"=> name,
-        "paid"=> paid,
+      response_body.should be_json_eql({
+        "name" => name,
+        "paid" => paid,
         "email" => email,
-      }
+      }.to_json)
+
+      order = JSON.parse(response_body)
+
+      client.get(URI.parse(last_response.headers["location"]).path)
+      status.should == 200
     end
   end
 
-  get "/orders/:id.:format" do
+  get "/orders/:id" do
     parameter :id, "ID of order"
 
     let(:id) { order.id }
@@ -66,7 +66,7 @@ resource "Orders" do
     end
   end
 
-  put "/orders/:id.:format" do
+  put "/orders/:id" do
     parameter :id, "ID of order"
     parameter :name, "Name of order"
     parameter :paid, "If the order has been paid for"
@@ -85,7 +85,7 @@ resource "Orders" do
     end
   end
 
-  delete "/orders/:id.:format" do
+  delete "/orders/:id" do
     parameter :id, "ID of order"
 
     let(:id) { order.id }

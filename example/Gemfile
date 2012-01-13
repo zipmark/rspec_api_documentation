@@ -15,6 +15,10 @@ end
 
 gem 'jquery-rails'
 
+group :test do
+  gem 'json_spec'
+end
+
 group :test, :development do
   gem 'rspec-rails'
   gem 'rspec_api_documentation', :path => "../"
