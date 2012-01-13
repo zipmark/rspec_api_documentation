@@ -1,5 +1,5 @@
 module RspecApiDocumentation
-  class TestClient < Struct.new(:session)
+  class TestClient < Struct.new(:session, :options)
     attr_accessor :user
 
     delegate :example, :last_response, :last_request, :to => :session
@@ -44,7 +44,11 @@ module RspecApiDocumentation
     end
 
     def headers(method, action, params)
-      {}
+      if options && options[:headers]
+        options[:headers]
+      else
+        {}
+      end
     end
 
     private

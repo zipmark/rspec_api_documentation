@@ -95,6 +95,21 @@ describe RspecApiDocumentation::TestClient do
     end
   end
 
+  describe "setup default headers" do
+    it "should let you set default headers when creating a new TestClient" do
+      test_client = RspecApiDocumentation::TestClient.new(self, :headers => { "HTTP_MY_HEADER" => "hello" })
+      test_client.get "/"
+      test_client.last_headers["HTTP_MY_HEADER"].should == "hello"
+      test_client.last_headers.should have(3).headers
+    end
+
+    it "should be blank if not set" do
+      test_client = RspecApiDocumentation::TestClient.new(self)
+      test_client.get "/"
+      test_client.last_headers.should have(2).headers
+    end
+  end
+
   context "after a request is made" do
     before do
       header "Content-Type", "application/json"
