@@ -61,7 +61,6 @@ module RspecApiDocumentation
       input.rewind
       request_body = input.read
 
-      metadata[:public] = (metadata[:document] == :public)
       metadata[:method] = method.to_s.upcase
       metadata[:route] = action
       if is_json?(request_body)

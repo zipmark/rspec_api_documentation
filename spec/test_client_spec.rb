@@ -106,7 +106,6 @@ describe RspecApiDocumentation::TestClient do
 
     context "when examples should be documented", :document => true do
       it "should augment the metadata with information about the request" do
-        example.metadata[:public].should be_false
         example.metadata[:method].should eq("POST")
         example.metadata[:route].should eq("/greet?query=test+query")
         example.metadata[:request_body].should eq("{\n  \"target\": \"nurse\"\n}")
@@ -132,18 +131,6 @@ describe RspecApiDocumentation::TestClient do
         it "should not nil out request_body" do
           example.metadata[:request_body].should eq(nil)
         end
-      end
-    end
-
-    context "when examples should be publicly documented", :document => :public do
-      it "should augment the metadata to indicate public" do
-        example.metadata[:public].should be_true
-      end
-    end
-
-    context "when examples should not be documented", :document => false do
-      it "should not augment the metadata" do
-        example.metadata[:public].should be_false
       end
     end
   end
