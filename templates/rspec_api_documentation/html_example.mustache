@@ -52,25 +52,33 @@
           </table>
         {{/ has_parameters? }}
 
-        <h3>Request</h3>
-        <pre class="headers">{{ request_headers }}</pre>
-        <pre class="request highlight">{{ method }} {{ route }}</pre>
-        {{# request_query_parameters }}
-          <h4>Query Parameters</h4>
-          <pre class="request highlight">{{ request_query_parameters }}</pre>
-        {{/ request_query_parameters }}
-        {{# request_body }}
-          <pre class="request highlight">{{ request_body }}</pre>
-        {{/ request_body }}
+        {{# requests }}
+          <h3>Request</h3>
+          <h4>Headers</h4>
+          <pre class="headers">{{ request_headers }}</pre>
+          <h4>Route</h4>
+          <pre class="request highlight">{{ method }} {{ route }}</pre>
+          {{# request_query_parameters }}
+            <h4>Query Parameters</h4>
+            <pre class="request highlight">{{ request_query_parameters }}</pre>
+          {{/ request_query_parameters }}
+          {{# request_body }}
+            <h4>Body</h4>
+            <pre class="request highlight">{{ request_body }}</pre>
+          {{/ request_body }}
 
-        {{# response_status }}
-          <h3>Response</h3>
-          <pre class="headers">{{ response_headers }}</pre>
-          <pre class="response_status">{{ response_status }} {{ response_status_text}}</pre>
-          {{# response_body }}
-            <pre class="response highlight">{{ response_body }}</pre>
-          {{/ response_body }}
-        {{/ response_status }}
+          {{# response_status }}
+            <h3>Response</h3>
+            <h4>Headers</h4>
+            <pre class="headers">{{ response_headers }}</pre>
+            <h4>Status</h4>
+            <pre class="response_status">{{ response_status }} {{ response_status_text}}</pre>
+            {{# response_body }}
+              <h4>Body</h4>
+              <pre class="response highlight">{{ response_body }}</pre>
+            {{/ response_body }}
+          {{/ response_status }}
+        {{/ requests }}
       </div>
     </div>
   </body>

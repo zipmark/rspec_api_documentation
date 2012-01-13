@@ -106,22 +106,23 @@ describe RspecApiDocumentation::TestClient do
 
     context "when examples should be documented", :document => true do
       it "should augment the metadata with information about the request" do
-        example.metadata[:method].should eq("POST")
-        example.metadata[:route].should eq("/greet?query=test+query")
-        example.metadata[:request_body].should eq("{\n  \"target\": \"nurse\"\n}")
-        example.metadata[:request_headers].should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ")
-        example.metadata[:request_query_parameters].should eq("query: test query")
-        example.metadata[:response_status].should eq(200)
-        example.metadata[:response_status_text].should eq("OK")
-        example.metadata[:response_body].should eq("{\n  \"hello\": \"nurse\"\n}")
-        example.metadata[:response_headers].should eq("Content-Type: application/json\nContent-Length: 17")
+        metadata = example.metadata[:requests].first
+        metadata[:method].should eq("POST")
+        metadata[:route].should eq("/greet?query=test+query")
+        metadata[:request_body].should eq("{\n  \"target\": \"nurse\"\n}")
+        metadata[:request_headers].should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ")
+        metadata[:request_query_parameters].should eq("query: test query")
+        metadata[:response_status].should eq(200)
+        metadata[:response_status_text].should eq("OK")
+        metadata[:response_body].should eq("{\n  \"hello\": \"nurse\"\n}")
+        metadata[:response_headers].should eq("Content-Type: application/json\nContent-Length: 17")
       end
 
       context "when post data is not json" do
         let(:post_data) { { :target => "nurse", :email => "email@example.com" } }
 
         it "should not nil out request_body" do
-          example.metadata[:request_body].should eq("target=nurse\nemail=email@example.com")
+          example.metadata[:requests].first[:request_body].should eq("target=nurse\nemail=email@example.com")
         end
       end
 
@@ -129,7 +130,7 @@ describe RspecApiDocumentation::TestClient do
         let(:post_data) { }
 
         it "should not nil out request_body" do
-          example.metadata[:request_body].should eq(nil)
+          example.metadata[:requests].first[:request_body].should eq(nil)
         end
       end
     end

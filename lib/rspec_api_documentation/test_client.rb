@@ -61,19 +61,24 @@ module RspecApiDocumentation
       input.rewind
       request_body = input.read
 
-      metadata[:method] = method.to_s.upcase
-      metadata[:route] = action
+      request_metadata = {}
+
+      request_metadata[:method] = method.to_s.upcase
+      request_metadata[:route] = action
       if is_json?(request_body)
-        metadata[:request_body] = prettify_json(request_body)
+        request_metadata[:request_body] = prettify_json(request_body)
       else
-        metadata[:request_body] = prettify_request_body(request_body)
+        request_metadata[:request_body] = prettify_request_body(request_body)
       end
-      metadata[:request_headers] = format_headers(last_headers)
-      metadata[:request_query_parameters] = format_query_hash(last_query_hash)
-      metadata[:response_status] = last_response.status
-      metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
-      metadata[:response_body] = prettify_json(last_response.body)
-      metadata[:response_headers] = format_headers(last_response.headers)
+      request_metadata[:request_headers] = format_headers(last_headers)
+      request_metadata[:request_query_parameters] = format_query_hash(last_query_hash)
+      request_metadata[:response_status] = last_response.status
+      request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
+      request_metadata[:response_body] = prettify_json(last_response.body)
+      request_metadata[:response_headers] = format_headers(last_response.headers)
+
+      metadata[:requests] ||= []
+      metadata[:requests] << request_metadata
     end
 
     def format_headers(headers)
