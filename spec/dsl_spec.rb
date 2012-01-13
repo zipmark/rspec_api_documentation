@@ -374,6 +374,46 @@ resource "Order" do
       end
     end
   end
+
+  context "auto request" do
+    post "/orders" do
+      parameter :type, "Type of order"
+
+      context "no extra params" do
+        before do
+          client.should_receive(:post).with("/orders", {})
+        end
+
+        example_request "Creating an order"
+
+        example_request "should take a block" do
+          params
+        end
+      end
+
+      context "extra options for do_request" do
+        before do
+          client.should_receive(:post).with("/orders", {"type" => "big"})
+        end
+
+        example_request "should take an optional parameter hash", :type => "big"
+      end
+    end
+  end
+
+  context "last_response helpers" do
+    put "/orders" do
+      it "status" do
+        self.stub!(:last_response).and_return(stub(:status => 200))
+        status.should == 200
+      end
+
+      it "response_body" do
+        self.stub!(:last_response).and_return(stub(:body => "the body"))
+        response_body.should == "the body"
+      end
+    end
+  end
 end
 
 resource "top level parameters" do

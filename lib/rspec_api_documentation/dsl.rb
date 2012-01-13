@@ -62,6 +62,13 @@ module RspecApiDocumentation
         end
       end
 
+      def example_request(description, params = {}, &block)
+        example(description) do
+          do_request(params)
+          instance_eval &block if block_given?
+        end
+      end
+
       private
       def parameters
         metadata[:parameters] ||= []
@@ -148,6 +155,14 @@ module RspecApiDocumentation
 
       def explanation(text)
         example.metadata[:explanation] = text
+      end
+
+      def status
+        last_response.status
+      end
+
+      def response_body
+        last_response.body
       end
 
       private
