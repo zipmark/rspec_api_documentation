@@ -28,7 +28,7 @@ module RspecApiDocumentation
   end
 
   def self.documentations
-    @documentations ||= configuration.to_a.map { |config| ApiDocumentation.new(config) }
+    @documentations ||= configuration.map { |config| ApiDocumentation.new(config) }
   end
 
   def self.configure
