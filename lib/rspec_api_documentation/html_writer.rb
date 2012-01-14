@@ -1,3 +1,5 @@
+require 'mustache'
+
 module RspecApiDocumentation
   class HtmlWriter
     attr_accessor :index, :configuration

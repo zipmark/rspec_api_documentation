@@ -1,4 +1,3 @@
-require 'mustache'
 require 'active_support'
 
 module RspecApiDocumentation
