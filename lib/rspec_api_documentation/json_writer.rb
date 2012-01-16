@@ -98,7 +98,7 @@ module RspecApiDocumentation
         :explanation => explanation,
         :request => request,
         :response => response,
-        :parameters => parameters
+        :parameters => respond_to?(:parametiers) ? parameters : []
       }.to_json
     end
   end
