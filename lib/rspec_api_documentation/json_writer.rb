@@ -81,17 +81,6 @@ module RspecApiDocumentation
     end
 
     def to_json
-      request = {
-        :headers => request_headers,
-        :method => method,
-        :route => route,
-        :parameters => request_body
-      } if respond_to?(:request_headers)
-      response = {
-        :headers => response_headers,
-        :status => response_status,
-        :body => response_body
-      } if respond_to?(:response_status)
       {
         :resource => resource_name,
         :description => description,
