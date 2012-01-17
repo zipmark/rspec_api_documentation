@@ -44,7 +44,7 @@ module RspecApiDocumentation
       sections.inject({:resources => []}) do |h, section|
         h[:resources].push(
           :name => section[:resource_name],
-          :examples => examples.map { |example|
+          :examples => section[:examples].map { |example|
             {
               :description => example.description,
               :link => "#{example.dirname}/#{example.filename}"
