@@ -41,23 +41,11 @@ describe RspecApiDocumentation::TestServer do
 
     context "when examples should be documentated", :document => true do
       it "should augment the metadata with information about the request" do
-        example.metadata[:public].should be_false
-        example.metadata[:method].should eq("POST")
-        example.metadata[:route].should eq(path)
-        example.metadata[:request_body].should eq("{\n  \"foo\": \"bar\",\n  \"baz\": \"quux\"\n}")
-        example.metadata[:request_headers].should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ")
-      end
-    end
-
-    context "when examples should be publicly documented", :document => :public do
-      it "should augment the metadata to indicate public" do
-        example.metadata[:public].should be_true
-      end
-    end
-
-    context "when examples should not be documented", :document => false do
-      it "should not augment the metadata" do
-        example.metadata[:public].should be_false
+        metadata = example.metadata[:requests].first
+        metadata[:method].should eq("POST")
+        metadata[:route].should eq(path)
+        metadata[:request_body].should eq("{\n  \"foo\": \"bar\",\n  \"baz\": \"quux\"\n}")
+        metadata[:request_headers].should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ")
       end
     end
   end

@@ -6,11 +6,15 @@ module RspecApiDocumentation
     def call(env)
       env["rack.input"].rewind
 
-      metadata[:public] = (metadata[:document] == :public)
-      metadata[:method] = env["REQUEST_METHOD"]
-      metadata[:route] = env["PATH_INFO"]
-      metadata[:request_body] = prettify_json(env["rack.input"].read)
-      metadata[:request_headers] = headers(env)
+      request_metadata = {}
+
+      request_metadata[:method] = env["REQUEST_METHOD"]
+      request_metadata[:route] = env["PATH_INFO"]
+      request_metadata[:request_body] = prettify_json(env["rack.input"].read)
+      request_metadata[:request_headers] = headers(env)
+
+      metadata[:requests] ||= []
+      metadata[:requests] << request_metadata
 
       return [200, {}, [""]]
     end
