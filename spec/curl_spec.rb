@@ -1,6 +1,7 @@
 require 'spec_helper'
 describe RspecApiDocumentation::Curl do
-  let(:curl) { RspecApiDocumentation::Curl.new(method, path, data, headers) }
+  let(:host) { "http://example.com" }
+  let(:curl) { RspecApiDocumentation::Curl.new(method, host, path, data, headers) }
 
   subject { curl.output }
 

@@ -1,23 +1,27 @@
 module RspecApiDocumentation
-  class Curl < Struct.new(:method, :path, :data, :headers)
+  class Curl < Struct.new(:method, :host, :path, :data, :headers)
     def output
       send(method.downcase)
     end
 
     def post
-      "curl #{post_data} http://example.com#{path} -X POST #{headers}"
+      "curl #{post_data} #{url} -X POST #{headers}"
     end
 
     def get
-      "curl http://example.com#{path}?#{data.to_query} -X GET #{headers}"
+      "curl #{url}?#{data.to_query} -X GET #{headers}"
     end
 
     def put
-      "curl #{post_data} http://example.com#{path} -X PUT #{headers}"
+      "curl #{post_data} #{url} -X PUT #{headers}"
     end
 
     def delete
-      "curl http://example.com#{path} -X DELETE #{headers}"
+      "curl #{url} -X DELETE #{headers}"
+    end
+
+    def url
+      "#{host}#{path}"
     end
 
     def headers
