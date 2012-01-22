@@ -28,11 +28,13 @@ describe RspecApiDocumentation::Curl do
     let(:method) { "GET" }
     let(:path) { "/orders" }
     let(:data) { { :size => "large" } }
-    let(:headers) { {} }
+    let(:headers) { {"HTTP_ACCEPT" => "application/json", "HTTP_X_HEADER" => "header"} }
 
     it { should =~ /^curl/ }
     it { should =~ /http:\/\/example\.com\/orders\?size=large/ }
     it { should =~ /-X GET/ }
+    it { should =~ /-H "Accept: application\/json"/ }
+    it { should =~ /-H "X-Header: header"/ }
 
     it "should call get" do
       curl.should_receive(:get)
@@ -44,12 +46,14 @@ describe RspecApiDocumentation::Curl do
     let(:method) { "PUT" }
     let(:path) { "/orders/1" }
     let(:data) { { :size => "large" } }
-    let(:headers) { {} }
+    let(:headers) { {"HTTP_ACCEPT" => "application/json", "HTTP_X_HEADER" => "header"} }
 
     it { should =~ /^curl/ }
     it { should =~ /http:\/\/example\.com\/orders\/1/ }
     it { should =~ /-d "size=large"/ }
     it { should =~ /-X PUT/ }
+    it { should =~ /-H "Accept: application\/json"/ }
+    it { should =~ /-H "X-Header: header"/ }
 
     it "should call put" do
       curl.should_receive(:put)

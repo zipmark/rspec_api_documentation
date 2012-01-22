@@ -9,11 +9,11 @@ module RspecApiDocumentation
     end
 
     def get
-      "curl http://example.com#{path}?#{data.to_query} -X GET"
+      "curl http://example.com#{path}?#{data.to_query} -X GET #{headers}"
     end
 
     def put
-      "curl #{post_data} http://example.com#{path} -X PUT"
+      "curl #{post_data} http://example.com#{path} -X PUT #{headers}"
     end
 
     def headers
