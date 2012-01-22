@@ -16,6 +16,10 @@ module RspecApiDocumentation
       "curl #{post_data} http://example.com#{path} -X PUT #{headers}"
     end
 
+    def delete
+      "curl http://example.com#{path} -X DELETE #{headers}"
+    end
+
     def headers
       super.map do |k, v|
         "-H \"#{format_header(k, v)}\""

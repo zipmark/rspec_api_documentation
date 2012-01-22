@@ -60,4 +60,20 @@ describe RspecApiDocumentation::Curl do
       curl.output
     end
   end
+
+  describe "DELETE" do
+    let(:method) { "DELETE" }
+    let(:path) { "/orders/1" }
+    let(:data) { }
+    let(:headers) { {"HTTP_ACCEPT" => "application/json", "HTTP_X_HEADER" => "header"} }
+
+    it { should =~ /^curl/ }
+    it { should =~ /http:\/\/example\.com\/orders\/1/ }
+    it { should =~ /-X DELETE/ }
+
+    it "should call delete" do
+      curl.should_receive(:delete)
+      curl.output
+    end
+  end
 end
