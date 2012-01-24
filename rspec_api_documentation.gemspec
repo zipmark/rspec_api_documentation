@@ -14,8 +14,14 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
 
   s.add_runtime_dependency "rspec"
+  s.add_runtime_dependency "activesupport"
+  s.add_runtime_dependency "i18n"
+  s.add_runtime_dependency "rack-test"
   s.add_runtime_dependency "mustache"
   s.add_runtime_dependency "webmock"
+
+  s.add_development_dependency "fakefs"
+  s.add_development_dependency "sinatra"
 
   s.files        = Dir.glob("lib/**/*")
   s.require_path = 'lib'

@@ -1,3 +1,14 @@
+PATH
+  remote: .
+  specs:
+    rspec_api_documentation (0.3.1)
+      activesupport
+      i18n
+      mustache
+      rack-test
+      rspec
+      webmock
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -17,7 +28,7 @@ GEM
       rspec-core (~> 2.7.0)
       rspec-expectations (~> 2.7.0)
       rspec-mocks (~> 2.7.0)
-    rspec-core (2.7.0)
+    rspec-core (2.7.1)
     rspec-expectations (2.7.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.7.0)
@@ -33,11 +44,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport
   fakefs
-  i18n
-  mustache
-  rack-test
-  rspec
+  rspec_api_documentation!
   sinatra
-  webmock
