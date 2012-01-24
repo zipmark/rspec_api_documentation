@@ -31,20 +31,23 @@ describe RspecApiDocumentation::Configuration do
   describe "default settings" do
     let(:default_template_path) { File.expand_path("../../templates", __FILE__) }
 
-    its(:docs_dir) { should == Rails.root.join("docs") }
+    context "when Rails is defined" do
+      let(:rails_root) { Pathname.new("tmp") }
+      let(:rails_app) { nil }
+
+      before { Rails = stub(:application => rails_app, :root => rails_root) }
+      after { Object.send(:remove_const, :Rails) }
+
+      its(:docs_dir) { should == rails_root.join("docs") }
+      its(:app) { should == rails_app }
+    end
+
+    its(:docs_dir) { should == Pathname.new("docs") }
     its(:format) { should == :html }
     its(:template_path) { should == default_template_path }
     its(:filter) { should == :all }
-    its(:exclusion_filter) { should == nil }
-    its(:app) { should == Rails.application }
-
-    context "no rails" do
-      before do
-        Object.send(:remove_const, :Rails)
-      end
-
-      its(:app) { should be_nil }
-    end
+    its(:exclusion_filter) { should be_nil }
+    its(:app) { should be_nil }
   end
 
   describe "#define_groups" do
