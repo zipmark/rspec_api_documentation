@@ -15,7 +15,6 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "rspec"
   s.add_runtime_dependency "mustache"
-  s.add_runtime_dependency "rails"
   s.add_runtime_dependency "webmock"
 
   s.files        = Dir.glob("lib/**/*")
