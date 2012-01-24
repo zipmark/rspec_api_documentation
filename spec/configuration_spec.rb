@@ -33,7 +33,7 @@ describe RspecApiDocumentation::Configuration do
 
     context "when Rails is defined" do
       let(:rails_root) { Pathname.new("tmp") }
-      let(:rails_app) { nil }
+      let(:rails_app) { stub }
 
       before { Rails = stub(:application => rails_app, :root => rails_root) }
       after { Object.send(:remove_const, :Rails) }
