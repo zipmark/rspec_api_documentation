@@ -18,6 +18,9 @@ describe RspecApiDocumentation::HtmlWriter do
     let(:writer) { described_class.new(index, configuration) }
 
     before do
+      template_dir = File.join(configuration.template_path, "rspec_api_documentation")
+      FileUtils.mkdir_p(template_dir)
+      File.open(File.join(template_dir, "html_index.mustache"), "w+") { |f| f << "{{ mustache }}" }
       FileUtils.mkdir_p(configuration.docs_dir)
     end
 

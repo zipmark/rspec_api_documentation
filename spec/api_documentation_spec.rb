@@ -10,7 +10,6 @@ describe RspecApiDocumentation::ApiDocumentation do
   its(:index) { should be_a(RspecApiDocumentation::Index) }
 
   describe "#clear_docs" do
-    include FakeFS::SpecHelpers
 
     it "should rebuild the docs directory" do
       test_file = configuration.docs_dir.join("test")
