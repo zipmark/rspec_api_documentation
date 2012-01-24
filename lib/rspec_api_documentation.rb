@@ -9,7 +9,6 @@ module RspecApiDocumentation
   eager_autoload do
     autoload :Configuration
     autoload :ApiDocumentation
-    autoload :DocumentResource
     autoload :ApiFormatter
     autoload :Example
     autoload :ExampleGroup
