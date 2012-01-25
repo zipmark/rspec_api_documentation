@@ -1,21 +1,24 @@
 require 'active_support/core_ext/object/to_query'
 
 module RspecApiDocumentation
-  class Curl < Struct.new(:method, :host, :path, :data, :headers)
-    def output
+  class Curl < Struct.new(:method, :path, :data, :headers)
+    attr_accessor :host
+
+    def output(config_host)
+      self.host = config_host
       send(method.downcase)
     end
 
     def post
-      "curl #{post_data} #{url} -X POST #{headers}"
+      "curl #{url} #{post_data} -X POST #{headers}"
     end
 
     def get
-      "curl #{url}?#{data.to_query} -X GET #{headers}"
+      "curl #{url}#{get_data} -X GET #{headers}"
     end
 
     def put
-      "curl #{post_data} #{url} -X PUT #{headers}"
+      "curl #{url} #{post_data} -X PUT #{headers}"
     end
 
     def delete
@@ -32,8 +35,12 @@ module RspecApiDocumentation
       end.join(" ")
     end
 
+    def get_data
+      "?#{data}" unless data.blank?
+    end
+
     def post_data
-      "-d \"" + data.to_query.split("&").join("\" -d \"") + "\""
+      "-d \"#{data}\""
     end
 
     private
