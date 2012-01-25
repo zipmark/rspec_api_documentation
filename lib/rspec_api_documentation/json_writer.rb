@@ -15,10 +15,10 @@ module RspecApiDocumentation
 
     def write
       File.open(docs_dir.join("index.json"), "w+") do |f|
-        f.write JsonIndex.new(index).to_json
+        f.write JsonIndex.new(index, configuration).to_json
       end
       index.examples.each do |example|
-        json_example = JsonExample.new(example)
+        json_example = JsonExample.new(example, configuration)
         FileUtils.mkdir_p(docs_dir.join(json_example.dirname))
         File.open(docs_dir.join(json_example.dirname, json_example.filename), "w+") do |f|
           f.write json_example.to_json
@@ -28,8 +28,9 @@ module RspecApiDocumentation
   end
 
   class JsonIndex
-    def initialize(index)
+    def initialize(index, configuration)
       @index = index
+      @configuration = configuration
     end
 
     def sections
@@ -37,7 +38,7 @@ module RspecApiDocumentation
     end
 
     def examples
-      @index.examples.map { |example| JsonExample.new(example) }
+      @index.examples.map { |example| JsonExample.new(example, @configuration) }
     end
 
     def to_json
@@ -59,8 +60,9 @@ module RspecApiDocumentation
   class JsonExample
     delegate :method, :to => :@example
 
-    def initialize(example)
+    def initialize(example, configuration)
       @example = example
+      @host = configuration.curl_host
     end
 
     def method_missing(method, *args, &block)
@@ -88,6 +90,17 @@ module RspecApiDocumentation
         :parameters => respond_to?(:parameters) ? parameters : [],
         :requests => requests
       }.to_json
+    end
+
+    def requests
+      super.map do |hash|
+        if @host
+          hash[:curl] = hash[:curl].output(@host) if hash[:curl].is_a? RspecApiDocumentation::Curl
+        else
+          hash[:curl] = nil
+        end
+        hash
+      end
     end
   end
 end

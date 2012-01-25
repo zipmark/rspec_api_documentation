@@ -49,6 +49,7 @@ module RspecApiDocumentation
 
     def initialize(example, configuration)
       @example = example
+      @host = configuration.curl_host
       self.template_path = configuration.template_path
     end
 
@@ -67,6 +68,17 @@ module RspecApiDocumentation
     def filename
       basename = description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '')
       "#{basename}.html"
+    end
+
+    def requests
+      super.map do |hash|
+        if @host
+          hash[:curl] = hash[:curl].output(@host) if hash[:curl].is_a? RspecApiDocumentation::Curl
+        else
+          hash[:curl] = nil
+        end
+        hash
+      end
     end
   end
 end
