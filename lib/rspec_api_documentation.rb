@@ -1,4 +1,5 @@
 require 'active_support'
+require 'cgi'
 
 module RspecApiDocumentation
   extend ActiveSupport::Autoload
@@ -21,6 +22,7 @@ module RspecApiDocumentation
   autoload :HtmlWriter
   autoload :JsonWriter
   autoload :IndexWriter
+  autoload :Curl
 
   def self.configuration
     @configuration ||= Configuration.new
