@@ -1,3 +1,5 @@
+require 'active_support/core_ext/object/to_query'
+
 module RspecApiDocumentation
   class Curl < Struct.new(:method, :host, :path, :data, :headers)
     def output
