@@ -131,6 +131,7 @@ describe RspecApiDocumentation::TestClient do
         metadata[:response_status_text].should eq("OK")
         metadata[:response_body].should eq("{\n  \"hello\": \"nurse\"\n}")
         metadata[:response_headers].should eq("Content-Type: application/json\nContent-Length: 17")
+        metadata[:curl].should eq(RspecApiDocumentation::Curl.new("post", "/greet?query=test+query", post_data, {"CONTENT_TYPE" => "application/json", "HTTP_X_CUSTOM_HEADER" => "custom header value", "HTTP_HOST" => "example.org", "HTTP_COOKIE" => ""}))
       end
 
       context "when post data is not json" do
