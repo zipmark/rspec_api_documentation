@@ -80,6 +80,7 @@ module RspecApiDocumentation
       request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
       request_metadata[:response_body] = prettify_json(last_response.body)
       request_metadata[:response_headers] = format_headers(last_response.headers)
+      request_metadata[:curl] = Curl.new(method.to_s, action, request_body, last_headers)
 
       metadata[:requests] ||= []
       metadata[:requests] << request_metadata
