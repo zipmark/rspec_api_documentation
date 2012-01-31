@@ -49,6 +49,7 @@ describe RspecApiDocumentation::Configuration do
     its(:exclusion_filter) { should be_nil }
     its(:app) { should be_nil }
     its(:curl_host) { should be_nil }
+    its(:url_prefix) { should be_blank }
   end
 
   describe "#define_groups" do

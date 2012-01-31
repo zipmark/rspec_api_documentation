@@ -80,5 +80,9 @@ module RspecApiDocumentation
         hash
       end
     end
+
+    def url_prefix
+      configuration.url_prefix
+    end
   end
 end

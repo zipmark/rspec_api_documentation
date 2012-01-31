@@ -26,6 +26,7 @@ See the `example` folder for a sample Rails app that has been documented.
 - template_path - Location of templates
 - filter - Filter by example document type
 - exclusion_filter - Filter by example document type
+- url_prefix - Add before all links on the index page, useful if docs are located in `public/docs`
 
 ### Example Configuration
 `spec/spec_helper.rb`
@@ -35,6 +36,7 @@ See the `example` folder for a sample Rails app that has been documented.
 
       config.define_group :public do |config|
         config.docs_dir = Rails.root.join("public", "docs")
+        config.url_prefix = "docs/"
       end
     end
 
