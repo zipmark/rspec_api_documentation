@@ -1,5 +1,4 @@
 require 'rack/test/methods'
-require 'rack'
 require 'webmock'
 
 module RspecApiDocumentation
