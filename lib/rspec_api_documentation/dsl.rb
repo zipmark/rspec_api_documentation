@@ -82,110 +82,108 @@ module RspecApiDocumentation
       end
     end
 
-    module InstanceMethods
-      def client
-        @client ||= TestClient.new(self)
+    def client
+      @client ||= TestClient.new(self)
+    end
+
+    def destination
+      @destination ||= TestServer.new(self)
+    end
+
+    def callback_url
+      raise "You must define callback_url"
+    end
+
+    def do_request(extra_params = {})
+      @extra_params = extra_params
+      params_or_body = nil
+      path_or_query = path
+
+      if method == :get && !query_string.blank?
+        path_or_query = path + "?#{query_string}"
+      else
+        params_or_body = respond_to?(:raw_post) ? raw_post : params
       end
 
-      def destination
-        @destination ||= TestServer.new(self)
+      client.send(method, path_or_query, params_or_body)
+    end
+
+    def query_string
+      query = params.to_a.map do |param|
+        param.map! { |a| CGI.escape(a.to_s) }
+        param.join("=")
       end
+      query.join("&")
+    end
 
-      def callback_url
-        raise "You must define callback_url"
+    def params
+      return unless example.metadata[:parameters]
+      parameters = example.metadata[:parameters].inject({}) do |hash, param|
+        set_param(hash, param)
       end
+      parameters.merge!(extra_params)
+      parameters
+    end
 
-      def do_request(extra_params = {})
-        @extra_params = extra_params
-        params_or_body = nil
-        path_or_query = path
+    def method
+      example.metadata[:method]
+    end
 
-        if method == :get && !query_string.blank?
-          path_or_query = path + "?#{query_string}"
+    def in_path?(param)
+      path_params.include?(param)
+    end
+
+    def path_params
+      example.metadata[:path].scan(/:(\w+)/).flatten
+    end
+
+    def path
+      example.metadata[:path].gsub(/:(\w+)/) do |match|
+        if respond_to?($1)
+          send($1)
         else
-          params_or_body = respond_to?(:raw_post) ? raw_post : params
-        end
-
-        client.send(method, path_or_query, params_or_body)
-      end
-
-      def query_string
-        query = params.to_a.map do |param|
-          param.map! { |a| CGI.escape(a.to_s) }
-          param.join("=")
-        end
-        query.join("&")
-      end
-
-      def params
-        return unless example.metadata[:parameters]
-        parameters = example.metadata[:parameters].inject({}) do |hash, param|
-          set_param(hash, param)
-        end
-        parameters.merge!(extra_params)
-        parameters
-      end
-
-      def method
-        example.metadata[:method]
-      end
-
-      def in_path?(param)
-        path_params.include?(param)
-      end
-
-      def path_params
-        example.metadata[:path].scan(/:(\w+)/).flatten
-      end
-
-      def path
-        example.metadata[:path].gsub(/:(\w+)/) do |match|
-          if respond_to?($1)
-            send($1)
-          else
-            match
-          end
+          match
         end
       end
+    end
 
-      def app
-        RspecApiDocumentation.configuration.app
+    def app
+      RspecApiDocumentation.configuration.app
+    end
+
+    def explanation(text)
+      example.metadata[:explanation] = text
+    end
+
+    def status
+      last_response.status
+    end
+
+    def response_body
+      last_response.body
+    end
+
+    private
+    def extra_params
+      return {} if @extra_params.nil?
+      @extra_params.inject({}) do |h, (k, v)|
+        h[k.to_s] = v
+        h
+      end
+    end
+
+    def set_param(hash, param)
+      key = param[:name]
+      return hash if !respond_to?(key) || in_path?(key)
+
+      if param[:scope]
+        hash[param[:scope].to_s] ||= {}
+        hash[param[:scope].to_s][key] = send(key)
+      else
+        hash[key] = send(key)
       end
 
-      def explanation(text)
-        example.metadata[:explanation] = text
-      end
-
-      def status
-        last_response.status
-      end
-
-      def response_body
-        last_response.body
-      end
-
-      private
-      def extra_params
-        return {} if @extra_params.nil?
-        @extra_params.inject({}) do |h, (k, v)|
-          h[k.to_s] = v
-          h
-        end
-      end
-
-      def set_param(hash, param)
-        key = param[:name]
-        return hash if !respond_to?(key) || in_path?(key)
-
-        if param[:scope]
-          hash[param[:scope].to_s] ||= {}
-          hash[param[:scope].to_s][key] = send(key)
-        else
-          hash[key] = send(key)
-        end
-
-        hash
-      end
+      hash
     end
   end
 end
