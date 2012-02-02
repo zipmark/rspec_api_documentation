@@ -13,7 +13,12 @@ class StubApp < Sinatra::Base
 
   post "/greet" do
     request.body.rewind
-    data = JSON.parse request.body.read
+    begin
+      data = JSON.parse request.body.read
+    rescue JSON::ParserError
+      request.body.rewind
+      data = request.body.read
+    end
     { :hello => data["target"] }.to_json
   end
 end
