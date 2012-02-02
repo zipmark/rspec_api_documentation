@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "rack-test"
   s.add_runtime_dependency "mustache"
   s.add_runtime_dependency "webmock"
+  s.add_runtime_dependency "json"
 
   s.add_development_dependency "fakefs"
   s.add_development_dependency "sinatra"

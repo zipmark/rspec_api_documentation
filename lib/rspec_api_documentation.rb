@@ -1,5 +1,6 @@
 require 'active_support'
 require 'cgi'
+require 'json'
 
 module RspecApiDocumentation
   extend ActiveSupport::Autoload
