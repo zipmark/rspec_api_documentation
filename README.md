@@ -1,3 +1,7 @@
+![Travis status](http://travis-ci.org/zipmark/rspec_api_documentation.png)
+
+![Gemnasium status](https://gemnasium.com/zipmark/rspec_api_documentation.png)
+
 # RSpec API Doc Generator
 
 Generate pretty API docs for your Rails APIs.
