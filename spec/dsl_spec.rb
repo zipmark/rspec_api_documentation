@@ -173,14 +173,14 @@ resource "Order" do
     end
   end
 
-  get "/orders/:id" do
+  get "/orders/:order_id" do
     let(:order) { stub(:id => 1) }
 
     describe "path" do
       subject { self.path }
 
       context "when id has been defined" do
-        let(:id) { order.id }
+        let(:order_id) { order.id }
 
         it "should have the value of id subtituted for :id" do
           subject.should eq("/orders/1")
@@ -189,7 +189,7 @@ resource "Order" do
 
       context "when id has not been defined" do
         it "should be unchanged" do
-          subject.should eq("/orders/:id")
+          subject.should eq("/orders/:order_id")
         end
       end
     end
@@ -395,7 +395,7 @@ resource "Order" do
 
   context "auto request" do
     post "/orders" do
-      parameter :type, "Type of order"
+      parameter :order_type, "Type of order"
 
       context "no extra params" do
         before do
@@ -411,10 +411,10 @@ resource "Order" do
 
       context "extra options for do_request" do
         before do
-          client.should_receive(:post).with("/orders", {"type" => "big"})
+          client.should_receive(:post).with("/orders", {"order_type" => "big"})
         end
 
-        example_request "should take an optional parameter hash", :type => "big"
+        example_request "should take an optional parameter hash", :order_type => "big"
       end
     end
   end

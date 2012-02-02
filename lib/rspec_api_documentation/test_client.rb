@@ -26,9 +26,10 @@ module RspecApiDocumentation
     end
 
     def last_headers
-      session.last_request.env.select do |k, v|
+      headers = session.last_request.env.select do |k, v|
         k =~ /^(HTTP_|CONTENT_TYPE)/
       end
+      Hash[headers]
     end
 
     def last_query_string

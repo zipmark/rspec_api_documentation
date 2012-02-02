@@ -130,7 +130,7 @@ describe RspecApiDocumentation::TestClient do
         metadata[:method].should eq("POST")
         metadata[:route].should eq("/greet?query=test+query")
         metadata[:request_body].should eq("{\n  \"target\": \"nurse\"\n}")
-        metadata[:request_headers].should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ")
+        metadata[:request_headers].split("\n").sort.should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ".split("\n").sort)
         metadata[:request_query_parameters].should eq("query: test query")
         metadata[:response_status].should eq(200)
         metadata[:response_status_text].should eq("OK")
@@ -143,7 +143,7 @@ describe RspecApiDocumentation::TestClient do
         let(:post_data) { { :target => "nurse", :email => "email@example.com" } }
 
         it "should not nil out request_body" do
-          example.metadata[:requests].first[:request_body].should eq("target=nurse\nemail=email@example.com")
+          example.metadata[:requests].first[:request_body].split("\n").sort.should eq("target=nurse\nemail=email@example.com".split("\n").sort)
         end
       end
 
