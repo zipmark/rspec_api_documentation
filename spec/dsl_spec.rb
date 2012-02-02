@@ -125,6 +125,19 @@ resource "Order" do
         end
       end
     end
+  end
+
+  put "/orders/:id" do
+    parameter :type, "The type of drink you want."
+    parameter :size, "The size of drink you want."
+    parameter :note, "Any additional notes about your order."
+
+    required_parameters :type, :size
+
+    let(:type) { "coffee" }
+    let(:size) { "medium" }
+
+    let(:id) { 1 }
 
     describe "do_request" do
       context "when raw_post is defined" do
@@ -151,6 +164,11 @@ resource "Order" do
       it "should overwrite parameters" do
         client.should_receive(method).with(path, params.merge("size" => "large"))
         do_request(:size => "large")
+      end
+
+      it "should overwrite path variables" do
+        client.should_receive(method).with("/orders/2", params)
+        do_request(:id => 2)
       end
     end
   end

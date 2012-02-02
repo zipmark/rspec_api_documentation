@@ -96,6 +96,7 @@ module RspecApiDocumentation
 
     def do_request(extra_params = {})
       @extra_params = extra_params
+
       params_or_body = nil
       path_or_query = path
 
@@ -139,7 +140,9 @@ module RspecApiDocumentation
 
     def path
       example.metadata[:path].gsub(/:(\w+)/) do |match|
-        if respond_to?($1)
+        if extra_params.keys.include?($1)
+          delete_extra_param($1)
+        elsif respond_to?($1)
           send($1)
         else
           match
@@ -170,6 +173,10 @@ module RspecApiDocumentation
         h[k.to_s] = v
         h
       end
+    end
+
+    def delete_extra_param(key)
+      @extra_params.delete(key.to_sym) || @extra_params.delete(key.to_s)
     end
 
     def set_param(hash, param)
