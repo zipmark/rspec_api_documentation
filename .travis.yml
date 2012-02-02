@@ -5,3 +5,6 @@ rvm:
   - 1.9.3
   - ree
 script: bundle exec rspec spec
+branches:
+  only:
+    - master
