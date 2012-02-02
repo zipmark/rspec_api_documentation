@@ -301,7 +301,11 @@ resource "Order" do
 
       get "/users/:id/orders" do
         example "Page should be in the query string" do
-          client.should_receive(method).with("/users/1/orders?page=2&message=Thank+you", nil)
+          client.should_receive(method).with do |path, data|
+            path.should =~ /^\/users\/1\/orders\?/
+            path.split("?")[1].split("&").sort.should == "page=2&message=Thank+you".split("&").sort
+            data.should be_nil
+          end
           do_request
         end
       end
