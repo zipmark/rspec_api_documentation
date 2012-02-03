@@ -117,7 +117,7 @@ describe RspecApiDocumentation::TestClient do
 
   context "after a request is made" do
     before do
-      header "Content-Type", "application/json"
+      header "Content-Type", "application/json;charset=utf-8"
       header "X-Custom-Header", "custom header value"
       test_client.post "/greet?query=test+query", post_data
     end
@@ -130,13 +130,15 @@ describe RspecApiDocumentation::TestClient do
         metadata[:method].should eq("POST")
         metadata[:route].should eq("/greet?query=test+query")
         metadata[:request_body].should eq("{\n  \"target\": \"nurse\"\n}")
-        metadata[:request_headers].split("\n").sort.should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ".split("\n").sort)
+        metadata[:request_headers].should match(/^Content-Type: application\/json/)
+        metadata[:request_headers].should match(/^X-Custom-Header: custom header value$/)
         metadata[:request_query_parameters].should eq("query: test query")
         metadata[:response_status].should eq(200)
         metadata[:response_status_text].should eq("OK")
         metadata[:response_body].should eq("{\n  \"hello\": \"nurse\"\n}")
-        metadata[:response_headers].split("\n").sort.should eq("Content-Type: application/json\nContent-Length: 17".split("\n").sort)
-        metadata[:curl].should eq(RspecApiDocumentation::Curl.new("post", "/greet?query=test+query", post_data, {"CONTENT_TYPE" => "application/json", "HTTP_X_CUSTOM_HEADER" => "custom header value", "HTTP_HOST" => "example.org", "HTTP_COOKIE" => ""}))
+        metadata[:response_headers].should match(/^Content-Type: application\/json/)
+        metadata[:response_headers].should match(/^Content-Length: 17$/)
+        metadata[:curl].should eq(RspecApiDocumentation::Curl.new("post", "/greet?query=test+query", post_data, {"CONTENT_TYPE" => "application/json;charset=utf-8", "HTTP_X_CUSTOM_HEADER" => "custom header value", "HTTP_HOST" => "example.org", "HTTP_COOKIE" => ""}))
       end
 
       context "when post data is not json" do
