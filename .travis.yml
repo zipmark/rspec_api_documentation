@@ -11,3 +11,7 @@ script: bundle exec rspec spec
 branches:
   only:
     - master
+matrix:
+  exclude:
+    - rvm: 1.9.3
+      gemfile: gemfiles/minimum_dependencies
