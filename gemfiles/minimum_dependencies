@@ -1,0 +1,12 @@
+# This file is used by Travis-CI to ensure that the specified minimum dependencies are still valid
+
+gem "rspec", "2.6.0"
+gem "activesupport", "3.0.0"
+gem "i18n", "0.1.0"
+gem "rack-test", "0.5.5"
+gem "mustache", "0.99.0"
+gem "webmock", "1.7.0"
+gem "json", "1.4.0"
+
+gem "fakefs"
+gem "sinatra"
