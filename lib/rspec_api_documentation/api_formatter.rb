@@ -1,7 +1,7 @@
-require 'rspec/core/formatters/base_formatter'
+require 'rspec/core/formatters/base_text_formatter'
 
 module RspecApiDocumentation
-  class ApiFormatter < RSpec::Core::Formatters::BaseFormatter
+  class ApiFormatter < RSpec::Core::Formatters::BaseTextFormatter
     def initialize(output)
       super
 
