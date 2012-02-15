@@ -109,6 +109,15 @@ module RspecApiDocumentation
       client.send(method, path_or_query, params_or_body)
     end
 
+    def no_doc(&block)
+      requests = example.metadata[:requests]
+      example.metadata[:requests] = []
+
+      instance_eval &block
+
+      example.metadata[:requests] = requests
+    end
+
     def query_string
       query = params.to_a.map do |param|
         param.map! { |a| CGI.escape(a.to_s) }

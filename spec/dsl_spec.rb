@@ -171,6 +171,19 @@ resource "Order" do
         do_request(:id => 2)
       end
     end
+
+    describe "no_doc" do
+      it "should not add requests" do
+        example.metadata[:requests] = ["first request"]
+
+        no_doc do
+          example.metadata[:requests].should be_empty
+          example.metadata[:requests] = ["not documented"]
+        end
+
+        example.metadata[:requests].should == ["first request"]
+      end
+    end
   end
 
   get "/orders/:order_id" do
