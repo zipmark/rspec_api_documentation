@@ -48,7 +48,8 @@ module RspecApiDocumentation
           :examples => section[:examples].map { |example|
             {
               :description => example.description,
-              :link => "#{example.dirname}/#{example.filename}"
+              :link => "#{example.dirname}/#{example.filename}",
+              :groups => example.metadata[:document]
             }
           }
         )
