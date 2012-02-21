@@ -57,10 +57,65 @@ Feature: Generate HTML documentation from test examples
 
   Scenario: Create an index of all API examples, including all resources and examples
     Then  the file "docs/index.html" should contain "<h2>Greetings</h2>"
-    And   the file "docs/index.html" should contain:
+    And   the file "docs/index.html" should contain HTML:
       """
-      <a href="greetings/greeting_your_favorite_gem.html">Greeting your favorite gem</a>
+      <h2>Greetings</h2>
+
+      <ul>
+          <li>
+            <a href="greetings/greeting_your_favorite_gem.html">Greeting your favorite gem</a>
+          </li>
+      </ul>
       """
 
-  Scenario: Create a file for each API example
-    Then  the file "docs/greetings/greeting_your_favorite_gem.html" should contain "<h2>Greeting your favorite gem</h2>"
+  Scenario: Example HTML documentation includes the parameters
+    Then  the file "docs/greetings/greeting_your_favorite_gem.html" should contain HTML:
+      """
+      <h3>Parameters</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              <span class="name">target</span>
+            </th>
+            <td>
+              <span class="description">The thing you want to greet</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      """
+
+  Scenario: Example HTML documentation includes the request information
+    Then  the file "docs/greetings/greeting_your_favorite_gem.html" should contain HTML:
+      """
+      <h3>Request</h3>
+      <h4>Headers</h4>
+      <pre class="headers">Host: example.org
+      Cookie: </pre>
+      <h4>Route</h4>
+      <pre class="request highlight">GET /greetings?target=rspec_api_documentation</pre>
+      <h4>Query Parameters</h4>
+      <pre class="request highlight">target: rspec_api_documentation</pre>
+      """
+
+  Scenario: Example HTML documentation includes the response information
+    Then  the file "docs/greetings/greeting_your_favorite_gem.html" should contain HTML:
+      """
+      <h3>Response</h3>
+      <h4>Headers</h4>
+      <pre class="headers">Content-Type: application/json
+      Content-Length: 35</pre>
+      <h4>Status</h4>
+      <pre class="response_status">200 OK</pre>
+      <h4>Body</h4>
+      <pre class="response highlight">{
+      &quot;hello&quot;: &quot;rspec_api_documentation&quot;
+      }</pre>
+      """
