@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/cucumber/aruba.git
+  revision: 8f150798f9d84abf4013d5fd43ef035429cbd45e
+  specs:
+    aruba (0.4.11)
+      childprocess (>= 0.2.3)
+      cucumber (>= 1.1.1)
+      ffi (>= 1.0.11)
+      rspec (>= 2.7.0)
+
 PATH
   remote: .
   specs:
@@ -16,9 +26,21 @@ GEM
     activesupport (3.1.3)
       multi_json (~> 1.0)
     addressable (2.2.6)
+    builder (3.0.0)
+    childprocess (0.3.1)
+      ffi (~> 1.0.6)
     crack (0.3.1)
+    cucumber (1.1.8)
+      builder (>= 2.1.2)
+      diff-lcs (>= 1.1.2)
+      gherkin (~> 2.8.0)
+      json (>= 1.4.6)
+      term-ansicolor (>= 1.0.6)
     diff-lcs (1.1.3)
     fakefs (0.4.0)
+    ffi (1.0.11)
+    gherkin (2.8.0)
+      json (>= 1.4.6)
     i18n (0.6.0)
     json (1.6.3)
     multi_json (1.0.4)
@@ -37,6 +59,7 @@ GEM
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (>= 1.2.2, < 2.0)
+    term-ansicolor (1.0.7)
     tilt (1.3.3)
     webmock (1.7.10)
       addressable (~> 2.2, > 2.2.5)
@@ -46,6 +69,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aruba!
   fakefs
   rspec_api_documentation!
   sinatra
