@@ -12,3 +12,4 @@ gem "json", "1.4.0"
 
 gem "fakefs"
 gem "sinatra"
+gem "builder"
