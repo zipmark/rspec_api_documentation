@@ -79,7 +79,11 @@ module RspecApiDocumentation
       request_metadata[:request_query_parameters] = format_query_hash(last_query_hash)
       request_metadata[:response_status] = last_response.status
       request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
-      request_metadata[:response_body] = prettify_json(last_response.body)
+      if is_json?(request_body)
+        request_metadata[:response_body] = prettify_json(last_response.body)
+      else
+        request_metadata[:response_body] = last_response.body
+      end
       request_metadata[:response_headers] = format_headers(last_response.headers)
       request_metadata[:curl] = Curl.new(method.to_s, action, request_body, last_headers)
 

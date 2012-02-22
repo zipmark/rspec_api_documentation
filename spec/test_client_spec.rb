@@ -1,17 +1,18 @@
 require 'spec_helper'
 require 'rack/test'
 require 'sinatra/base'
+require 'active_support/core_ext/hash/conversions'
 
 class StubApp < Sinatra::Base
-  before do
-    content_type :json
-  end
-
   get "/" do
+    content_type :json
+
     { :hello => "world" }.to_json
   end
 
   post "/greet" do
+    content_type :json
+
     request.body.rewind
     begin
       data = JSON.parse request.body.read
@@ -20,6 +21,12 @@ class StubApp < Sinatra::Base
       data = request.body.read
     end
     { :hello => data["target"] }.to_json
+  end
+
+  get "/xml" do
+    content_type :xml
+
+    { :hello => "world" }.to_xml
   end
 end
 
@@ -48,6 +55,20 @@ describe RspecApiDocumentation::TestClient do
 
     it "should expose the last response" do
       test_client.last_response.should equal(last_response)
+    end
+  end
+
+  describe "xml data", :document => true do
+    before do
+      test_client.get "/xml"
+    end
+
+    it "should handle xml data" do
+      test_client.last_response.headers["Content-Type"].should =~ /application\/xml/
+    end
+
+    it "should log the request" do
+      example.metadata[:requests].first[:response_body].should == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<hash>\n  <hello>world</hello>\n</hash>\n"
     end
   end
 

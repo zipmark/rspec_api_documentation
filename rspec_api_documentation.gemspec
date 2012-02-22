@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "fakefs"
   s.add_development_dependency "sinatra"
+  s.add_development_dependency "builder"
 
   s.files        = Dir.glob("lib/**/*")
   s.require_path = 'lib'
