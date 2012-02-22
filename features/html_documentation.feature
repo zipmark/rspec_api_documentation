@@ -55,67 +55,44 @@ Feature: Generate HTML documentation from test examples
     And   the output should contain "1 example, 0 failures"
     And   the exit status should be 0
 
-  Scenario: Create an index of all API examples, including all resources and examples
-    Then  the file "docs/index.html" should contain "<h2>Greetings</h2>"
-    And   the file "docs/index.html" should contain HTML:
-      """
-      <h2>Greetings</h2>
-
-      <ul>
-          <li>
-            <a href="greetings/greeting_your_favorite_gem.html">Greeting your favorite gem</a>
-          </li>
-      </ul>
-      """
+  Scenario: Create an index of all API examples, including all resources
+    When  I open the index
+    Then  I should see the following resources:
+      | Greetings |
 
   Scenario: Example HTML documentation includes the parameters
-    Then  the file "docs/greetings/greeting_your_favorite_gem.html" should contain HTML:
-      """
-      <h3>Parameters</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>
-              <span class="name">target</span>
-            </th>
-            <td>
-              <span class="description">The thing you want to greet</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      """
+    When  I open the index
+    And   I navigate to "Greeting your favorite gem"
+    Then  I should see the following parameters:
+      | name   | description                 |
+      | target | The thing you want to greet |
 
   Scenario: Example HTML documentation includes the request information
-    Then  the file "docs/greetings/greeting_your_favorite_gem.html" should contain HTML:
+    When  I open the index
+    And   I navigate to "Greeting your favorite gem"
+    Then  I should see the route is "GET /greetings?target=rspec_api_documentation"
+    And   I should see the following request headers:
       """
-      <h3>Request</h3>
-      <h4>Headers</h4>
-      <pre class="headers">Host: example.org
-      Cookie: </pre>
-      <h4>Route</h4>
-      <pre class="request highlight">GET /greetings?target=rspec_api_documentation</pre>
-      <h4>Query Parameters</h4>
-      <pre class="request highlight">target: rspec_api_documentation</pre>
+      Host: example.org
+      Cookie: 
+      """
+    And   I should see the following query parameters:
+      """
+      target: rspec_api_documentation
       """
 
   Scenario: Example HTML documentation includes the response information
-    Then  the file "docs/greetings/greeting_your_favorite_gem.html" should contain HTML:
+    When  I open the index
+    And   I navigate to "Greeting your favorite gem"
+    Then  I should see the response status is "200 OK"
+    And   I should see the following response headers:
       """
-      <h3>Response</h3>
-      <h4>Headers</h4>
-      <pre class="headers">Content-Type: application/json
-      Content-Length: 35</pre>
-      <h4>Status</h4>
-      <pre class="response_status">200 OK</pre>
-      <h4>Body</h4>
-      <pre class="response highlight">{
-      &quot;hello&quot;: &quot;rspec_api_documentation&quot;
-      }</pre>
+      Content-Type: application/json
+      Content-Length: 35
+      """
+    And   I should see the following response_body:
+      """
+      {
+        "hello" => "rspec_api_documentation"
+      }
       """
