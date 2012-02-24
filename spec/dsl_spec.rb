@@ -458,3 +458,9 @@ resource "top level parameters" do
     example.metadata[:parameters].length.should == 1
   end
 end
+
+resource "passing in document to resource", :document => :not_all do
+  it "should have the correct tag" do
+    example.metadata[:document].should == :not_all
+  end
+end
