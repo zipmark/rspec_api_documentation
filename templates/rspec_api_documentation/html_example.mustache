@@ -30,7 +30,7 @@
 
         {{# has_parameters? }}
           <h3>Parameters</h3>
-          <table>
+          <table class="parameters">
             <thead>
               <tr>
                 <th>Name</th>
@@ -40,7 +40,7 @@
             <tbody>
               {{# parameters }}
               <tr>
-                <td{{# required }} class="required"{{/ required }}>
+                <th{{# required }} class="required"{{/ required }}>
                   <span class="name">{{ name }}</span>
                 </td>
                 <td>
@@ -55,12 +55,12 @@
         {{# requests }}
           <h3>Request</h3>
           <h4>Headers</h4>
-          <pre class="headers">{{ request_headers }}</pre>
+          <pre class="request headers">{{ request_headers }}</pre>
           <h4>Route</h4>
-          <pre class="request highlight">{{ method }} {{ route }}</pre>
+          <pre class="request route highlight">{{ method }} {{ route }}</pre>
           {{# request_query_parameters }}
             <h4>Query Parameters</h4>
-            <pre class="request highlight">{{ request_query_parameters }}</pre>
+            <pre class="request query_parameters highlight">{{ request_query_parameters }}</pre>
           {{/ request_query_parameters }}
           {{# request_body }}
             <h4>Body</h4>
@@ -75,12 +75,12 @@
           {{# response_status }}
             <h3>Response</h3>
             <h4>Headers</h4>
-            <pre class="headers">{{ response_headers }}</pre>
+            <pre class="response headers">{{ response_headers }}</pre>
             <h4>Status</h4>
-            <pre class="response_status">{{ response_status }} {{ response_status_text}}</pre>
+            <pre class="response status">{{ response_status }} {{ response_status_text}}</pre>
             {{# response_body }}
               <h4>Body</h4>
-              <pre class="response highlight">{{ response_body }}</pre>
+              <pre class="response body highlight">{{ response_body }}</pre>
             {{/ response_body }}
           {{/ response_status }}
         {{/ requests }}
