@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Orders API</title>
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
+    <link rel="stylesheet" href="http://zipmark.github.com/rspec_api_documentation/css/1.3.0/bootstrap.min.css">
     <style>
       td.required .name:after {
         float: right;
@@ -24,7 +24,7 @@
         <h2>Creating an order</h2>
 
           <h3>Parameters</h3>
-          <table>
+          <table class="parameters">
             <thead>
               <tr>
                 <th>Name</th>
@@ -33,17 +33,17 @@
             </thead>
             <tbody>
               <tr>
-                <td>
+                <td class="required">
                   <span class="name">name</span>
-                </th>
+                </td>
                 <td>
                   <span class="description">Name of order</span>
                 </td>
               </tr>
               <tr>
-                <td>
+                <td class="required">
                   <span class="name">paid</span>
-                </th>
+                </td>
                 <td>
                   <span class="description">If the order has been paid for</span>
                 </td>
@@ -51,7 +51,7 @@
               <tr>
                 <td>
                   <span class="name">email</span>
-                </th>
+                </td>
                 <td>
                   <span class="description">Email of user that placed the order</span>
                 </td>
@@ -61,12 +61,12 @@
 
           <h3>Request</h3>
           <h4>Headers</h4>
-          <pre class="headers">Accept: application/json
+          <pre class="request headers">Accept: application/json
 Host: example.org
 Content-Type: application/x-www-form-urlencoded
 Cookie: </pre>
           <h4>Route</h4>
-          <pre class="request highlight">POST /orders</pre>
+          <pre class="request route highlight">POST /orders</pre>
             <h4>Body</h4>
             <pre class="request highlight">order[name]=Order 1
 order[paid]=true
@@ -75,46 +75,38 @@ order[email]=email@example.com</pre>
 
             <h3>Response</h3>
             <h4>Headers</h4>
-            <pre class="headers">Content-Type: application/json; charset=utf-8
+            <pre class="response headers">Content-Type: application/json; charset=utf-8
 Location: http://example.org/orders/1
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;5fffd66f61cdd4ab8881584dbf5e72cf&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.033671
+X-Runtime: 0.028510
 Content-Length: 58</pre>
             <h4>Status</h4>
-            <pre class="response_status">201 Created</pre>
+            <pre class="response status">201 Created</pre>
               <h4>Body</h4>
-              <pre class="response highlight">{
-  &quot;email&quot;: &quot;email@example.com&quot;,
-  &quot;name&quot;: &quot;Order 1&quot;,
-  &quot;paid&quot;: true
-}</pre>
+              <pre class="response body highlight">{&quot;email&quot;:&quot;email@example.com&quot;,&quot;name&quot;:&quot;Order 1&quot;,&quot;paid&quot;:true}</pre>
           <h3>Request</h3>
           <h4>Headers</h4>
-          <pre class="headers">Accept: application/json
+          <pre class="request headers">Accept: application/json
 Host: example.org
 Cookie: </pre>
           <h4>Route</h4>
-          <pre class="request highlight">GET /orders/1</pre>
+          <pre class="request route highlight">GET /orders/1</pre>
 
 
             <h3>Response</h3>
             <h4>Headers</h4>
-            <pre class="headers">Content-Type: application/json; charset=utf-8
+            <pre class="response headers">Content-Type: application/json; charset=utf-8
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;5fffd66f61cdd4ab8881584dbf5e72cf&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.004310
+X-Runtime: 0.004082
 Content-Length: 58</pre>
             <h4>Status</h4>
-            <pre class="response_status">200 OK</pre>
+            <pre class="response status">200 OK</pre>
               <h4>Body</h4>
-              <pre class="response highlight">{
-  &quot;email&quot;: &quot;email@example.com&quot;,
-  &quot;name&quot;: &quot;Order 1&quot;,
-  &quot;paid&quot;: true
-}</pre>
+              <pre class="response body highlight">{&quot;email&quot;:&quot;email@example.com&quot;,&quot;name&quot;:&quot;Order 1&quot;,&quot;paid&quot;:true}</pre>
       </div>
     </div>
   </body>

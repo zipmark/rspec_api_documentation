@@ -30,6 +30,8 @@ resource "Orders" do
     parameter :paid, "If the order has been paid for"
     parameter :email, "Email of user that placed the order"
 
+    required_parameters :name, :paid
+
     let(:name) { "Order 1" }
     let(:paid) { true }
     let(:email) { "email@example.com" }
