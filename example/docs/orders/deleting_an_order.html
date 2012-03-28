@@ -23,25 +23,6 @@
       <div class="article">
         <h2>Deleting an order</h2>
 
-          <h3>Parameters</h3>
-          <table class="parameters">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <span class="name">id</span>
-                </td>
-                <td>
-                  <span class="description">ID of order</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
 
           <h3>Request</h3>
           <h4>Headers</h4>
@@ -50,7 +31,7 @@ Host: example.org
 Content-Type: application/x-www-form-urlencoded
 Cookie: </pre>
           <h4>Route</h4>
-          <pre class="request route highlight">DELETE /orders/1</pre>
+          <pre class="request route highlight">delete /orders/1</pre>
 
 
             <h3>Response</h3>
@@ -60,7 +41,7 @@ Location: http://example.org/orders
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;99914b932bd37a50b983c5e7c90ae93b&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.003509
+X-Runtime: 0.004524
 Content-Length: 2</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>

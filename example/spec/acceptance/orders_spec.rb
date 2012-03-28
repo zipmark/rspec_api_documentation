@@ -34,17 +34,15 @@ resource "Orders" do
     let(:paid) { true }
     let(:email) { "email@example.com" }
 
-    scope_parameters :order, [:name, :paid, :email]
+    scope_parameters :order, :all
 
-    example "Creating an order" do
-      do_request
-
-      last_response.status.should == 201
+    example_request "Creating an order" do
       response_body.should be_json_eql({
         "name" => name,
         "paid" => paid,
         "email" => email,
       }.to_json)
+      status.should == 201
 
       order = JSON.parse(response_body)
 
@@ -54,20 +52,15 @@ resource "Orders" do
   end
 
   get "/orders/:id" do
-    parameter :id, "ID of order"
-
     let(:id) { order.id }
 
-    example "Getting a specific order" do
-      do_request
-
-      last_response.body.should == order.to_json
-      last_response.should be_ok
+    example_request "Getting a specific order" do
+      response_body.should == order.to_json
+      status.should == 200
     end
   end
 
   put "/orders/:id" do
-    parameter :id, "ID of order"
     parameter :name, "Name of order"
     parameter :paid, "If the order has been paid for"
     parameter :email, "Email of user that placed the order"
@@ -76,24 +69,18 @@ resource "Orders" do
 
     let(:name) { "Updated Name" }
 
-    scope_parameters :order, [:name]
+    scope_parameters :order, :all
 
-    example "Updating an order" do
-      do_request
-
-      last_response.should be_ok
+    example_request "Updating an order" do
+      status.should == 200
     end
   end
 
   delete "/orders/:id" do
-    parameter :id, "ID of order"
-
     let(:id) { order.id }
 
-    example "Deleting an order" do
-      do_request
-
-      last_response.should be_ok
+    example_request "Deleting an order" do
+      status.should == 200
     end
   end
 end

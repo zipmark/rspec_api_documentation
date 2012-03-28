@@ -1,7 +1,7 @@
 PATH
   remote: ../
   specs:
-    rspec_api_documentation (0.4.2)
+    rspec_api_documentation (0.4.3)
       activesupport (>= 3.0.0)
       i18n (>= 0.1.0)
       json (>= 1.4.0)
@@ -140,8 +140,6 @@ GEM
       multi_json (>= 1.0.2)
     webmock (1.8.4)
       addressable (>= 2.2.7)
-      addressable (>= 2.2.7)
-      crack (>= 0.1.7)
       crack (>= 0.1.7)
 
 PLATFORMS
