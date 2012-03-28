@@ -65,7 +65,7 @@ module RspecApiDocumentation
       def example_request(description, params = {}, &block)
         file_path = caller.first[0, caller.first =~ /:/]
 
-        location = caller.first[0, caller.first =~ /:in/]
+        location = caller.first[0, caller.first =~ /(:in|$)/]
         location = RSpec::Core::Formatters::BaseFormatter::relative_path(location)
 
         example description, :location => location, :file_path => file_path do
