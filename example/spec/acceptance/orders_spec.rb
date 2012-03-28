@@ -17,11 +17,9 @@ resource "Orders" do
       end
     end
 
-    example "Getting a list of orders" do
-      do_request
-
-      last_response.body.should == Order.all.to_json
-      last_response.should be_ok
+    example_request "Getting a list of orders" do
+      response_body.should == Order.all.to_json
+      status.should == 200
     end
   end
 
