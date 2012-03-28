@@ -7,7 +7,7 @@ rvm:
 gemfile:
   - Gemfile
   - gemfiles/minimum_dependencies
-script: bundle exec rspec spec
+script: bundle exec rake
 branches:
   only:
     - master

@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "builder"
   s.add_development_dependency "aruba"
   s.add_development_dependency "capybara"
+  s.add_development_dependency "rake"
 
   s.files        = Dir.glob("lib/**/*")
   s.require_path = 'lib'
