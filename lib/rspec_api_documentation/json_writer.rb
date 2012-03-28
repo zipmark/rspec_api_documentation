@@ -59,8 +59,6 @@ module RspecApiDocumentation
   end
 
   class JsonExample
-    delegate :method, :to => :@example
-
     def initialize(example, configuration)
       @example = example
       @host = configuration.curl_host

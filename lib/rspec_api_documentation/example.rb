@@ -19,7 +19,7 @@ module RspecApiDocumentation
       super || example.metadata.has_key?(method_sym) || example.respond_to?(method_sym, include_private)
     end
 
-    def method
+    def http_method
       metadata[:method]
     end
 
