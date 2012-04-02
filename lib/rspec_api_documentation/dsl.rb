@@ -174,11 +174,11 @@ module RspecApiDocumentation
     end
 
     def status
-      last_response.status
+      client.last_response.status
     end
 
     def response_body
-      last_response.body
+      client.last_response.body
     end
 
     private
