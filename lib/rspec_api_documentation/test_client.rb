@@ -1,3 +1,5 @@
+require "coderay"
+
 module RspecApiDocumentation
   class TestClient < Struct.new(:session, :options)
     attr_accessor :user
@@ -79,11 +81,7 @@ module RspecApiDocumentation
       request_metadata[:request_query_parameters] = format_query_hash(last_query_hash)
       request_metadata[:response_status] = last_response.status
       request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
-      if is_json?(request_body)
-        request_metadata[:response_body] = prettify_json(last_response.body)
-      else
-        request_metadata[:response_body] = last_response.body
-      end
+      request_metadata[:response_body] = formatted_response_body(last_response.body, last_response.headers['Content-Type'])
       request_metadata[:response_headers] = format_headers(last_response.headers)
       request_metadata[:curl] = Curl.new(method.to_s, action, request_body, last_headers)
 
@@ -111,6 +109,21 @@ module RspecApiDocumentation
         JSON.pretty_generate(JSON.parse(json))
       rescue
         nil
+      end
+    end
+
+    def formatted_response_body(body, content_type)
+      case content_type
+        when /json/
+          CodeRay.scan(JSON.pretty_generate(JSON.parse(body)), :json).div
+        when /html/
+          CodeRay.scan(body, :html).div
+        when /javascript/
+          CodeRay.scan(body, :java_script).div
+        when /xml/
+          CodeRay.scan(body, :xml).div
+        else
+          body
       end
     end
 
