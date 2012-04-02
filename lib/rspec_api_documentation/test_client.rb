@@ -1,9 +1,19 @@
 module RspecApiDocumentation
-  class TestClient < Struct.new(:session, :options)
-    attr_accessor :user
-
-    delegate :example, :last_response, :last_request, :to => :session
+  class TestClient < Struct.new(:context, :options)
+    delegate :example, :app, :to => :context
     delegate :metadata, :to => :example
+    delegate :last_request, :last_response, :to => :rack_test_session
+    private :last_request, :last_response
+
+    def rack_test_session
+      @rack_test_session ||= Struct.new(:app) do
+        begin
+          include Rack::Test::Methods
+        rescue LoadError
+          raise "#{self.class.name} requires Rack::Test >= 0.5.5. Please add it to your test dependencies."
+        end
+      end.new(app)
+    end
 
     def get(*args)
       process :get, *args
@@ -21,15 +31,12 @@ module RspecApiDocumentation
       process :delete, *args
     end
 
-    def sign_in(user)
-      @user = user
+    def last_request_headers
+      env_to_headers(last_request.env)
     end
 
-    def last_headers
-      headers = last_request.env.select do |k, v|
-        k =~ /^(HTTP_|CONTENT_TYPE)/
-      end
-      Hash[headers]
+    def last_response_headers
+      last_response.headers
     end
 
     def last_query_string
@@ -52,9 +59,17 @@ module RspecApiDocumentation
       end
     end
 
+    def status
+      last_response.status
+    end
+
+    def response_body
+      last_response.body
+    end
+
     private
     def process(method, action, params = {})
-      session.send(method, action, params, headers(method, action, params))
+      rack_test_session.send(method, action, params, headers(method, action, params))
 
       document_example(method, action, params)
     end
@@ -75,7 +90,7 @@ module RspecApiDocumentation
       else
         request_metadata[:request_body] = prettify_request_body(request_body)
       end
-      request_metadata[:request_headers] = format_headers(last_headers)
+      request_metadata[:request_headers] = format_headers(last_request_headers)
       request_metadata[:request_query_parameters] = format_query_hash(last_query_hash)
       request_metadata[:response_status] = last_response.status
       request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
@@ -84,18 +99,28 @@ module RspecApiDocumentation
       else
         request_metadata[:response_body] = last_response.body
       end
-      request_metadata[:response_headers] = format_headers(last_response.headers)
-      request_metadata[:curl] = Curl.new(method.to_s, action, request_body, last_headers)
+      request_metadata[:response_headers] = format_headers(last_response_headers)
+      request_metadata[:curl] = Curl.new(method.to_s, action, request_body, last_request_headers)
 
       metadata[:requests] ||= []
       metadata[:requests] << request_metadata
     end
 
+    def env_to_headers(env)
+      headers = {}
+      env.each do |key, value|
+        # HTTP_ACCEPT_CHARSET => Accept-Charset
+        if key =~ /^(HTTP_|CONTENT_TYPE)/
+          header = key.gsub(/^HTTP_/, '').titleize.split.join("-")
+          headers[header] = value
+        end
+      end
+      headers
+    end
+
     def format_headers(headers)
       headers.map do |key, value|
-        # HTTP_ACCEPT_CHARSET => Accept-Charset
-        formatted_key = key.gsub(/^HTTP_/, '').titleize.split.join("-")
-        "#{formatted_key}: #{value}"
+        "#{key}: #{value}"
       end.join("\n")
     end
 

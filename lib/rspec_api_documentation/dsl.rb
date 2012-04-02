@@ -6,6 +6,8 @@ module RspecApiDocumentation
   module DSL
     extend ActiveSupport::Concern
 
+    delegate :last_response_headers, :status, :response_body, :to => :client
+
     module ClassMethods
       def self.define_action(method)
         define_method method do |*args, &block|
@@ -173,14 +175,6 @@ module RspecApiDocumentation
       example.metadata[:explanation] = text
     end
 
-    def status
-      client.last_response.status
-    end
-
-    def response_body
-      client.last_response.body
-    end
-
     private
     def extra_params
       return {} if @extra_params.nil?
@@ -220,5 +214,4 @@ def self.resource(*args, &block)
 end
 
 RSpec.configuration.include RspecApiDocumentation::DSL, :api_docs_dsl => true
-RSpec.configuration.include Rack::Test::Methods, :api_docs_dsl => true
 RSpec.configuration.backtrace_clean_patterns << %r{lib/rspec_api_documentation/dsl\.rb}
