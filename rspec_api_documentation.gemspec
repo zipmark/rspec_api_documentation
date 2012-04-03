@@ -29,6 +29,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "capybara"
   s.add_development_dependency "rake"
 
-  s.files        = Dir.glob("lib/**/*")
+  s.files        = Dir.glob("lib/**/*") + Dir.glob("templates/**/*")
   s.require_path = 'lib'
 end
