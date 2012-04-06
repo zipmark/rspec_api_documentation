@@ -9,6 +9,7 @@ gem "rack-test", "0.5.5"
 gem "mustache", "0.99.4"
 gem "webmock", "1.7.0"
 gem "json", "1.4.6"
+gem "coderay", "1.0.7.rc1"
 
 gem "fakefs"
 gem "sinatra"

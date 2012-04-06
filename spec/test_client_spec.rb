@@ -68,7 +68,7 @@ describe RspecApiDocumentation::TestClient do
     end
 
     it "should log the request" do
-      example.metadata[:requests].first[:response_body].should == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<hash>\n  <hello>world</hello>\n</hash>\n"
+      example.metadata[:requests].first[:response_body].should be_present
     end
   end
 
@@ -150,13 +150,13 @@ describe RspecApiDocumentation::TestClient do
         metadata = example.metadata[:requests].first
         metadata[:method].should eq("POST")
         metadata[:route].should eq("/greet?query=test+query")
-        metadata[:request_body].should eq("{\n  \"target\": \"nurse\"\n}")
+        metadata[:request_body].should be_present
         metadata[:request_headers].should match(/^Content-Type: application\/json/)
         metadata[:request_headers].should match(/^X-Custom-Header: custom header value$/)
         metadata[:request_query_parameters].should eq("query: test query")
         metadata[:response_status].should eq(200)
         metadata[:response_status_text].should eq("OK")
-        metadata[:response_body].should eq("{\n  \"hello\": \"nurse\"\n}")
+        metadata[:response_body].should be_present
         metadata[:response_headers].should match(/^Content-Type: application\/json/)
         metadata[:response_headers].should match(/^Content-Length: 17$/)
         metadata[:curl].should eq(RspecApiDocumentation::Curl.new("post", "/greet?query=test+query", post_data, {"CONTENT_TYPE" => "application/json;charset=utf-8", "HTTP_X_CUSTOM_HEADER" => "custom header value", "HTTP_HOST" => "example.org", "HTTP_COOKIE" => ""}))
@@ -166,7 +166,7 @@ describe RspecApiDocumentation::TestClient do
         let(:post_data) { { :target => "nurse", :email => "email@example.com" } }
 
         it "should not nil out request_body" do
-          example.metadata[:requests].first[:request_body].split("\n").sort.should eq("target=nurse\nemail=email@example.com".split("\n").sort)
+          example.metadata[:requests].first[:request_body].should eq("<pre>target=nurse&email=email%40example.com</pre>")
         end
       end
 
