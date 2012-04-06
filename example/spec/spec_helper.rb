@@ -34,4 +34,6 @@ end
 
 RspecApiDocumentation.configure do |config|
   config.format = [:html, :json]
+  config.docs_dir = Rails.root.join("public", "docs")
+  config.url_prefix = "docs/"
 end
