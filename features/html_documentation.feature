@@ -21,7 +21,6 @@ Feature: Generate HTML documentation from test examples
       """
     And   a file named "app_spec.rb" with:
       """
-      require "active_support/inflector"
       require "rspec_api_documentation"
       require "rspec_api_documentation/dsl"
 
@@ -74,7 +73,7 @@ Feature: Generate HTML documentation from test examples
     And   I should see the following request headers:
       """
       Host: example.org
-      Cookie: 
+      Cookie:
       """
     And   I should see the following query parameters:
       """

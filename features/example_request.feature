@@ -12,7 +12,6 @@ Feature: Example Request
       """
     And a file named "app_spec.rb" with:
       """
-      require "active_support/inflector"
       require "rspec_api_documentation"
       require "rspec_api_documentation/dsl"
 
@@ -38,5 +37,5 @@ Feature: Example Request
     Then the output should not contain "dsl.rb"
     Then the output should contain:
       """
-      rspec ./app_spec.rb:11 # Example Request GET / Greeting your favorite gem
+      rspec ./app_spec.rb:10 # Example Request GET / Greeting your favorite gem
       """
