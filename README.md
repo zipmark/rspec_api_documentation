@@ -1,6 +1,5 @@
-![Travis status](http://travis-ci.org/zipmark/rspec_api_documentation.png)
-
-![Gemnasium status](https://gemnasium.com/zipmark/rspec_api_documentation.png)
+[![Travis status](https://travis-ci.org/zipmark/rspec_api_documentation.png)](https://travis-ci.org/zipmark/rspec_api_documentation)
+[![Gemnasium status](https://gemnasium.com/zipmark/rspec_api_documentation.png)](https://gemnasium.com/zipmark/rspec_api_documentation)
 
 # RSpec API Doc Generator
 
