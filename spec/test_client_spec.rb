@@ -166,7 +166,9 @@ describe RspecApiDocumentation::TestClient do
         let(:post_data) { { :target => "nurse", :email => "email@example.com" } }
 
         it "should not nil out request_body" do
-          example.metadata[:requests].first[:request_body].should eq("<pre>target=nurse&email=email%40example.com</pre>")
+          body = example.metadata[:requests].first[:request_body]
+          body.should =~ /target=nurse/
+          body.should =~ /email=email%40example\.com/
         end
       end
 
