@@ -3,7 +3,7 @@ $:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
   s.name        = "rspec_api_documentation"
-  s.version     = "0.4.3"
+  s.version     = "0.4.4"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Chris Cahoon", "Sam Goldman", "Eric Oestrich"]
   s.email       = ["chris@smartlogicsolutions.com", "sam@smartlogicsolutions.com", "eric@smartlogicsolutions.com"]
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "mustache", ">= 0.99.0"
   s.add_runtime_dependency "webmock", ">= 1.7.0"
   s.add_runtime_dependency "json", ">= 1.4.0"
+  s.add_runtime_dependency "coderay", ">= 1.0.7.rc1"
 
   s.add_development_dependency "fakefs"
   s.add_development_dependency "sinatra"
@@ -28,6 +29,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "capybara"
   s.add_development_dependency "rake"
 
-  s.files        = Dir.glob("lib/**/*")
+  s.files        = Dir.glob("lib/**/*") + Dir.glob("templates/**/*")
   s.require_path = 'lib'
 end

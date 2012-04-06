@@ -33,5 +33,5 @@ Then /^I should see the response status is "([^"]*)"$/ do |status|
 end
 
 Then /^I should see the following response_body:$/ do |response_body|
-  page.should have_css("pre.response.body", :content => response_body)
+  page.should have_css("div.response.body", :content => response_body)
 end

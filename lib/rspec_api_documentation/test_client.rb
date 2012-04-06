@@ -1,3 +1,5 @@
+require "coderay"
+
 module RspecApiDocumentation
   class TestClient < Struct.new(:context, :options)
     delegate :example, :app, :to => :context
@@ -85,20 +87,12 @@ module RspecApiDocumentation
 
       request_metadata[:method] = method.to_s.upcase
       request_metadata[:route] = action
-      if is_json?(request_body)
-        request_metadata[:request_body] = prettify_json(request_body)
-      else
-        request_metadata[:request_body] = prettify_request_body(request_body)
-      end
+      request_metadata[:request_body] = highlight_syntax(request_body, last_request.content_type, true)
       request_metadata[:request_headers] = format_headers(last_request_headers)
       request_metadata[:request_query_parameters] = format_query_hash(last_query_hash)
       request_metadata[:response_status] = last_response.status
       request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
-      if is_json?(request_body)
-        request_metadata[:response_body] = prettify_json(last_response.body)
-      else
-        request_metadata[:response_body] = last_response.body
-      end
+      request_metadata[:response_body] = highlight_syntax(response_body, last_response_headers['Content-Type'])
       request_metadata[:response_headers] = format_headers(last_response_headers)
       request_metadata[:curl] = Curl.new(method.to_s, action, request_body, last_request_headers)
 
@@ -131,25 +125,30 @@ module RspecApiDocumentation
       end.join("\n")
     end
 
-    def prettify_json(json)
+    def highlight_syntax(body, content_type, is_query_string = false)
+      return if body.blank?
       begin
-        JSON.pretty_generate(JSON.parse(json))
+        case content_type
+          when /json/
+            CodeRay.scan(JSON.pretty_generate(JSON.parse(body)), :json).div
+          when /html/
+            CodeRay.scan(body, :html).div
+          when /javascript/
+            CodeRay.scan(body, :java_script).div
+          when /xml/
+            CodeRay.scan(body, :xml).div
+          else
+            body = prettify_request_body(body) if is_query_string
+            "<pre>#{body}</pre>"
+        end
       rescue
-        nil
+        "<pre>#{body}</pre>"
       end
     end
 
     def prettify_request_body(string)
       return if string.blank?
       CGI.unescape(string.split("&").join("\n"))
-    end
-
-    def is_json?(string)
-      begin
-        JSON.parse(string)
-      rescue
-        false
-      end
     end
   end
 end
