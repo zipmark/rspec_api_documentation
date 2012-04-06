@@ -62,15 +62,19 @@
           <h3>Request</h3>
           <h4>Headers</h4>
           <pre class="request headers">Accept: application/json
+Content-Type: application/json
 Host: example.org
-Content-Type: application/x-www-form-urlencoded
 Cookie: </pre>
           <h4>Route</h4>
           <pre class="request route highlight">POST /orders</pre>
             <h4>Body</h4>
-            <pre class="request highlight">order[name]=Order 1
-order[paid]=true
-order[email]=email@example.com</pre>
+            <pre class="request highlight">{
+  &quot;order&quot;: {
+    &quot;name&quot;: &quot;Order 1&quot;,
+    &quot;paid&quot;: true,
+    &quot;email&quot;: &quot;email@example.com&quot;
+  }
+}</pre>
 
 
             <h3>Response</h3>
@@ -80,7 +84,7 @@ Location: http://example.org/orders/1
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;5fffd66f61cdd4ab8881584dbf5e72cf&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.020286
+X-Runtime: 0.014158
 Content-Length: 58</pre>
             <h4>Status</h4>
             <pre class="response status">201 Created</pre>
@@ -96,6 +100,7 @@ Content-Length: 58</pre>
           <h3>Request</h3>
           <h4>Headers</h4>
           <pre class="request headers">Accept: application/json
+Content-Type: application/json
 Host: example.org
 Cookie: </pre>
           <h4>Route</h4>
@@ -108,7 +113,7 @@ Cookie: </pre>
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;5fffd66f61cdd4ab8881584dbf5e72cf&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.006336
+X-Runtime: 0.009817
 Content-Length: 58</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>

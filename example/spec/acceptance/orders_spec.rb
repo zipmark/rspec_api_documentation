@@ -2,9 +2,9 @@ require 'spec_helper'
 require 'rspec_api_documentation/dsl'
 
 resource "Orders" do
-  let(:order) { Order.create(:name => "Old Name", :paid => true, :email => "email@example.com") }
+  let(:client) { RspecApiDocumentation::TestClient.new(self, :headers => {"HTTP_ACCEPT" => "application/json", "CONTENT_TYPE" => "application/json"}) }
 
-  let(:client) { RspecApiDocumentation::TestClient.new(self, :headers => { "HTTP_ACCEPT" => "application/json" }) }
+  let(:order) { Order.create(:name => "Old Name", :paid => true, :email => "email@example.com") }
 
   get "/orders" do
     parameter :page, "Current page of orders"
@@ -33,6 +33,8 @@ resource "Orders" do
     let(:name) { "Order 1" }
     let(:paid) { true }
     let(:email) { "email@example.com" }
+
+    let(:raw_post) { params.to_json }
 
     scope_parameters :order, :all
 
@@ -64,12 +66,12 @@ resource "Orders" do
     parameter :name, "Name of order"
     parameter :paid, "If the order has been paid for"
     parameter :email, "Email of user that placed the order"
+    scope_parameters :order, :all
 
     let(:id) { order.id }
-
     let(:name) { "Updated Name" }
 
-    scope_parameters :order, :all
+    let(:raw_post) { params.to_json }
 
     example_request "Updating an order" do
       status.should == 200
