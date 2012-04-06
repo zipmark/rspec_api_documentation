@@ -1,0 +1,139 @@
+<html>
+  <head>
+    <title>Orders API</title>
+    <link rel="stylesheet" href="http://zipmark.github.com/rspec_api_documentation/css/1.3.0/bootstrap.min.css">
+    <style>
+      td.required .name:after {
+        float: right;
+        content: "required";
+        font-weight: normal;
+        color: #F08080;
+      }
+
+      p {
+        padding: 15px;
+        font-size: 130%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Orders API</h1>
+
+      <div class="article">
+        <h2>Creating an order</h2>
+
+          <h3>Parameters</h3>
+          <table class="parameters">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="required">
+                  <span class="name">name</span>
+                </td>
+                <td>
+                  <span class="description">Name of order</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="required">
+                  <span class="name">paid</span>
+                </td>
+                <td>
+                  <span class="description">If the order has been paid for</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="name">email</span>
+                </td>
+                <td>
+                  <span class="description">Email of user that placed the order</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Request</h3>
+          <h4>Headers</h4>
+          <pre class="request headers">Accept: application/json
+Content-Type: application/json
+Host: example.org
+Cookie: </pre>
+          <h4>Route</h4>
+          <pre class="request route highlight">POST /orders</pre>
+            <h4>Body</h4>
+            <div class="request body"><div class="CodeRay">
+  <div class="code"><pre>{
+  <span style="color:#606"><span style="color:#404">&quot;</span><span>order</span><span style="color:#404">&quot;</span></span>: {
+    <span style="color:#606"><span style="color:#404">&quot;</span><span>name</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Order 1</span><span style="color:#710">&quot;</span></span>,
+    <span style="color:#606"><span style="color:#404">&quot;</span><span>paid</span><span style="color:#404">&quot;</span></span>: <span style="color:#088">true</span>,
+    <span style="color:#606"><span style="color:#404">&quot;</span><span>email</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">email@example.com</span><span style="color:#710">&quot;</span></span>
+  }
+}</pre></div>
+</div>
+</div>
+
+            <h4>cURL</h4>
+            <pre class="request">curl http://localhost:3000/orders -d &quot;{&quot;order&quot;:{&quot;name&quot;:&quot;Order 1&quot;,&quot;paid&quot;:true,&quot;email&quot;:&quot;email@example.com&quot;}}&quot; -X POST -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Host: example.org&quot; -H &quot;Cookie: &quot;</pre>
+
+            <h3>Response</h3>
+            <h4>Headers</h4>
+            <pre class="response headers">Content-Type: application/json; charset=utf-8
+Location: http://example.org/orders/1
+X-Ua-Compatible: IE=Edge,chrome=1
+E-Tag: &quot;5fffd66f61cdd4ab8881584dbf5e72cf&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Runtime: 0.037236
+Content-Length: 58</pre>
+            <h4>Status</h4>
+            <pre class="response status">201 Created</pre>
+              <h4>Body</h4>
+              <div class="response body"><div class="CodeRay">
+  <div class="code"><pre>{
+  <span style="color:#606"><span style="color:#404">&quot;</span><span>email</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">email@example.com</span><span style="color:#710">&quot;</span></span>,
+  <span style="color:#606"><span style="color:#404">&quot;</span><span>name</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Order 1</span><span style="color:#710">&quot;</span></span>,
+  <span style="color:#606"><span style="color:#404">&quot;</span><span>paid</span><span style="color:#404">&quot;</span></span>: <span style="color:#088">true</span>
+}</pre></div>
+</div>
+</div>
+          <h3>Request</h3>
+          <h4>Headers</h4>
+          <pre class="request headers">Accept: application/json
+Content-Type: application/json
+Host: example.org
+Cookie: </pre>
+          <h4>Route</h4>
+          <pre class="request route highlight">GET /orders/1</pre>
+
+            <h4>cURL</h4>
+            <pre class="request">curl http://localhost:3000/orders/1 -X GET -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Host: example.org&quot; -H &quot;Cookie: &quot;</pre>
+
+            <h3>Response</h3>
+            <h4>Headers</h4>
+            <pre class="response headers">Content-Type: application/json; charset=utf-8
+X-Ua-Compatible: IE=Edge,chrome=1
+E-Tag: &quot;5fffd66f61cdd4ab8881584dbf5e72cf&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Runtime: 0.007070
+Content-Length: 58</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <div class="response body"><div class="CodeRay">
+  <div class="code"><pre>{
+  <span style="color:#606"><span style="color:#404">&quot;</span><span>email</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">email@example.com</span><span style="color:#710">&quot;</span></span>,
+  <span style="color:#606"><span style="color:#404">&quot;</span><span>name</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Order 1</span><span style="color:#710">&quot;</span></span>,
+  <span style="color:#606"><span style="color:#404">&quot;</span><span>paid</span><span style="color:#404">&quot;</span></span>: <span style="color:#088">true</span>
+}</pre></div>
+</div>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
