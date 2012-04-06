@@ -150,7 +150,7 @@ describe RspecApiDocumentation::TestClient do
         metadata = example.metadata[:requests].first
         metadata[:method].should eq("POST")
         metadata[:route].should eq("/greet?query=test+query")
-        metadata[:request_body].should eq("{\n  \"target\": \"nurse\"\n}")
+        metadata[:request_body].should be_present
         metadata[:request_headers].should match(/^Content-Type: application\/json/)
         metadata[:request_headers].should match(/^X-Custom-Header: custom header value$/)
         metadata[:request_query_parameters].should eq("query: test query")
@@ -166,7 +166,7 @@ describe RspecApiDocumentation::TestClient do
         let(:post_data) { { :target => "nurse", :email => "email@example.com" } }
 
         it "should not nil out request_body" do
-          example.metadata[:requests].first[:request_body].split("\n").sort.should eq("target=nurse\nemail=email@example.com".split("\n").sort)
+          example.metadata[:requests].first[:request_body].should eq("<pre>target=nurse&email=email%40example.com</pre>")
         end
       end
 

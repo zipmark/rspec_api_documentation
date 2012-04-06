@@ -33,6 +33,8 @@ Cookie: </pre>
           <h4>Route</h4>
           <pre class="request route highlight">DELETE /orders/1</pre>
 
+            <h4>cURL</h4>
+            <pre class="request">curl http://localhost:3000/orders/1 -X DELETE -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Host: example.org&quot; -H &quot;Cookie: &quot;</pre>
 
             <h3>Response</h3>
             <h4>Headers</h4>
@@ -41,7 +43,7 @@ Location: http://example.org/orders
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;99914b932bd37a50b983c5e7c90ae93b&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.008442
+X-Runtime: 0.012483
 Content-Length: 2</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>

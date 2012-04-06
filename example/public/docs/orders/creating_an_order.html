@@ -68,14 +68,19 @@ Cookie: </pre>
           <h4>Route</h4>
           <pre class="request route highlight">POST /orders</pre>
             <h4>Body</h4>
-            <pre class="request highlight">{
-  &quot;order&quot;: {
-    &quot;name&quot;: &quot;Order 1&quot;,
-    &quot;paid&quot;: true,
-    &quot;email&quot;: &quot;email@example.com&quot;
+            <div class="request body"><div class="CodeRay">
+  <div class="code"><pre>{
+  <span style="color:#606"><span style="color:#404">&quot;</span><span>order</span><span style="color:#404">&quot;</span></span>: {
+    <span style="color:#606"><span style="color:#404">&quot;</span><span>name</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Order 1</span><span style="color:#710">&quot;</span></span>,
+    <span style="color:#606"><span style="color:#404">&quot;</span><span>paid</span><span style="color:#404">&quot;</span></span>: <span style="color:#088">true</span>,
+    <span style="color:#606"><span style="color:#404">&quot;</span><span>email</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">email@example.com</span><span style="color:#710">&quot;</span></span>
   }
-}</pre>
+}</pre></div>
+</div>
+</div>
 
+            <h4>cURL</h4>
+            <pre class="request">curl http://localhost:3000/orders -d &quot;{&quot;order&quot;:{&quot;name&quot;:&quot;Order 1&quot;,&quot;paid&quot;:true,&quot;email&quot;:&quot;email@example.com&quot;}}&quot; -X POST -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Host: example.org&quot; -H &quot;Cookie: &quot;</pre>
 
             <h3>Response</h3>
             <h4>Headers</h4>
@@ -84,7 +89,7 @@ Location: http://example.org/orders/1
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;5fffd66f61cdd4ab8881584dbf5e72cf&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.014158
+X-Runtime: 0.037236
 Content-Length: 58</pre>
             <h4>Status</h4>
             <pre class="response status">201 Created</pre>
@@ -106,6 +111,8 @@ Cookie: </pre>
           <h4>Route</h4>
           <pre class="request route highlight">GET /orders/1</pre>
 
+            <h4>cURL</h4>
+            <pre class="request">curl http://localhost:3000/orders/1 -X GET -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Host: example.org&quot; -H &quot;Cookie: &quot;</pre>
 
             <h3>Response</h3>
             <h4>Headers</h4>
@@ -113,7 +120,7 @@ Cookie: </pre>
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;5fffd66f61cdd4ab8881584dbf5e72cf&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.009817
+X-Runtime: 0.007070
 Content-Length: 58</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
