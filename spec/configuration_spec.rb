@@ -50,6 +50,7 @@ describe RspecApiDocumentation::Configuration do
     its(:app) { should be_nil }
     its(:curl_host) { should be_nil }
     its(:url_prefix) { should be_blank }
+    its(:keep_source_order) { should be_false }
   end
 
   describe "#define_groups" do
