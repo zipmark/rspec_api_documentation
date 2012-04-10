@@ -30,6 +30,7 @@ See the `example` folder for a sample Rails app that has been documented.
 - filter - Filter by example document type
 - exclusion_filter - Filter by example document type
 - url_prefix - Add before all links on the index page, useful if docs are located in `public/docs`
+- keep_source_order - By default examples and resources are ordered by description. Set to true keep the source order.
 
 ### Example Configuration
 `spec/spec_helper.rb`
