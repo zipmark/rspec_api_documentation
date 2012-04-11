@@ -89,7 +89,7 @@ Feature: Generate HTML documentation from test examples
       Content-Type: application/json
       Content-Length: 35
       """
-    And   I should see the following response_body:
+    And   I should see the following response body:
       """
       {
         "hello": "rspec_api_documentation"
