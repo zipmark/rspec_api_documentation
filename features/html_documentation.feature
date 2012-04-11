@@ -92,6 +92,6 @@ Feature: Generate HTML documentation from test examples
     And   I should see the following response_body:
       """
       {
-        "hello" => "rspec_api_documentation"
+        "hello": "rspec_api_documentation"
       }
       """
