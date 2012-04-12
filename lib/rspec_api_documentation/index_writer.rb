@@ -1,10 +1,13 @@
+require "active_support/core_ext/enumerable"
+
 module RspecApiDocumentation
   module IndexWriter
-    def sections(examples)
+    def sections(examples, configuration)
       resources = examples.group_by(&:resource_name).inject([]) do |arr, (resource_name, examples)|
-        arr << { :resource_name => resource_name, :examples => examples.sort_by(&:description) }
+        ordered_examples = configuration.keep_source_order ? examples : examples.sort_by(&:description)
+        arr.push(:resource_name => resource_name, :examples => ordered_examples)
       end
-      resources.sort_by { |resource| resource[:resource_name] }
+      configuration.keep_source_order ? resources : resources.sort_by { |resource| resource[:resource_name] }
     end
     module_function :sections
   end

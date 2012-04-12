@@ -16,22 +16,29 @@ Then /^I should see the following parameters:$/ do |table|
   names.zip(descriptions).should == table.rows
 end
 
-Then /^I should see the following (request|response) headers:$/ do |part, headers|
-  page.should have_css("pre.#{part}.headers", :content => headers)
+Then /^I should see the following (request|response) headers:$/ do |part, table|
+  text = page.find("pre.#{part}.headers").text
+  actual_headers = text.split("\n")
+  expected_headers = table.raw.map { |row| row.join(": ") }
+  actual_headers.should =~ expected_headers
 end
 
 Then /^I should see the route is "([^"]*)"$/ do |route|
-  page.should have_css(".request.route", :content => route)
+  page.should have_css(".request.route", :text => route)
 end
 
 Then /^I should see the following query parameters:$/ do |query_parameters|
-  page.should have_css("pre.request.query_parameters"), :content => query_parameters
+  page.should have_css("pre.request.query_parameters"), :text => query_parameters
 end
 
 Then /^I should see the response status is "([^"]*)"$/ do |status|
-  page.should have_css(".response.status", :content => status)
+  page.should have_css(".response.status", :text => status)
 end
 
-Then /^I should see the following response_body:$/ do |response_body|
-  page.should have_css("div.response.body", :content => response_body)
+Then /^I should see the following request body:$/ do |request_body|
+  page.should have_css("div.request.body", :text => request_body)
+end
+
+Then /^I should see the following response body:$/ do |response_body|
+  page.should have_css("div.response.body", :text => response_body)
 end

@@ -102,7 +102,6 @@ PLATFORMS
 
 DEPENDENCIES
   aruba
-  builder
   capybara
   fakefs
   rack-test (>= 0.5.5)

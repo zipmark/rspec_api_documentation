@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'rack/test'
 require 'sinatra/base'
-require 'active_support/core_ext/hash/conversions'
 
 class StubApp < Sinatra::Base
   get "/" do
@@ -26,7 +25,7 @@ class StubApp < Sinatra::Base
   get "/xml" do
     content_type :xml
 
-    { :hello => "world" }.to_xml
+    "<hello>World</hello>"
   end
 end
 

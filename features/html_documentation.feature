@@ -3,25 +3,18 @@ Feature: Generate HTML documentation from test examples
   Background:
     Given a file named "app.rb" with:
       """
-      require "sinatra/base"
-
-      class App < Sinatra::Base
-        before do
-          content_type :json
-        end
-
-        get "/greetings" do
-          if target = params["target"]
-            { "hello" => params["target"] }.to_json
-          else
-            422
-          end
+      class App
+        def self.call(env)
+          request = Rack::Request.new(env)
+          response = Rack::Response.new
+          response["Content-Type"] = "application/json"
+          response.write({ "hello" => request.params["target"] }.to_json)
+          response.finish
         end
       end
       """
     And   a file named "app_spec.rb" with:
       """
-      require "active_support/inflector"
       require "rspec_api_documentation"
       require "rspec_api_documentation/dsl"
 
@@ -72,10 +65,8 @@ Feature: Generate HTML documentation from test examples
     And   I navigate to "Greeting your favorite gem"
     Then  I should see the route is "GET /greetings?target=rspec_api_documentation"
     And   I should see the following request headers:
-      """
-      Host: example.org
-      Cookie: 
-      """
+      | Host   | example.org |
+      | Cookie |             |
     And   I should see the following query parameters:
       """
       target: rspec_api_documentation
@@ -86,13 +77,11 @@ Feature: Generate HTML documentation from test examples
     And   I navigate to "Greeting your favorite gem"
     Then  I should see the response status is "200 OK"
     And   I should see the following response headers:
-      """
-      Content-Type: application/json
-      Content-Length: 35
-      """
-    And   I should see the following response_body:
+      | Content-Type   | application/json |
+      | Content-Length | 35               |
+    And   I should see the following response body:
       """
       {
-        "hello" => "rspec_api_documentation"
+        "hello": "rspec_api_documentation"
       }
       """
