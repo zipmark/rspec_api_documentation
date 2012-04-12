@@ -3,10 +3,8 @@ Feature: Document callbacks
   Background:
     Given a file named "app.rb" with:
       """
-      require "sinatra/base"
-
-      class App < Sinatra::Base
-        post "/interesting_thing" do
+      class App
+        def self.call(env)
           uri = URI.parse("http://example.net/callback")
           Net::HTTP.start(uri.host, uri.port) do |http|
             request = Net::HTTP::Post.new(uri.path)
@@ -15,7 +13,7 @@ Feature: Document callbacks
             request["User-Agent"] = "InterestingThingApp"
             http.request request
           end
-          200
+          [200, {}, []]
         end
       end
       """

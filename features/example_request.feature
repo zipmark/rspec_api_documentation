@@ -2,11 +2,9 @@ Feature: Example Request
   Background:
     Given a file named "app.rb" with:
       """
-      require "sinatra/base"
-
-      class App < Sinatra::Base
-        get "/" do
-          "Hello, world"
+      class App
+        def self.call(env)
+          [200, {}, ["Hello, world"]]
         end
       end
       """
