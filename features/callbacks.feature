@@ -31,7 +31,7 @@ Feature: Document callbacks
           let(:callback_url) { "http://example.net/callback" }
 
           trigger_callback do
-            post "/interesting_thing"
+            app.call({})
           end
 
           example "Receiving a callback when interesting things happen" do
@@ -40,7 +40,6 @@ Feature: Document callbacks
         end
       end
       """
-
     When  I run `rspec app_spec.rb --require ./app.rb --format RspecApiDocumentation::ApiFormatter`
 
   Scenario: Output helpful progress to the console
