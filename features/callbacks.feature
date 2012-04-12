@@ -11,8 +11,8 @@ Feature: Document callbacks
           Net::HTTP.start(uri.host, uri.port) do |http|
             request = Net::HTTP::Post.new(uri.path)
             request.body = '{"message":"Something interesting happened!"}'
-            request.add_field("Content-Type", "application/json")
-            request.add_field("User-Agent", "InterestingThingApp")
+            request["Content-Type"] = "application/json"
+            request["User-Agent"] = "InterestingThingApp"
             http.request request
           end
           200
