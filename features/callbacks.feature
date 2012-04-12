@@ -12,6 +12,7 @@ Feature: Document callbacks
             request = Net::HTTP::Post.new(uri.path)
             request.body = '{"message":"Something interesting happened!"}'
             request.add_field("Content-Type", "application/json")
+            request.add_field("User-Agent", "InterestingThingApp")
             http.request request
           end
           200
@@ -65,11 +66,9 @@ Feature: Document callbacks
     And   I navigate to "Receiving a callback when interesting things happen"
     Then  I should see the route is "POST /callback"
     And   I should see the following request headers:
-      """
-      Content-Type: application/json
-      Accept: */*
-      User-Agent: Ruby
-      """
+      | Content-Type | application/json    |
+      | Accept       | */*                 |
+      | User-Agent   | InterestingThingApp |
     And   I should see the following request body:
       """
       {

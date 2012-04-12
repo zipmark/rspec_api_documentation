@@ -16,8 +16,11 @@ Then /^I should see the following parameters:$/ do |table|
   names.zip(descriptions).should == table.rows
 end
 
-Then /^I should see the following (request|response) headers:$/ do |part, headers|
-  page.should have_css("pre.#{part}.headers", :text => headers)
+Then /^I should see the following (request|response) headers:$/ do |part, table|
+  text = page.find("pre.#{part}.headers").text
+  actual_headers = text.split("\n")
+  expected_headers = table.raw.map { |row| row.join(": ") }
+  actual_headers.should =~ expected_headers
 end
 
 Then /^I should see the route is "([^"]*)"$/ do |route|
