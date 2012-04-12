@@ -86,7 +86,6 @@ PLATFORMS
 
 DEPENDENCIES
   aruba
-  builder
   capybara
   fakefs
   rake

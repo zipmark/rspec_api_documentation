@@ -13,7 +13,6 @@ gem "coderay", "1.0.7.rc1"
 
 gem "fakefs"
 gem "sinatra"
-gem "builder"
 gem "aruba"
 gem "capybara"
 gem "rake"
