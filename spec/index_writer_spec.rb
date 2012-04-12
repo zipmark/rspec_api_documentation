@@ -28,7 +28,7 @@ describe RspecApiDocumentation::IndexWriter do
       end
 
       it "should order examples by source code declaration" do
-        subject.detect { |resource| resource[:resource_name] == "Order"}[:examples].should =~ [example_1, example_2]
+        subject.detect { |resource| resource[:resource_name] == "Order"}[:examples].should == [example_1, example_2]
       end
     end
   end
