@@ -11,10 +11,6 @@ describe RspecApiDocumentation::IndexWriter do
       let(:configuration) { RspecApiDocumentation::Configuration.new }
       subject { RspecApiDocumentation::IndexWriter.sections(examples, configuration) }
 
-      it "should group examples by resource name" do
-        subject.map { |resource| resource[:resource_name] }.should =~ ["Cart", "Order"]
-      end
-
       it "should order resources by resource name" do
         subject.map { |resource| resource[:resource_name] }.should == ["Cart", "Order"]
       end
