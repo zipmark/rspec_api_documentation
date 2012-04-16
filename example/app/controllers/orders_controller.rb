@@ -1,5 +1,4 @@
 class OrdersController < ApplicationController
-  inherit_resources
-
   respond_to :json
+  inherit_resources
 end

@@ -1,0 +1,112 @@
+.whurls.show .menu {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  border: 1px solid #666;
+  border-left: none;
+  background-color: #f6a828;
+  border-radius: 0 20px 20px 0;
+  width: auto;
+  font-size: 16px;
+  padding: 5px;
+  z-index: 20;
+}
+
+.whurl td.line_numbers pre, .whurl td.code pre, .whurl td.code span {
+  font-family: monospace;
+}
+
+.whurl table.CodeRay {
+  border-collapse: collapse;
+}
+
+.whurl td.line_numbers {
+  background-color: #DDD;
+  text-align: right;
+  padding: 0 5px;
+}
+
+.whurl_form .headers, .whurl_form .params, .whurl_form .fields, .whurl_form .url, .whurl_form .post_body, .whurl_form .button_row {
+  margin-left: 162px;
+  min-height: 31px;
+  margin-bottom: 10px;
+}
+
+.whurl_form .header_pair, .whurl_form .param_pair, .whurl_form .field_pair {
+  padding: 4px 0;
+}
+
+.whurl_form .key, .whurl_form #whurl_basic_auth_user {
+  width: 200px;
+}
+
+.whurl_form .value, .whurl_form #whurl_basic_auth_password {
+  width: 400px;
+}
+
+.whurl_form .long {
+  width: 525px;
+}
+
+.whurl_form #whurl_request_url {
+  width: 514px;
+}
+
+.whurl_form input.one {
+  width: 480px;
+}
+
+.whurl_form input.two {
+  width: 225px;
+}
+
+.whurl_form input.three {
+  width: 350px;
+  margin-left: 10px;
+}
+
+.whurl_form input.four {
+  width: 350px;
+}
+
+.whurl_form textarea#whurl_request_body {
+  width: 610px;
+  height: 55px;
+  margin-bottom: 10px;
+  font-family: Courier, monospace;
+  font-size: 14px;
+}
+
+.whurl_form .textarea_disabled {
+  background-color: lightgray;
+}
+
+.whurl_form .section_title {
+  padding: 4px 0;
+  float: left;
+  text-align: right;
+  width: 155px;
+  line-height: 26px;
+}
+
+.whurl_form a.copy_link {
+  width: 115.5px;
+  height: 44px;
+  background: url("copyURL.png") no-repeat 0 0;
+  margin: 30px 0 0 45px;
+  display: block;
+}
+
+.whurl_form a.copy_link:hover {
+  background-position: -116px 0;
+}
+
+.whurl_form .param_pair:first-child,
+.whurl_form .header_pair:first-child {
+  display: none;
+}
+
+.whurl_form #give_it_a-whurl {
+  float: right;
+  margin-right: 170px;
+}

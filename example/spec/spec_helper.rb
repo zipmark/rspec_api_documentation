@@ -33,8 +33,8 @@ RSpec.configure do |config|
 end
 
 RspecApiDocumentation.configure do |config|
-  config.format = [:html, :json]
   config.docs_dir = Rails.root.join("public", "docs")
   config.url_prefix = "docs/"
   config.curl_host = 'http://localhost:3000'
+  #config.format = [:html, :json]
 end

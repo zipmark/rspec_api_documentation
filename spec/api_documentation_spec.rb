@@ -15,12 +15,21 @@ describe RspecApiDocumentation::ApiDocumentation do
       test_file = configuration.docs_dir.join("test")
       FileUtils.mkdir_p configuration.docs_dir
       FileUtils.touch test_file
-
+      FileUtils.stub(:cp_r)
       subject.clear_docs
 
       File.directory?(configuration.docs_dir).should be_true
       File.exists?(test_file).should be_false
     end
+
+    #it "copies in the stylesheets and javascripts" do
+    #  subject.clear_docs
+    #  p File.join(configuration.docs_dir, "javascripts")
+    #  File.directory?(File.join(configuration.docs_dir, "javascripts")).should be_true
+    #  File.exists?(File.join(configuration.docs_dir, "javascripts", "application.js")).should be_false
+    #  File.directory?(File.join(configuration.docs_dir, "stylesheets")).should be_true
+    #  File.exists?(File.join(configuration.docs_dir, "stylesheets", "application.css")).should be_false
+    #end
   end
 
   describe "#document_example" do

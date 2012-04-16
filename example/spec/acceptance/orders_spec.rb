@@ -39,6 +39,7 @@ resource "Orders" do
     scope_parameters :order, :all
 
     example_request "Creating an order" do
+      puts response_body
       response_body.should be_json_eql({
         "name" => name,
         "paid" => paid,
