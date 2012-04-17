@@ -34,11 +34,11 @@ describe RspecApiDocumentation::Example do
     end
   end
 
-  describe "#method" do
+  describe "#http_method" do
     let(:metadata) {{ :method => "GET" }}
 
     it "should return what is in the metadata" do
-      example.method.should == "GET"
+      example.http_method.should == "GET"
     end
   end
 

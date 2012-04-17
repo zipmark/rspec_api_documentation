@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title>Orders API</title>
+    <link rel="stylesheet" href="http://zipmark.github.com/rspec_api_documentation/css/1.3.0/bootstrap.min.css">
+    <style>
+      td.required .name:after {
+        float: right;
+        content: "required";
+        font-weight: normal;
+        color: #F08080;
+      }
+
+      p {
+        padding: 15px;
+        font-size: 130%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Orders API</h1>
+
+      <div class="article">
+        <h2>Getting a specific order</h2>
+
+
+          <h3>Request</h3>
+          <h4>Headers</h4>
+          <pre class="request headers">Accept: application/json
+Content-Type: application/json
+Host: example.org
+Cookie: </pre>
+          <h4>Route</h4>
+          <pre class="request route highlight">GET /orders/1</pre>
+
+            <h4>cURL</h4>
+            <pre class="request">curl http://localhost:3000/orders/1 -X GET -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Host: example.org&quot; -H &quot;Cookie: &quot;</pre>
+
+            <h3>Response</h3>
+            <h4>Headers</h4>
+            <pre class="response headers">Content-Type: application/json; charset=utf-8
+X-Ua-Compatible: IE=Edge,chrome=1
+E-Tag: &quot;d9eaba14696a65b9dfc66bf203d25a13&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Runtime: 0.005675
+Content-Length: 59</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <div class="response body"><div class="CodeRay">
+  <div class="code"><pre>{
+  <span style="color:#606"><span style="color:#404">&quot;</span><span>email</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">email@example.com</span><span style="color:#710">&quot;</span></span>,
+  <span style="color:#606"><span style="color:#404">&quot;</span><span>name</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Old Name</span><span style="color:#710">&quot;</span></span>,
+  <span style="color:#606"><span style="color:#404">&quot;</span><span>paid</span><span style="color:#404">&quot;</span></span>: <span style="color:#088">true</span>
+}</pre></div>
+</div>
+</div>
+      </div>
+    </div>
+  </body>
+</html>

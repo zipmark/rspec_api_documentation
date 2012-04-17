@@ -1,5 +1,6 @@
 require 'rack/test'
 require 'webmock'
+require 'rspec/core/formatters/base_formatter'
 
 module RspecApiDocumentation
   module DSL
@@ -62,7 +63,12 @@ module RspecApiDocumentation
       end
 
       def example_request(description, params = {}, &block)
-        example(description) do
+        file_path = caller.first[0, caller.first =~ /:/]
+
+        location = caller.first[0, caller.first =~ /(:in|$)/]
+        location = RSpec::Core::Formatters::BaseFormatter::relative_path(location)
+
+        example description, :location => location, :file_path => file_path do
           do_request(params)
           instance_eval &block if block_given?
         end
@@ -168,11 +174,11 @@ module RspecApiDocumentation
     end
 
     def status
-      last_response.status
+      client.last_response.status
     end
 
     def response_body
-      last_response.body
+      client.last_response.body
     end
 
     private
@@ -215,3 +221,4 @@ end
 
 RSpec.configuration.include RspecApiDocumentation::DSL, :api_docs_dsl => true
 RSpec.configuration.include Rack::Test::Methods, :api_docs_dsl => true
+RSpec.configuration.backtrace_clean_patterns << %r{lib/rspec_api_documentation/dsl\.rb}

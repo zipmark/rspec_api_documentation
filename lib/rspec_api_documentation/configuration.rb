@@ -56,6 +56,7 @@ module RspecApiDocumentation
     }
 
     add_setting :curl_host, :default => nil
+    add_setting :keep_source_order, :default => false
 
     def settings
       @settings ||= {}

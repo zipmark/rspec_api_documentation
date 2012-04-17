@@ -36,7 +36,7 @@ module RspecApiDocumentation
     end
 
     def sections
-      IndexWriter.sections(examples)
+      IndexWriter.sections(examples, @configuration)
     end
 
     def examples
@@ -45,8 +45,6 @@ module RspecApiDocumentation
   end
 
   class HtmlExample < Mustache
-    delegate :method, :to => :@example
-
     def initialize(example, configuration)
       @example = example
       @host = configuration.curl_host
