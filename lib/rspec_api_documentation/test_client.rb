@@ -71,13 +71,8 @@ module RspecApiDocumentation
       request_metadata = {}
 
       request_metadata[:method] = method.to_s.upcase
-      #request_metadata[:route] = action
-      Rails.application.routes.routes.each do |route|
-        reg = Rack::Mount::RegexpWithNamedGroups.new(route.instance_variable_get("@conditions")[:path_info])
-        if reg.match(action)
-          request_metadata[:route] = route.path[0..-11]
-        end 
-      end 
+      request_metadata[:route] = action
+      request_metadata[:path] = example.metadata[:path]
 
       request_metadata[:request_body] = highlight_syntax(request_body, last_request.content_type, true)
       request_metadata[:request_headers] = format_headers(last_headers)
