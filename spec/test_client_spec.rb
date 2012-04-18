@@ -147,8 +147,8 @@ describe RspecApiDocumentation::TestClient do
     context "when examples should be documented", :document => true do
       it "should augment the metadata with information about the request" do
         metadata = example.metadata[:requests].first
-        metadata[:method].should eq("POST")
-        metadata[:route].should eq("/greet?query=test+query")
+        metadata[:request_method].should eq("POST")
+        metadata[:request_path].should eq("/greet?query=test+query")
         metadata[:request_body].should be_present
         metadata[:request_headers].should match(/^Content-Type: application\/json/)
         metadata[:request_headers].should match(/^X-Custom-Header: custom header value$/)

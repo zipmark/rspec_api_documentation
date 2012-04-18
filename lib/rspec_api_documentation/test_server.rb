@@ -8,8 +8,8 @@ module RspecApiDocumentation
 
       request_metadata = {}
 
-      request_metadata[:method] = env["REQUEST_METHOD"]
-      request_metadata[:route] = env["PATH_INFO"]
+      request_metadata[:request_method] = env["REQUEST_METHOD"]
+      request_metadata[:request_path] = env["PATH_INFO"]
       request_metadata[:request_body] = prettify_json(env["rack.input"].read)
       request_metadata[:request_headers] = headers(env)
 

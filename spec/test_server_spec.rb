@@ -42,8 +42,8 @@ describe RspecApiDocumentation::TestServer do
     context "when examples should be documentated", :document => true do
       it "should augment the metadata with information about the request" do
         metadata = example.metadata[:requests].first
-        metadata[:method].should eq("POST")
-        metadata[:route].should eq(path)
+        metadata[:request_method].should eq("POST")
+        metadata[:request_path].should eq(path)
         metadata[:request_body].should eq(JSON.pretty_generate(JSON.parse(body)))
         metadata[:request_headers].split("\n").sort.should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ".split("\n").sort)
       end
