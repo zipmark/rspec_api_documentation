@@ -72,6 +72,8 @@ module RspecApiDocumentation
 
       request_metadata[:method] = method.to_s.upcase
       request_metadata[:route] = action
+      request_metadata[:path] = example.metadata[:path]
+
       request_metadata[:request_body] = highlight_syntax(request_body, last_request.content_type, true)
       request_metadata[:request_headers] = format_headers(last_headers)
       request_metadata[:request_query_parameters] = format_query_hash(last_query_hash)
@@ -104,17 +106,17 @@ module RspecApiDocumentation
       return if body.blank?
       begin
         case content_type
-          when /json/
-            CodeRay.scan(JSON.pretty_generate(JSON.parse(body)), :json).div
-          when /html/
-            CodeRay.scan(body, :html).div
-          when /javascript/
-            CodeRay.scan(body, :java_script).div
-          when /xml/
-            CodeRay.scan(body, :xml).div
-          else
-            body = prettify_request_body(body) if is_query_string
-            "<pre>#{body}</pre>"
+        when /json/
+          CodeRay.scan(JSON.pretty_generate(JSON.parse(body)), :json).div
+        when /html/
+          CodeRay.scan(body, :html).div
+        when /javascript/
+          CodeRay.scan(body, :java_script).div
+        when /xml/
+          CodeRay.scan(body, :xml).div
+        else
+          body = prettify_request_body(body) if is_query_string
+          "<pre>#{body}</pre>"
         end
       rescue
         "<pre>#{body}</pre>"
