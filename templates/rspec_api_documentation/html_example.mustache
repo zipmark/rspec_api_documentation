@@ -4,40 +4,10 @@
     <link rel="stylesheet" href="../assets/stylesheets/bootstrap.css" />
     <link rel="stylesheet" href="../assets/stylesheets/application.css" />
     <script src="../assets/javascripts/jquery-1-7-2.js"></script>
+    <script src="../assets/javascripts/jquery-livequery.js"></script>
+    <script src="../assets/javascripts/jquery-base64.js"></script>
     <script src="../assets/javascripts/jquery-ui-1-8-16-min.js"></script>
     <script src="../assets/javascripts/application.js"></script>
-    <script>
-//      function make_basic_auth(user, password) {
-//        var token = user + ':' + password;
-//        var hash = Base64.encode(token);
-//        return "Basic " + hash;
-//      }
-
-      $(function () {
-        $('.give_it_a_whurl').click(function (elem) {
-          $form = $(elem.currentTarget.form);
-//          var auth = make_basic_auth('me', 'mypassword');
-          $.ajax({
-
-            beforeSend:function (req) {
-              $form.find('.response').hide();
-
-//              req.setRequestHeader('Authorization', auth);
-            },
-            type:$form.find('#whurl_request_method').val(),
-            url:$form.find('#whurl_request_url').val(),
-//            data:"dataString",
-            complete:function (jqXHR, textStatus) {
-              console.log(textStatus);
-              $form.find('.response_status').html(jqXHR.status + ' - ' + jqXHR.statusText);
-              $form.find('.response_body').html(jqXHR.responseText);
-              $form.find('.response').toggle();
-            }
-          });
-          return false;
-        });
-      });
-    </script>
     <style>
       td.required .name:after {
         float: right;
@@ -136,7 +106,6 @@
                   <option value="DELETE">DELETE</option>
                   <option value="HEAD">HEAD</option>
                 </select>
-                /
                 <input id="whurl_request_url" name="whurl[request_url]" size="30" type="text" value="{{ route }}">
               </div>
             </div>
