@@ -7,15 +7,31 @@
     <script src="../assets/javascripts/jquery-ui-1-8-16-min.js"></script>
     <script src="../assets/javascripts/application.js"></script>
     <script>
+//      function make_basic_auth(user, password) {
+//        var token = user + ':' + password;
+//        var hash = Base64.encode(token);
+//        return "Basic " + hash;
+//      }
+
       $(function () {
         $('.give_it_a_whurl').click(function (elem) {
           $form = $(elem.currentTarget.form);
+//          var auth = make_basic_auth('me', 'mypassword');
           $.ajax({
+
+            beforeSend:function (req) {
+              $form.find('.response').hide();
+
+//              req.setRequestHeader('Authorization', auth);
+            },
             type:$form.find('#whurl_request_method').val(),
             url:$form.find('#whurl_request_url').val(),
 //            data:"dataString",
             complete:function (jqXHR, textStatus) {
               console.log(textStatus);
+              $form.find('.response_status').html(jqXHR.status + ' - ' + jqXHR.statusText);
+              $form.find('.response_body').html(jqXHR.responseText);
+              $form.find('.response').toggle();
             }
           });
           return false;
@@ -107,7 +123,7 @@ Location: http://example.org/orders/1
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;99914b932bd37a50b983c5e7c90ae93b&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.008020
+X-Runtime: 0.007431
 Content-Length: 2</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
@@ -225,6 +241,12 @@ Content-Length: 2</pre>
                      type="button" value="Clear" role="button" aria-disabled="false">
               <input class="give_it_a_whurl" type="submit" value="Give it a Whurl!"
                      class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false">
+            </div>
+            <div class="response">
+              <h3>Response Status</h3>
+              <div class="response_status"></div>
+              <h3>Response Body</h3>
+              <div class="response_body"></div>
             </div>
           </form>
         </div>
