@@ -2,6 +2,8 @@ require "coderay"
 
 module RspecApiDocumentation
   class TestClient < Struct.new(:context, :options)
+    include Headers
+
     delegate :example, :app, :to => :context
     delegate :metadata, :to => :example
     delegate :last_request, :last_response, :to => :rack_test_session
@@ -98,24 +100,6 @@ module RspecApiDocumentation
 
       metadata[:requests] ||= []
       metadata[:requests] << request_metadata
-    end
-
-    def env_to_headers(env)
-      headers = {}
-      env.each do |key, value|
-        # HTTP_ACCEPT_CHARSET => Accept-Charset
-        if key =~ /^(HTTP_|CONTENT_TYPE)/
-          header = key.gsub(/^HTTP_/, '').titleize.split.join("-")
-          headers[header] = value
-        end
-      end
-      headers
-    end
-
-    def format_headers(headers)
-      headers.map do |key, value|
-        "#{key}: #{value}"
-      end.join("\n")
     end
 
     def format_query_hash(query_hash)

@@ -17,6 +17,7 @@ module RspecApiDocumentation
     autoload :ExampleGroup
     autoload :Index
     autoload :TestClient
+    autoload :Headers
   end
 
   autoload :DSL

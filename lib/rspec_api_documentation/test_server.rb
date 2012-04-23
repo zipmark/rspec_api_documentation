@@ -1,5 +1,7 @@
 module RspecApiDocumentation
   class TestServer < Struct.new(:context)
+    include Headers
+
     delegate :example, :last_request, :last_response, :to => :context
     delegate :metadata, :to => :example
 
@@ -11,7 +13,7 @@ module RspecApiDocumentation
       request_metadata[:request_method] = env["REQUEST_METHOD"]
       request_metadata[:request_path] = env["PATH_INFO"]
       request_metadata[:request_body] = prettify_json(env["rack.input"].read)
-      request_metadata[:request_headers] = headers(env)
+      request_metadata[:request_headers] = format_headers(env_to_headers(env))
 
       metadata[:requests] ||= []
       metadata[:requests] << request_metadata
@@ -20,18 +22,6 @@ module RspecApiDocumentation
     end
 
     private
-
-    def headers(env)
-      env.
-        select do |k, v|
-          k =~ /^(HTTP_|CONTENT_TYPE)/
-        end.
-        map do |key, value|
-          # HTTP_ACCEPT_CHARSET => Accept-Charset
-          formatted_key = key.gsub(/^HTTP_/, '').titleize.split.join("-")
-          "#{formatted_key}: #{value}"
-        end.join("\n")
-    end
 
     def prettify_json(json)
       begin
