@@ -7,6 +7,7 @@ module RspecApiDocumentation
     extend ActiveSupport::Concern
 
     delegate :last_response_headers, :status, :response_body, :to => :client
+    delegate :request_method, :request_headers, :request_body, :to => :destination
 
     module ClassMethods
       def self.define_action(method)

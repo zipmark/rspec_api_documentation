@@ -1,10 +1,13 @@
 Feature: Document callbacks
 
   Background:
-    Given a file named "app.rb" with:
+    Given a file named "app_spec.rb" with:
       """
-      class App
-        def self.call(env)
+      require "rspec_api_documentation"
+      require "rspec_api_documentation/dsl"
+
+      RspecApiDocumentation.configure do |config|
+        config.app = lambda do
           uri = URI.parse("http://example.net/callback")
           Net::HTTP.start(uri.host, uri.port) do |http|
             request = Net::HTTP::Post.new(uri.path)
@@ -16,31 +19,26 @@ Feature: Document callbacks
           [200, {}, []]
         end
       end
-      """
-    And   a file named "app_spec.rb" with:
-      """
-      require "rspec_api_documentation"
-      require "rspec_api_documentation/dsl"
-
-      RspecApiDocumentation.configure do |config|
-        config.app = App
-      end
 
       resource "Interesting Thing" do
         callback "/interesting_thing" do
           let(:callback_url) { "http://example.net/callback" }
 
           trigger_callback do
-            app.call({})
+            app.call
           end
 
           example "Receiving a callback when interesting things happen" do
             do_callback
+            request_method.should eq("POST")
+            request_headers["Content-Type"].should eq("application/json")
+            request_headers["User-Agent"].should eq("InterestingThingApp")
+            request_body.should eq('{"message":"Something interesting happened!"}')
           end
         end
       end
       """
-    When  I run `rspec app_spec.rb --require ./app.rb --format RspecApiDocumentation::ApiFormatter`
+    When  I run `rspec app_spec.rb --format RspecApiDocumentation::ApiFormatter`
 
   Scenario: Output helpful progress to the console
     Then  the output should contain:
