@@ -1,34 +1,29 @@
 module RspecApiDocumentation
   class TestServer < Struct.new(:context)
     include Headers
+    include Syntax
 
     delegate :example, :last_request, :last_response, :to => :context
     delegate :metadata, :to => :example
 
     def call(env)
-      env["rack.input"].rewind
+      input = env["rack.input"]
+      input.rewind
+      request_body = input.read
+
+      headers = env_to_headers(env)
 
       request_metadata = {}
 
       request_metadata[:request_method] = env["REQUEST_METHOD"]
       request_metadata[:request_path] = env["PATH_INFO"]
-      request_metadata[:request_body] = prettify_json(env["rack.input"].read)
-      request_metadata[:request_headers] = format_headers(env_to_headers(env))
+      request_metadata[:request_body] = highlight_syntax(request_body, headers["Content-Type"], true)
+      request_metadata[:request_headers] = format_headers(headers)
 
       metadata[:requests] ||= []
       metadata[:requests] << request_metadata
 
       return [200, {}, [""]]
-    end
-
-    private
-
-    def prettify_json(json)
-      begin
-        JSON.pretty_generate(JSON.parse(json))
-      rescue
-        nil
-      end
     end
   end
 end

@@ -1,5 +1,7 @@
 module RspecApiDocumentation
   module Headers
+    private
+
     def env_to_headers(env)
       headers = {}
       env.each do |key, value|
