@@ -7,7 +7,7 @@ describe RspecApiDocumentation::TestServer do
 
   subject { test_server }
 
-  its(:session) { should equal(self) }
+  its(:context) { should equal(self) }
   its(:example) { should equal(example) }
 
   context "being called as a rack application" do

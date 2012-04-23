@@ -1,6 +1,6 @@
 module RspecApiDocumentation
-  class TestServer < Struct.new(:session)
-    delegate :example, :last_request, :last_response, :to => :session
+  class TestServer < Struct.new(:context)
+    delegate :example, :last_request, :last_response, :to => :context
     delegate :metadata, :to => :example
 
     def call(env)
