@@ -22,10 +22,10 @@ describe RspecApiDocumentation::TestServer do
       "X-Custom-Header" => "custom header value"
     }}
 
-    before {
+    before do
       headers.each { |k, v| header k, v }
       send(method, path, body)
-    }
+    end
 
     it "should expose the last request" do
       test_server.last_request.should equal(last_request)
