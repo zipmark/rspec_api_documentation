@@ -85,8 +85,8 @@ module RspecApiDocumentation
 
       request_metadata = {}
 
-      request_metadata[:method] = method.to_s.upcase
-      request_metadata[:route] = action
+      request_metadata[:request_method] = method.to_s.upcase
+      request_metadata[:request_path] = action
       request_metadata[:request_body] = highlight_syntax(request_body, last_request.content_type, true)
       request_metadata[:request_headers] = format_headers(last_request_headers)
       request_metadata[:request_query_parameters] = format_query_hash(last_query_hash)

@@ -34,7 +34,7 @@ resource "Order" do
         subject { example.metadata }
 
         its([:method]) { should eq(http_method) }
-        its([:path]) { should eq("/path") }
+        its([:route]) { should eq("/path") }
       end
 
       describe "example context" do

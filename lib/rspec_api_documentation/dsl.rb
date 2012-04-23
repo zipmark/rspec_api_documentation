@@ -13,7 +13,7 @@ module RspecApiDocumentation
         define_method method do |*args, &block|
           options = if args.last.is_a?(Hash) then args.pop else {} end
           options[:method] = method
-          options[:path] = args.first
+          options[:route] = args.first
           args.push(options)
           args[0] = "#{method.to_s.upcase} #{args[0]}"
           context(*args, &block)
@@ -152,11 +152,11 @@ module RspecApiDocumentation
     end
 
     def path_params
-      example.metadata[:path].scan(/:(\w+)/).flatten
+      example.metadata[:route].scan(/:(\w+)/).flatten
     end
 
     def path
-      example.metadata[:path].gsub(/:(\w+)/) do |match|
+      example.metadata[:route].gsub(/:(\w+)/) do |match|
         if extra_params.keys.include?($1)
           delete_extra_param($1)
         elsif respond_to?($1)
