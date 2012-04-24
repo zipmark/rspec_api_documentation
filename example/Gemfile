@@ -22,4 +22,5 @@ end
 group :test, :development do
   gem 'rspec-rails'
   gem 'rspec_api_documentation', :path => "../"
+  gem 'raddocs', '0.0.2'
 end
