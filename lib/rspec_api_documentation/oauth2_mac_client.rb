@@ -1,3 +1,5 @@
+require "rack/oauth2"
+
 module RspecApiDocumentation
   class OAuth2MACClient < ClientBase
     include WebMock::API

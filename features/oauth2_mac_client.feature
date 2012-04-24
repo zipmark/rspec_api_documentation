@@ -5,7 +5,6 @@ Feature: Use OAuth2 MAC client as a test client
       require "rspec_api_documentation"
       require "rspec_api_documentation/dsl"
       require "rack/builder"
-      require "rack/oauth2"
 
       RspecApiDocumentation.configure do |config|
         config.app = Rack::Builder.new do
