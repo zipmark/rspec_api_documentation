@@ -6,7 +6,7 @@ module RspecApiDocumentation
   module DSL
     extend ActiveSupport::Concern
 
-    delegate :last_response_headers, :status, :response_body, :to => :client
+    delegate :response_headers, :status, :response_body, :to => :client
     delegate :request_method, :request_headers, :request_body, :to => :destination
 
     module ClassMethods

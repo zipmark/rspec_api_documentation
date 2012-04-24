@@ -29,6 +29,7 @@ Feature: Generate HTML documentation from test examples
           example "Greeting your favorite gem" do
             do_request :target => "rspec_api_documentation"
 
+            response_headers["Content-Type"].should eq("application/json")
             status.should eq(200)
             response_body.should eq('{"hello":"rspec_api_documentation"}')
           end

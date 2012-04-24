@@ -1,3 +1,5 @@
+require "coderay"
+
 module RspecApiDocumentation
   class TestClient < Struct.new(:context, :options)
     include Headers
@@ -34,20 +36,20 @@ module RspecApiDocumentation
       process :delete, *args
     end
 
-    def last_request_headers
+    def request_headers
       env_to_headers(last_request.env)
     end
 
-    def last_response_headers
+    def response_headers
       last_response.headers
     end
 
-    def last_query_string
+    def query_string
       last_request.env["QUERY_STRING"]
     end
 
-    def last_query_hash
-      strings = last_query_string.split("&")
+    def query_hash
+      strings = query_string.split("&")
       arrays = strings.map do |segment|
         segment.split("=")
       end
@@ -89,13 +91,13 @@ module RspecApiDocumentation
       request_metadata[:request_method] = method.to_s.upcase
       request_metadata[:request_path] = action
       request_metadata[:request_body] = highlight_syntax(request_body, last_request.content_type, true)
-      request_metadata[:request_headers] = format_headers(last_request_headers)
-      request_metadata[:request_query_parameters] = format_query_hash(last_query_hash)
-      request_metadata[:response_status] = last_response.status
-      request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
-      request_metadata[:response_body] = highlight_syntax(response_body, last_response_headers['Content-Type'])
-      request_metadata[:response_headers] = format_headers(last_response_headers)
-      request_metadata[:curl] = Curl.new(method.to_s, action, request_body, last_request_headers)
+      request_metadata[:request_headers] = format_headers(request_headers)
+      request_metadata[:request_query_parameters] = format_query_hash(query_hash)
+      request_metadata[:response_status] = status
+      request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[status]
+      request_metadata[:response_body] = highlight_syntax(response_body, response_headers['Content-Type'])
+      request_metadata[:response_headers] = format_headers(response_headers)
+      request_metadata[:curl] = Curl.new(method.to_s, action, request_body, request_headers)
 
       metadata[:requests] ||= []
       metadata[:requests] << request_metadata

@@ -47,7 +47,7 @@ describe RspecApiDocumentation::TestClient do
     end
 
     it "should handle xml data" do
-      test_client.last_response_headers["Content-Type"].should =~ /application\/xml/
+      test_client.response_headers["Content-Type"].should =~ /application\/xml/
     end
 
     it "should log the request" do
@@ -55,27 +55,27 @@ describe RspecApiDocumentation::TestClient do
     end
   end
 
-  describe "#last_query_string" do
+  describe "#query_string" do
     before do
       test_client.get "/?query_string=true"
     end
 
     it 'should contain the query_string' do
-      test_client.last_query_string.should == "query_string=true"
+      test_client.query_string.should == "query_string=true"
     end
   end
 
-  describe "#last_query_hash" do
+  describe "#query_hash" do
     before do
       test_client.get "/?query_hash=true"
     end
 
     it 'should contain the query_hash' do
-      test_client.last_query_hash.should == { "query_hash" => "true" }
+      test_client.query_hash.should == { "query_hash" => "true" }
     end
   end
 
-  describe "#last_request_headers" do
+  describe "#request_headers" do
     before do
       test_client.options[:headers] = {
         "HTTP_ACCEPT" => "application/json",
@@ -85,7 +85,7 @@ describe RspecApiDocumentation::TestClient do
     end
 
     it "should contain all the headers" do
-      test_client.last_request_headers.should eq({
+      test_client.request_headers.should eq({
         "Accept" => "application/json",
         "Content-Type" => "application/json",
         "Host" => "example.org",
@@ -101,7 +101,7 @@ describe RspecApiDocumentation::TestClient do
     end
 
     it "can be overridden to add headers to the request" do
-      test_client.last_request_headers["X-Custom-Header"].should eq("custom header value")
+      test_client.request_headers["X-Custom-Header"].should eq("custom header value")
     end
   end
 
@@ -109,14 +109,14 @@ describe RspecApiDocumentation::TestClient do
     it "should let you set default headers when creating a new TestClient" do
       test_client = RspecApiDocumentation::TestClient.new(context, :headers => { "HTTP_MY_HEADER" => "hello" })
       test_client.get "/"
-      test_client.last_request_headers["My-Header"].should == "hello"
-      test_client.last_request_headers.should have(3).headers
+      test_client.request_headers["My-Header"].should == "hello"
+      test_client.request_headers.should have(3).headers
     end
 
     it "should be blank if not set" do
       test_client = RspecApiDocumentation::TestClient.new(context)
       test_client.get "/"
-      test_client.last_request_headers.should have(2).headers
+      test_client.request_headers.should have(2).headers
     end
   end
 
