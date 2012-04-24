@@ -1,44 +1,32 @@
 module RspecApiDocumentation
-  class TestServer < Struct.new(:session)
-    delegate :example, :last_request, :last_response, :to => :session
+  class TestServer < Struct.new(:context)
+    include Headers
+    include Syntax
+
+    delegate :example, :to => :context
     delegate :metadata, :to => :example
 
+    attr_reader :request_method, :request_headers, :request_body
+
     def call(env)
-      env["rack.input"].rewind
+      input = env["rack.input"]
+      input.rewind
+
+      @request_method = env["REQUEST_METHOD"]
+      @request_headers = env_to_headers(env)
+      @request_body = input.read
 
       request_metadata = {}
 
-      request_metadata[:request_method] = env["REQUEST_METHOD"]
+      request_metadata[:request_method] = request_method
       request_metadata[:request_path] = env["PATH_INFO"]
-      request_metadata[:request_body] = prettify_json(env["rack.input"].read)
-      request_metadata[:request_headers] = headers(env)
+      request_metadata[:request_body] = highlight_syntax(request_body, request_headers["Content-Type"], true)
+      request_metadata[:request_headers] = format_headers(@request_headers)
 
       metadata[:requests] ||= []
       metadata[:requests] << request_metadata
 
       return [200, {}, [""]]
-    end
-
-    private
-
-    def headers(env)
-      env.
-        select do |k, v|
-          k =~ /^(HTTP_|CONTENT_TYPE)/
-        end.
-        map do |key, value|
-          # HTTP_ACCEPT_CHARSET => Accept-Charset
-          formatted_key = key.gsub(/^HTTP_/, '').titleize.split.join("-")
-          "#{formatted_key}: #{value}"
-        end.join("\n")
-    end
-
-    def prettify_json(json)
-      begin
-        JSON.pretty_generate(JSON.parse(json))
-      rescue
-        nil
-      end
     end
   end
 end
