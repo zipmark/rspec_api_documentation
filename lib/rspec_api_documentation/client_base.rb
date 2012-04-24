@@ -67,5 +67,13 @@ module RspecApiDocumentation
         "#{key}: #{CGI.unescape(value)}"
       end.join("\n")
     end
+
+    def headers(method, path, params)
+      if options && options[:headers]
+        options[:headers]
+      else
+        {}
+      end
+    end
   end
 end

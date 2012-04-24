@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "aruba"
   s.add_development_dependency "capybara"
   s.add_development_dependency "rake"
+  s.add_development_dependency "rack-oauth2"
 
   s.files        = Dir.glob("lib/**/*") + Dir.glob("templates/**/*")
   s.require_path = 'lib'
