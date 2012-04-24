@@ -17,12 +17,12 @@ module RspecApiDocumentation
     autoload :ExampleGroup
     autoload :Index
     autoload :ClientBase
-    autoload :RackTestClient
     autoload :Headers
     autoload :Syntax
   end
 
   autoload :DSL
+  autoload :RackTestClient
   autoload :TestServer
   autoload :HtmlWriter
   autoload :JsonWriter
