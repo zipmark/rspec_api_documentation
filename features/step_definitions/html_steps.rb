@@ -27,8 +27,11 @@ Then /^I should see the route is "([^"]*)"$/ do |route|
   page.should have_css(".request.route", :text => route)
 end
 
-Then /^I should see the following query parameters:$/ do |query_parameters|
-  page.should have_css("pre.request.query_parameters"), :text => query_parameters
+Then /^I should see the following query parameters:$/ do |table|
+  text = page.find("pre.request.query_parameters").text
+  actual = text.split("\n")
+  expected = table.raw.map { |row| row.join(": ") }
+  actual.should =~ expected
 end
 
 Then /^I should see the response status is "([^"]*)"$/ do |status|
