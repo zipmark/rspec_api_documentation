@@ -5,8 +5,9 @@ PATH
       activesupport (>= 3.0.0)
       coderay (>= 1.0.7.rc1)
       i18n (>= 0.1.0)
-      json (>= 1.4.0)
-      mustache (>= 0.99.0)
+      json (>= 1.4.6)
+      mustache (>= 0.99.4)
+      rack-oauth2 (>= 0.14.4)
       rspec (>= 2.6.0)
       webmock (>= 1.7.0)
 
@@ -102,7 +103,6 @@ DEPENDENCIES
   aruba
   capybara
   fakefs
-  rack-oauth2
   rake
   rspec_api_documentation!
   sinatra

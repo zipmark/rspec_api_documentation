@@ -1,4 +1,8 @@
-require "active_support/secure_random"
+begin
+  require "active_support/secure_random"
+rescue LoadError
+  # ActiveSupport::SecureRandom not provided in activesupport >= 3.2
+end
 require "rack/oauth2"
 
 module RspecApiDocumentation
