@@ -7,7 +7,6 @@ PATH
       i18n (>= 0.1.0)
       json (>= 1.4.0)
       mustache (>= 0.99.0)
-      rack-test (>= 0.5.5)
       rspec (>= 2.6.0)
       webmock (>= 1.7.0)
 
