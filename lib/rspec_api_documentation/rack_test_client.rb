@@ -47,13 +47,5 @@ module RspecApiDocumentation
         end
       end.new(app)
     end
-
-    def headers(method, path, params)
-      if options && options[:headers]
-        options[:headers]
-      else
-        {}
-      end
-    end
   end
 end
