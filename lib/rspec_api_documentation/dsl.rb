@@ -1,5 +1,3 @@
-require 'rack/test'
-require 'webmock'
 require 'rspec/core/formatters/base_formatter'
 
 module RspecApiDocumentation
@@ -39,12 +37,14 @@ module RspecApiDocumentation
       end
 
       def callback(description, &block)
+        require 'webmock'
         self.send(:include, WebMock::API)
         context(description, &block)
       end
 
       def trigger_callback(&block)
         define_method(:do_callback) do
+          require 'rack'
           stub_request(:any, callback_url).to_rack(destination)
           instance_eval &block
         end

@@ -1,5 +1,3 @@
-require "coderay"
-
 module RspecApiDocumentation
   class RackTestClient < ClientBase
 
@@ -41,6 +39,7 @@ module RspecApiDocumentation
     def rack_test_session
       @rack_test_session ||= Struct.new(:app) do
         begin
+          require "rack/test"
           include Rack::Test::Methods
         rescue LoadError
           raise "#{self.class.name} requires Rack::Test >= 0.5.5. Please add it to your test dependencies."

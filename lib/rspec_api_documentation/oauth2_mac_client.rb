@@ -3,6 +3,7 @@ begin
 rescue LoadError
   # ActiveSupport::SecureRandom not provided in activesupport >= 3.2
 end
+require "webmock"
 require "rack/oauth2"
 
 module RspecApiDocumentation
