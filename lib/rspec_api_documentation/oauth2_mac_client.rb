@@ -1,3 +1,4 @@
+require "active_support/secure_random"
 require "rack/oauth2"
 
 module RspecApiDocumentation
