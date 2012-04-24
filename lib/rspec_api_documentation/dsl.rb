@@ -92,7 +92,7 @@ module RspecApiDocumentation
     end
 
     def client
-      @client ||= TestClient.new(self)
+      @client ||= RackTestClient.new(self)
     end
 
     def destination

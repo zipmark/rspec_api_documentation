@@ -16,7 +16,8 @@ module RspecApiDocumentation
     autoload :Example
     autoload :ExampleGroup
     autoload :Index
-    autoload :TestClient
+    autoload :ClientBase
+    autoload :RackTestClient
     autoload :Headers
     autoload :Syntax
   end

@@ -69,9 +69,7 @@ Feature: Generate HTML documentation from test examples
       | Host   | example.org |
       | Cookie |             |
     And   I should see the following query parameters:
-      """
-      target: rspec_api_documentation
-      """
+      | target | rspec_api_documentation |
 
   Scenario: Example HTML documentation includes the response information
     When  I open the index

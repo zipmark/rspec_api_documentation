@@ -18,7 +18,7 @@ resource "Order" do
 
   describe "example context" do
     it "should provide a client" do
-      client.should be_a(RspecApiDocumentation::TestClient)
+      client.should be_a(RspecApiDocumentation::RackTestClient)
     end
 
     it "should return the same client every time" do

@@ -29,13 +29,13 @@ class StubApp < Sinatra::Base
   end
 end
 
-describe RspecApiDocumentation::TestClient do
+describe RspecApiDocumentation::RackTestClient do
   let(:context) { stub(:app => StubApp, :example => example) }
-  let(:test_client) { RspecApiDocumentation::TestClient.new(context, {}) }
+  let(:test_client) { RspecApiDocumentation::RackTestClient.new(context, {}) }
 
   subject { test_client }
 
-  it { should be_a(RspecApiDocumentation::TestClient) }
+  it { should be_a(RspecApiDocumentation::RackTestClient) }
 
   its(:context) { should equal(context) }
   its(:example) { should equal(example) }
@@ -62,16 +62,6 @@ describe RspecApiDocumentation::TestClient do
 
     it 'should contain the query_string' do
       test_client.query_string.should == "query_string=true"
-    end
-  end
-
-  describe "#query_hash" do
-    before do
-      test_client.get "/?query_hash=true"
-    end
-
-    it 'should contain the query_hash' do
-      test_client.query_hash.should == { "query_hash" => "true" }
     end
   end
 
@@ -106,15 +96,15 @@ describe RspecApiDocumentation::TestClient do
   end
 
   describe "setup default headers" do
-    it "should let you set default headers when creating a new TestClient" do
-      test_client = RspecApiDocumentation::TestClient.new(context, :headers => { "HTTP_MY_HEADER" => "hello" })
+    it "should let you set default headers when creating a new RackTestClient" do
+      test_client = RspecApiDocumentation::RackTestClient.new(context, :headers => { "HTTP_MY_HEADER" => "hello" })
       test_client.get "/"
       test_client.request_headers["My-Header"].should == "hello"
       test_client.request_headers.should have(3).headers
     end
 
     it "should be blank if not set" do
-      test_client = RspecApiDocumentation::TestClient.new(context)
+      test_client = RspecApiDocumentation::RackTestClient.new(context)
       test_client.get "/"
       test_client.request_headers.should have(2).headers
     end
@@ -145,7 +135,7 @@ describe RspecApiDocumentation::TestClient do
         metadata[:response_body].should be_present
         metadata[:response_headers].should match(/^Content-Type: application\/json/)
         metadata[:response_headers].should match(/^Content-Length: 17$/)
-        metadata[:curl].should eq(RspecApiDocumentation::Curl.new("post", "/greet?query=test+query", post_data, {"Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value", "Host" => "example.org", "Cookie" => ""}))
+        metadata[:curl].should eq(RspecApiDocumentation::Curl.new("POST", "/greet?query=test+query", post_data, {"Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value", "Host" => "example.org", "Cookie" => ""}))
       end
 
       context "when post data is not json" do
