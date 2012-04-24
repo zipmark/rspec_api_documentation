@@ -10,6 +10,7 @@ gem "mustache", "0.99.4"
 gem "webmock", "1.7.0"
 gem "json", "1.4.6"
 gem "coderay", "1.0.7.rc1"
+gem "rack-oauth2", "0.14.4"
 
 gem "fakefs"
 gem "sinatra"
