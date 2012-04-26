@@ -72,9 +72,13 @@ module RspecApiDocumentation
 
       request_metadata[:method] = method.to_s.upcase
       request_metadata[:route] = action
+      request_metadata[:route_no_query] = action.split("?")[0]
       request_metadata[:request_body] = highlight_syntax(request_body, last_request.content_type, true)
+      request_metadata[:request_body_plain] = request_body
       request_metadata[:request_headers] = format_headers(last_headers)
+      request_metadata[:request_headers_hash] = last_headers.map { |k, v| {:name => k.gsub(/^HTTP_/, '').titleize.split.join("-"), :value => v} }
       request_metadata[:request_query_parameters] = format_query_hash(last_query_hash)
+      request_metadata[:request_query_hash] = last_query_hash.map { |k, v| { :name => k, :value => v } }
       request_metadata[:response_status] = last_response.status
       request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
       request_metadata[:response_body] = highlight_syntax(last_response.body, last_response.headers['Content-Type'])

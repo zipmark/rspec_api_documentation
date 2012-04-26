@@ -8,41 +8,6 @@
     <script src="../assets/javascripts/jquery-base64.js"></script>
     <script src="../assets/javascripts/jquery-ui-1-8-16-min.js"></script>
     <script src="../assets/javascripts/application.js"></script>
-<<<<<<< HEAD
-    <script>
-//      function make_basic_auth(user, password) {
-//        var token = user + ':' + password;
-//        var hash = Base64.encode(token);
-//        return "Basic " + hash;
-//      }
-
-      $(function () {
-        $('.give_it_a_whurl').click(function (elem) {
-          $form = $(elem.currentTarget.form);
-//          var auth = make_basic_auth('me', 'mypassword');
-          $.ajax({
-
-            beforeSend:function (req) {
-              $form.find('.response').hide();
-
-//              req.setRequestHeader('Authorization', auth);
-            },
-            type:$form.find('#whurl_request_method').val(),
-            url:$form.find('#whurl_request_url').val(),
-//            data:"dataString",
-            complete:function (jqXHR, textStatus) {
-              console.log(textStatus);
-              $form.find('.response_status').html(jqXHR.status + ' - ' + jqXHR.statusText);
-              $form.find('.response_body').html(jqXHR.responseText);
-              $form.find('.response').toggle();
-            }
-          });
-          return false;
-        });
-      });
-    </script>
-=======
->>>>>>> the console uses input wurl form, renders response code and body in the doc
     <style>
       td.required .name:after {
         float: right;
@@ -104,7 +69,7 @@ Cookie: </pre>
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;6cd5831e98b0090b64672b5604d9eb2a&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.225470
+X-Runtime: 0.041825
 Content-Length: 121</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
@@ -141,7 +106,7 @@ Content-Length: 121</pre>
                   <option value="DELETE">DELETE</option>
                   <option value="HEAD">HEAD</option>
                 </select>
-                <input id="whurl_request_url" name="whurl[request_url]" size="30" type="text" value="/orders?page=1">
+                <input id="whurl_request_url" name="whurl[request_url]" size="30" type="text" value="/orders">
               </div>
             </div>
             <div class="row">
@@ -177,14 +142,38 @@ Content-Length: 121</pre>
                       class="ui-button-text"></span></a>
                 </div>
 
-                <div class="header_pair">
-                  <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]" type="text"
-                         autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
-                  <input class="value" id="header_values_" name="header_values[]" type="text">
-                  <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                     role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
-                      class="ui-button-text"></span></a>
-                </div>
+                    <div class="header_pair">
+                      <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]" type="text"
+                             autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" value="Accept">
+                      <input class="value" id="header_values_" name="header_values[]" type="text" value="application/json">
+                      <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                         role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
+                          class="ui-button-text"></span></a>
+                    </div>
+                    <div class="header_pair">
+                      <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]" type="text"
+                             autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" value="Content-Type">
+                      <input class="value" id="header_values_" name="header_values[]" type="text" value="application/json">
+                      <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                         role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
+                          class="ui-button-text"></span></a>
+                    </div>
+                    <div class="header_pair">
+                      <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]" type="text"
+                             autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" value="Host">
+                      <input class="value" id="header_values_" name="header_values[]" type="text" value="example.org">
+                      <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                         role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
+                          class="ui-button-text"></span></a>
+                    </div>
+                    <div class="header_pair">
+                      <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]" type="text"
+                             autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" value="Cookie">
+                      <input class="value" id="header_values_" name="header_values[]" type="text" value="">
+                      <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                         role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
+                          class="ui-button-text"></span></a>
+                    </div>
 
               </div>
             </div>
@@ -199,7 +188,7 @@ Content-Length: 121</pre>
                 Query
               </div>
               <div class="params">
-                <div class="param_pair">
+                  <div class="param_pair">
                   <input class="key" disabled="disabled" id="param_keys_" name="param_keys[]" type="text">
                   <input class="value" disabled="disabled" id="param_values_" name="param_values[]" type="text">
                   <a class="delete_param destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
@@ -207,13 +196,14 @@ Content-Length: 121</pre>
                       class="ui-button-text"></span></a>
                 </div>
 
-                <div class="param_pair">
-                  <input class="key" id="param_keys_" name="param_keys[]" type="text">
-                  <input class="value" id="param_values_" name="param_values[]" type="text">
+                  <div class="param_pair">
+                  <input class="key" id="param_keys_" name="param_keys[]" type="text" value="page">
+                  <input class="value" id="param_values_" name="param_values[]" type="text" value="1">
                   <a class="delete_param destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                      role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
                       class="ui-button-text"></span></a>
                 </div>
+
 
               </div>
             </div>

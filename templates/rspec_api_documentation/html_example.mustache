@@ -106,7 +106,7 @@
                   <option value="DELETE">DELETE</option>
                   <option value="HEAD">HEAD</option>
                 </select>
-                <input id="whurl_request_url" name="whurl[request_url]" size="30" type="text" value="{{ route }}">
+                <input id="whurl_request_url" name="whurl[request_url]" size="30" type="text" value="{{ route_no_query }}">
               </div>
             </div>
             <div class="row">
@@ -142,14 +142,16 @@
                       class="ui-button-text"></span></a>
                 </div>
 
-                <div class="header_pair">
-                  <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]" type="text"
-                         autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
-                  <input class="value" id="header_values_" name="header_values[]" type="text">
-                  <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                     role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
-                      class="ui-button-text"></span></a>
-                </div>
+                  {{# request_headers_hash }}
+                    <div class="header_pair">
+                      <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]" type="text"
+                             autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" value="{{ name }}">
+                      <input class="value" id="header_values_" name="header_values[]" type="text" value="{{ value }}">
+                      <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                         role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
+                          class="ui-button-text"></span></a>
+                    </div>
+                  {{/ request_headers_hash }}
 
               </div>
             </div>
@@ -164,21 +166,24 @@
                 Query
               </div>
               <div class="params">
-                <div class="param_pair">
+                  <div class="param_pair">
                   <input class="key" disabled="disabled" id="param_keys_" name="param_keys[]" type="text">
                   <input class="value" disabled="disabled" id="param_values_" name="param_values[]" type="text">
                   <a class="delete_param destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                      role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
                       class="ui-button-text"></span></a>
                 </div>
+                  {{# request_query_hash }}
 
-                <div class="param_pair">
-                  <input class="key" id="param_keys_" name="param_keys[]" type="text">
-                  <input class="value" id="param_values_" name="param_values[]" type="text">
+                  <div class="param_pair">
+                  <input class="key" id="param_keys_" name="param_keys[]" type="text" value="{{ name }}">
+                  <input class="value" id="param_values_" name="param_values[]" type="text" value="{{ value }}">
                   <a class="delete_param destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                      role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
                       class="ui-button-text"></span></a>
                 </div>
+                  {{/ request_query_hash }}
+
 
               </div>
             </div>
@@ -188,7 +193,7 @@
               </div>
               <div class="post_body">
                 <textarea cols="40" id="whurl_request_body" name="whurl[request_body]" rows="20" disabled="disabled"
-                          class="textarea_disabled"></textarea>
+                          class="textarea_disabled">{{ request_body_plain }}</textarea>
               </div>
             </div>
             <div class="button_row">
