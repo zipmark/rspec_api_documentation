@@ -5,6 +5,10 @@
 
 Generate pretty API docs for your Rails APIs.
 
+## Changes
+
+Please see the wiki for latest [changes](https://github.com/zipmark/rspec_api_documentation/wiki/Changes).
+
 ## Installation
 
 Add rspec_api_documentation to your Gemfile
