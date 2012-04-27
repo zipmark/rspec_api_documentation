@@ -162,7 +162,7 @@ function Wurl(wurlForm) {
             paramValue = $(element).find('input.value').val();
 			if (paramKey.length && paramValue.length) {
 				toReturn.push(paramKey + '=' + paramValue);
-			}	
+			}
         });
         return toReturn;
 	};
@@ -183,8 +183,8 @@ function Wurl(wurlForm) {
 		if ($.inArray(method, ["PUT", "POST", "DELETE"]) > -1 && params.length) {
 			url += "?" + params;
 		}
-		return url;
-	}
+		return url[0] == '/' ? url : '/' + url;
+	};
 
     this.sendWurl = function () {
         $.ajax({

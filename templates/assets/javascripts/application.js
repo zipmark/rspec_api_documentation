@@ -177,14 +177,14 @@ function Wurl(wurlForm) {
     };
 
 	this.url = function () {
-		var url = '/' + $('#wurl_request_url', self.$wurlForm).val();
+		var url = $('#wurl_request_url', self.$wurlForm).val();
 		var method = $('#wurl_request_method', self.$wurlForm).val();
 		var params = self.queryParams().join("&")
 		if ($.inArray(method, ["PUT", "POST", "DELETE"]) > -1 && params.length) {
 			url += "?" + params;
 		}
-		return url;
-	}
+		return url[0] == '/' ? url : '/' + url;
+	};
 
     this.sendWurl = function () {
         $.ajax({
