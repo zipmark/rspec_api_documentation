@@ -10,19 +10,19 @@ module RspecApiDocumentation
     end
 
     def post
-      "curl #{url} #{post_data} -X POST #{headers}"
+      "curl \"#{url}\" {post_data} -X POST #{headers}"
     end
 
     def get
-      "curl #{url}#{get_data} -X GET #{headers}"
+      "curl \"#{url}#{get_data}\" -X GET #{headers}"
     end
 
     def put
-      "curl #{url} #{post_data} -X PUT #{headers}"
+      "curl \"#{url}\" #{post_data} -X PUT #{headers}"
     end
 
     def delete
-      "curl #{url} -X DELETE #{headers}"
+      "curl \"#{url}#{get_data}\" -X DELETE #{headers}"
     end
 
     def url

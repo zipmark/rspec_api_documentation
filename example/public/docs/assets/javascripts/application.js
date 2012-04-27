@@ -33,7 +33,9 @@ var headers = ["Accept",
 function Wurl(wurlForm) {
     this.$wurlForm = $(wurlForm);
 
-    this.codeMirror = CodeMirror.fromTextArea(this.$wurlForm.siblings('.response.body').find('textarea')[0], {
+	var $textArea = this.$wurlForm.siblings('.response.body').find('textarea');
+	$textArea.val(JSON.stringify(JSON.parse($textArea.val()), undefined, 2));
+    this.codeMirror = CodeMirror.fromTextArea($textArea[0], {
         "json":true,
         'readOnly':"nocursor",
         "mode":'javascript',

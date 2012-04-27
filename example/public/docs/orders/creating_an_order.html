@@ -94,7 +94,7 @@ Cookie: </pre>
 </div>
 
     <h4>cURL</h4>
-    <pre class="request">curl http://localhost:3000/orders -d &quot;{&quot;order&quot;:{&quot;name&quot;:&quot;Order 1&quot;,&quot;paid&quot;:true,&quot;email&quot;:&quot;email@example.com&quot;}}&quot; -X POST -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Host: example.org&quot; -H &quot;Cookie: &quot;</pre>
+    <pre class="request">curl &quot;http://localhost:3000/orders&quot; {post_data} -X POST -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Host: example.org&quot; -H &quot;Cookie: &quot;</pre>
 
     <h4>wURL</h4>
 
@@ -241,17 +241,13 @@ Location: http://example.org/orders/1
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;5fffd66f61cdd4ab8881584dbf5e72cf&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.007571
+X-Runtime: 0.005618
 Content-Length: 58</pre>
     <h4>Status</h4>
     <pre class="response status">201 Created</pre>
     <h4>Body</h4>
 
-    <div class="response body"><textarea>{
-  "email": "email@example.com",
-  "name": "Order 1",
-  "paid": true
-}</textarea></div>
+    <div class="response body"><textarea>{"email":"email@example.com","name":"Order 1","paid":true}</textarea></div>
 </div>
 <div class='request'>
     <h3>Request</h3>
@@ -264,7 +260,7 @@ Cookie: </pre>
     <pre class="request route highlight">GET /orders/1</pre>
 
     <h4>cURL</h4>
-    <pre class="request">curl http://localhost:3000/orders/1 -X GET -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Host: example.org&quot; -H &quot;Cookie: &quot;</pre>
+    <pre class="request">curl &quot;http://localhost:3000/orders/1&quot; -X GET -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Host: example.org&quot; -H &quot;Cookie: &quot;</pre>
 
     <h4>wURL</h4>
 
@@ -410,7 +406,7 @@ Cookie: </pre>
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;5fffd66f61cdd4ab8881584dbf5e72cf&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.004174
+X-Runtime: 0.003743
 Content-Length: 58</pre>
     <h4>Status</h4>
     <pre class="response status">200 OK</pre>
