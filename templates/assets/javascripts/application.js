@@ -139,7 +139,7 @@ function Wurl(wurlForm) {
 
     this.updateBodyInput = function () {
         var method = $('#wurl_request_method', self.$wurlForm).val();
-        if ($.inArray(method, ["PUT", "POST"]) > -1) {
+        if ($.inArray(method, ["PUT", "POST", "DELETE"]) > -1) {
             $('#wurl_request_body', self.$wurlForm).attr('disabled', false).removeClass('textarea_disabled');
         } else {
             $('#wurl_request_body', self.$wurlForm).attr('disabled', true).addClass('textarea_disabled');
