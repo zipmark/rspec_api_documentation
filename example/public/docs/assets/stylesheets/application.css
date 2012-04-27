@@ -1,112 +1,113 @@
-.whurls.show .menu {
-  position: fixed;
-  bottom: 20px;
-  left: 0;
-  border: 1px solid #666;
-  border-left: none;
-  background-color: #f6a828;
-  border-radius: 0 20px 20px 0;
-  width: auto;
-  font-size: 16px;
-  padding: 5px;
-  z-index: 20;
+/*.wurl_form .headers, .wurl_form .params, .wurl_form .fields, .wurl_form .url, .wurl_form .post_body, .wurl_form .button_row {*/
+  /*margin-left: 162px;*/
+  /*min-height: 31px;*/
+  /*margin-bottom: 10px;*/
+/*}*/
+
+/*.wurl_form .header_pair, .wurl_form .param_pair, .wurl_form .field_pair {*/
+  /*padding: 4px 0;*/
+/*}*/
+
+/*.wurl_form .key, .wurl_form #wurl_basic_auth_user {*/
+  /*width: 200px;*/
+/*}*/
+
+/*.wurl_form .value, .wurl_form #wurl_basic_auth_password {*/
+  /*width: 400px;*/
+/*}*/
+
+/*.wurl_form .long {*/
+  /*width: 525px;*/
+/*}*/
+
+/*.wurl_form #wurl_request_url {*/
+  /*width: 514px;*/
+/*}*/
+
+/*.wurl_form input.one {*/
+  /*width: 480px;*/
+/*}*/
+
+/*.wurl_form input.two {*/
+  /*width: 225px;*/
+/*}*/
+
+/*.wurl_form input.three {*/
+  /*width: 350px;*/
+  /*margin-left: 10px;*/
+/*}*/
+
+/*.wurl_form input.four {*/
+  /*width: 350px;*/
+/*}*/
+
+/*.wurl_form textarea#wurl_request_body {*/
+  /*width: 610px;*/
+  /*height: 55px;*/
+  /*margin-bottom: 10px;*/
+  /*font-family: Courier, monospace;*/
+  /*font-size: 14px;*/
+/*}*/
+
+/*.wurl_form .textarea_disabled {*/
+  /*background-color: lightgray;*/
+/*}*/
+
+/*.wurl_form .section_title {*/
+  /*padding: 4px 0;*/
+  /*float: left;*/
+  /*text-align: right;*/
+  /*width: 155px;*/
+  /*line-height: 26px;*/
+/*}*/
+
+/*.wurl_form a.copy_link {*/
+  /*width: 115.5px;*/
+  /*height: 44px;*/
+  /*background: url("copyURL.png") no-repeat 0 0;*/
+  /*margin: 30px 0 0 45px;*/
+  /*display: block;*/
+/*}*/
+
+/*.wurl_form a.copy_link:hover {*/
+  /*background-position: -116px 0;*/
+/*}*/
+
+/*.wurl_form .param_pair:first-child,*/
+/*.wurl_form .header_pair:first-child {*/
+  /*display: none;*/
+/*}*/
+
+/*.wurl_form #give_it_a-wurl {*/
+  /*float: right;*/
+  /*margin-right: 170px;*/
+/*}*/
+
+#wurl_request_body {
+    width: 432px;
 }
 
-.whurl td.line_numbers pre, .whurl td.code pre, .whurl td.code span {
-  font-family: monospace;
+.CodeMirror-cursor {
+    display: none;
 }
 
-.whurl table.CodeRay {
-  border-collapse: collapse;
+.CodeMirror-scroll {
+    height: auto;
+    overflow: visible;
 }
 
-.whurl td.line_numbers {
-  background-color: #DDD;
-  text-align: right;
-  padding: 0 5px;
+.CodeMirror-gutter {
+    background-color: white;
 }
 
-.whurl_form .headers, .whurl_form .params, .whurl_form .fields, .whurl_form .url, .whurl_form .post_body, .whurl_form .button_row {
-  margin-left: 162px;
-  min-height: 31px;
-  margin-bottom: 10px;
+.CodeMirror-lines {
+    background-color: #f5f5f5;
 }
-
-.whurl_form .header_pair, .whurl_form .param_pair, .whurl_form .field_pair {
-  padding: 4px 0;
-}
-
-.whurl_form .key, .whurl_form #whurl_basic_auth_user {
-  width: 200px;
-}
-
-.whurl_form .value, .whurl_form #whurl_basic_auth_password {
-  width: 400px;
-}
-
-.whurl_form .long {
-  width: 525px;
-}
-
-.whurl_form #whurl_request_url {
-  width: 514px;
-}
-
-.whurl_form input.one {
-  width: 480px;
-}
-
-.whurl_form input.two {
-  width: 225px;
-}
-
-.whurl_form input.three {
-  width: 350px;
-  margin-left: 10px;
-}
-
-.whurl_form input.four {
-  width: 350px;
-}
-
-.whurl_form textarea#whurl_request_body {
-  width: 610px;
-  height: 55px;
-  margin-bottom: 10px;
-  font-family: Courier, monospace;
-  font-size: 14px;
-}
-
-.whurl_form .textarea_disabled {
-  background-color: lightgray;
-}
-
-.whurl_form .section_title {
-  padding: 4px 0;
-  float: left;
-  text-align: right;
-  width: 155px;
-  line-height: 26px;
-}
-
-.whurl_form a.copy_link {
-  width: 115.5px;
-  height: 44px;
-  background: url("copyURL.png") no-repeat 0 0;
-  margin: 30px 0 0 45px;
-  display: block;
-}
-
-.whurl_form a.copy_link:hover {
-  background-position: -116px 0;
-}
-
-.whurl_form .param_pair:first-child,
-.whurl_form .header_pair:first-child {
-  display: none;
-}
-
-.whurl_form #give_it_a-whurl {
-  float: right;
-  margin-right: 170px;
+.response.body {
+    margin: 0 0 9px;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }

@@ -1,198 +1,226 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<head>
     <title>Orders API</title>
-    <link rel="stylesheet" href="../assets/stylesheets/bootstrap.css" />
-    <link rel="stylesheet" href="../assets/stylesheets/application.css" />
+    <link rel="stylesheet" href="../assets/stylesheets/bootstrap.css"/>
+    <link rel="stylesheet" href="../assets/stylesheets/codemirror.css"/>
+    <link rel="stylesheet" href="../assets/stylesheets/application.css"/>
     <script src="../assets/javascripts/jquery-1-7-2.js"></script>
     <script src="../assets/javascripts/jquery-livequery.js"></script>
     <script src="../assets/javascripts/jquery-base64.js"></script>
     <script src="../assets/javascripts/jquery-ui-1-8-16-min.js"></script>
+    <script src="../assets/javascripts/codemirror.js"></script>
+    <script src="../assets/javascripts/javascript.js"></script>
     <script src="../assets/javascripts/application.js"></script>
     <style>
-      td.required .name:after {
-        float: right;
-        content: "required";
-        font-weight: normal;
-        color: #F08080;
-      }
+        td.required .name:after {
+            float: right;
+            content: "required";
+            font-weight: normal;
+            color: #F08080;
+        }
 
-      p {
-        padding: 15px;
-        font-size: 130%;
-      }
+        p {
+            padding: 15px;
+            font-size: 130%;
+        }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Orders API</h1>
+</head>
+<body>
+<div class="container">
+<h1>Orders API</h1>
 
-      <div class="article">
-        <h2>Deleting an order</h2>
+<div class="article">
+<h2>Deleting an order</h2>
 
 
-          <h3>Request</h3>
-          <h4>Headers</h4>
-          <pre class="request headers">Accept: application/json
+<div class='request'>
+    <h3>Request</h3>
+    <h4>Headers</h4>
+    <pre class="request headers">Accept: application/json
 Content-Type: application/json
 Host: example.org
 Cookie: </pre>
-          <h4>Route</h4>
-          <pre class="request route highlight">DELETE /orders/1</pre>
+    <h4>Route</h4>
+    <pre class="request route highlight">DELETE /orders/1</pre>
 
-            <h4>cURL</h4>
-            <pre class="request">curl http://localhost:3000/orders/1 -X DELETE -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Host: example.org&quot; -H &quot;Cookie: &quot;</pre>
+    <h4>cURL</h4>
+    <pre class="request">curl http://localhost:3000/orders/1 -X DELETE -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Host: example.org&quot; -H &quot;Cookie: &quot;</pre>
 
-            <h3>Response</h3>
-            <h4>Headers</h4>
-            <pre class="response headers">Content-Type: application/json; charset=utf-8
+    <h4>wURL</h4>
+
+    <div class="wurl_form form-horizontal well" id="wurl_form">
+        <form accept-charset="UTF-8" class="new_wurl" id="new_wurl">
+            <div class="control-group">
+                <label class="control-label">
+                    URL
+                </label>
+
+                <div class="controls url">
+                    <select id="wurl_request_method" name="wurl[request_method]">
+                        <option value="DELETE" selected="true">DELETE</option>
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                        <option value="PUT">PUT</option>
+                        <option value="DELETE">DELETE</option>
+                        <option value="HEAD">HEAD</option>
+                    </select>
+                    <input id="wurl_request_url" name="wurl[request_url]" value="/orders/1">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">
+                    Basic Auth
+                </label>
+
+                <div class="controls">
+                    <div class="field_pair">
+                        <input id="wurl_basic_auth_user" name="wurl[basic_auth_user]" placeholder="username">
+                        <input id="wurl_basic_auth_password" name="wurl[basic_auth_password]"
+                               placeholder="password">
+                    </div>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">
+                    <a class="button icon_only trash trash_headers ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                       title="trash all headers" role="button"><span
+                            class="ui-button-icon-primary ui-icon ui-icon-trash"></span><span
+                            class="ui-button-text"></span></a>
+                    <a class="add add_header button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                       title="add another header" role="button"><span
+                            class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span><span
+                            class="ui-button-text"></span></a>
+                    Headers
+                </label>
+
+                <div class="headers controls">
+                    <div class="header_pair" style="display:none">
+                        <input class="key ui-autocomplete-input" disabled="disabled" id="header_keys_"
+                               name="header_keys[]"
+                               type="text" autocomplete="off" role="textbox" aria-autocomplete="list"
+                               aria-haspopup="true">
+                        <input class="value" disabled="disabled" id="header_values_" name="header_values[]"
+                               type="text">
+                        <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                           role="button" title=""><span
+                                class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
+                                class="ui-button-text"></span></a>
+                    </div>
+
+                    <div class="header_pair">
+                        <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]"
+                               type="text"
+                               autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
+                               value="Accept">
+                        <input class="value" id="header_values_" name="header_values[]" type="text"
+                               value="application/json">
+                        <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                           role="button" title=""><span
+                                class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
+                                class="ui-button-text"></span></a>
+                    </div>
+                    <div class="header_pair">
+                        <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]"
+                               type="text"
+                               autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
+                               value="Content-Type">
+                        <input class="value" id="header_values_" name="header_values[]" type="text"
+                               value="application/json">
+                        <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                           role="button" title=""><span
+                                class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
+                                class="ui-button-text"></span></a>
+                    </div>
+                    <div class="header_pair">
+                        <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]"
+                               type="text"
+                               autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
+                               value="Host">
+                        <input class="value" id="header_values_" name="header_values[]" type="text"
+                               value="example.org">
+                        <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                           role="button" title=""><span
+                                class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
+                                class="ui-button-text"></span></a>
+                    </div>
+                    <div class="header_pair">
+                        <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]"
+                               type="text"
+                               autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
+                               value="Cookie">
+                        <input class="value" id="header_values_" name="header_values[]" type="text"
+                               value="">
+                        <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                           role="button" title=""><span
+                                class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
+                                class="ui-button-text"></span></a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">
+                    <a class="button icon_only trash trash_queries ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                       title="trash all parameters" role="button"><span
+                            class="ui-button-icon-primary ui-icon ui-icon-trash"></span><span
+                            class="ui-button-text"></span></a>
+                    <a class="add add_param button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                       title="add another parameter" role="button"><span
+                            class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span><span
+                            class="ui-button-text"></span></a>
+                    Query
+                </label>
+
+                <div class="params controls">
+                    <div class="param_pair" style="display:none">
+                        <input class="key" disabled="disabled" id="param_keys_" name="param_keys[]" type="text">
+                        <input class="value" disabled="disabled" id="param_values_" name="param_values[]"
+                               type="text">
+                        <a class="delete_param destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                           role="button" title=""><span
+                                class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
+                                class="ui-button-text"></span></a>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">
+                    Body
+                </label>
+
+                <div class="post_body controls">
+                    <textarea id="wurl_request_body" name="wurl[request_body]" rows="10"
+                              disabled="disabled"
+                              class="textarea_disabled"></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input class="clear_fields btn" id="clear_fields" type="button" value="Clear">
+                    <input class="give_it_a_wurl btn btn-primary" type="submit" value="Give it a Wurl!">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <h3>Response</h3>
+    <h4>Headers</h4>
+    <pre class="response headers">Content-Type: application/json; charset=utf-8
 Location: http://example.org/orders
 X-Ua-Compatible: IE=Edge,chrome=1
 E-Tag: &quot;99914b932bd37a50b983c5e7c90ae93b&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.004544
+X-Runtime: 0.004225
 Content-Length: 2</pre>
-            <h4>Status</h4>
-            <pre class="response status">200 OK</pre>
-              <h4>Body</h4>
-              <div class="response body"><div class="CodeRay">
-  <div class="code"><pre>{
-}</pre></div>
+    <h4>Status</h4>
+    <pre class="response status">200 OK</pre>
+    <h4>Body</h4>
+
+    <div class="response body"><textarea>{}</textarea></div>
 </div>
 </div>
-          <h3>Console</h3>
-
-        <div class="whurl_form" id="whurl_form">
-          <form accept-charset="UTF-8" class="new_whurl" id="new_whurl">
-            <div class="row">
-              <div class="section_title">
-                URL
-              </div>
-              <div class="url">
-                <select id="whurl_request_method" name="whurl[request_method]">
-                  <option value="DELETE" selected="true">DELETE</option>
-                  <option value="GET">GET</option>
-                  <option value="POST">POST</option>
-                  <option value="PUT">PUT</option>
-                  <option value="DELETE">DELETE</option>
-                  <option value="HEAD">HEAD</option>
-                </select>
-                <input id="whurl_request_url" name="whurl[request_url]" size="30" type="text" value="/orders/1">
-              </div>
-            </div>
-            <div class="row">
-              <div class="section_title">
-                Basic Auth
-              </div>
-              <div class="fields">
-                <div class="field_pair">
-                  <input id="whurl_basic_auth_user" name="whurl[basic_auth_user]" placeholder="username" size="30"
-                         type="text">
-                  <input id="whurl_basic_auth_password" name="whurl[basic_auth_password]" placeholder="password"
-                         size="30" type="text">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="section_title">
-                <a class="button icon_only trash trash_headers ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                   title="trash all headers" role="button"><span
-                    class="ui-button-icon-primary ui-icon ui-icon-trash"></span><span class="ui-button-text"></span></a>
-                <a class="add add_header button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                   title="add another header" role="button"><span
-                    class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span><span class="ui-button-text"></span></a>
-                Headers
-              </div>
-              <div class="headers">
-                <div class="header_pair">
-                  <input class="key ui-autocomplete-input" disabled="disabled" id="header_keys_" name="header_keys[]"
-                         type="text" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
-                  <input class="value" disabled="disabled" id="header_values_" name="header_values[]" type="text">
-                  <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                     role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
-                      class="ui-button-text"></span></a>
-                </div>
-
-                    <div class="header_pair">
-                      <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]" type="text"
-                             autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" value="Accept">
-                      <input class="value" id="header_values_" name="header_values[]" type="text" value="application/json">
-                      <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                         role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
-                          class="ui-button-text"></span></a>
-                    </div>
-                    <div class="header_pair">
-                      <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]" type="text"
-                             autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" value="Content-Type">
-                      <input class="value" id="header_values_" name="header_values[]" type="text" value="application/json">
-                      <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                         role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
-                          class="ui-button-text"></span></a>
-                    </div>
-                    <div class="header_pair">
-                      <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]" type="text"
-                             autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" value="Host">
-                      <input class="value" id="header_values_" name="header_values[]" type="text" value="example.org">
-                      <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                         role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
-                          class="ui-button-text"></span></a>
-                    </div>
-                    <div class="header_pair">
-                      <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]" type="text"
-                             autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" value="Cookie">
-                      <input class="value" id="header_values_" name="header_values[]" type="text" value="">
-                      <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                         role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
-                          class="ui-button-text"></span></a>
-                    </div>
-
-              </div>
-            </div>
-            <div class="row">
-              <div class="section_title">
-                <a class="button icon_only trash trash_queries ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                   title="trash all parameters" role="button"><span
-                    class="ui-button-icon-primary ui-icon ui-icon-trash"></span><span class="ui-button-text"></span></a>
-                <a class="add add_param button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                   title="add another parameter" role="button"><span
-                    class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span><span class="ui-button-text"></span></a>
-                Query
-              </div>
-              <div class="params">
-                  <div class="param_pair">
-                  <input class="key" disabled="disabled" id="param_keys_" name="param_keys[]" type="text">
-                  <input class="value" disabled="disabled" id="param_values_" name="param_values[]" type="text">
-                  <a class="delete_param destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                     role="button" title=""><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
-                      class="ui-button-text"></span></a>
-                </div>
-
-
-              </div>
-            </div>
-            <div class="row">
-              <div class="section_title">
-                Body
-              </div>
-              <div class="post_body">
-                <textarea cols="40" id="whurl_request_body" name="whurl[request_body]" rows="20" disabled="disabled"
-                          class="textarea_disabled"></textarea>
-              </div>
-            </div>
-            <div class="button_row">
-              <input class="clear_fields ui-button ui-widget ui-state-default ui-corner-all" id="clear_fields"
-                     type="button" value="Clear" role="button" aria-disabled="false">
-              <input class="give_it_a_whurl" type="submit" value="Give it a Whurl!"
-                     class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false">
-            </div>
-            <div class="response">
-              <h3>Response Status</h3>
-              <div class="response_status"></div>
-              <h3>Response Body</h3>
-              <div class="response_body"></div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </body>
+</div>
+</body>
 </html>

@@ -32,9 +32,18 @@ var headers = ["Accept",
 
 function Wurl(wurlForm) {
     this.$wurlForm = $(wurlForm);
+
+    this.codeMirror = CodeMirror.fromTextArea(this.$wurlForm.siblings('.response.body').find('textarea')[0], {
+        "json":true,
+        'readOnly':"nocursor",
+        "mode":'javascript',
+        "json": true,
+        'lineNumbers':true
+    });
+
     var self = this;
 
-    $('.give_it_a_whurl', this.$wurlForm).click(function (event) {
+    $('.give_it_a_wurl', this.$wurlForm).click(function (event) {
         event.preventDefault();
         self.sendWurl();
     });
@@ -127,33 +136,33 @@ function Wurl(wurlForm) {
     };
 
     this.updateBodyInput = function () {
-        var method = $('#whurl_request_method', self.$wurlForm).val();
+        var method = $('#wurl_request_method', self.$wurlForm).val();
         if ($.inArray(method, ["PUT", "POST"]) > -1) {
-            $('#whurl_request_body', self.$wurlForm).attr('disabled', false).removeClass('textarea_disabled');
+            $('#wurl_request_body', self.$wurlForm).attr('disabled', false).removeClass('textarea_disabled');
         } else {
-            $('#whurl_request_body', self.$wurlForm).attr('disabled', true).addClass('textarea_disabled');
+            $('#wurl_request_body', self.$wurlForm).attr('disabled', true).addClass('textarea_disabled');
         }
     };
     this.updateBodyInput();
 
     this.makeBasicAuth = function () {
-        var user = $('#whurl_basic_auth_user', this.$wurlForm).val();
-        var password = $('#whurl_basic_auth_password', this.$wurlForm).val();
+        var user = $('#wurl_basic_auth_user', this.$wurlForm).val();
+        var password = $('#wurl_basic_auth_password', this.$wurlForm).val();
         var token = user + ':' + password;
         var hash = $.base64.encode(token);
         return "Basic " + hash;
     };
 
     this.getData = function () {
-        var method = $('#whurl_request_method', self.$wurlForm).val();
+        var method = $('#wurl_request_method', self.$wurlForm).val();
         if ($.inArray(method, ["PUT", "POST"]) > -1) {
-            return $('#whurl_request_body', self.$wurlForm).val()
+            return $('#wurl_request_body', self.$wurlForm).val()
         } else {
             var toReturn = "";
             $(".param_pair:visible", self.$wurlForm).each(function (i, element) {
                 paramKey = $(element).find('input.key').val();
                 paramValue = $(element).find('input.value').val();
-                toReturn += headerKey + '=' + headerValue + "\n";
+                toReturn += paramKey + '=' + paramValue + "\n";
             });
             return toReturn;
         }
@@ -170,20 +179,22 @@ function Wurl(wurlForm) {
                 });
                 req.setRequestHeader('Authorization', self.makeBasicAuth());
             },
-            type:$('#whurl_request_method', self.$wurlForm).val(),
-            url:$('#whurl_request_url', self.$whurlForm).val(),
+            type:$('#wurl_request_method', self.$wurlForm).val(),
+            url:$('#wurl_request_url', self.$wurlForm).val(),
             data:this.getData(),
             complete:function (jqXHR) {
-                console.log(jqXHR);
-                $('.response_status', self.$wurlForm).html(jqXHR.status + ' - ' + jqXHR.statusText);
-                $('.response_body', self.$wurlForm).html(jqXHR.responseText);
+                var $status = self.$wurlForm.siblings('.response.status');
+                var $body = self.$wurlForm.siblings('.response.body');
+                $status.html(jqXHR.status + ' ' + jqXHR.statusText).effect("highlight", {}, 3000);
+                self.codeMirror.setValue(JSON.stringify(JSON.parse(jqXHR.responseText), undefined, 2));
+                $body.effect("highlight", {}, 3000);
             }
         });
     };
 }
 
 $(function () {
-    $('.whurl_form').each(function (index, wurlForm) {
+    $('.wurl_form').each(function (index, wurlForm) {
         wurl = new Wurl(wurlForm);
     });
 });

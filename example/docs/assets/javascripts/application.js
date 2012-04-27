@@ -1,8 +1,3 @@
-//= require whurl_engine/jquery-1-7-1-min
-//= require whurl_engine/jquery-ui-1-8-16-min
-//= require whurl_engine/jquery-ujs
-//= require whurl_engine/jquery-livequery
-
 var headers = ["Accept",
     "Accept-Charset",
     "Accept-Encoding",
@@ -35,66 +30,66 @@ var headers = ["Accept",
     "Warning"];
 
 
-function Whurl($whurlForm) {
-    this.$whurlForm = $whurlForm;
+function Wurl($wurlForm) {
+    this.$wurlForm = $wurlForm;
     var self = this;
 
-    $('.add_header', this.$whurlForm).click(function () {
+    $('.add_header', this.$wurlForm).click(function () {
         self.addInputs('header');
     });
 
-    $('.add_param', this.$whurlForm).click(function () {
+    $('.add_param', this.$wurlForm).click(function () {
         self.addInputs('param');
     });
 
-    $('.delete_header', this.$whurlForm).live('click', function (e) {
+    $('.delete_header', this.$wurlForm).live('click', function (e) {
         //e.currentTarget
         self.deleteHeader(this);
     });
 
-     $('.delete_param', this.$whurlForm).live('click', function (e) {
+     $('.delete_param', this.$wurlForm).live('click', function (e) {
         //e.currentTarget
         self.deleteParam(this);
     });
 
-    $(".trash_headers", this.$whurlForm).click(function () {
+    $(".trash_headers", this.$wurlForm).click(function () {
         self.trashHeaders();
     });
 
-    $(".trash_queries", self.$whurlForm).click(function () {
+    $(".trash_queries", self.$wurlForm).click(function () {
         self.trashQueries();
     });
 
-    $('.header_pair input.value', this.$whurlForm).live('focusin', (function () {
-        if ($('.header_pair:last input', self.$whurlForm).val() != "") {
+    $('.header_pair input.value', this.$wurlForm).live('focusin', (function () {
+        if ($('.header_pair:last input', self.$wurlForm).val() != "") {
             self.addInputs('header');
         }
     }));
 
-    $('.param_pair input.value', this.$whurlForm).live('focusin', (function () {
-        if ($('.param_pair:last input', self.$whurlForm).val() != "") {
+    $('.param_pair input.value', this.$wurlForm).live('focusin', (function () {
+        if ($('.param_pair:last input', self.$wurlForm).val() != "") {
             self.addInputs('param');
         }
     }));
 
-    $('.url select', this.$whurlForm).change(function () {
+    $('.url select', this.$wurlForm).change(function () {
         self.updateBodyInput();
     });
 
-    $(".header_pair input.key", this.$whurlForm).livequery(function() {
+    $(".header_pair input.key", this.$wurlForm).livequery(function() {
         $(this).autocomplete({source:headers});
     });
 
-    $(".clear_fields", this.$whurlForm).click(function () {
-        $("input[type=text], textarea", self.$whurlForm).val("");
+    $(".clear_fields", this.$wurlForm).click(function () {
+        $("input[type=text], textarea", self.$wurlForm).val("");
         self.trashHeaders();
         self.trashQueries();
     });
 
     this.addInputs = function (type) {
-        var $fields = $('.' + type + '_pair', this.$whurlForm).first().clone();
+        var $fields = $('.' + type + '_pair', this.$wurlForm).first().clone();
         $fields.children('input').val("").attr('disabled', false);
-        $fields.hide().appendTo(this.$whurlForm.find('.' + type + 's')).slideDown('fast');
+        $fields.hide().appendTo(this.$wurlForm.find('.' + type + 's')).slideDown('fast');
     };
 
     this.deleteHeader = function (element) {
@@ -112,7 +107,7 @@ function Whurl($whurlForm) {
     };
 
     this.trashHeaders = function () {
-        $(".header_pair:visible", self.$whurlForm).each(function (i, element) {
+        $(".header_pair:visible", self.$wurlForm).each(function (i, element) {
             $(element).slideUp(function () {
                 $(element).remove();
             });
@@ -121,7 +116,7 @@ function Whurl($whurlForm) {
     };
 
     this.trashQueries = function () {
-        $(".param_pair:visible", self.$whurlForm).each(function (i, element) {
+        $(".param_pair:visible", self.$wurlForm).each(function (i, element) {
             $(element).slideUp(function () {
                 $(element).remove();
             });
@@ -130,11 +125,11 @@ function Whurl($whurlForm) {
     };
 
     this.updateBodyInput = function () {
-        var method = $('.url select', self.$whurlForm).val();
+        var method = $('.url select', self.$wurlForm).val();
         if ($.inArray(method, ["PUT", "POST"]) > -1) {
-            $('#whurl_request_body', self.$whurlForm).attr('disabled', false).removeClass('textarea_disabled');
+            $('#wurl_request_body', self.$wurlForm).attr('disabled', false).removeClass('textarea_disabled');
         } else {
-            $('#whurl_request_body', self.$whurlForm).attr('disabled', true).addClass('textarea_disabled');
+            $('#wurl_request_body', self.$wurlForm).attr('disabled', true).addClass('textarea_disabled');
         }
     };
     this.updateBodyInput();
