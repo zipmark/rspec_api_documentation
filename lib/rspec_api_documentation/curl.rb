@@ -10,7 +10,7 @@ module RspecApiDocumentation
     end
 
     def post
-      "curl \"#{url}\" {post_data} -X POST #{headers}"
+      "curl \"#{url}\" #{post_data} -X POST #{headers}"
     end
 
     def get
@@ -22,7 +22,7 @@ module RspecApiDocumentation
     end
 
     def delete
-      "curl \"#{url}#{get_data}\" -X DELETE #{headers}"
+      "curl \"#{url}\" #{post_data} -X DELETE #{headers}"
     end
 
     def url
