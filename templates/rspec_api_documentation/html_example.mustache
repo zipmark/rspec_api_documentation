@@ -119,16 +119,11 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">
-                    <a class="button icon_only trash trash_headers ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                       title="trash all headers" role="button"><span
-                            class="ui-button-icon-primary ui-icon ui-icon-trash"></span><span
-                            class="ui-button-text"></span></a>
-                    <a class="add add_header button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                       title="add another header" role="button"><span
-                            class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span><span
-                            class="ui-button-text"></span></a>
-                    Headers
+                <label class="control-label with-button">
+                    <a class="btn trash_headers btn-small btn-danger" title="trash all headers"><i class="icon-trash icon-white"></i></a>
+                    <a class="btn add_header btn-small btn-inverse" title="add header"><i
+                            class="icon-plus icon-white"></i></a>
+                    <span class="text">Headers</span>
                 </label>
 
                 <div class="headers controls">
@@ -139,10 +134,8 @@
                                aria-haspopup="true">
                         <input class="value" disabled="disabled" id="header_values_" name="header_values[]"
                                type="text">
-                        <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                           role="button" title=""><span
-                                class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
-                                class="ui-button-text"></span></a>
+                        <a class="btn delete_header btn-small btn-danger" title="delete header"><i
+                                class="icon-remove icon-white"></i></a>
                     </div>
 
                     {{# request_headers_hash }}
@@ -153,10 +146,8 @@
                                value="{{ name }}">
                         <input class="value" id="header_values_" name="header_values[]" type="text"
                                value="{{ value }}">
-                        <a class="delete_header destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                           role="button" title=""><span
-                                class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
-                                class="ui-button-text"></span></a>
+                        <a class="btn delete_header btn-small btn-danger" title="delete header"><i
+                                class="icon-remove icon-white"></i></a>
                     </div>
                     {{/ request_headers_hash }}
 
@@ -164,15 +155,11 @@
             </div>
             <div class="control-group">
                 <label class="control-label">
-                    <a class="button icon_only trash trash_queries ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                       title="trash all parameters" role="button"><span
-                            class="ui-button-icon-primary ui-icon ui-icon-trash"></span><span
-                            class="ui-button-text"></span></a>
-                    <a class="add add_param button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                       title="add another parameter" role="button"><span
-                            class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span><span
-                            class="ui-button-text"></span></a>
-                    Query
+                    <a class="btn trash_queries btn-small btn-danger" title="trash all parameters"><i
+                            class="icon-trash icon-white"></i></a>
+                    <a class="btn add_param btn-small btn-inverse" title="add parameter"><i
+                            class="icon-plus icon-white"></i></a>
+                    <span>Query</span>
                 </label>
 
                 <div class="params controls">
@@ -180,10 +167,8 @@
                         <input class="key" disabled="disabled" id="param_keys_" name="param_keys[]" type="text">
                         <input class="value" disabled="disabled" id="param_values_" name="param_values[]"
                                type="text">
-                        <a class="delete_param destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                           role="button" title=""><span
-                                class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
-                                class="ui-button-text"></span></a>
+                        <a class="btn delete_param btn-small btn-danger" title="delete parameter"><i
+                                class="icon-remove icon-white"></i></a>
                     </div>
                     {{# request_query_hash }}
 
@@ -191,10 +176,8 @@
                         <input class="key" id="param_keys_" name="param_keys[]" type="text" value="{{ name }}">
                         <input class="value" id="param_values_" name="param_values[]" type="text"
                                value="{{ value }}">
-                        <a class="delete_param destroy button icon_only ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                           role="button" title=""><span
-                                class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span
-                                class="ui-button-text"></span></a>
+                        <a class="btn delete_param btn-small btn-danger" title="delete parameter"><i
+                                class="icon-remove icon-white"></i></a>
                     </div>
                     {{/ request_query_hash }}
 
