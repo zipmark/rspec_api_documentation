@@ -155,24 +155,39 @@ function Wurl(wurlForm) {
         return "Basic " + hash;
     };
 
+    this.queryParams = function() {
+		var toReturn = [];
+        $(".param_pair:visible", self.$wurlForm).each(function (i, element) {
+            paramKey = $(element).find('input.key').val();
+            paramValue = $(element).find('input.value').val();
+			if (paramKey.length && paramValue.length) {
+				toReturn.push(paramKey + '=' + paramValue);
+			}
+        });
+        return toReturn;
+	};
+
     this.getData = function () {
         var method = $('#wurl_request_method', self.$wurlForm).val();
-        if ($.inArray(method, ["PUT", "POST"]) > -1) {
+        if ($.inArray(method, ["PUT", "POST", "DELETE"]) > -1) {
             return $('#wurl_request_body', self.$wurlForm).val()
         } else {
-            var toReturn = "";
-            $(".param_pair:visible", self.$wurlForm).each(function (i, element) {
-                paramKey = $(element).find('input.key').val();
-                paramValue = $(element).find('input.value').val();
-                toReturn += paramKey + '=' + paramValue + "\n";
-            });
-            return toReturn;
+			return self.queryParams().join("\n");
         }
     };
 
+	this.url = function () {
+		var url = '/' + $('#wurl_request_url', self.$wurlForm).val();
+		var method = $('#wurl_request_method', self.$wurlForm).val();
+		var params = self.queryParams().join("&")
+		if ($.inArray(method, ["PUT", "POST", "DELETE"]) > -1 && params.length) {
+			url += "?" + params;
+		}
+		return url;
+	}
+
     this.sendWurl = function () {
         $.ajax({
-
             beforeSend:function (req) {
                 $(".header_pair:visible", self.$wurlForm).each(function (i, element) {
                     headerKey = $(element).find('input.key').val();
@@ -182,7 +197,7 @@ function Wurl(wurlForm) {
                 req.setRequestHeader('Authorization', self.makeBasicAuth());
             },
             type:$('#wurl_request_method', self.$wurlForm).val(),
-            url:$('#wurl_request_url', self.$wurlForm).val(),
+            url:this.url(),
             data:this.getData(),
             complete:function (jqXHR) {
                 var $status = self.$wurlForm.siblings('.response.status');
