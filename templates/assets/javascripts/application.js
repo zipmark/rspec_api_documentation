@@ -164,7 +164,7 @@ function Wurl(wurlForm) {
 				toReturn.push(paramKey + '=' + paramValue);
 			}
         });
-        return toReturn;
+        return toReturn.join("&");
 	};
 
     this.getData = function () {
@@ -172,14 +172,14 @@ function Wurl(wurlForm) {
         if ($.inArray(method, ["PUT", "POST", "DELETE"]) > -1) {
             return $('#wurl_request_body', self.$wurlForm).val()
         } else {
-			return self.queryParams().join("\n");
+			return self.queryParams();
         }
     };
 
 	this.url = function () {
 		var url = $('#wurl_request_url', self.$wurlForm).val();
 		var method = $('#wurl_request_method', self.$wurlForm).val();
-		var params = self.queryParams().join("&")
+		var params = self.queryParams();
 		if ($.inArray(method, ["PUT", "POST", "DELETE"]) > -1 && params.length) {
 			url += "?" + params;
 		}
