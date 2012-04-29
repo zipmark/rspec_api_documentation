@@ -89,8 +89,8 @@
 
       <h4>wURL</h4>
 
-      <div class="wurl_form form-horizontal well" id="wurl_form">
-        <form accept-charset="UTF-8" class="new_wurl" id="new_wurl">
+      <div class="wurl_form form-horizontal" id="wurl_form">
+        <form accept-charset="UTF-8" class="new_wurl well" id="new_wurl">
           <div class="control-group">
             <label class="control-label">
               URL
@@ -190,11 +190,11 @@
           </div>
           <div class="control-group">
             <label class="control-label">
-              Body
+              <span>Body</span>
             </label>
 
             <div class="post_body controls">
-              <textarea id="wurl_request_body" name="wurl[request_body]" rows="10"
+              <textarea id="wurl_request_body" name="wurl[request_body]" rows="5"
                         disabled="disabled"
                         class="textarea_disabled">{{ request_body }}</textarea>
             </div>
@@ -207,7 +207,7 @@
           </div>
         </form>
 
-        <h3>Response</h3>
+        <h3><a name="response"></a>Response</h3>
         <h4>Headers</h4>
         <pre class="response headers">{{ response_headers_text }}</pre>
 

@@ -31,24 +31,22 @@ var headers = ["Accept",
 
 function mirror(textarea, options) {
   $textarea = $(textarea);
-  if ($textarea.val() == '') return;
-
-  $textarea.val(JSON.stringify(JSON.parse($textarea.val()), undefined, 2));
-  options.json = true;
-  options.mode = 'javascript';
-  options.fixedGutter = true;
-
-  CodeMirror.fromTextArea(textarea, options);
+  if ($textarea.val() != '') {
+    $textarea.val(JSON.stringify(JSON.parse($textarea.val()), undefined, 2));
+    options.json = true;
+    options.mode = 'javascript';
+  }
+  return CodeMirror.fromTextArea(textarea, options);
 };
 
 function Wurl(wurlForm) {
   this.$wurlForm = $(wurlForm);
   var self = this;
 
+  this.requestBodyMirror = mirror(this.$wurlForm.find('.post_body textarea')[0], {})
+  this.responseBodyMirror = mirror(this.$wurlForm.find('.response.body textarea')[0], { "readOnly":'nocursor', "lineNumbers":true});
 
-  mirror(this.$wurlForm.find('.post_body textarea')[0], {})
-  mirror(this.$wurlForm.find('.response.body textarea')[0], { "readOnly":'nocursor', "lineNumbers":true});
-
+  console.log(this.responseBodyMirror);
   $('.give_it_a_wurl', this.$wurlForm).click(function (event) {
     event.preventDefault();
     self.sendWurl();
@@ -174,7 +172,8 @@ function Wurl(wurlForm) {
   this.getData = function () {
     var method = $('#wurl_request_method', self.$wurlForm).val();
     if ($.inArray(method, ["PUT", "POST", "DELETE"]) > -1) {
-      return $('#wurl_request_body', self.$wurlForm).val()
+      self.requestBodyMirror.save();
+      return self.requestBodyMirror.getValue();
     } else {
       return self.queryParams();
     }
@@ -204,11 +203,15 @@ function Wurl(wurlForm) {
       url:this.url(),
       data:this.getData(),
       complete:function (jqXHR) {
-        var $status = self.$wurlForm.siblings('.response.status');
-        var $body = self.$wurlForm.siblings('.response.body');
-        $status.html(jqXHR.status + ' ' + jqXHR.statusText).effect("highlight", {}, 3000);
-        self.codeMirror.setValue(JSON.stringify(JSON.parse(jqXHR.responseText), undefined, 2));
-        $body.effect("highlight", {}, 3000);
+        var $status = $('.response.status', self.$wurlForm);
+        $status.html(jqXHR.status + ' - ' + jqXHR.statusText);
+        if(jqXHR.responseText.length > 1) {
+          self.responseBodyMirror.setValue(JSON.stringify(JSON.parse(jqXHR.responseText), undefined, 2));
+        } else {
+          self.responseBodyMirror.setValue("");
+        }
+        $('.response', self.$wurlForm).effect("highlight", {}, 3000);
+        $('a#response', self.$wurlForm).focus();
       }
     });
   };
