@@ -12,10 +12,6 @@ body {
     line-height: 15px;
 }
 
-.CodeMirror-cursor {
-    display: none;
-}
-
 .CodeMirror-scroll {
     height: auto;
     overflow: visible;

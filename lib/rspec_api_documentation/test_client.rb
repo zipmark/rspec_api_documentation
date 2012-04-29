@@ -1,5 +1,3 @@
-require "coderay"
-
 module RspecApiDocumentation
   class TestClient < Struct.new(:session, :options)
     attr_accessor :user
@@ -63,71 +61,27 @@ module RspecApiDocumentation
 
     def document_example(method, action, params)
       return unless metadata[:document]
-
+      action_parts = action.split("?")
       input = last_request.env["rack.input"]
       input.rewind
       request_body = input.read
 
       request_metadata = {}
 
-      request_metadata[:method] = method.to_s.upcase
-      request_metadata[:route] = action
-      request_metadata[:route_no_query] = action.split("?")[0]
-      request_metadata[:request_body] = highlight_syntax(request_body, last_request.content_type, true)
-      request_metadata[:request_body_plain] = request_body
-      request_metadata[:request_headers] = format_headers(last_headers)
-      request_metadata[:request_headers_hash] = last_headers.map { |k, v| {:name => k.gsub(/^HTTP_/, '').titleize.split.join("-"), :value => v} }
-      request_metadata[:request_query_parameters] = format_query_hash(last_query_hash)
-      request_metadata[:request_query_hash] = last_query_hash.map { |k, v| { :name => k, :value => v } }
+      request_metadata[:method] = method
+      request_metadata[:route] = action_parts[0]
+      request_metadata[:query_string] = action_parts.length > 1 ? "?#{action_parts[1]}" : nil
+      request_metadata[:request_body] = request_body.empty? ? nil : request_body
+      request_metadata[:request_content_type] = last_request.content_type
+      request_metadata[:request_headers] = last_headers.map { |k, v| {:name => k.gsub(/^HTTP_/, '').titleize.split.join("-"), :value => v} }
+      request_metadata[:request_query_parameters] =  last_query_hash.map { |k, v| { :name => k, :value => v } }
       request_metadata[:response_status] = last_response.status
-      request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[last_response.status]
       request_metadata[:response_body] = last_response.body
-      request_metadata[:response_headers] = format_headers(last_response.headers)
+      request_metadata[:response_headers] = last_response.headers
       request_metadata[:curl] = Curl.new(method.to_s, action, request_body, last_headers)
 
       metadata[:requests] ||= []
       metadata[:requests] << request_metadata
-    end
-
-    def format_headers(headers)
-      headers.map do |key, value|
-        # HTTP_ACCEPT_CHARSET => Accept-Charset
-        formatted_key = key.gsub(/^HTTP_/, '').titleize.split.join("-")
-        "#{formatted_key}: #{value}"
-      end.join("\n")
-    end
-
-    def format_query_hash(query_hash)
-      return if query_hash.blank?
-      query_hash.map do |key, value|
-        "#{key}: #{CGI.unescape(value)}"
-      end.join("\n")
-    end
-
-    def highlight_syntax(body, content_type, is_query_string = false)
-      return if body.blank?
-      begin
-        case content_type
-          when /json/
-            CodeRay.scan(JSON.pretty_generate(JSON.parse(body)), :json).div
-          when /html/
-            CodeRay.scan(body, :html).div
-          when /javascript/
-            CodeRay.scan(body, :java_script).div
-          when /xml/
-            CodeRay.scan(body, :xml).div
-          else
-            body = prettify_request_body(body) if is_query_string
-            "<pre>#{body}</pre>"
-        end
-      rescue
-        "<pre>#{body}</pre>"
-      end
-    end
-
-    def prettify_request_body(string)
-      return if string.blank?
-      CGI.unescape(string.split("&").join("\n"))
     end
   end
 end

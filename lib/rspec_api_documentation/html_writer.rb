@@ -69,7 +69,13 @@ module RspecApiDocumentation
     end
 
     def requests
-      super.map do |hash|
+      request_list = Marshal.load(Marshal.dump(super))
+
+      request_list.collect do |hash|
+        hash[:method] = hash[:method].to_s.upcase
+        hash[:request_headers_text] = format_request_headers(hash[:request_headers])
+        hash[:response_headers_text] = format_response_headers(hash[:response_headers])
+        hash[:response_status] = hash[:response_status].to_s + " - " + Rack::Utils::HTTP_STATUS_CODES[hash[:response_status]]
         if @host
           hash[:curl] = hash[:curl].output(@host) if hash[:curl].is_a? RspecApiDocumentation::Curl
         else
@@ -81,6 +87,19 @@ module RspecApiDocumentation
 
     def url_prefix
       configuration.url_prefix
+    end
+
+    private
+    def format_request_headers(array)
+      array.collect do |pair|
+        "#{pair[:name]}: #{pair[:value]}"
+      end.join("\n")
+    end
+
+    def format_response_headers(hash)
+      hash.collect do |k,v|
+        "#{k}: #{v}"
+      end.join("\n")
     end
   end
 end

@@ -39,7 +39,7 @@ resource "Orders" do
     scope_parameters :order, :all
 
     example_request "Creating an order" do
-      puts response_body
+      explanation "First, create an order, then make a later request to get it back"
       response_body.should be_json_eql({
         "name" => name,
         "paid" => paid,
