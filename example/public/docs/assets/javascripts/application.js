@@ -205,6 +205,9 @@ function Wurl(wurlForm) {
       complete:function (jqXHR) {
         var $status = $('.response.status', self.$wurlForm);
         $status.html(jqXHR.status + ' - ' + jqXHR.statusText);
+
+        $('.response.headers', self.$wurlForm).html(jqXHR.getAllResponseHeaders());
+
         if(jqXHR.responseText.length > 1) {
           self.responseBodyMirror.setValue(JSON.stringify(JSON.parse(jqXHR.responseText), undefined, 2));
         } else {
