@@ -27,6 +27,7 @@ module RspecApiDocumentation
   autoload :TestServer
   autoload :HtmlWriter
   autoload :JsonWriter
+  autoload :JsonIodocsWriter
   autoload :IndexWriter
   autoload :Curl
 
