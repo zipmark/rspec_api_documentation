@@ -72,10 +72,10 @@
       <h4>Route</h4>
       <pre class="request route highlight">{{ method }} {{ route }}{{query_string}}</pre>
 
-      {{# request_query_parameters }}
+      {{# request_query_parameters_text }}
       <h4>Query Parameters</h4>
-      <pre class="request query_parameters highlight">{{ request_query_parameters }}</pre>
-      {{/ request_query_parameters }}
+      <pre class="request query_parameters highlight">{{ request_query_parameters_text }}</pre>
+      {{/ request_query_parameters_text }}
 
       {{# request_body }}
       <h4>Body</h4>
@@ -174,7 +174,7 @@
                 <a class="btn delete_param btn-small btn-danger" title="delete parameter"><i
                     class="icon-remove icon-white"></i></a>
               </div>
-              {{# request_query_hash }}
+              {{# request_query_parameters }}
 
               <div class="param_pair">
                 <input class="key" id="param_keys_" name="param_keys[]" type="text" value="{{ name }}">
@@ -183,7 +183,7 @@
                 <a class="btn delete_param btn-small btn-danger" title="delete parameter"><i
                     class="icon-remove icon-white"></i></a>
               </div>
-              {{/ request_query_hash }}
+              {{/ request_query_parameters }}
 
 
             </div>

@@ -73,7 +73,8 @@ module RspecApiDocumentation
 
       request_list.collect do |hash|
         hash[:method] = hash[:method].to_s.upcase
-        hash[:request_headers_text] = format_request_headers(hash[:request_headers])
+        hash[:request_headers_text] = format_request_hash(hash[:request_headers])
+        hash[:request_query_parameters_text] = format_request_hash(hash[:request_query_parameters])
         hash[:response_headers_text] = format_response_headers(hash[:response_headers])
         hash[:response_status] = hash[:response_status].to_s + " - " + Rack::Utils::HTTP_STATUS_CODES[hash[:response_status]]
         if @host
@@ -90,7 +91,7 @@ module RspecApiDocumentation
     end
 
     private
-    def format_request_headers(array)
+    def format_request_hash(array)
       array.collect do |pair|
         "#{pair[:name]}: #{pair[:value]}"
       end.join("\n")
