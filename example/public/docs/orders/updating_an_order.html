@@ -9,8 +9,14 @@
   <script src="/docs//assets/javascripts/jquery-base64.js"></script>
   <script src="/docs//assets/javascripts/jquery-ui-1-8-16-min.js"></script>
   <script src="/docs//assets/javascripts/codemirror.js"></script>
-  <script src="/docs//assets/javascripts/javascript.js"></script>
+  <script src="/docs//assets/javascripts/mode/css/css.js"></script>
+  <script src="/docs//assets/javascripts/mode/htmlmixed/htmlmixed.js"></script>
+  <script src="/docs//assets/javascripts/mode/javascript/javascript.js"></script>
+  <script src="/docs//assets/javascripts/mode/xml/xml.js"></script>
   <script src="/docs//assets/javascripts/application.js"></script>
+  <script>
+
+  </script>
   <style>
     td.required .name:after {
       float: right;
@@ -83,8 +89,6 @@ Cookie: </pre>
       <h4>Route</h4>
       <pre class="request route highlight">PUT /orders/1</pre>
 
-      <h4>Query Parameters</h4>
-      <pre class="request query_parameters highlight"></pre>
 
       <h4>Body</h4>
       <div class="request body"><textarea>{&quot;order&quot;:{&quot;name&quot;:&quot;Updated Name&quot;}}</textarea></div>
@@ -96,6 +100,8 @@ Cookie: </pre>
 
       <div class="wurl_form form-horizontal" id="wurl_form">
         <form accept-charset="UTF-8" class="new_wurl well" id="new_wurl">
+          <input type="hidden" class="request content_type" value="application/json" />
+          <input type="hidden" class="response content_type" value="application/json; charset=utf-8" />
           <div class="control-group">
             <label class="control-label">
               URL
@@ -237,7 +243,7 @@ Location: http://example.org/orders/1
 X-UA-Compatible: IE=Edge,chrome=1
 ETag: &quot;99914b932bd37a50b983c5e7c90ae93b&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.004364
+X-Runtime: 0.008171
 Content-Length: 2</pre>
 
         <h4>Status</h4>
@@ -248,6 +254,7 @@ Content-Length: 2</pre>
       </div>
 
     </div>
+    <hr />
   </div>
 </div>
 </body>

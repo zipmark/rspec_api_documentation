@@ -9,8 +9,14 @@
   <script src="/docs//assets/javascripts/jquery-base64.js"></script>
   <script src="/docs//assets/javascripts/jquery-ui-1-8-16-min.js"></script>
   <script src="/docs//assets/javascripts/codemirror.js"></script>
-  <script src="/docs//assets/javascripts/javascript.js"></script>
+  <script src="/docs//assets/javascripts/mode/css/css.js"></script>
+  <script src="/docs//assets/javascripts/mode/htmlmixed/htmlmixed.js"></script>
+  <script src="/docs//assets/javascripts/mode/javascript/javascript.js"></script>
+  <script src="/docs//assets/javascripts/mode/xml/xml.js"></script>
   <script src="/docs//assets/javascripts/application.js"></script>
+  <script>
+
+  </script>
   <style>
     td.required .name:after {
       float: right;
@@ -76,6 +82,8 @@ Cookie: </pre>
 
       <div class="wurl_form form-horizontal" id="wurl_form">
         <form accept-charset="UTF-8" class="new_wurl well" id="new_wurl">
+          <input type="hidden" class="request content_type" value="application/json" />
+          <input type="hidden" class="response content_type" value="application/json; charset=utf-8" />
           <div class="control-group">
             <label class="control-label">
               URL
@@ -224,7 +232,7 @@ Cookie: </pre>
 X-UA-Compatible: IE=Edge,chrome=1
 ETag: &quot;6cd5831e98b0090b64672b5604d9eb2a&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.040136
+X-Runtime: 0.081830
 Content-Length: 121</pre>
 
         <h4>Status</h4>
@@ -235,6 +243,7 @@ Content-Length: 121</pre>
       </div>
 
     </div>
+    <hr />
   </div>
 </div>
 </body>

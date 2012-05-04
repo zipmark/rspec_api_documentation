@@ -29,12 +29,20 @@ var headers = ["Accept",
   "Via",
   "Warning"];
 
-function mirror(textarea, options) {
+function mirror(textarea, contentType, options) {
   $textarea = $(textarea);
   if ($textarea.val() != '') {
-    $textarea.val(JSON.stringify(JSON.parse($textarea.val()), undefined, 2));
-    options.json = true;
-    options.mode = 'javascript';
+    if(contentType.indexOf('json') >= 0) {
+      $textarea.val(JSON.stringify(JSON.parse($textarea.val()), undefined, 2));
+      options.json = true;
+      options.mode = 'javascript';
+    } else if (contentType.indexOf('javascript') >= 0) {
+      options.mode = 'javascript';
+    } else if (contentType.indexOf('xml') >= 0) {
+      options.mode = 'xml';
+    } else {
+      options.mode = 'htmlmixed';
+    }
   }
   return CodeMirror.fromTextArea(textarea, options);
 };
@@ -43,10 +51,9 @@ function Wurl(wurlForm) {
   this.$wurlForm = $(wurlForm);
   var self = this;
 
-  this.requestBodyMirror = mirror(this.$wurlForm.find('.post_body textarea')[0], {})
-  this.responseBodyMirror = mirror(this.$wurlForm.find('.response.body textarea')[0], { "readOnly":'nocursor', "lineNumbers":true});
+  this.requestBodyMirror = mirror(this.$wurlForm.find('.post_body textarea')[0], $('.request.content_type', this.$wurlForm).val(), {})
+  this.responseBodyMirror = mirror(this.$wurlForm.find('.response.body textarea')[0], $('.response.content_type', this.$wurlForm).val(), { "readOnly":'nocursor', "lineNumbers":true});
 
-  console.log(this.responseBodyMirror);
   $('.give_it_a_wurl', this.$wurlForm).click(function (event) {
     event.preventDefault();
     self.sendWurl();
@@ -227,6 +234,8 @@ $(function () {
 
   var $textAreas = $('.request.body textarea');
   $textAreas.each(function(i, textarea) {
-    mirror(textarea, {"readOnly":"nocursor", "lineNumbers": true});
+    var contentType = $(textarea).parents('div.request').find('.request.content_type').val();
+    console.log(contentType);
+    mirror(textarea, contentType, {"readOnly":"nocursor", "lineNumbers": true});
   });
 });

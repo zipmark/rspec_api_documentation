@@ -92,9 +92,10 @@ module RspecApiDocumentation
 
     private
     def format_request_hash(array)
-      array.collect do |pair|
+      string = array.collect do |pair|
         "#{pair[:name]}: #{pair[:value]}"
       end.join("\n")
+      string.empty? ? nil : string
     end
 
     def format_response_headers(hash)

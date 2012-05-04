@@ -9,8 +9,14 @@
   <script src="/docs//assets/javascripts/jquery-base64.js"></script>
   <script src="/docs//assets/javascripts/jquery-ui-1-8-16-min.js"></script>
   <script src="/docs//assets/javascripts/codemirror.js"></script>
-  <script src="/docs//assets/javascripts/javascript.js"></script>
+  <script src="/docs//assets/javascripts/mode/css/css.js"></script>
+  <script src="/docs//assets/javascripts/mode/htmlmixed/htmlmixed.js"></script>
+  <script src="/docs//assets/javascripts/mode/javascript/javascript.js"></script>
+  <script src="/docs//assets/javascripts/mode/xml/xml.js"></script>
   <script src="/docs//assets/javascripts/application.js"></script>
+  <script>
+
+  </script>
   <style>
     td.required .name:after {
       float: right;
@@ -45,8 +51,6 @@ Cookie: </pre>
       <h4>Route</h4>
       <pre class="request route highlight">GET /orders/1</pre>
 
-      <h4>Query Parameters</h4>
-      <pre class="request query_parameters highlight"></pre>
 
 
       <h4>cURL</h4>
@@ -56,6 +60,8 @@ Cookie: </pre>
 
       <div class="wurl_form form-horizontal" id="wurl_form">
         <form accept-charset="UTF-8" class="new_wurl well" id="new_wurl">
+          <input type="hidden" class="request content_type" value="application/json" />
+          <input type="hidden" class="response content_type" value="application/json; charset=utf-8" />
           <div class="control-group">
             <label class="control-label">
               URL
@@ -196,7 +202,7 @@ Cookie: </pre>
 X-UA-Compatible: IE=Edge,chrome=1
 ETag: &quot;d9eaba14696a65b9dfc66bf203d25a13&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.002521
+X-Runtime: 0.006956
 Content-Length: 59</pre>
 
         <h4>Status</h4>
@@ -207,6 +213,7 @@ Content-Length: 59</pre>
       </div>
 
     </div>
+    <hr />
   </div>
 </div>
 </body>

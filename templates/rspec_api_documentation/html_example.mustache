@@ -9,8 +9,14 @@
   <script src="/{{url_prefix}}/assets/javascripts/jquery-base64.js"></script>
   <script src="/{{url_prefix}}/assets/javascripts/jquery-ui-1-8-16-min.js"></script>
   <script src="/{{url_prefix}}/assets/javascripts/codemirror.js"></script>
-  <script src="/{{url_prefix}}/assets/javascripts/javascript.js"></script>
+  <script src="/{{url_prefix}}/assets/javascripts/mode/css/css.js"></script>
+  <script src="/{{url_prefix}}/assets/javascripts/mode/htmlmixed/htmlmixed.js"></script>
+  <script src="/{{url_prefix}}/assets/javascripts/mode/javascript/javascript.js"></script>
+  <script src="/{{url_prefix}}/assets/javascripts/mode/xml/xml.js"></script>
   <script src="/{{url_prefix}}/assets/javascripts/application.js"></script>
+  <script>
+
+  </script>
   <style>
     td.required .name:after {
       float: right;
@@ -91,6 +97,8 @@
 
       <div class="wurl_form form-horizontal" id="wurl_form">
         <form accept-charset="UTF-8" class="new_wurl well" id="new_wurl">
+          <input type="hidden" class="request content_type" value="{{request_content_type}}" />
+          <input type="hidden" class="response content_type" value="{{response_content_type}}" />
           <div class="control-group">
             <label class="control-label">
               URL
@@ -223,6 +231,7 @@
       </div>
 
     </div>
+    <hr />
     {{/ requests }}
   </div>
 </div>
