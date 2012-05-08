@@ -150,7 +150,7 @@
                     class="icon-remove icon-white"></i></a>
               </div>
 
-              {{# request_headers }}
+              {{# request_headers_hash }}
               <div class="header_pair">
                 <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]"
                        type="text"
@@ -161,7 +161,7 @@
                 <a class="btn delete_header btn-small btn-danger" title="delete header"><i
                     class="icon-remove icon-white"></i></a>
               </div>
-              {{/ request_headers }}
+              {{/ request_headers_hash }}
 
             </div>
           </div>
@@ -182,7 +182,7 @@
                 <a class="btn delete_param btn-small btn-danger" title="delete parameter"><i
                     class="icon-remove icon-white"></i></a>
               </div>
-              {{# request_query_parameters }}
+              {{# request_query_parameters_hash }}
 
               <div class="param_pair">
                 <input class="key" id="param_keys_" name="param_keys[]" type="text" value="{{ name }}">
@@ -191,7 +191,7 @@
                 <a class="btn delete_param btn-small btn-danger" title="delete parameter"><i
                     class="icon-remove icon-white"></i></a>
               </div>
-              {{/ request_query_parameters }}
+              {{/ request_query_parameters_hash }}
 
 
             </div>

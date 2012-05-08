@@ -45,7 +45,7 @@ describe RspecApiDocumentation::TestServer do
         metadata[:method].should eq("POST")
         metadata[:route].should eq(path)
         metadata[:request_body].should eq(JSON.pretty_generate(JSON.parse(body)))
-        metadata[:request_headers].split("\n").sort.should eq("Content-Type: application/json\nX-Custom-Header: custom header value\nHost: example.org\nCookie: ".split("\n").sort)
+        metadata[:request_headers].should == {"Content-Type" => "application/json", "X-Custom-Header" => "custom header value", "Host" => "example.org", "Cookie" => ""}
       end
     end
   end

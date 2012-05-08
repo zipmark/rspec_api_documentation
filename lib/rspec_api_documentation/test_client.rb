@@ -68,14 +68,14 @@ module RspecApiDocumentation
 
       request_metadata = {}
 
-      request_metadata[:method] = method
+      request_metadata[:method] = method.to_s.upcase
       request_metadata[:route] = action_parts[0]
       request_metadata[:query_string] = action_parts.length > 1 ? "?#{action_parts[1]}" : nil
       request_metadata[:request_body] = request_body.empty? ? nil : request_body
       request_metadata[:request_content_type] = last_request.content_type
       request_metadata[:response_content_type] = last_response.content_type
-      request_metadata[:request_headers] = last_headers.map { |k, v| {:name => k.gsub(/^HTTP_/, '').titleize.split.join("-"), :value => v} }
-      request_metadata[:request_query_parameters] =  last_query_hash.map { |k, v| { :name => k, :value => v } }
+      request_metadata[:request_query_parameters] =  last_query_hash
+      request_metadata[:request_headers] = Hash[last_headers.map{ |k, v| [k.gsub(/^HTTP_/, '').titleize.split.join("-"), v] }]
       request_metadata[:response_status] = last_response.status
       request_metadata[:response_body] = last_response.body
       request_metadata[:response_headers] = last_response.headers

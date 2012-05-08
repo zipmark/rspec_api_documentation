@@ -18,6 +18,9 @@ module RspecApiDocumentation
       File.open(configuration.docs_dir.join("index.html"), "w+") do |f|
         f.write HtmlIndex.new(index, configuration).render
       end
+
+      #logger.log("here")
+
       index.examples.each do |example|
         html_example = HtmlExample.new(example, configuration)
         FileUtils.mkdir_p(configuration.docs_dir.join(html_example.dirname))
@@ -73,10 +76,12 @@ module RspecApiDocumentation
 
       request_list.collect do |hash|
         hash[:method] = hash[:method].to_s.upcase
-        hash[:request_headers_text] = format_request_hash(hash[:request_headers])
-        hash[:request_query_parameters_text] = format_request_hash(hash[:request_query_parameters])
-        hash[:response_headers_text] = format_response_headers(hash[:response_headers])
-        hash[:response_status] = hash[:response_status].to_s + " - " + Rack::Utils::HTTP_STATUS_CODES[hash[:response_status]]
+        hash[:request_headers_hash] = hash[:request_headers].collect {|k,v| {:name => k, :value => v}}
+        hash[:request_headers_text] = format_hash(hash[:request_headers])
+        hash[:request_query_parameters_text] = format_hash(hash[:request_query_parameters])
+        hash[:request_query_parameters_hash] = hash[:request_query_parameters].collect { |k, v| {:name => k, :value => v} } if hash[:request_query_parameters].present?
+        hash[:response_headers_text] = format_hash(hash[:response_headers])
+        hash[:response_status] = hash[:response_status].to_s + " " + Rack::Utils::HTTP_STATUS_CODES[hash[:response_status]].to_s
         if @host
           hash[:curl] = hash[:curl].output(@host) if hash[:curl].is_a? RspecApiDocumentation::Curl
         else
@@ -91,14 +96,8 @@ module RspecApiDocumentation
     end
 
     private
-    def format_request_hash(array)
-      string = array.collect do |pair|
-        "#{pair[:name]}: #{pair[:value]}"
-      end.join("\n")
-      string.empty? ? nil : string
-    end
-
-    def format_response_headers(hash)
+    def format_hash(hash = {})
+      return "" unless hash.present?
       hash.collect do |k,v|
         "#{k}: #{v}"
       end.join("\n")

@@ -92,6 +92,8 @@ Cookie: </pre>
       <h4>Route</h4>
       <pre class="request route highlight">POST /orders</pre>
 
+      <h4>Query Parameters</h4>
+      <pre class="request query_parameters highlight"></pre>
 
       <h4>Body</h4>
       <div class="request body"><textarea>{&quot;order&quot;:{&quot;name&quot;:&quot;Order 1&quot;,&quot;paid&quot;:true,&quot;email&quot;:&quot;email@example.com&quot;}}</textarea></div>
@@ -246,11 +248,11 @@ Location: http://example.org/orders/1
 X-UA-Compatible: IE=Edge,chrome=1
 ETag: &quot;5fffd66f61cdd4ab8881584dbf5e72cf&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.012315
+X-Runtime: 0.006171
 Content-Length: 58</pre>
 
         <h4>Status</h4>
-        <pre class="response status">201 - Created </pre>
+        <pre class="response status">201 Created </pre>
 
         <h4>Body</h4>
         <div class="response body"><textarea>{"email":"email@example.com","name":"Order 1","paid":true}</textarea></div>
@@ -270,6 +272,8 @@ Cookie: </pre>
       <h4>Route</h4>
       <pre class="request route highlight">GET /orders/1</pre>
 
+      <h4>Query Parameters</h4>
+      <pre class="request query_parameters highlight"></pre>
 
 
       <h4>cURL</h4>
@@ -421,11 +425,11 @@ Cookie: </pre>
 X-UA-Compatible: IE=Edge,chrome=1
 ETag: &quot;5fffd66f61cdd4ab8881584dbf5e72cf&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Runtime: 0.007060
+X-Runtime: 0.003733
 Content-Length: 58</pre>
 
         <h4>Status</h4>
-        <pre class="response status">200 - OK </pre>
+        <pre class="response status">200 OK </pre>
 
         <h4>Body</h4>
         <div class="response body"><textarea>{"email":"email@example.com","name":"Order 1","paid":true}</textarea></div>

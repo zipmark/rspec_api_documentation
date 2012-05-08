@@ -148,16 +148,15 @@ describe RspecApiDocumentation::TestClient do
       it "should augment the metadata with information about the request" do
         metadata = example.metadata[:requests].first
         metadata[:method].should eq("POST")
-        metadata[:route].should eq("/greet?query=test+query")
+        metadata[:route].should eq("/greet")
+        metadata[:query_string].should eq("?query=test+query")
         metadata[:request_body].should be_present
-        metadata[:request_headers].should match(/^Content-Type: application\/json/)
-        metadata[:request_headers].should match(/^X-Custom-Header: custom header value$/)
-        metadata[:request_query_parameters].should eq("query: test query")
+        metadata[:request_headers].should include({'Content-Type' => 'application/json;charset=utf-8'})
+        metadata[:request_headers].should include({'X-Custom-Header' => 'custom header value'})
+        metadata[:request_query_parameters].should == {"query" => "test+query"}
         metadata[:response_status].should eq(200)
-        metadata[:response_status_text].should eq("OK")
         metadata[:response_body].should be_present
-        metadata[:response_headers].should match(/^Content-Type: application\/json/)
-        metadata[:response_headers].should match(/^Content-Length: 17$/)
+        metadata[:response_headers].should == { "Content-Type" => "application/json", "Content-Length" => "17" }
         metadata[:curl].should eq(RspecApiDocumentation::Curl.new("post", "/greet?query=test+query", post_data, {"CONTENT_TYPE" => "application/json;charset=utf-8", "HTTP_X_CUSTOM_HEADER" => "custom header value", "HTTP_HOST" => "example.org", "HTTP_COOKIE" => ""}))
       end
 

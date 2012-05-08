@@ -94,7 +94,7 @@ module RspecApiDocumentation
     def requests
       request_list = Marshal.load(Marshal.dump(super))
       request_list.collect do |hash|
-        hash[:request_headers] = format_request_headers(hash[:request_headers])
+        hash[:request_headers] = hash[:request_headers]
         hash[:response_status] = hash[:response_status].to_s + " - " + Rack::Utils::HTTP_STATUS_CODES[hash[:response_status]]
         if @host
           hash[:curl] = hash[:curl].output(@host) if hash[:curl].is_a? RspecApiDocumentation::Curl
@@ -105,11 +105,5 @@ module RspecApiDocumentation
       end
     end
 
-    private
-    def format_request_headers(headers)
-      headers.inject({}) do |h, pair|
-        h.merge(pair[:name] => pair[:value])
-      end
-    end
   end
 end

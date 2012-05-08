@@ -22,15 +22,15 @@ module RspecApiDocumentation
     private
 
     def headers(env)
-      env.
-        select do |k, v|
-          k =~ /^(HTTP_|CONTENT_TYPE)/
-        end.
-        map do |key, value|
-          # HTTP_ACCEPT_CHARSET => Accept-Charset
-          formatted_key = key.gsub(/^HTTP_/, '').titleize.split.join("-")
-          "#{formatted_key}: #{value}"
-        end.join("\n")
+      headers = {}
+      env.each do |key, value|
+        # HTTP_ACCEPT_CHARSET => Accept-Charset
+        if key =~ /^(HTTP_|CONTENT_TYPE)/
+          header = key.gsub(/^HTTP_/, '').titleize.split.join("-")
+          headers[header] = value
+        end
+      end
+      headers
     end
 
     def prettify_json(json)
