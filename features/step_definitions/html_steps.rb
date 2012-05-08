@@ -42,8 +42,3 @@ end
 Then /^I should see the following response body:$/ do |response_body|
   page.should have_css("div.response.body textarea", :text => response_body)
 end
-
-Then /^Show me the page$/ do
-  sleep(5)
-  puts page.body
-end

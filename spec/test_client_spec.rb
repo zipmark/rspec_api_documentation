@@ -156,7 +156,8 @@ describe RspecApiDocumentation::TestClient do
         metadata[:request_query_parameters].should == {"query" => "test+query"}
         metadata[:response_status].should eq(200)
         metadata[:response_body].should be_present
-        metadata[:response_headers].should == { "Content-Type" => "application/json", "Content-Length" => "17" }
+        metadata[:response_headers]["Content-Type"].should =~ /application\/json/
+        metadata[:response_headers]["Content-Length"].should == "17"
         metadata[:curl].should eq(RspecApiDocumentation::Curl.new("post", "/greet?query=test+query", post_data, {"CONTENT_TYPE" => "application/json;charset=utf-8", "HTTP_X_CUSTOM_HEADER" => "custom header value", "HTTP_HOST" => "example.org", "HTTP_COOKIE" => ""}))
       end
 

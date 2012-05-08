@@ -63,7 +63,6 @@ Feature: Document callbacks
     When  I open the index
 
     And   I navigate to "Receiving a callback when interesting things happen"
-    And Show me the page
     Then  I should see the route is "POST /callback"
     And   I should see the following request headers:
       | Content-Type | application/json    |
