@@ -52,7 +52,7 @@ function Wurl(wurlForm) {
   var self = this;
 
   this.requestBodyMirror = mirror(this.$wurlForm.find('.post_body textarea')[0], $('.request.content_type', this.$wurlForm).val(), {})
-  this.responseBodyMirror = mirror(this.$wurlForm.find('.response.body textarea')[0], $('.response.content_type', this.$wurlForm).val(), { "readOnly":'nocursor', "lineNumbers":true});
+  this.responseBodyMirror = mirror(this.$wurlForm.find('.response.body textarea')[0], $('.response.content_type', this.$wurlForm).val(), { "readOnly": true, "lineNumbers":true});
 
   $('.give_it_a_wurl', this.$wurlForm).click(function (event) {
     event.preventDefault();
@@ -245,6 +245,6 @@ $(function () {
   var $textAreas = $('.request.body textarea');
   $textAreas.each(function(i, textarea) {
     var contentType = $(textarea).parents('div.request').find('.request.content_type').val();
-    mirror(textarea, contentType, {"readOnly":"nocursor", "lineNumbers": true});
+    mirror(textarea, contentType, {"readOnly":true, "lineNumbers": true});
   });
 });
