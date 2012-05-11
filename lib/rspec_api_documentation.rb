@@ -16,10 +16,14 @@ module RspecApiDocumentation
     autoload :Example
     autoload :ExampleGroup
     autoload :Index
-    autoload :TestClient
+    autoload :ClientBase
+    autoload :Headers
+    autoload :Syntax
   end
 
   autoload :DSL
+  autoload :RackTestClient
+  autoload :OAuth2MACClient, "rspec_api_documentation/oauth2_mac_client"
   autoload :TestServer
   autoload :HtmlWriter
   autoload :JsonWriter

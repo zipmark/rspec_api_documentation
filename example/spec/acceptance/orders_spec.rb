@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'rspec_api_documentation/dsl'
 
 resource "Orders" do
-  let(:client) { RspecApiDocumentation::TestClient.new(self, :headers => {"HTTP_ACCEPT" => "application/json", "CONTENT_TYPE" => "application/json"}) }
+  let(:client) { RspecApiDocumentation::RackTestClient.new(self, :headers => {"HTTP_ACCEPT" => "application/json", "CONTENT_TYPE" => "application/json"}) }
 
   let(:order) { Order.create(:name => "Old Name", :paid => true, :email => "email@example.com") }
 
@@ -49,7 +49,7 @@ resource "Orders" do
 
       order = JSON.parse(response_body)
 
-      client.get(URI.parse(last_response.headers["location"]).path)
+      client.get(URI.parse(response_headers["location"]).path)
       status.should == 200
     end
   end

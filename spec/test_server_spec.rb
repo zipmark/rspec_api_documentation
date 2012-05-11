@@ -7,7 +7,6 @@ describe RspecApiDocumentation::TestServer do
 
   subject { test_server }
 
-  its(:session) { should equal(self) }
   its(:example) { should equal(example) }
 
   context "being called as a rack application" do
@@ -27,14 +26,6 @@ describe RspecApiDocumentation::TestServer do
       send(method, path, body)
     }
 
-    it "should expose the last request" do
-      test_server.last_request.should equal(last_request)
-    end
-
-    it "should expose the last response" do
-      test_server.last_response.should equal(last_response)
-    end
-
     it "should always return 200" do
       last_response.status.should eq(200)
     end
@@ -42,9 +33,8 @@ describe RspecApiDocumentation::TestServer do
     context "when examples should be documentated", :document => true do
       it "should augment the metadata with information about the request" do
         metadata = example.metadata[:requests].first
-        metadata[:method].should eq("POST")
-        metadata[:route].should eq(path)
-        metadata[:request_body].should eq(JSON.pretty_generate(JSON.parse(body)))
+        metadata[:request_method].should eq("POST")
+        metadata[:request_body].should eq(body)
         metadata[:request_headers].should == {"Content-Type" => "application/json", "X-Custom-Header" => "custom header value", "Host" => "example.org", "Cookie" => ""}
       end
     end

@@ -4,11 +4,12 @@ source 'http://rubygems.org'
 
 gem "rspec", "2.6.0"
 gem "activesupport", "3.0.0"
-gem "i18n", "0.1.0"
-gem "rack-test", "0.5.5"
+gem "i18n", "0.3.6"
 gem "mustache", "0.99.4"
-gem "webmock", "1.7.0"
+gem "webmock", "1.8.0"
 gem "json", "1.4.6"
+gem "rack-test", "0.5.5"
+gem "rack-oauth2", "0.14.4"
 
 gem "fakefs"
 gem "sinatra"

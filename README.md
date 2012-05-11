@@ -5,6 +5,10 @@
 
 Generate pretty API docs for your Rails APIs.
 
+## Changes
+
+Please see the wiki for latest [changes](https://github.com/zipmark/rspec_api_documentation/wiki/Changes).
+
 ## Installation
 
 Add rspec_api_documentation to your Gemfile
@@ -50,7 +54,7 @@ See the `example` folder for a sample Rails app that has been documented.
       get "/accounts" do
         example "Get a list of all accounts" do
           do_request
-          last_response.status.should be_ok
+          status.should be_ok
         end
       end
 
@@ -62,7 +66,7 @@ See the `example` folder for a sample Rails app that has been documented.
 
         example "Get an account", :document => :public do
           do_request
-          last_response.status.should be_ok
+          status.should be_ok
         end
       end
     end

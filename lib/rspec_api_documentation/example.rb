@@ -20,7 +20,7 @@ module RspecApiDocumentation
     end
 
     def http_method
-      metadata[:method]
+      metadata[:method].to_s.upcase
     end
 
     def should_document?

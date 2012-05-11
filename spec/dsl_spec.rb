@@ -5,15 +5,10 @@ require 'net/http'
 describe "Non-api documentation specs" do
   it "should not be polluted by the rspec api dsl" do
     example.example_group.should_not include(RspecApiDocumentation::DSL)
-    example.example_group.should_not include(Rack::Test::Methods)
   end
 end
 
 resource "Order" do
-  it "should include Rack::Test::Methods" do
-    example.example_group.should include(Rack::Test::Methods)
-  end
-
   describe "example metadata" do
     subject { example.metadata }
 
@@ -23,7 +18,7 @@ resource "Order" do
 
   describe "example context" do
     it "should provide a client" do
-      client.should be_a(RspecApiDocumentation::TestClient)
+      client.should be_a(RspecApiDocumentation::RackTestClient)
     end
 
     it "should return the same client every time" do
@@ -39,7 +34,7 @@ resource "Order" do
         subject { example.metadata }
 
         its([:method]) { should eq(http_method) }
-        its([:path]) { should eq("/path") }
+        its([:route]) { should eq("/path") }
       end
 
       describe "example context" do
@@ -439,12 +434,12 @@ resource "Order" do
   context "last_response helpers" do
     put "/orders" do
       it "status" do
-        self.stub!(:last_response).and_return(stub(:status => 200))
+        client.stub!(:last_response).and_return(stub(:status => 200))
         status.should == 200
       end
 
       it "response_body" do
-        self.stub!(:last_response).and_return(stub(:body => "the body"))
+        client.stub!(:last_response).and_return(stub(:body => "the body"))
         response_body.should == "the body"
       end
     end

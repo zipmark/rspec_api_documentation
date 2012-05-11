@@ -76,7 +76,7 @@
       <pre class="request headers">{{ request_headers_text }}</pre>
 
       <h4>Route</h4>
-      <pre class="request route highlight">{{ method }} {{ route }}{{query_string}}</pre>
+      <pre class="request route highlight">{{ request_method }} {{ request_path }}</pre>
 
       {{# request_query_parameters_text }}
       <h4>Query Parameters</h4>
@@ -106,7 +106,7 @@
 
             <div class="controls url">
               <select id="wurl_request_method" name="wurl[request_method]">
-                <option value="{{ method }}" selected="true">{{ method }}</option>
+                <option value="{{ request_method }}" selected="true">{{ request_method }}</option>
                 <option value="GET">GET</option>
                 <option value="POST">POST</option>
                 <option value="PUT">PUT</option>
@@ -221,7 +221,7 @@
 
         {{# response_status }}
         <h4>Status</h4>
-        <pre class="response status">{{ response_status }} {{ response_status_text}}</pre>
+        <pre class="response status">{{ response_status }}</pre>
         {{/ response_status }}
 
         {{# response_body }}
@@ -229,7 +229,6 @@
         <div class="response body"><textarea>{{{ response_body }}}</textarea></div>
         {{/ response_body }}
       </div>
-
     </div>
     <hr />
     {{/ requests }}

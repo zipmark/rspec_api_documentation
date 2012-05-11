@@ -19,8 +19,6 @@ module RspecApiDocumentation
         f.write HtmlIndex.new(index, configuration).render
       end
 
-      #logger.log("here")
-
       index.examples.each do |example|
         html_example = HtmlExample.new(example, configuration)
         FileUtils.mkdir_p(configuration.docs_dir.join(html_example.dirname))
@@ -72,10 +70,9 @@ module RspecApiDocumentation
     end
 
     def requests
-      request_list = Marshal.load(Marshal.dump(super))
 
-      request_list.collect do |hash|
-        hash[:method] = hash[:method].to_s.upcase
+      super.collect do |hash|
+        #hash[:method] = hash[:method].to_s.upcase
         hash[:request_headers_hash] = hash[:request_headers].collect {|k,v| {:name => k, :value => v}}
         hash[:request_headers_text] = format_hash(hash[:request_headers])
         hash[:request_query_parameters_text] = format_hash(hash[:request_query_parameters])
