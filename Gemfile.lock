@@ -3,7 +3,6 @@ PATH
   specs:
     rspec_api_documentation (0.5.1)
       activesupport (>= 3.0.0)
-      coderay (>= 1.0.7.rc1)
       i18n (>= 0.1.0)
       json (>= 1.4.6)
       mustache (>= 0.99.4)
@@ -33,7 +32,6 @@ GEM
       xpath (~> 0.1.4)
     childprocess (0.3.1)
       ffi (~> 1.0.6)
-    coderay (1.0.7.rc1)
     crack (0.3.1)
     cucumber (1.1.9)
       builder (>= 2.1.2)

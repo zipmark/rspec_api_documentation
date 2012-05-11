@@ -43,5 +43,9 @@ Then /^I should see the following request body:$/ do |request_body|
 end
 
 Then /^I should see the following response body:$/ do |response_body|
-  page.should have_css("div.response.body", :text => response_body)
+  page.should have_css("div.response.body textarea", :text => response_body)
+end
+
+Then /^I see the page$/ do
+  puts page.body
 end

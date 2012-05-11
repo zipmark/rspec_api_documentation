@@ -92,7 +92,8 @@ module RspecApiDocumentation
     end
 
     def requests
-      super.map do |hash|
+      request_list = Marshal.load(Marshal.dump(super))
+      request_list.collect do |hash|
         if @host
           hash[:curl] = hash[:curl].output(@host) if hash[:curl].is_a? RspecApiDocumentation::Curl
         else
@@ -101,5 +102,6 @@ module RspecApiDocumentation
         hash
       end
     end
+
   end
 end

@@ -2,7 +2,7 @@ Feature: Document callbacks
 
   Background:
     Given a file named "app_spec.rb" with:
-      """
+    """
       require "rspec_api_documentation"
       require "rspec_api_documentation/dsl"
 
@@ -42,11 +42,11 @@ Feature: Document callbacks
 
   Scenario: Output helpful progress to the console
     Then  the output should contain:
-      """
-      Generating API Docs
-        Interesting Thing
-        /interesting_thing
-          * Receiving a callback when interesting things happen
+    """
+    Generating API Docs
+      Interesting Thing
+      /interesting_thing
+        * Receiving a callback when interesting things happen
       """
     And   the output should contain "1 example, 0 failures"
     And   the exit status should be 0
@@ -65,8 +65,6 @@ Feature: Document callbacks
       | Accept       | */*                 |
       | User-Agent   | InterestingThingApp |
     And   I should see the following request body:
-      """
-      {
-        "message": "Something interesting happened!"
-      }
-      """
+    """
+    {"message":"Something interesting happened!"}
+    """

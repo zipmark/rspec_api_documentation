@@ -1,0 +1,9 @@
+# .pairs - configuration for 'git pair'
+# place in project or home directory
+pairs:
+  wr: Will Read
+  jn: Jordi Noguera
+  aa: Asad Ali
+email:
+  prefix: pair
+  domain: pivotallabs.com

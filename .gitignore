@@ -1,2 +1,5 @@
 tmp
-.rvmrc
+.DS_Store
+.idea
+example/docs
+example/public/docs
