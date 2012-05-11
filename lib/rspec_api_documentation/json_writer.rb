@@ -94,8 +94,6 @@ module RspecApiDocumentation
     def requests
       request_list = Marshal.load(Marshal.dump(super))
       request_list.collect do |hash|
-        hash[:request_headers] = hash[:request_headers]
-        hash[:response_status] = hash[:response_status].to_s + " - " + Rack::Utils::HTTP_STATUS_CODES[hash[:response_status]]
         if @host
           hash[:curl] = hash[:curl].output(@host) if hash[:curl].is_a? RspecApiDocumentation::Curl
         else

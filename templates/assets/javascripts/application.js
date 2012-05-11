@@ -211,7 +211,7 @@ function Wurl(wurlForm) {
       data:this.getData(),
       complete:function (jqXHR) {
         var $status = $('.response.status', self.$wurlForm);
-        $status.html(jqXHR.status + ' - ' + jqXHR.statusText);
+        $status.html(jqXHR.status + ' ' + jqXHR.statusText);
 
         $('.response.headers', self.$wurlForm).html(jqXHR.getAllResponseHeaders());
 
@@ -245,7 +245,6 @@ $(function () {
   var $textAreas = $('.request.body textarea');
   $textAreas.each(function(i, textarea) {
     var contentType = $(textarea).parents('div.request').find('.request.content_type').val();
-    console.log(contentType);
     mirror(textarea, contentType, {"readOnly":"nocursor", "lineNumbers": true});
   });
 });

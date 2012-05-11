@@ -72,7 +72,6 @@ module RspecApiDocumentation
     def requests
 
       super.collect do |hash|
-        #hash[:method] = hash[:method].to_s.upcase
         hash[:request_headers_hash] = hash[:request_headers].collect {|k,v| {:name => k, :value => v}}
         hash[:request_headers_text] = format_hash(hash[:request_headers])
         hash[:request_query_parameters_text] = format_hash(hash[:request_query_parameters])

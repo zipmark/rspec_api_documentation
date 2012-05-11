@@ -42,10 +42,12 @@ module RspecApiDocumentation
       request_metadata[:request_body] = request_body
       request_metadata[:request_headers] = request_headers
       request_metadata[:request_query_parameters] = query_hash
+      request_metadata[:request_content_type] = request_content_type
       request_metadata[:response_status] = status
       request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[status]
       request_metadata[:response_body] = response_body
       request_metadata[:response_headers] = response_headers
+      request_metadata[:response_content_type] = response_content_type
       request_metadata[:curl] = Curl.new(method, path, request_body, request_headers)
 
       metadata[:requests] ||= []
