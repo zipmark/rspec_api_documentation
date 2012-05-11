@@ -74,6 +74,7 @@ module RspecApiDocumentation
       super.collect do |hash|
         hash[:request_headers_hash] = hash[:request_headers].collect {|k,v| {:name => k, :value => v}}
         hash[:request_headers_text] = format_hash(hash[:request_headers])
+        hash[:request_path_no_query] = hash[:request_path_no_query].to_s.split('?').first
         hash[:request_query_parameters_text] = format_hash(hash[:request_query_parameters])
         hash[:request_query_parameters_hash] = hash[:request_query_parameters].collect { |k, v| {:name => k, :value => v} } if hash[:request_query_parameters].present?
         hash[:response_headers_text] = format_hash(hash[:response_headers])
