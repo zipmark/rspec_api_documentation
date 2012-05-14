@@ -11,12 +11,21 @@ module RspecApiDocumentation::DSL
         file_path = caller.first[0, caller.first =~ /:/]
 
         location = caller.first[0, caller.first =~ /(:in|$)/]
-        location = RSpec::Core::Formatters::BaseFormatter::relative_path(location)
+        location = relative_path(location)
 
         example description, :location => location, :file_path => file_path do
           do_request(params)
           instance_eval &block if block_given?
         end
+      end
+
+      private
+      # from rspec-core
+      def relative_path(line)
+        line = line.sub(File.expand_path("."), ".")
+        line = line.sub(/\A([^:]+:\d+)$/, '\\1')
+        return nil if line == '-e:1'
+        line
       end
     end
 
