@@ -1,0 +1,68 @@
+body {
+	margin: 25px 0;
+}
+
+#wurl_request_body {
+    width: 432px;
+}
+
+.CodeMirror {
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 15px;
+}
+
+.CodeMirror-scroll {
+    height: auto;
+    overflow: visible;
+}
+
+.CodeMirror-gutter {
+    border-right: 1px solid #ccc;
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.CodeMirror-gutter-text {
+    text-align: center;
+    padding-left: 0;
+    padding-right: 5px;
+    color: #333;
+}
+
+.response.body, .request.body {
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0 0 0 5px;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.form-horizontal .control-label.with-button {
+    padding-top: 0;
+}
+
+.form-horizontal .control-label.with-button .text{
+    margin-top: 5px;
+    line-height: 26px;
+}
+
+.form-horizontal .btn-small {
+    padding: 3px 7px;
+    vertical-align: top;
+    margin-top: 0;
+}
+
+.post_body .CodeMirror-lines {
+  background-color: white;
+  width: 436px;
+  border: 1px solid #CCC;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+h3, h4 {
+  margin-top: 10px;
+}

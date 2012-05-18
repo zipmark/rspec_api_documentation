@@ -32,8 +32,12 @@ module RspecApiDocumentation
       last_response.body
     end
 
-    def content_type
+    def request_content_type
       last_request.content_type
+    end
+
+    def response_content_type
+      last_response.content_type
     end
 
     protected

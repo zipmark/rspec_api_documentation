@@ -1,7 +1,6 @@
 module RspecApiDocumentation
   class TestServer < Struct.new(:context)
     include Headers
-    include Syntax
 
     delegate :example, :to => :context
     delegate :metadata, :to => :example
@@ -18,10 +17,10 @@ module RspecApiDocumentation
 
       request_metadata = {}
 
-      request_metadata[:request_method] = request_method
+      request_metadata[:request_method] = @request_method
       request_metadata[:request_path] = env["PATH_INFO"]
-      request_metadata[:request_body] = highlight_syntax(request_body, request_headers["Content-Type"], true)
-      request_metadata[:request_headers] = format_headers(@request_headers)
+      request_metadata[:request_body] = @request_body
+      request_metadata[:request_headers] = @request_headers
 
       metadata[:requests] ||= []
       metadata[:requests] << request_metadata

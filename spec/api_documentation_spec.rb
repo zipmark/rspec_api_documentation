@@ -15,7 +15,7 @@ describe RspecApiDocumentation::ApiDocumentation do
       test_file = configuration.docs_dir.join("test")
       FileUtils.mkdir_p configuration.docs_dir
       FileUtils.touch test_file
-
+      FileUtils.stub(:cp_r)
       subject.clear_docs
 
       File.directory?(configuration.docs_dir).should be_true

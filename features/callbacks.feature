@@ -66,7 +66,5 @@ Feature: Document callbacks
       | User-Agent   | InterestingThingApp |
     And   I should see the following request body:
       """
-      {
-        "message": "Something interesting happened!"
-      }
+      {"message":"Something interesting happened!"}
       """

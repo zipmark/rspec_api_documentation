@@ -18,7 +18,6 @@ module RspecApiDocumentation
     autoload :Index
     autoload :ClientBase
     autoload :Headers
-    autoload :Syntax
   end
 
   autoload :DSL
