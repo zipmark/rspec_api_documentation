@@ -127,14 +127,15 @@ describe RspecApiDocumentation::RackTestClient do
         metadata[:request_method].should eq("POST")
         metadata[:request_path].should eq("/greet?query=test+query")
         metadata[:request_body].should be_present
-        metadata[:request_headers].should match(/^Content-Type: application\/json/)
-        metadata[:request_headers].should match(/^X-Custom-Header: custom header value$/)
-        metadata[:request_query_parameters].should eq("query: test query")
+        metadata[:request_headers].should include({'Content-Type' => 'application/json;charset=utf-8'})
+        metadata[:request_headers].should include({'X-Custom-Header' => 'custom header value'})
+        metadata[:request_query_parameters].should == {"query" => "test query"}
+        metadata[:request_content_type].should match(/application\/json/)
         metadata[:response_status].should eq(200)
-        metadata[:response_status_text].should eq("OK")
         metadata[:response_body].should be_present
-        metadata[:response_headers].should match(/^Content-Type: application\/json/)
-        metadata[:response_headers].should match(/^Content-Length: 17$/)
+        metadata[:response_headers]['Content-Type'].should match(/application\/json/)
+        metadata[:response_headers]['Content-Length'].should == '17'
+        metadata[:response_content_type].should match(/application\/json/)
         metadata[:curl].should eq(RspecApiDocumentation::Curl.new("POST", "/greet?query=test+query", post_data, {"Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value", "Host" => "example.org", "Cookie" => ""}))
       end
 
@@ -151,8 +152,8 @@ describe RspecApiDocumentation::RackTestClient do
       context "when post data is nil" do
         let(:post_data) { }
 
-        it "should not nil out request_body" do
-          example.metadata[:requests].first[:request_body].should eq(nil)
+        it "should nil out request_body" do
+          example.metadata[:requests].first[:request_body].should be_nil
         end
       end
     end

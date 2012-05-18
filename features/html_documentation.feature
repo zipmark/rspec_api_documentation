@@ -80,7 +80,5 @@ Feature: Generate HTML documentation from test examples
       | Content-Length | 35               |
     And   I should see the following response body:
       """
-      {
-        "hello": "rspec_api_documentation"
-      }
+      {"hello":"rspec_api_documentation"}
       """

@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "mustache", ">= 0.99.4"
   s.add_runtime_dependency "webmock", ">= 1.7.0"
   s.add_runtime_dependency "json", ">= 1.4.6"
-  s.add_runtime_dependency "coderay", ">= 1.0.7.rc1"
 
   s.add_development_dependency "fakefs"
   s.add_development_dependency "sinatra"
