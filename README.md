@@ -33,7 +33,7 @@ See the `example` folder for a sample Rails app that has been documented.
 - template_path - Location of templates
 - filter - Filter by example document type
 - exclusion_filter - Filter by example document type
-- url_prefix - Add before all links on the index page, useful if docs are located in `public/docs`
+- url_prefix - Add before all links on the index page, useful if docs are located in `public/docs`, must include a leading `/`, no trailing `/`; eg `/docs`
 - keep_source_order - By default examples and resources are ordered by description. Set to true keep the source order.
 
 ### Example Configuration
@@ -44,7 +44,7 @@ See the `example` folder for a sample Rails app that has been documented.
 
       config.define_group :public do |config|
         config.docs_dir = Rails.root.join("public", "docs")
-        config.url_prefix = "docs/"
+        config.url_prefix = "/docs"
       end
     end
 

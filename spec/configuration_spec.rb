@@ -87,8 +87,9 @@ describe RspecApiDocumentation::Configuration do
     end
 
     it "should scope the url_prefix directory" do
+      subject.url_prefix = "/docs"
       subject.define_group(:sub) do |config|
-        config.url_prefix.should == "#{subject.url_prefix}/sub"
+        config.url_prefix.should == "/docs/sub"
       end
     end
   end
