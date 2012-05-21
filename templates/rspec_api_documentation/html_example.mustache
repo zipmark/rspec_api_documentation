@@ -1,241 +1,134 @@
 <!DOCTYPE html>
-<head>
-  <title>{{resource_name}} API</title>
-  <link rel="stylesheet" href="/{{url_prefix}}/assets/stylesheets/bootstrap.css"/>
-  <link rel="stylesheet" href="/{{url_prefix}}/assets/stylesheets/codemirror.css"/>
-  <link rel="stylesheet" href="/{{url_prefix}}/assets/stylesheets/application.css"/>
-  <script src="/{{url_prefix}}/assets/javascripts/jquery-1-7-2.js"></script>
-  <script src="/{{url_prefix}}/assets/javascripts/jquery-livequery.js"></script>
-  <script src="/{{url_prefix}}/assets/javascripts/jquery-base64.js"></script>
-  <script src="/{{url_prefix}}/assets/javascripts/jquery-ui-1-8-16-min.js"></script>
-  <script src="/{{url_prefix}}/assets/javascripts/codemirror.js"></script>
-  <script src="/{{url_prefix}}/assets/javascripts/mode/css/css.js"></script>
-  <script src="/{{url_prefix}}/assets/javascripts/mode/htmlmixed/htmlmixed.js"></script>
-  <script src="/{{url_prefix}}/assets/javascripts/mode/javascript/javascript.js"></script>
-  <script src="/{{url_prefix}}/assets/javascripts/mode/xml/xml.js"></script>
-  <script src="/{{url_prefix}}/assets/javascripts/application.js"></script>
-  <script>
+<html>
+  <head>
+    <title>{{resource_name}} API</title>
+    <link rel="stylesheet" href="/{{url_prefix}}/assets/stylesheets/bootstrap.css"/>
+    <link rel="stylesheet" href="/{{url_prefix}}/assets/stylesheets/codemirror.css"/>
+    <link rel="stylesheet" href="/{{url_prefix}}/assets/stylesheets/application.css"/>
+    <script src="/{{url_prefix}}/assets/javascripts/jquery-1-7-2.js"></script>
+    <script src="/{{url_prefix}}/assets/javascripts/codemirror.js"></script>
+    <script src="/{{url_prefix}}/assets/javascripts/mode/css/css.js"></script>
+    <script src="/{{url_prefix}}/assets/javascripts/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="/{{url_prefix}}/assets/javascripts/mode/javascript/javascript.js"></script>
+    <script src="/{{url_prefix}}/assets/javascripts/mode/xml/xml.js"></script>
+    <script>
+      function mirror(textarea, contentType, options) {
+        $textarea = $(textarea);
+        if ($textarea.val() != '') {
+          if(contentType.indexOf('json') >= 0) {
+            $textarea.val(JSON.stringify(JSON.parse($textarea.val()), undefined, 2));
+            options.json = true;
+            options.mode = 'javascript';
+          } else if (contentType.indexOf('javascript') >= 0) {
+            options.mode = 'javascript';
+          } else if (contentType.indexOf('xml') >= 0) {
+            options.mode = 'xml';
+          } else {
+            options.mode = 'htmlmixed';
+          }
+        }
+        return CodeMirror.fromTextArea(textarea, options);
+      };
 
-  </script>
-  <style>
-    td.required .name:after {
-      float: right;
-      content: "required";
-      font-weight: normal;
-      color: #F08080;
-    }
+      $(function(){
+        $(".request.body").each(function(i, el) {
+          el = $(el);
+          mirror(el.find("textarea")[0], el.data("content-type"), { "readOnly": true, "lineNumbers": true });
+        });
+        $(".response.body").each(function(i, el) {
+          el = $(el);
+          mirror(el.find("textarea")[0], el.data("content-type"), { "readOnly": true, "lineNumbers": true });
+        });
+      });
+    </script>
+    <style>
+      td.required .name:after {
+        float: right;
+        content: "required";
+        font-weight: normal;
+        color: #F08080;
+      }
 
-    p {
-      padding: 15px;
-      font-size: 130%;
-    }
-  </style>
-</head>
-<body>
-<div class="container">
-<h1>{{resource_name}} API</h1>
+      p {
+        padding: 15px;
+        font-size: 130%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>{{resource_name}} API</h1>
 
-<div class="article">
-  <h2>{{ description }}</h2>
-  {{# explanation }}
-  <p class="explanation">
-    {{ explanation }}
-  </p>
-  {{/ explanation }}
+      <div class="article">
+        <h2>{{ description }}</h2>
+        <h3>{{ http_method }} {{ route }}</h3>
+        {{# explanation }}
+          <p class="explanation">
+            {{ explanation }}
+          </p>
+        {{/ explanation }}
 
-  {{# has_parameters? }}
-  <h3>Parameters</h3>
-  <table class="parameters table table-striped table-bordered table-condensed">
-    <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    {{# parameters }}
-    <tr>
-      <td
-      {{# required }} class="required"{{/ required }}>
-      <span class="name">{{ name }}</span>
-      </td>
-      <td>
-        <span class="description">{{ description }}</span>
-      </td>
-    </tr>
-    {{/ parameters }}
-    </tbody>
-  </table>
-  {{/ has_parameters? }}
+        {{# has_parameters? }}
+          <h3>Parameters</h3>
+          <table class="parameters table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{# parameters }}
+              <tr>
+                <td{{# required }} class="required"{{/ required }}>
+                  <span class="name">{{ name }}</span>
+                </td>
+                <td>
+                  <span class="description">{{ description }}</span>
+                </td>
+              </tr>
+              {{/ parameters }}
+            </tbody>
+          </table>
+        {{/ has_parameters? }}
 
-  {{# requests }}
-  <div class='request'>
-    <h3>Request</h3>
+        {{# requests }}
+          <h3>Request</h3>
 
-    <h4>Headers</h4>
-    <pre class="request headers">{{ request_headers_text }}</pre>
+          <h4>Headers</h4>
+          <pre class="request headers">{{ request_headers_text }}</pre>
 
-    <h4>Route</h4>
-    <pre class="request route highlight">{{ request_method }} {{ request_path }}</pre>
+          <h4>Route</h4>
+          <pre class="request route highlight">{{ request_method }} {{ request_path }}</pre>
 
-    {{# request_query_parameters_text }}
-    <h4>Query Parameters</h4>
-    <pre class="request query_parameters highlight">{{ request_query_parameters_text }}</pre>
-    {{/ request_query_parameters_text }}
+          {{# request_query_parameters_text }}
+            <h4>Query Parameters</h4>
+            <pre class="request query_parameters highlight">{{ request_query_parameters_text }}</pre>
+          {{/ request_query_parameters_text }}
 
-    {{# request_body }}
-    <h4>Body</h4>
+          {{# request_body }}
+            <h4>Body</h4>
+            <div class="request body" data-content-type="{{ response_content_type }}"><textarea>{{{ request_body }}}</textarea></div>
+          {{/ request_body }}
 
-    <div class="request body"><textarea>{{ request_body }}</textarea></div>
-    {{/ request_body }}
+          {{# curl }}
+            <h4>cURL</h4>
+            <pre class="request">{{ curl }}</pre>
+          {{/ curl }}
 
-    {{# curl }}
-    <h4>cURL</h4>
-    <pre class="request">{{ curl }}</pre>
-    {{/ curl }}
-
-    <h4>wURL</h4>
-
-    <div class="wurl_form form-horizontal" id="wurl_form">
-      <form accept-charset="UTF-8" class="new_wurl well" id="new_wurl">
-        <input type="hidden" class="request content_type" value="{{request_content_type}}"/>
-        <input type="hidden" class="response content_type" value="{{response_content_type}}"/>
-
-        <div class="control-group">
-          <label class="control-label">
-            URL
-          </label>
-
-          <div class="controls url">
-            <select id="wurl_request_method" name="wurl[request_method]">
-              <option value="{{ request_method }}" selected="true">{{ request_method }}</option>
-              <option value="GET">GET</option>
-              <option value="POST">POST</option>
-              <option value="PUT">PUT</option>
-              <option value="DELETE">DELETE</option>
-              <option value="HEAD">HEAD</option>
-            </select>
-            <input id="wurl_request_url" name="wurl[request_url]" value="{{ request_path_no_query }}">
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">
-            Basic Auth
-          </label>
-
-          <div class="controls">
-            <div class="field_pair">
-              <input id="wurl_basic_auth_user" name="wurl[basic_auth_user]" placeholder="username">
-              <input id="wurl_basic_auth_password" name="wurl[basic_auth_password]"
-                     placeholder="password">
-            </div>
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label with-button">
-            <a class="btn trash_headers btn-small btn-danger" title="trash all headers"><i
-                class="icon-trash icon-white"></i></a>
-            <a class="btn add_header btn-small btn-inverse" title="add header"><i
-                class="icon-plus icon-white"></i></a>
-            <span class="text">Headers</span>
-          </label>
-
-          <div class="headers controls">
-            <div class="header_pair" style="display:none">
-              <input class="key ui-autocomplete-input" disabled="disabled" id="header_keys_"
-                     name="header_keys[]"
-                     type="text" autocomplete="off" role="textbox" aria-autocomplete="list"
-                     aria-haspopup="true">
-              <input class="value" disabled="disabled" id="header_values_" name="header_values[]"
-                     type="text">
-              <a class="btn delete_header btn-small btn-danger" title="delete header"><i
-                  class="icon-remove icon-white"></i></a>
-            </div>
-
-            {{# request_headers_hash }}
-            <div class="header_pair">
-              <input class="key ui-autocomplete-input" id="header_keys_" name="header_keys[]"
-                     type="text"
-                     autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
-                     value="{{ name }}">
-              <input class="value" id="header_values_" name="header_values[]" type="text"
-                     value="{{ value }}">
-              <a class="btn delete_header btn-small btn-danger" title="delete header"><i
-                  class="icon-remove icon-white"></i></a>
-            </div>
-            {{/ request_headers_hash }}
-
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">
-            <a class="btn trash_queries btn-small btn-danger" title="trash all parameters"><i
-                class="icon-trash icon-white"></i></a>
-            <a class="btn add_param btn-small btn-inverse" title="add parameter"><i
-                class="icon-plus icon-white"></i></a>
-            <span>Query</span>
-          </label>
-
-          <div class="params controls">
-            <div class="param_pair" style="display:none">
-              <input class="key" disabled="disabled" id="param_keys_" name="param_keys[]" type="text">
-              <input class="value" disabled="disabled" id="param_values_" name="param_values[]"
-                     type="text">
-              <a class="btn delete_param btn-small btn-danger" title="delete parameter"><i
-                  class="icon-remove icon-white"></i></a>
-            </div>
-            {{# request_query_parameters_hash }}
-
-            <div class="param_pair">
-              <input class="key" id="param_keys_" name="param_keys[]" type="text" value="{{ name }}">
-              <input class="value" id="param_values_" name="param_values[]" type="text"
-                     value="{{ value }}">
-              <a class="btn delete_param btn-small btn-danger" title="delete parameter"><i
-                  class="icon-remove icon-white"></i></a>
-            </div>
-            {{/ request_query_parameters_hash }}
-
-
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">
-            <span>Body</span>
-          </label>
-
-          <div class="post_body controls">
-            <textarea id="wurl_request_body" name="wurl[request_body]" rows="5"
-                      disabled="disabled"
-                      class="textarea_disabled">{{ request_body }}</textarea>
-          </div>
-        </div>
-        <div class="control-group">
-          <div class="controls">
-            <input class="clear_fields btn" id="clear_fields" type="button" value="Clear">
-            <input class="give_it_a_wurl btn btn-primary" type="submit" value="Give it a Wurl!">
-          </div>
-        </div>
-      </form>
-
-      <h3><a class="response_anchor"></a>Response</h3>
-      <h4>Headers</h4>
-      <pre class="response headers">{{ response_headers_text }}</pre>
-
-      {{# response_status }}
-      <h4>Status</h4>
-      <pre class="response status">{{ response_status }}</pre>
-      {{/ response_status }}
-
-      {{# response_body }}
-      <h4>Body</h4>
-
-      <div class="response body"><textarea>{{{ response_body }}}</textarea></div>
-      {{/ response_body }}
+          {{# response_status }}
+            <h3>Response</h3>
+            <h4>Headers</h4>
+            <pre class="response headers">{{ response_headers_text }}</pre>
+            <h4>Status</h4>
+            <pre class="response status">{{ response_status }} {{ response_status_text}}</pre>
+            {{# response_body }}
+              <h4>Body</h4>
+              <div class="response body" data-content-type="{{ request_content_type }}"><textarea>{{{ response_body }}}</textarea></div>
+            {{/ response_body }}
+          {{/ response_status }}
+        {{/ requests }}
+      </div>
     </div>
-  </div>
-  <hr/>
-  {{/ requests }}
-</div>
-</div>
-</body>
+  </body>
 </html>
