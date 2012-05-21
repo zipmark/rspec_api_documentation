@@ -17,6 +17,7 @@ module RspecApiDocumentation
       subconfig = self.class.new(self)
       subconfig.filter = name
       subconfig.docs_dir = self.docs_dir.join(name.to_s)
+      subconfig.url_prefix = "#{self.url_prefix}/#{name}"
       yield subconfig
       groups << subconfig
     end

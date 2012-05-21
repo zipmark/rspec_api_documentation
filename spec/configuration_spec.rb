@@ -85,6 +85,12 @@ describe RspecApiDocumentation::Configuration do
         config.docs_dir.should == subject.docs_dir.join('sub')
       end
     end
+
+    it "should scope the url_prefix directory" do
+      subject.define_group(:sub) do |config|
+        config.url_prefix.should == "#{subject.url_prefix}/sub"
+      end
+    end
   end
 
   it { should be_a(Enumerable) }
