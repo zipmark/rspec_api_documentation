@@ -203,32 +203,6 @@ resource "Order" do
     end
   end
 
-  #  parameter :type, "The type of drink you want."
-  #  parameter :size, "The size of drink you want."
-  #  parameter :note, "Any additional notes about your order."
-
-  #  required_parameters :type, :size
-
-  #  raw_post { { :bill => params }.to_json }
-
-  #  example_request "Ordering a cup of coffee" do
-  #    param(:type) { "coffee" }
-  #    param(:size) { "cup" }
-
-  #    should_respond_with_status eq(200)
-  #    should_respond_with_body eq("Order created")
-  #  end
-
-  #  example_request "An invalid order" do
-  #    param(:type) { "caramel macchiato" }
-  #    param(:note) { "whipped cream" }
-
-  #    should_respond_with_status eq(400)
-  #    should_respond_with_body json_eql({:errors => {:size => ["can't be blank"]}}.to_json)
-  #  end
-  #end
-  #
-
   describe "nested parameters" do
     parameter :per_page, "Number of results on a page"
 
