@@ -34,6 +34,7 @@ See the `example` folder for a sample Rails app that has been documented.
 - filter - Filter by example document type
 - exclusion_filter - Filter by example document type
 - url_prefix - Add before all links on the index page, useful if docs are located in `public/docs`, must include a leading `/`, no trailing `/`; eg `/docs`
+- curl_host - Used when adding a cURL output to the docs
 - keep_source_order - By default examples and resources are ordered by description. Set to true keep the source order.
 
 ### Example Configuration
@@ -50,24 +51,33 @@ See the `example` folder for a sample Rails app that has been documented.
 
 ## Usage
 
-    resource "Account" do
-      get "/accounts" do
-        example "Get a list of all accounts" do
-          do_request
-          status.should be_ok
-        end
-      end
+```ruby
+resource "Account" do
+  get "/accounts" do
+    parameter :order, "Order of accounts"
 
-      get "/accounts/:id" do
-        parameter :id, "Account ID"
-
-        let(:account) { Factory(:account) }
-        let(:id) { account.id }
-
-        example "Get an account", :document => :public do
-          do_request
-          status.should be_ok
-        end
-      end
+    example_request "Get a list of all accounts" do
+      status.should == 200
     end
+
+    example "Get a list of all accounts in reverse order" do
+      do_request(:order => "reverse")
+
+      response_body.should == accounts.reverse
+      status.should == 200
+    end
+  end
+
+  get "/accounts/:id" do
+    let(:account) { Factory(:account) }
+    let(:id) { account.id }
+
+    example "Get an account", :document => :public do
+      do_request
+
+      status.should == 200
+    end
+  end
+end
+```
 
