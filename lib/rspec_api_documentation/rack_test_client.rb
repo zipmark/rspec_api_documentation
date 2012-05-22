@@ -34,8 +34,12 @@ module RspecApiDocumentation
 
     protected
 
-    def do_request(method, path, params)
-      rack_test_session.send(method, path, params, headers(method, path, params))
+    def do_request(method, path, params, request_headers)
+      rack_test_session.send(method, path, params, headers(request_headers))
+    end
+
+    def headers(*args)
+      headers_to_env(super)
     end
 
     private
