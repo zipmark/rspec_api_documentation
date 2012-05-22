@@ -29,7 +29,7 @@ See the `example` folder for a sample Rails app that has been documented.
 ## Configuration options
 - app - Set the application that Rack::Test uses, defaults to `Rails.application`
 - docs_dir - Output folder
-- format - Output format
+- format - An array of output format(s). Possible values are :json, :html, or :wurl. The final option is similar to :html, but includes the wURL console.
 - template_path - Location of templates
 - filter - Filter by example document type
 - exclusion_filter - Filter by example document type
@@ -40,14 +40,16 @@ See the `example` folder for a sample Rails app that has been documented.
 ### Example Configuration
 `spec/spec_helper.rb`
 
-    RspecApiDocumentation.configure do |config|
-      config.docs_dir = Rails.root.join("app", "views", "pages")
+```ruby
+RspecApiDocumentation.configure do |config|
+  config.docs_dir = Rails.root.join("app", "views", "pages")
 
-      config.define_group :public do |config|
-        config.docs_dir = Rails.root.join("public", "docs")
-        config.url_prefix = "/docs"
-      end
-    end
+  config.define_group :public do |config|
+    config.docs_dir = Rails.root.join("public", "docs")
+    config.url_prefix = "/docs"
+  end
+end
+```
 
 ## Usage
 

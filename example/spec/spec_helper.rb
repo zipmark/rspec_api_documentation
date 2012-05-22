@@ -34,7 +34,10 @@ end
 
 RspecApiDocumentation.configure do |config|
   config.docs_dir = Rails.root.join("public", "docs")
-  config.format = [:html, :json]
+  # html pages with the wURL console
+  config.format = [:json, :wurl]
+  # html pages without the wURL console
+  #config.format = [:json, :html]
   config.url_prefix = "/docs"
   config.curl_host = 'http://localhost:3000'
 end
