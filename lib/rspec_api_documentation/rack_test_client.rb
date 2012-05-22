@@ -39,12 +39,7 @@ module RspecApiDocumentation
     end
 
     def headers(*args)
-      super.inject({}) do |hsh, (k, v)|
-        new_key = k.upcase.gsub("-", "_")
-        new_key = "HTTP_#{new_key}" unless new_key == "CONTENT_TYPE"
-        hsh[new_key] = v
-        hsh
-      end
+      headers_to_env(super)
     end
 
     private
