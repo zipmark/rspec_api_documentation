@@ -34,8 +34,17 @@ module RspecApiDocumentation
 
     protected
 
-    def do_request(method, path, params)
-      rack_test_session.send(method, path, params, headers(method, path, params))
+    def do_request(method, path, params, request_headers)
+      rack_test_session.send(method, path, params, headers(request_headers))
+    end
+
+    def headers(*args)
+      super.inject({}) do |hsh, (k, v)|
+        new_key = k.upcase.gsub("-", "_")
+        new_key = "HTTP_#{new_key}" unless new_key == "CONTENT_TYPE"
+        hsh[new_key] = v
+        hsh
+      end
     end
 
     private

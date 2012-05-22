@@ -67,11 +67,7 @@ describe RspecApiDocumentation::RackTestClient do
 
   describe "#request_headers" do
     before do
-      test_client.options[:headers] = {
-        "HTTP_ACCEPT" => "application/json",
-        "CONTENT_TYPE" => "application/json"
-      }
-      test_client.get "/"
+      test_client.get "/", {}, { "Accept" => "application/json", "Content-Type" => "application/json" }
     end
 
     it "should contain all the headers" do
@@ -84,42 +80,13 @@ describe RspecApiDocumentation::RackTestClient do
     end
   end
 
-  describe "#headers" do
-    before do
-      test_client.options[:headers] = { "HTTP_X_CUSTOM_HEADER" => "custom header value" }
-      test_client.get "/"
-    end
-
-    it "can be overridden to add headers to the request" do
-      test_client.request_headers["X-Custom-Header"].should eq("custom header value")
-    end
-  end
-
-  describe "setup default headers" do
-    it "should let you set default headers when creating a new RackTestClient" do
-      test_client = RspecApiDocumentation::RackTestClient.new(context, :headers => { "HTTP_MY_HEADER" => "hello" })
-      test_client.get "/"
-      test_client.request_headers["My-Header"].should == "hello"
-      test_client.request_headers.should have(3).headers
-    end
-
-    it "should be blank if not set" do
-      test_client = RspecApiDocumentation::RackTestClient.new(context)
-      test_client.get "/"
-      test_client.request_headers.should have(2).headers
-    end
-  end
-
   context "after a request is made" do
     before do
-      test_client.options[:headers] = {
-        "CONTENT_TYPE" => "application/json;charset=utf-8",
-        "HTTP_X_CUSTOM_HEADER" => "custom header value"
-      }
-      test_client.post "/greet?query=test+query", post_data
+      test_client.post "/greet?query=test+query", post_data, headers
     end
 
     let(:post_data) { { :target => "nurse" }.to_json }
+    let(:headers) { { "Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value" } }
 
     context "when examples should be documented", :document => true do
       it "should augment the metadata with information about the request" do

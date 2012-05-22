@@ -35,6 +35,10 @@ module RspecApiDocumentation::DSL
         parameters.push(options.merge(:name => name.to_s, :description => description))
       end
 
+      def header(name, value)
+        headers[name] = value
+      end
+
       def required_parameters(*names)
         names.each do |name|
           param = parameters.find { |param| param[:name] == name.to_s }
@@ -65,6 +69,14 @@ module RspecApiDocumentation::DSL
           metadata[:parameters] = Marshal.load(Marshal.dump(superclass_metadata[:parameters]))
         end
         metadata[:parameters]
+      end
+
+      def headers
+        metadata[:headers] ||= {}
+        if superclass_metadata && metadata[:headers].equal?(superclass_metadata[:headers])
+          metadata[:headers] = Marshal.load(Marshal.dump(superclass_metadata[:headers]))
+        end
+        metadata[:headers]
       end
 
       def parameter_keys
