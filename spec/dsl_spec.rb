@@ -139,30 +139,30 @@ resource "Order" do
         let(:raw_post) { { :bill => params }.to_json }
 
         it "should send the raw post body" do
-          client.should_receive(method).with(path, raw_post)
+          client.should_receive(method).with(path, raw_post, nil)
           do_request
         end
       end
 
       context "when raw_post is not defined" do
         it "should send the params hash" do
-          client.should_receive(method).with(path, params)
+          client.should_receive(method).with(path, params, nil)
           do_request
         end
       end
 
       it "should allow extra parameters to be passed in" do
-        client.should_receive(method).with(path, params.merge("extra" => true))
+        client.should_receive(method).with(path, params.merge("extra" => true), nil)
         do_request(:extra => true)
       end
 
       it "should overwrite parameters" do
-        client.should_receive(method).with(path, params.merge("size" => "large"))
+        client.should_receive(method).with(path, params.merge("size" => "large"), nil)
         do_request(:size => "large")
       end
 
       it "should overwrite path variables" do
-        client.should_receive(method).with("/orders/2", params)
+        client.should_receive(method).with("/orders/2", params, nil)
         do_request(:id => 2)
       end
     end
@@ -202,32 +202,6 @@ resource "Order" do
       end
     end
   end
-
-  #  parameter :type, "The type of drink you want."
-  #  parameter :size, "The size of drink you want."
-  #  parameter :note, "Any additional notes about your order."
-
-  #  required_parameters :type, :size
-
-  #  raw_post { { :bill => params }.to_json }
-
-  #  example_request "Ordering a cup of coffee" do
-  #    param(:type) { "coffee" }
-  #    param(:size) { "cup" }
-
-  #    should_respond_with_status eq(200)
-  #    should_respond_with_body eq("Order created")
-  #  end
-
-  #  example_request "An invalid order" do
-  #    param(:type) { "caramel macchiato" }
-  #    param(:note) { "whipped cream" }
-
-  #    should_respond_with_status eq(400)
-  #    should_respond_with_body json_eql({:errors => {:size => ["can't be blank"]}}.to_json)
-  #  end
-  #end
-  #
 
   describe "nested parameters" do
     parameter :per_page, "Number of results on a page"
@@ -309,10 +283,11 @@ resource "Order" do
 
       get "/users/:id/orders" do
         example "Page should be in the query string" do
-          client.should_receive(method).with do |path, data|
+          client.should_receive(method).with do |path, data, headers|
             path.should =~ /^\/users\/1\/orders\?/
             path.split("?")[1].split("&").sort.should == "page=2&message=Thank+you".split("&").sort
             data.should be_nil
+            headers.should be_nil
           end
           do_request
         end
@@ -320,7 +295,7 @@ resource "Order" do
 
       post "/users/:id/orders" do
         example "Page should be in the post body" do
-          client.should_receive(method).with("/users/1/orders", {"page" => 2, "message" => "Thank you"})
+          client.should_receive(method).with("/users/1/orders", {"page" => 2, "message" => "Thank you"}, nil)
           do_request
         end
       end
@@ -411,7 +386,7 @@ resource "Order" do
 
       context "no extra params" do
         before do
-          client.should_receive(:post).with("/orders", {})
+          client.should_receive(:post).with("/orders", {}, nil)
         end
 
         example_request "Creating an order"
@@ -423,7 +398,7 @@ resource "Order" do
 
       context "extra options for do_request" do
         before do
-          client.should_receive(:post).with("/orders", {"order_type" => "big"})
+          client.should_receive(:post).with("/orders", {"order_type" => "big"}, nil)
         end
 
         example_request "should take an optional parameter hash", :order_type => "big"
@@ -441,6 +416,24 @@ resource "Order" do
       it "response_body" do
         client.stub!(:last_response).and_return(stub(:body => "the body"))
         response_body.should == "the body"
+      end
+    end
+  end
+
+  context "headers" do
+    put "/orders" do
+      header "Accept", "application/json"
+
+      it "should be sent with the request" do
+        example.metadata[:headers].should == { "Accept" => "application/json" }
+      end
+
+      context "nested headers" do
+        header "Content-Type", "application/json"
+
+        it "does not affect the outer context's assertions" do
+          # pass
+        end
       end
     end
   end

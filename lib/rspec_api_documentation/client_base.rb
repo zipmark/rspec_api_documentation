@@ -23,12 +23,12 @@ module RspecApiDocumentation
 
     private
 
-    def process(method, path, params = {})
-      do_request(method, path, params)
-      document_example(method.to_s.upcase, path, params)
+    def process(method, path, params = {}, headers ={})
+      do_request(method, path, params, headers)
+      document_example(method.to_s.upcase, path)
     end
 
-    def document_example(method, path, params)
+    def document_example(method, path)
       return unless metadata[:document]
 
       input = last_request.env["rack.input"]
@@ -63,12 +63,8 @@ module RspecApiDocumentation
       Hash[arrays]
     end
 
-    def headers(method, path, params)
-      if options && options[:headers]
-        options[:headers]
-      else
-        {}
-      end
+    def headers(headers)
+      headers || {}
     end
   end
 end

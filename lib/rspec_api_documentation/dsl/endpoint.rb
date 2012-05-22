@@ -41,7 +41,7 @@ module RspecApiDocumentation::DSL
         params_or_body = respond_to?(:raw_post) ? raw_post : params
       end
 
-      client.send(method, path_or_query, params_or_body)
+      client.send(method, path_or_query, params_or_body, headers)
     end
 
     def query_string
@@ -59,6 +59,10 @@ module RspecApiDocumentation::DSL
       end
       parameters.merge!(extra_params)
       parameters
+    end
+
+    def headers
+      example.metadata[:headers]
     end
 
     def method
