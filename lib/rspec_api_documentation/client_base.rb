@@ -21,6 +21,10 @@ module RspecApiDocumentation
       process :delete, *args
     end
 
+    def response_status
+      status
+    end
+
     private
 
     def process(method, path, params = {}, headers ={})
