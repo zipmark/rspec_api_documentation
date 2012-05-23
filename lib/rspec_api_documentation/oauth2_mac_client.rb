@@ -43,7 +43,7 @@ module RspecApiDocumentation
     protected
 
     def do_request(method, path, params, request_headers)
-      self.last_response = access_token.send(method, "http://example.com#{path}", :body => params, :header => headers(request_headers))
+      self.last_response = access_token.send(method, "http://example.com#{path}", :body => params, :header => headers(method, path, params, request_headers))
     end
 
     class ProxyApp < Struct.new(:client, :app)

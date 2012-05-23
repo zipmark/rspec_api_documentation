@@ -63,8 +63,8 @@ module RspecApiDocumentation
       Hash[arrays]
     end
 
-    def headers(headers)
-      headers || {}
+    def headers(method, path, params, request_headers)
+      request_headers || {}
     end
   end
 end
