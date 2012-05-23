@@ -4,7 +4,7 @@ module RspecApiDocumentation::DSL
   module Endpoint
     extend ActiveSupport::Concern
 
-    delegate :response_headers, :status, :response_body, :to => :client
+    delegate :response_headers, :status, :response_status, :response_body, :to => :client
 
     module ClassMethods
       def example_request(description, params = {}, &block)
