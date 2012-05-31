@@ -51,6 +51,7 @@ describe RspecApiDocumentation::Configuration do
     its(:curl_host) { should be_nil }
     its(:url_prefix) { should be_blank }
     its(:keep_source_order) { should be_false }
+    its(:api_name) { should == "API Documentation" }
   end
 
   describe "#define_groups" do

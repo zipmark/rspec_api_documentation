@@ -20,6 +20,7 @@ Feature: Generate HTML documentation from test examples
 
       RspecApiDocumentation.configure do |config|
         config.app = App
+        config.api_name = "Example API"
       end
 
       resource "Greetings" do
@@ -53,6 +54,7 @@ Feature: Generate HTML documentation from test examples
     When  I open the index
     Then  I should see the following resources:
       | Greetings |
+    And   I should see the api name "Example API"
 
   Scenario: Example HTML documentation includes the parameters
     When  I open the index
