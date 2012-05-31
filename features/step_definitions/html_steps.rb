@@ -45,3 +45,13 @@ end
 Then /^I should see the following response body:$/ do |response_body|
   page.should have_css("div.response.body", :text => response_body)
 end
+
+Then /^I should see the api name "(.*?)"$/ do |name|
+  within("title") do
+    page.should have_content(name)
+  end
+
+  within(".container h1") do
+    page.should have_content(name)
+  end
+end

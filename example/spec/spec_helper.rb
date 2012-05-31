@@ -40,4 +40,5 @@ RspecApiDocumentation.configure do |config|
   #config.format = [:json, :html]
   config.url_prefix = "/docs"
   config.curl_host = 'http://localhost:3000'
+  config.api_name = "Example App API"
 end
