@@ -36,6 +36,7 @@ See the `example` folder for a sample Rails app that has been documented.
 - url_prefix - Add before all links on the index page, useful if docs are located in `public/docs`, must include a leading `/`, no trailing `/`; eg `/docs`
 - curl_host - Used when adding a cURL output to the docs
 - keep_source_order - By default examples and resources are ordered by description. Set to true keep the source order.
+- api_name - Change the name of the API on index pages, default is "API Documentation"
 
 ### Example Configuration
 `spec/spec_helper.rb`
