@@ -37,7 +37,7 @@ module RspecApiDocumentation
     end
 
     def self.format_hash(hash, separator="=")
-      hash.inject("") do |out, (k, v)|
+      hash.sort_by { |k, v| k }.inject("") do |out, (k, v)|
         out << "  #{k}#{separator}#{v}\n"
       end
     end

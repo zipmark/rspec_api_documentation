@@ -78,8 +78,8 @@ Feature: Combined text
 
     Response:
       Status: 200 OK
-      Content-Type: text/plain
       Content-Length: 31
+      Content-Type: text/plain
 
       Hello, rspec_api_documentation!
 
@@ -97,8 +97,8 @@ Feature: Combined text
 
     Response:
       Status: 200 OK
-      Content-Type: text/plain
       Content-Length: 18
+      Content-Type: text/plain
 
       Hello, Sam & Eric!
 
