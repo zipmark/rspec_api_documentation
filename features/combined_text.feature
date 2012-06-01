@@ -1,0 +1,106 @@
+Feature: Combined text
+  In order to serve the docs from my API
+  As Zipmark
+  I want to generate text files for each of my resources containing their combined docs
+
+  Background:
+    Given a file named "app.rb" with:
+      """
+      class App
+        def self.call(env)
+          request = Rack::Request.new(env)
+          response = Rack::Response.new
+          response["Content-Type"] = "text/plain"
+          response.write("Hello, #{request.params["target"]}!")
+          response.finish
+        end
+      end
+      """
+    And   a file named "app_spec.rb" with:
+      """
+      require "rspec_api_documentation"
+      require "rspec_api_documentation/dsl"
+
+      RspecApiDocumentation.configure do |config|
+        config.app = App
+        config.format = :combined_text
+      end
+
+      resource "Greetings" do
+        get "/greetings" do
+          parameter :target, "The thing you want to greet"
+
+          example "Greeting your favorite gem" do
+            do_request :target => "rspec_api_documentation"
+
+            response_headers["Content-Type"].should eq("text/plain")
+            status.should eq(200)
+            response_body.should eq('Hello, rspec_api_documentation!')
+          end
+
+          example "Greeting your favorite developers of your favorite gem" do
+            do_request :target => "Sam & Eric"
+
+            response_headers["Content-Type"].should eq("text/plain")
+            status.should eq(200)
+            response_body.should eq('Hello, Sam & Eric!')
+          end
+        end
+      end
+      """
+    When  I run `rspec app_spec.rb --require ./app.rb --format RspecApiDocumentation::ApiFormatter`
+
+  Scenario: Output helpful progress to the console
+    Then  the output should contain:
+      """
+      Generating API Docs
+        Greetings
+        GET /greetings
+          * Greeting your favorite gem
+          * Greeting your favorite developers of your favorite gem
+      """
+    And   the output should contain "2 examples, 0 failures"
+    And   the exit status should be 0
+
+  Scenario: File should look like we expect
+    Then the file "docs/greetings/index.txt" should contain exactly:
+    """
+    Greeting your favorite gem
+    --------------------------
+
+    Parameters:
+      * target - The thing you want to greet
+
+    Request:
+      GET /greetings?target=rspec_api_documentation
+
+      target=rspec_api_documentation
+
+    Response:
+      Status: 200 OK
+      Content-Type: text/plain
+      Content-Length: 31
+
+      Hello, rspec_api_documentation!
+
+
+    Greeting your favorite developers of your favorite gem
+    ------------------------------------------------------
+
+    Parameters:
+      * target - The thing you want to greet
+
+    Request:
+      GET /greetings?target=Sam+%26+Eric
+
+      target=Sam & Eric
+
+    Response:
+      Status: 200 OK
+      Content-Type: text/plain
+      Content-Length: 18
+
+      Hello, Sam & Eric!
+
+    """
+
