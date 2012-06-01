@@ -1,34 +1,22 @@
 module RspecApiDocumentation
   class CombinedTextWriter
     def self.write(index, configuration)
-      index.examples.each do |example|
-        resource_name = example.resource_name.downcase.gsub(/\s+/, '_')
-        FileUtils.mkdir_p(configuration.docs_dir.join(resource_name))
-        File.open(configuration.docs_dir.join(resource_name, "index.txt"), "a+") do |f|
-          f.puts example.description
-          f.puts "-" * example.description.length
-          f.puts
+      index.examples.each do |rspec_example|
+        example = CombinedTextExample.new(rspec_example)
+        FileUtils.mkdir_p(configuration.docs_dir.join(example.resource_name))
+        File.open(configuration.docs_dir.join(example.resource_name, "index.txt"), "a+") do |f|
+          f.print example.description
+          f.print example.parameters
 
-          f.puts "Parameters:"
-          example.metadata[:parameters].each do |parameter|
-            f.puts "  * #{parameter[:name]} - #{parameter[:description]}"
-          end
-          f.puts
-
-          example.metadata[:requests].each do |request|
+          example.requests.each do |request, response|
             f.puts "Request:"
-            f.puts "  #{request[:request_method]} #{request[:request_path]}"
-            f.puts
-            f.puts format_hash(request[:request_body] || request[:request_query_parameters])
+            f.puts request
             f.puts
             f.puts "Response:"
-            f.puts "  Status: #{request[:response_status]} #{request[:response_status_text]}"
-            f.puts format_hash(request[:response_headers], ": ")
-            f.puts
-            f.puts request[:response_body].split("\n").map { |line| "  #{line}" }.join("\n")
+            f.puts response
           end
 
-          unless example == index.examples.last
+          unless rspec_example == index.examples.last
             f.puts
             f.puts
           end
@@ -40,6 +28,73 @@ module RspecApiDocumentation
       hash.sort_by { |k, v| k }.inject("") do |out, (k, v)|
         out << "  #{k}#{separator}#{v}\n"
       end
+    end
+  end
+
+  class CombinedTextExample
+    attr_reader :example
+
+    def initialize(example)
+      @example = example
+    end
+
+    def resource_name
+      example.resource_name.downcase.gsub(/\s+/, '_')
+    end
+
+    def description
+      example.description + "\n" + "-" * example.description.length + "\n\n"
+    end
+
+    def parameters
+      return "" unless example.metadata[:parameters]
+      "Parameters:\n" + example.metadata[:parameters].inject("") do |out, parameter|
+        out << "  * #{parameter[:name]} - #{parameter[:description]}\n"
+      end + "\n"
+    end
+
+    def requests
+      return [] unless example.metadata[:requests]
+      example.metadata[:requests].map do |request|
+        [format_request(request), format_response(request)]
+      end
+    end
+
+    private
+    def format_request(request)
+      [
+        [
+          "  #{request[:request_method]} #{request[:request_path]}",
+          format_hash(request[:request_headers], ": ")
+        ],
+        [
+          format_string(request[:request_body]) || format_hash(request[:request_query_parameters])
+        ]
+      ].map { |x| x.compact.join("\n") }.reject(&:blank?).join("\n\n") + "\n"
+    end
+
+    def format_response(request)
+      [
+        [
+          "  Status: #{request[:response_status]} #{request[:response_status_text]}",
+          format_hash(request[:response_headers], ": ")
+        ],
+        [
+          format_string(request[:response_body])
+        ]
+      ].map { |x| x.compact.join("\n") }.reject(&:blank?).join("\n\n") + "\n"
+    end
+
+    def format_string(string)
+      return unless string
+      string.split("\n").map { |line| "  #{line}" }.join("\n")
+    end
+
+    def format_hash(hash, separator="=")
+      return unless hash
+      hash.sort_by { |k, v| k }.map do |k, v|
+        "  #{k}#{separator}#{v}"
+      end.join("\n")
     end
   end
 end
