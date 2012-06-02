@@ -5,6 +5,8 @@
 
 Generate pretty API docs for your Rails APIs.
 
+Check out a [sample](http://rad-example.herokuapp.com).
+
 ## Changes
 
 Please see the wiki for latest [changes](https://github.com/zipmark/rspec_api_documentation/wiki/Changes).
