@@ -29,6 +29,7 @@ module RspecApiDocumentation
   autoload :JsonWriter
   autoload :IndexWriter
   autoload :CombinedTextWriter
+  autoload :CombinedJsonWriter
   autoload :Curl
 
   def self.configuration
