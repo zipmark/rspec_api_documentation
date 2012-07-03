@@ -108,7 +108,7 @@
 
           {{# request_body }}
             <h4>Body</h4>
-            <div class="request body" data-content-type="{{ response_content_type }}"><textarea>{{{ request_body }}}</textarea></div>
+            <div class="request body" data-content-type="{{ request_content_type }}"><textarea>{{{ request_body }}}</textarea></div>
           {{/ request_body }}
 
           {{# curl }}
@@ -124,7 +124,7 @@
             <pre class="response status">{{ response_status }} {{ response_status_text}}</pre>
             {{# response_body }}
               <h4>Body</h4>
-              <div class="response body" data-content-type="{{ request_content_type }}"><textarea>{{{ response_body }}}</textarea></div>
+              <div class="response body" data-content-type="{{ response_content_type }}"><textarea>{{{ response_body }}}</textarea></div>
             {{/ response_body }}
           {{/ response_status }}
         {{/ requests }}
