@@ -1,7 +1,7 @@
 PATH
   remote: ../
   specs:
-    rspec_api_documentation (0.6.0)
+    rspec_api_documentation (0.7.0)
       activesupport (>= 3.0.0)
       i18n (>= 0.1.0)
       json (>= 1.4.6)
