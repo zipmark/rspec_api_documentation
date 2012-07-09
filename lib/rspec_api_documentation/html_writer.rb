@@ -73,6 +73,7 @@ module RspecApiDocumentation
 
     def filename
       basename = description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '')
+      basename = URI.encode(description) if basename.blank?
       "#{basename}.html"
     end
 
