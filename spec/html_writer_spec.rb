@@ -49,7 +49,8 @@ describe RspecApiDocumentation::HtmlExample do
     let(:example) { group.example(label) {} }
 
     it "should have downcased filename" do
-      html_example.filename.should == URI.encode(label) + ".html"
+      filename = Digest::MD5.new.update(label).to_s
+      html_example.filename.should == filename + ".html"
     end
   end
 end
