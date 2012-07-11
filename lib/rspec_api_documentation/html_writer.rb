@@ -73,6 +73,7 @@ module RspecApiDocumentation
 
     def filename
       basename = description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '')
+      basename = Digest::MD5.new.update(description).to_s if basename.blank?
       "#{basename}.html"
     end
 
