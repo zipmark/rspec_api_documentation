@@ -8,14 +8,14 @@ module RspecApiDocumentation
           f.print example.description
           f.print example.parameters
 
-          example.requests.each_with_index do |(request, response), index|
+          example.requests.each_with_index do |(request, response), i|
             f.puts "Request:"
             f.puts request
             f.puts
             f.puts "Response:"
             f.puts response
 
-            if index + 1 < example.requests.count
+            if i + 1 < example.requests.count
               f.puts
             end
           end
