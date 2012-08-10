@@ -18,6 +18,7 @@ describe RspecApiDocumentation::JsonIodocsWriter do
     let(:writer) { described_class.new(index, configuration) }
 
     before do
+      configuration.api_name.stub!(:parameterize => "Name")
       FileUtils.mkdir_p(configuration.docs_dir)
     end
 
