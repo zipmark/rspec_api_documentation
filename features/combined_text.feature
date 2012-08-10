@@ -45,6 +45,11 @@ Feature: Combined text
             status.should eq(200)
             response_body.should eq('Hello, Sam & Eric!')
           end
+
+          example "Multiple Requests" do
+            do_request :target => "Sam"
+            do_request :target => "Eric"
+          end
         end
       end
       """
@@ -59,7 +64,7 @@ Feature: Combined text
           * Greeting your favorite gem
           * Greeting your favorite developers of your favorite gem
       """
-    And   the output should contain "2 examples, 0 failures"
+    And   the output should contain "3 examples, 0 failures"
     And   the exit status should be 0
 
   Scenario: File should look like we expect
@@ -105,6 +110,41 @@ Feature: Combined text
       Content-Type: text/plain
 
       Hello, Sam & Eric!
+
+
+    Multiple Requests
+    -----------------
+
+    Parameters:
+      * target - The thing you want to greet
+
+    Request:
+      GET /greetings?target=Sam
+      Cookie: 
+      Host: example.org
+
+      target=Sam
+
+    Response:
+      Status: 200 OK
+      Content-Length: 11
+      Content-Type: text/plain
+
+      Hello, Sam!
+
+    Request:
+      GET /greetings?target=Eric
+      Cookie: 
+      Host: example.org
+
+      target=Eric
+
+    Response:
+      Status: 200 OK
+      Content-Length: 12
+      Content-Type: text/plain
+
+      Hello, Eric!
 
     """
 
