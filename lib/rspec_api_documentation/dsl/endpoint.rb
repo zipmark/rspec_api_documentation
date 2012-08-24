@@ -62,7 +62,15 @@ module RspecApiDocumentation::DSL
     end
 
     def headers
-      example.metadata[:headers]
+      return unless example.metadata[:headers]
+      example.metadata[:headers].inject({}) do |hash, header|
+        if header[1].is_a?(Symbol)
+          hash[header[0]] = send(header[1]) if respond_to?(header[1])
+        else
+          hash[header[0]] = header[1]
+        end
+        hash
+      end
     end
 
     def method

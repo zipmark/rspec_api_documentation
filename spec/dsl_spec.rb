@@ -436,6 +436,36 @@ resource "Order" do
         end
       end
     end
+
+    put "/orders" do
+      header "Accept", :accept
+
+      let(:accept) { "application/json" }
+
+      it "should be sent with the request" do
+        example.metadata[:headers].should == { "Accept" => :accept }
+      end
+
+      it "should fill out into the headers" do
+        headers.should == { "Accept" => "application/json" }
+      end
+
+      context "nested headers" do
+        header "Content-Type", "application/json"
+
+        it "does not affect the outer context's assertions" do
+          headers.should == { "Accept" => "application/json", "Content-Type" => "application/json" }
+        end
+      end
+
+      context "header was not let" do
+        header "X-My-Header", :my_header
+
+        it "should not be in the headers hash" do
+          headers.should == { "Accept" => "application/json" }
+        end
+      end
+    end
   end
 end
 
