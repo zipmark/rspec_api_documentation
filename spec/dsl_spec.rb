@@ -403,6 +403,14 @@ resource "Order" do
 
         example_request "should take an optional parameter hash", :order_type => "big"
       end
+
+      context "Array options for do_request" do
+        before do
+          client.should_receive(:post).with("/orders", {"pizza_type" => ["big", "tasty"] }, nil)
+        end
+
+        example_request "should take an optional parameter hash", :pizza_type => ["big", "tasty"]
+      end
     end
   end
 

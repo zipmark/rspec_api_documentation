@@ -46,8 +46,16 @@ module RspecApiDocumentation::DSL
 
     def query_string
       query = params.to_a.map do |param|
-        param.map! { |a| CGI.escape(a.to_s) }
-        param.join("=")
+        if param[1].present? && param[1].is_a?(Array)
+          param_val = []
+          param[1].each do |val|
+            param_val << ["#{param[0].gsub('[]','')}[]", val].map { |a| CGI.escape(a.to_s) }.join("=")
+          end
+          param_val
+        else
+          param.map! { |a| CGI.escape(a.to_s) }
+          param.join("=")
+        end
       end
       query.join("&")
     end
