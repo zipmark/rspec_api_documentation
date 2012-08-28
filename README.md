@@ -72,6 +72,13 @@ resource "Account" do
       response_body.should == accounts.reverse
       status.should == 200
     end
+
+    example "Get a list of all accounts with certain types" do
+      do_request(:type_in => ["pending", "closed"])
+
+      response_body.should == accounts.inactive
+      status.should == 200
+    end
   end
 
   get "/accounts/:id" do
