@@ -389,7 +389,7 @@ resource "Order" do
 
         example "parsed properly" do
           client.should_receive(:get).with do |path, data, headers|
-            Addressable::URI.parse(path).query_values.should eq({"id_eq"=>['1', '2']})
+            Rack::Utils.parse_nested_query(path.gsub('/orders?', '')).should eq({"id_eq"=>['1', '2']})
           end
           do_request
         end
@@ -403,7 +403,7 @@ resource "Order" do
 
         example "parsed properly" do
           client.should_receive(:get).with do |path, data, headers|
-            Addressable::URI.parse(path).query_values.should eq({
+            Rack::Utils.parse_nested_query(path.gsub('/orders?', '')).should eq({
               "search" => { "within_id" => {"first" => '1', "last" => '10', "exclude" => ['3','5','7']}}
             })
           end
