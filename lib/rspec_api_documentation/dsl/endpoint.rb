@@ -45,11 +45,7 @@ module RspecApiDocumentation::DSL
     end
 
     def query_string
-      query = params.to_a.map do |param|
-        param.map! { |a| CGI.escape(a.to_s) }
-        param.join("=")
-      end
-      query.join("&")
+      (params || {}).to_query
     end
 
     def params

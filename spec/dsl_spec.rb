@@ -380,6 +380,41 @@ resource "Order" do
     end
   end
 
+  context "proper query_string serialization" do
+    get "/orders" do
+      context "with an array parameter" do
+        parameter :id_eq, "List of IDs"
+
+        let(:id_eq) { [1, 2] }
+
+        example "parsed properly" do
+          client.should_receive(:get).with do |path, data, headers|
+            Addressable::URI.parse(path).query_values.should eq({"id_eq"=>['1', '2']})
+          end
+          do_request
+        end
+      end
+
+      context "with a deep nested parameter, including Hashes and Arrays" do
+        parameter :within_id, "Fancy search condition"
+
+        let(:within_id) { {"first" => 1, "last" => 10, "exclude" => [3,5,7]} }
+        scope_parameters :search, :all
+
+        example "parsed properly" do
+          client.should_receive(:get).with do |path, data, headers|
+            Addressable::URI.parse(path).query_values.should eq({
+              "search" => { "within_id" => {"first" => '1', "last" => '10', "exclude" => ['3','5','7']}}
+            })
+          end
+          do_request
+        end
+      end
+    end
+  end
+
+
+
   context "auto request" do
     post "/orders" do
       parameter :order_type, "Type of order"

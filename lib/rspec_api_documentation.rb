@@ -2,6 +2,7 @@ require 'active_support'
 require 'active_support/inflector'
 require 'cgi'
 require 'json'
+require 'active_support/core_ext/object/to_query'
 
 module RspecApiDocumentation
   extend ActiveSupport::Autoload
