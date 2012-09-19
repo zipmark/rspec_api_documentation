@@ -59,7 +59,7 @@ Feature: Use OAuth2 MAC client as a test client
              request = Rack::Request.new(env)
              response = Rack::Response.new
              response["Content-Type"] = "text/plain"
-             response.write("hello #{request.params["targets"].map {|company, products| company.to_s + ' with ' + products.join(' and ')}.join(", ")}")
+             response.write("hello #{request.params["targets"].sort.map {|company, products| company.to_s + ' with ' + products.join(' and ')}.join(", ")}")
              response.finish
             end
 
