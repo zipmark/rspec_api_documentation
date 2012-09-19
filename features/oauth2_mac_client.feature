@@ -33,6 +33,38 @@ Feature: Use OAuth2 MAC client as a test client
 
             run app
           end
+
+           map "/multiple" do
+             app = lambda do |env|
+               if env["HTTP_AUTHORIZATION"].blank?
+               return [401, {"Content-Type" => "text/plain"}, [""]]
+             end
+
+             request = Rack::Request.new(env)
+             response = Rack::Response.new
+             response["Content-Type"] = "text/plain"
+             response.write("hello #{request.params["targets"].join(", ")}")
+             response.finish
+            end
+
+            run app
+          end
+
+           map "/multiple_nested" do
+             app = lambda do |env|
+               if env["HTTP_AUTHORIZATION"].blank?
+               return [401, {"Content-Type" => "text/plain"}, [""]]
+             end
+
+             request = Rack::Request.new(env)
+             response = Rack::Response.new
+             response["Content-Type"] = "text/plain"
+             response.write("hello #{request.params["targets"].sort.map {|company, products| company.to_s + ' with ' + products.join(' and ')}.join(", ")}")
+             response.finish
+            end
+
+            run app
+          end
         end
       end
 
@@ -50,6 +82,35 @@ Feature: Use OAuth2 MAC client as a test client
             response_body.should eq('hello rspec_api_documentation')
           end
         end
+
+        get "/multiple" do
+          parameter :targets, "The people you want to greet"
+
+          let(:targets) { ["eric", "sam"] }
+
+          example "Greeting your favorite people" do
+            do_request
+
+            response_headers["Content-Type"].should eq("text/plain")
+            status.should eq(200)
+            response_body.should eq("hello eric, sam")
+          end
+        end
+
+        get "/multiple_nested" do
+          parameter :targets, "The companies you want to greet"
+
+          let(:targets) { { "apple" => ['mac', 'ios'], "google" => ['search', 'mail']} }
+
+          example "Greeting your favorite companies" do
+            do_request
+
+            response_headers["Content-Type"].should eq("text/plain")
+            status.should eq(200)
+            response_body.should eq("hello apple with mac and ios, google with search and mail")
+          end
+        end
+
       end
       """
     When  I run `rspec app_spec.rb --format RspecApiDocumentation::ApiFormatter`
@@ -61,6 +122,10 @@ Feature: Use OAuth2 MAC client as a test client
         Greetings
         GET /
           * Greeting your favorite gem
+        GET /multiple
+          * Greeting your favorite people
+        GET /multiple_nested
+          * Greeting your favorite companies
       """
-    And   the output should contain "1 example, 0 failures"
+    And   the output should contain "3 examples, 0 failures"
     And   the exit status should be 0

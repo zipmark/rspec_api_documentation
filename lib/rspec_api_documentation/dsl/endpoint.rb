@@ -1,8 +1,11 @@
 require 'rspec/core/formatters/base_formatter'
+require 'rack/utils'
+require 'rack/test/utils'
 
 module RspecApiDocumentation::DSL
   module Endpoint
     extend ActiveSupport::Concern
+    include Rack::Test::Utils
 
     delegate :response_headers, :status, :response_status, :response_body, :to => :client
 
@@ -45,11 +48,7 @@ module RspecApiDocumentation::DSL
     end
 
     def query_string
-      query = params.to_a.map do |param|
-        param.map! { |a| CGI.escape(a.to_s) }
-        param.join("=")
-      end
-      query.join("&")
+      build_nested_query(params || {})
     end
 
     def params

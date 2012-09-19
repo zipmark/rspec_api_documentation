@@ -246,7 +246,6 @@ resource "Order" do
       trigger_callback do
         uri = URI.parse(callback_url)
         Net::HTTP.start(uri.host, uri.port) do |http|
-          # debugger
           http.request Net::HTTP::Post.new(uri.path)
         end
       end
@@ -379,6 +378,41 @@ resource "Order" do
       end
     end
   end
+
+  context "proper query_string serialization" do
+    get "/orders" do
+      context "with an array parameter" do
+        parameter :id_eq, "List of IDs"
+
+        let(:id_eq) { [1, 2] }
+
+        example "parsed properly" do
+          client.should_receive(:get).with do |path, data, headers|
+            Rack::Utils.parse_nested_query(path.gsub('/orders?', '')).should eq({"id_eq"=>['1', '2']})
+          end
+          do_request
+        end
+      end
+
+      context "with a deep nested parameter, including Hashes and Arrays" do
+        parameter :within_id, "Fancy search condition"
+
+        let(:within_id) { {"first" => 1, "last" => 10, "exclude" => [3,5,7]} }
+        scope_parameters :search, :all
+
+        example "parsed properly" do
+          client.should_receive(:get).with do |path, data, headers|
+            Rack::Utils.parse_nested_query(path.gsub('/orders?', '')).should eq({
+              "search" => { "within_id" => {"first" => '1', "last" => '10', "exclude" => ['3','5','7']}}
+            })
+          end
+          do_request
+        end
+      end
+    end
+  end
+
+
 
   context "auto request" do
     post "/orders" do
