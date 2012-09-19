@@ -246,7 +246,6 @@ resource "Order" do
       trigger_callback do
         uri = URI.parse(callback_url)
         Net::HTTP.start(uri.host, uri.port) do |http|
-          # debugger
           http.request Net::HTTP::Post.new(uri.path)
         end
       end
