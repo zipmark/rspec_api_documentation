@@ -48,8 +48,14 @@ module RspecApiDocumentation
 
     class ProxyApp < Struct.new(:client, :app)
       def call(env)
+        env["QUERY_STRING"] = query_string_hack(env)
         client.last_request = Struct.new(:env, :content_type).new(env, env["CONTENT_TYPE"])
         app.call(env.merge("SCRIPT_NAME" => ""))
+      end
+
+    private
+      def query_string_hack(env)
+        env["QUERY_STRING"].gsub('%5B', '[').gsub('%5D', ']').gsub(/\[\d+/) { |s| "#{$1}[" }
       end
     end
 
