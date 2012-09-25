@@ -181,6 +181,17 @@ resource "Order" do
     end
   end
 
+  get "/orders/:order_id/line_items/:id" do
+    parameter :type, "The type document you want"
+
+    describe "do_request" do
+      it "should correctly set path variables and other parameters" do
+        client.should_receive(method).with("/orders/3/line_items/2?type=short", nil, nil)
+        do_request(:id => 2, :order_id => 3, :type => 'short')
+      end
+    end
+  end
+
   get "/orders/:order_id" do
     let(:order) { stub(:id => 1) }
 
