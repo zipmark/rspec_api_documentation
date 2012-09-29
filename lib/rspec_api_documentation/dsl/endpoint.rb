@@ -39,7 +39,7 @@ module RspecApiDocumentation::DSL
       path_or_query = path
 
       if method == :get && !query_string.blank?
-        path_or_query = path + "?#{query_string}"
+        path_or_query += "?#{query_string}"
       else
         params_or_body = respond_to?(:raw_post) ? raw_post : params
       end
