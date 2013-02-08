@@ -55,6 +55,11 @@ RspecApiDocumentation.configure do |config|
 end
 ```
 
+## Gotchas
+
+- rspec_api_documentation relies on a variable `client` to be the test client. Make sure you don't redefine this variable.
+- We make heavy use of RSpec metadata, you can actually use the entire gem without the DSL if you hand write the metadata.
+
 ## Usage
 
 ```ruby
