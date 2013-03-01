@@ -24,6 +24,12 @@ resource "Orders" do
     end
   end
 
+  head "/orders" do
+    example_request "Getting the headers" do
+      response_headers["Content-Type"].should == "application/json; charset=utf-8"
+    end
+  end
+
   post "/orders" do
     parameter :name, "Name of order"
     parameter :paid, "If the order has been paid for"

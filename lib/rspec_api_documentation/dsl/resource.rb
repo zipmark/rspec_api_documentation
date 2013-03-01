@@ -19,6 +19,8 @@ module RspecApiDocumentation::DSL
       define_action :post
       define_action :put
       define_action :delete
+      define_action :head
+      define_action :patch
 
       def callback(*args, &block)
         require 'webmock'

@@ -26,7 +26,7 @@ resource "Order" do
     end
   end
 
-  [:post, :get, :put, :delete].each do |http_method|
+  [:post, :get, :put, :delete, :head, :patch].each do |http_method|
     send(http_method, "/path") do
       specify { example.example_group.description.should eq("#{http_method.to_s.upcase} /path") }
 

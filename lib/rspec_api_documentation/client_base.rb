@@ -21,6 +21,14 @@ module RspecApiDocumentation
       process :delete, *args
     end
 
+    def head(*args)
+      process :head, *args
+    end
+
+    def patch(*args)
+      process :patch, *args
+    end
+
     def response_status
       status
     end
