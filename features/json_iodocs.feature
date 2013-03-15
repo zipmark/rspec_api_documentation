@@ -75,7 +75,7 @@ Feature: Json Iodocs
                 "MethodName": "Greeting your favorite developers of your favorite gem",
                 "Synopsis": null,
                 "HTTPMethod": "GET",
-                "URI": "/greetings?target=Sam+%26+Eric",
+                "URI": "/greetings",
                 "RequiresOAuth": "N",
                 "parameters": [
                   {
@@ -90,7 +90,7 @@ Feature: Json Iodocs
                 "MethodName": "Greeting your favorite gem",
                 "Synopsis": null,
                 "HTTPMethod": "GET",
-                "URI": "/greetings?target=rspec_api_documentation",
+                "URI": "/greetings",
                 "RequiresOAuth": "N",
                 "parameters": [
                   {
@@ -106,4 +106,3 @@ Feature: Json Iodocs
         ]
       }
     """
-

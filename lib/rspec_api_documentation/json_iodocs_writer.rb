@@ -80,7 +80,7 @@ module RspecApiDocumentation
         :MethodName => description,
         :Synopsis => explanation,
         :HTTPMethod => http_method,
-        :URI => (requests.first[:request_path] rescue ""),
+        :URI => route,
         :RequiresOAuth => "N",
         :parameters => parameters
       }
