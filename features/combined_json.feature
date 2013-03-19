@@ -68,6 +68,8 @@ Feature: Combined text
     [
       {
         "resource": "Greetings",
+        "http_method": "GET",
+        "route": "/greetings",
         "description": "Greeting your favorite gem",
         "explanation": null,
         "parameters": [
@@ -103,6 +105,8 @@ Feature: Combined text
       },
       {
         "resource": "Greetings",
+        "http_method": "GET",
+        "route": "/greetings",
         "description": "Greeting your favorite developers of your favorite gem",
         "explanation": null,
         "parameters": [
