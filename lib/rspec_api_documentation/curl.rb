@@ -40,7 +40,8 @@ module RspecApiDocumentation
     end
 
     def post_data
-      "-d \"#{data}\""
+      escaped_data = data.to_s.gsub("'", "\\u0027")
+      "-d '#{escaped_data}'"
     end
 
     private
