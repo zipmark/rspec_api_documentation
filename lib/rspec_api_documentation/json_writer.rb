@@ -81,14 +81,20 @@ module RspecApiDocumentation
       "#{basename}.json"
     end
 
-    def to_json
+    def as_json
       {
         :resource => resource_name,
+        :http_method => http_method,
+        :route => route,
         :description => description,
         :explanation => explanation,
         :parameters => respond_to?(:parameters) ? parameters : [],
         :requests => requests
-      }.to_json
+      }
+    end
+
+    def to_json
+      as_json.to_json
     end
 
     def requests
