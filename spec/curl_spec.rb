@@ -13,7 +13,7 @@ describe RspecApiDocumentation::Curl do
 
     it { should =~ /^curl/ }
     it { should =~ /http:\/\/example\.com\/orders/ }
-    it { should =~ /-d "order%5Bsize%5D=large&order%5Btype%5D=cart"/ }
+    it { should =~ /-d 'order%5Bsize%5D=large&order%5Btype%5D=cart'/ }
     it { should =~ /-X POST/ }
     it { should =~ /-H "Accept: application\/json"/ }
     it { should =~ /-H "X-Header: header"/ }
@@ -50,7 +50,7 @@ describe RspecApiDocumentation::Curl do
 
     it { should =~ /^curl/ }
     it { should =~ /http:\/\/example\.com\/orders\/1/ }
-    it { should =~ /-d "size=large"/ }
+    it { should =~ /-d 'size=large'/ }
     it { should =~ /-X PUT/ }
     it { should =~ /-H "Accept: application\/json"/ }
     it { should =~ /-H "X-Header: header"/ }
