@@ -6,7 +6,6 @@ rvm:
   - ree
 gemfile:
   - Gemfile
-  - gemfiles/minimum_dependencies
 script: bundle exec rake
 branches:
   only:
