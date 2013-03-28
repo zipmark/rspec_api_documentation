@@ -70,7 +70,7 @@ module RspecApiDocumentation
       strings = query_string.split("&")
       arrays = strings.map do |segment|
         k,v = segment.split("=")
-        [k, CGI.unescape(v)]
+        [k, v && CGI.unescape(v)]
       end
       Hash[arrays]
     end

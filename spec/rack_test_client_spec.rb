@@ -80,6 +80,19 @@ describe RspecApiDocumentation::RackTestClient do
     end
   end
 
+  context "when doing request without parameter value" do
+    before do
+      test_client.post "/greet?query=&other=exists"
+    end
+
+    context "when examples should be documented", :document => true do
+      it "should still argument the metadata" do
+        metadata = example.metadata[:requests].first
+        metadata[:request_query_parameters].should == {'query' => nil, 'other' => 'exists'}
+      end
+    end
+  end
+
   context "after a request is made" do
     before do
       test_client.post "/greet?query=test+query", post_data, headers
