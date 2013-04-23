@@ -5,6 +5,7 @@ module RspecApiDocumentation
     attr_accessor :index, :configuration
 
     def initialize(index, configuration)
+      warn "[DEPRECATED] Wurl output is going to be gone in the next release."
       self.index = index
       self.configuration = configuration
     end
