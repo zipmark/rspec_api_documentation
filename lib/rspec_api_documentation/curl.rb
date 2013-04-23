@@ -25,6 +25,14 @@ module RspecApiDocumentation
       "curl \"#{url}\" #{post_data} -X DELETE #{headers}"
     end
 
+    def head
+      "curl \"#{url}#{get_data}\" -X HEAD #{headers}"
+    end
+
+    def patch
+      "curl \"#{url}\" #{post_data} -X PATCH #{headers}"
+    end
+
     def url
       "#{host}#{path}"
     end

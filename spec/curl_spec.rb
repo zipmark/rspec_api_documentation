@@ -78,4 +78,41 @@ describe RspecApiDocumentation::Curl do
       curl.output(host)
     end
   end
+
+  describe "HEAD" do
+    let(:method) { "HEAD" }
+    let(:path) { "/orders" }
+    let(:data) { "size=large" }
+    let(:headers) { {"HTTP_ACCEPT" => "application/json", "HTTP_X_HEADER" => "header"} }
+
+    it { should =~ /^curl/ }
+    it { should =~ /http:\/\/example\.com\/orders\?size=large/ }
+    it { should =~ /-X HEAD/ }
+    it { should =~ /-H "Accept: application\/json"/ }
+    it { should =~ /-H "X-Header: header"/ }
+
+    it "should call get" do
+      curl.should_receive(:head)
+      curl.output(host)
+    end
+  end
+
+  describe "PATCH" do
+    let(:method) { "PATCH" }
+    let(:path) { "/orders/1" }
+    let(:data) { "size=large" }
+    let(:headers) { {"HTTP_ACCEPT" => "application/json", "HTTP_X_HEADER" => "header"} }
+
+    it { should =~ /^curl/ }
+    it { should =~ /http:\/\/example\.com\/orders\/1/ }
+    it { should =~ /-d 'size=large'/ }
+    it { should =~ /-X PATCH/ }
+    it { should =~ /-H "Accept: application\/json"/ }
+    it { should =~ /-H "X-Header: header"/ }
+
+    it "should call put" do
+      curl.should_receive(:patch)
+      curl.output(host)
+    end
+  end
 end
