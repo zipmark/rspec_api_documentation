@@ -3,45 +3,6 @@
   <head>
     <title>{{resource_name}} API</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="{{url_prefix}}/assets/stylesheets/bootstrap.css"/>
-    <link rel="stylesheet" href="{{url_prefix}}/assets/stylesheets/codemirror.css"/>
-    <link rel="stylesheet" href="{{url_prefix}}/assets/stylesheets/application.css"/>
-    <script src="{{url_prefix}}/assets/javascripts/jquery-1-7-2.js"></script>
-    <script src="{{url_prefix}}/assets/javascripts/codemirror.js"></script>
-    <script src="{{url_prefix}}/assets/javascripts/mode/css/css.js"></script>
-    <script src="{{url_prefix}}/assets/javascripts/mode/htmlmixed/htmlmixed.js"></script>
-    <script src="{{url_prefix}}/assets/javascripts/mode/javascript/javascript.js"></script>
-    <script src="{{url_prefix}}/assets/javascripts/mode/xml/xml.js"></script>
-    <script>
-      function mirror(textarea, contentType, options) {
-        $textarea = $(textarea);
-        if ($textarea.val() != '') {
-          if(contentType.indexOf('json') >= 0) {
-            $textarea.val(JSON.stringify(JSON.parse($textarea.val()), undefined, 2));
-            options.json = true;
-            options.mode = 'javascript';
-          } else if (contentType.indexOf('javascript') >= 0) {
-            options.mode = 'javascript';
-          } else if (contentType.indexOf('xml') >= 0) {
-            options.mode = 'xml';
-          } else {
-            options.mode = 'htmlmixed';
-          }
-        }
-        return CodeMirror.fromTextArea(textarea, options);
-      };
-
-      $(function(){
-        $(".request.body").each(function(i, el) {
-          el = $(el);
-          mirror(el.find("textarea")[0], el.data("content-type"), { "readOnly": true, "lineNumbers": true });
-        });
-        $(".response.body").each(function(i, el) {
-          el = $(el);
-          mirror(el.find("textarea")[0], el.data("content-type"), { "readOnly": true, "lineNumbers": true });
-        });
-      });
-    </script>
     <style>
       td.required .name:after {
         float: right;
@@ -53,6 +14,16 @@
       p {
         padding: 15px;
         font-size: 130%;
+      }
+
+      pre {
+        white-space: pre-wrap;
+      }
+
+      body {
+        margin-left: auto;
+        margin-right: auto;
+        width: 900px;
       }
     </style>
   </head>
@@ -109,7 +80,7 @@
 
           {{# request_body }}
             <h4>Body</h4>
-            <div class="request body" data-content-type="{{ request_content_type }}"><textarea>{{{ request_body }}}</textarea></div>
+            <pre class="request body">{{{ request_body }}}</pre>
           {{/ request_body }}
 
           {{# curl }}
@@ -125,7 +96,7 @@
             <pre class="response status">{{ response_status }} {{ response_status_text}}</pre>
             {{# response_body }}
               <h4>Body</h4>
-              <div class="response body" data-content-type="{{ response_content_type }}"><textarea>{{{ response_body }}}</textarea></div>
+              <pre class="response body">{{{ response_body }}}</pre>
             {{/ response_body }}
           {{/ response_status }}
         {{/ requests }}
