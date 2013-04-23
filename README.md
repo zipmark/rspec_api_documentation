@@ -36,7 +36,6 @@ See the `example` folder for a sample Rails app that has been documented.
 - template_path - Location of templates
 - filter - Filter by example document type
 - exclusion_filter - Filter by example document type
-- url_prefix - Add before all links on the index page, useful if docs are located in `public/docs`, must include a leading `/`, no trailing `/`; eg `/docs`
 - curl_host - Used when adding a cURL output to the docs
 - keep_source_order - By default examples and resources are ordered by description. Set to true keep the source order.
 - api_name - Change the name of the API on index pages, default is "API Documentation"
@@ -50,7 +49,6 @@ RspecApiDocumentation.configure do |config|
 
   config.define_group :public do |config|
     config.docs_dir = Rails.root.join("public", "docs")
-    config.url_prefix = "/docs"
   end
 end
 ```

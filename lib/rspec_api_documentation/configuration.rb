@@ -17,7 +17,6 @@ module RspecApiDocumentation
       subconfig = self.class.new(self)
       subconfig.filter = name
       subconfig.docs_dir = self.docs_dir.join(name.to_s)
-      subconfig.url_prefix = "#{self.url_prefix}/#{name}"
       yield subconfig
       groups << subconfig
     end
@@ -47,7 +46,6 @@ module RspecApiDocumentation
     add_setting :template_path, :default => File.expand_path("../../../templates", __FILE__)
     add_setting :filter, :default => :all
     add_setting :exclusion_filter, :default => nil
-    add_setting :url_prefix, :default => ""
     add_setting :app, :default => lambda { |config|
       if defined?(Rails)
         Rails.application

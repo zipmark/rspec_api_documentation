@@ -43,10 +43,6 @@ module RspecApiDocumentation
       IndexWriter.sections(examples, @configuration)
     end
 
-    def url_prefix
-      @configuration.url_prefix
-    end
-
     def examples
       @index.examples.map { |example| HtmlExample.new(example, @configuration) }
     end
@@ -89,10 +85,6 @@ module RspecApiDocumentation
         end
         hash
       end
-    end
-
-    def url_prefix
-      configuration.url_prefix
     end
 
     private
