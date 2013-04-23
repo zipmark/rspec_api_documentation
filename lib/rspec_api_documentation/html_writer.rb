@@ -5,7 +5,6 @@ module RspecApiDocumentation
     attr_accessor :index, :configuration
 
     def initialize(index, configuration)
-      warn "[NOTICE] Assets will be gone from the next release. Please use Raddocs for nicer looking docs"
       self.index = index
       self.configuration = configuration
     end
