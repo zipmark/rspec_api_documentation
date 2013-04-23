@@ -2,10 +2,6 @@ body {
 	margin: 25px 0;
 }
 
-#wurl_request_body {
-    width: 432px;
-}
-
 .CodeMirror {
     font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     font-size: 12px;

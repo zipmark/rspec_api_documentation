@@ -32,7 +32,7 @@ See the `example` folder for a sample Rails app that has been documented.
 ## Configuration options
 - app - Set the application that Rack::Test uses, defaults to `Rails.application`
 - docs_dir - Output folder
-- format - An array of output format(s). Possible values are :json, :html, or :wurl. The final option is similar to :html, but includes the wURL console.
+- format - An array of output format(s). Possible values are :json, :html
 - template_path - Location of templates
 - filter - Filter by example document type
 - exclusion_filter - Filter by example document type
