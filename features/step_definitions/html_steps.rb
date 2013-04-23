@@ -42,11 +42,11 @@ Then /^I should see the response status is "([^"]*)"$/ do |status|
 end
 
 Then /^I should see the following request body:$/ do |request_body|
-  page.should have_css("div.request.body", :text => request_body)
+  page.should have_css("pre.request.body", :text => request_body)
 end
 
 Then /^I should see the following response body:$/ do |response_body|
-  page.should have_css("div.response.body", :text => response_body)
+  page.should have_css("pre.response.body", :text => response_body)
 end
 
 Then /^I should see the api name "(.*?)"$/ do |name|
