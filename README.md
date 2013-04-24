@@ -24,6 +24,13 @@ Bundle it!
 
 See the wiki for additional setup. [Setting up RSpec API Documentation](https://github.com/zipmark/rspec_api_documentation/wiki/Setting-up-RspecApiDocumentation)
 
+### Raddocs
+
+Also consider adding [Raddocs](http://github.com/smartlogic/raddocs/) as a viewer. It has much better HTML output than
+rspec_api_documentation.
+
+    gem 'raddocs'
+
 ## Sample App
 
 See the `example` folder for a sample Rails app that has been documented.
