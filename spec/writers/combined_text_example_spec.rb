@@ -1,10 +1,10 @@
 require "spec_helper"
-require "rspec_api_documentation/combined_text_writer"
+require "rspec_api_documentation/writers/combined_text_writer"
 
-describe RspecApiDocumentation::CombinedTextExample do
+describe RspecApiDocumentation::Writers::CombinedTextExample do
   let(:metadata) { {} }
   let(:rspec_example) { stub(:resource_name => "Foo Bar", :description => "ABCDEFG", :metadata => metadata) }
-  let(:example) { RspecApiDocumentation::CombinedTextExample.new(rspec_example) }
+  let(:example) { RspecApiDocumentation::Writers::CombinedTextExample.new(rspec_example) }
 
   it "should format its resource name" do
     example.resource_name.should == "foo_bar"

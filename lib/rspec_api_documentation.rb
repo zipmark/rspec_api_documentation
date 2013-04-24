@@ -24,13 +24,18 @@ module RspecApiDocumentation
   autoload :RackTestClient
   autoload :OAuth2MACClient, "rspec_api_documentation/oauth2_mac_client"
   autoload :TestServer
-  autoload :HtmlWriter
-  autoload :JsonWriter
-  autoload :JsonIodocsWriter
-  autoload :IndexWriter
-  autoload :CombinedTextWriter
-  autoload :CombinedJsonWriter
   autoload :Curl
+
+  module Writers
+    extend ActiveSupport::Autoload
+
+    autoload :HtmlWriter
+    autoload :JsonWriter
+    autoload :JsonIodocsWriter
+    autoload :IndexWriter
+    autoload :CombinedTextWriter
+    autoload :CombinedJsonWriter
+  end
 
   def self.configuration
     @configuration ||= Configuration.new

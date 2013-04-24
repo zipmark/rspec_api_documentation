@@ -58,8 +58,8 @@ describe RspecApiDocumentation::ApiDocumentation do
   end
 
   describe "#writers" do
-    class RspecApiDocumentation::HtmlWriter; end
-    class RspecApiDocumentation::JsonWriter; end
+    class RspecApiDocumentation::Writers::HtmlWriter; end
+    class RspecApiDocumentation::Writers::JsonWriter; end
 
     context "multiple" do
       before do
@@ -67,7 +67,7 @@ describe RspecApiDocumentation::ApiDocumentation do
       end
 
       it "should return the classes from format" do
-        subject.writers.should == [RspecApiDocumentation::HtmlWriter, RspecApiDocumentation::JsonWriter]
+        subject.writers.should == [RspecApiDocumentation::Writers::HtmlWriter, RspecApiDocumentation::Writers::JsonWriter]
       end
     end
 
@@ -77,7 +77,7 @@ describe RspecApiDocumentation::ApiDocumentation do
       end
 
       it "should return the classes from format" do
-        subject.writers.should == [RspecApiDocumentation::HtmlWriter]
+        subject.writers.should == [RspecApiDocumentation::Writers::HtmlWriter]
       end
     end
   end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RspecApiDocumentation::JsonWriter do
+describe RspecApiDocumentation::Writers::JsonIodocsWriter do
   let(:index) { RspecApiDocumentation::Index.new }
   let(:configuration) { RspecApiDocumentation::Configuration.new }
 
@@ -18,12 +18,13 @@ describe RspecApiDocumentation::JsonWriter do
     let(:writer) { described_class.new(index, configuration) }
 
     before do
+      configuration.api_name.stub!(:parameterize => "Name")
       FileUtils.mkdir_p(configuration.docs_dir)
     end
 
     it "should write the index" do
       writer.write
-      index_file = File.join(configuration.docs_dir, "index.json")
+      index_file = File.join(configuration.docs_dir, "apiconfig.json")
       File.exists?(index_file).should be_true
     end
   end

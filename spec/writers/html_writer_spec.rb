@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe RspecApiDocumentation::HtmlWriter do
+describe RspecApiDocumentation::Writers::HtmlWriter do
   let(:index) { RspecApiDocumentation::Index.new }
   let(:configuration) { RspecApiDocumentation::Configuration.new }
 
@@ -33,7 +33,7 @@ describe RspecApiDocumentation::HtmlWriter do
   end
 end
 
-describe RspecApiDocumentation::HtmlExample do
+describe RspecApiDocumentation::Writers::HtmlExample do
   let(:metadata) { {} }
   let(:group) { RSpec::Core::ExampleGroup.describe("Orders", metadata) }
   let(:example) { group.example("Ordering a cup of coffee") {} }
