@@ -1,3 +1,3 @@
 Raddocs.configure do |config|
-  config.docs_dir = "public/docs"
+  config.docs_dir = "docs"
 end

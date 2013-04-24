@@ -49,7 +49,6 @@ describe RspecApiDocumentation::Configuration do
     its(:exclusion_filter) { should be_nil }
     its(:app) { should be_nil }
     its(:curl_host) { should be_nil }
-    its(:url_prefix) { should be_blank }
     its(:keep_source_order) { should be_false }
     its(:api_name) { should == "API Documentation" }
   end
@@ -84,13 +83,6 @@ describe RspecApiDocumentation::Configuration do
     it "should scope the documentation directory" do
       subject.define_group(:sub) do |config|
         config.docs_dir.should == subject.docs_dir.join('sub')
-      end
-    end
-
-    it "should scope the url_prefix directory" do
-      subject.url_prefix = "/docs"
-      subject.define_group(:sub) do |config|
-        config.url_prefix.should == "/docs/sub"
       end
     end
   end

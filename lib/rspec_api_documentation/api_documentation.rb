@@ -14,7 +14,6 @@ module RspecApiDocumentation
         FileUtils.rm_rf(docs_dir, :secure => true)
       end
       FileUtils.mkdir_p(docs_dir)
-      FileUtils.cp_r(File.join(configuration.template_path, "assets"), docs_dir)
     end
 
     def document_example(rspec_example)
