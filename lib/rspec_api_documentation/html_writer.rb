@@ -5,7 +5,6 @@ module RspecApiDocumentation
     attr_accessor :index, :configuration
 
     def initialize(index, configuration)
-      warn "[NOTICE] Assets will be gone from the next release. Please use Raddocs for nicer looking docs"
       self.index = index
       self.configuration = configuration
     end
@@ -42,10 +41,6 @@ module RspecApiDocumentation
 
     def sections
       IndexWriter.sections(examples, @configuration)
-    end
-
-    def url_prefix
-      @configuration.url_prefix
     end
 
     def examples
@@ -90,10 +85,6 @@ module RspecApiDocumentation
         end
         hash
       end
-    end
-
-    def url_prefix
-      configuration.url_prefix
     end
 
     private

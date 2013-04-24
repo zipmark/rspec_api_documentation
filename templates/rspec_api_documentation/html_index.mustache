@@ -3,7 +3,14 @@
 <head>
   <title>{{ api_name }}</title>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="{{ url_prefix }}/assets/stylesheets/bootstrap.css"/>
+
+  <style>
+    body {
+      margin-left: auto;
+      margin-right: auto;
+      width: 900px;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -16,7 +23,7 @@
     <ul>
       {{# examples }}
       <li>
-        <a href="{{ url_prefix }}/{{ dirname }}/{{ filename }}">{{ description }}</a>
+        <a href="{{ dirname }}/{{ filename }}">{{ description }}</a>
       </li>
       {{/ examples }}
     </ul>
