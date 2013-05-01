@@ -14,7 +14,6 @@ module RspecApiDocumentation
     autoload :ApiDocumentation
     autoload :ApiFormatter
     autoload :Example
-    autoload :ExampleGroup
     autoload :Index
     autoload :ClientBase
     autoload :Headers
