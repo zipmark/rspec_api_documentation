@@ -70,7 +70,7 @@ describe RspecApiDocumentation::Example do
     end
 
     context "configuration sets a filter" do
-      before do 
+      before do
         configuration.filter = :public
         configuration.exclusion_filter = :excluded
       end
@@ -88,6 +88,24 @@ describe RspecApiDocumentation::Example do
       end
 
       context "when the example is excluded" do
+        let(:metadata) { { :resource_name => "foo", :document => [:public, :excluded] } }
+
+        it { should be_false }
+      end
+    end
+
+    context "configuration only sets an exclusion filter" do
+      before do
+        configuration.exclusion_filter = :excluded
+      end
+
+      context "when example doesn't match exclusion" do
+        let(:metadata) { { :resource_name => "foo", :document => :public } }
+
+        it { should be_true }
+      end
+
+      context "when example matches exclusion" do
         let(:metadata) { { :resource_name => "foo", :document => [:public, :excluded] } }
 
         it { should be_false }

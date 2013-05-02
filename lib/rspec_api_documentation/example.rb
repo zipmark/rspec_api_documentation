@@ -25,9 +25,9 @@ module RspecApiDocumentation
 
     def should_document?
       return false if pending? || !metadata[:resource_name] || !metadata[:document]
-      return true if configuration.filter == :all
       return false if (Array(metadata[:document]) & Array(configuration.exclusion_filter)).length > 0
       return true if (Array(metadata[:document]) & Array(configuration.filter)).length > 0
+      return true if configuration.filter == :all
     end
 
     def public?
