@@ -39,7 +39,7 @@ module RspecApiDocumentation
 
     def headers
       super.map do |k, v|
-        "-H \"#{format_header(k, v)}\""
+        "\\\n\t-H \"#{format_header(k, v)}\""
       end.join(" ")
     end
 
