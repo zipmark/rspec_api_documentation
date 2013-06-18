@@ -1,3 +1,5 @@
+require 'rspec_api_documentation/writers/formatter'
+
 module RspecApiDocumentation
   module Writers
     class JsonIodocsWriter
@@ -17,10 +19,10 @@ module RspecApiDocumentation
 
       def write
         File.open(docs_dir.join("apiconfig.json"), "w+") do |file|
-          file.write ApiConfig.new(configuration).to_json
+          file.write Formatter.to_json(ApiConfig.new(configuration))
         end
         File.open(docs_dir.join("#{api_key}.json"), "w+") do |file|
-          file.write JsonIndex.new(index, configuration).to_json
+          file.write Formatter.to_json(JsonIndex.new(index, configuration))
         end
       end
     end
@@ -39,16 +41,16 @@ module RspecApiDocumentation
         @index.examples.map { |example| JsonExample.new(example, @configuration) }
       end
 
-      def to_json
+      def as_json(opts = nil)
         sections.inject({:endpoints => []}) do |h, section|
           h[:endpoints].push(
             :name => section[:resource_name],
             :methods => section[:examples].map do |example|
-              example.to_json
+              example.as_json(opts)
             end
           )
           h
-        end.to_json
+        end
       end
     end
 
@@ -76,7 +78,7 @@ module RspecApiDocumentation
         params
       end
 
-      def to_json
+      def as_json(opts = nil)
          {
           :MethodName => description,
           :Synopsis => explanation,
@@ -94,7 +96,7 @@ module RspecApiDocumentation
         @api_key = configuration.api_name.parameterize
       end
 
-      def to_json
+      def as_json(opts = nil)
         {
           @api_key.to_sym => {
             :name => @configuration.api_name,
@@ -102,7 +104,7 @@ module RspecApiDocumentation
             :publicPath => "",
             :baseURL => @configuration.curl_host
           }
-        }.to_json
+        }
       end
     end
   end

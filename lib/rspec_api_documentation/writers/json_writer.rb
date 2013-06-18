@@ -1,3 +1,5 @@
+require 'rspec_api_documentation/writers/formatter'
+
 module RspecApiDocumentation
   module Writers
     class JsonWriter
@@ -16,13 +18,13 @@ module RspecApiDocumentation
 
       def write
         File.open(docs_dir.join("index.json"), "w+") do |f|
-          f.write JsonIndex.new(index, configuration).to_json
+          f.write Formatter.to_json(JsonIndex.new(index, configuration))
         end
         index.examples.each do |example|
           json_example = JsonExample.new(example, configuration)
           FileUtils.mkdir_p(docs_dir.join(json_example.dirname))
           File.open(docs_dir.join(json_example.dirname, json_example.filename), "w+") do |f|
-            f.write json_example.to_json
+            f.write Formatter.to_json(json_example)
           end
         end
       end
@@ -42,7 +44,7 @@ module RspecApiDocumentation
         @index.examples.map { |example| JsonExample.new(example, @configuration) }
       end
 
-      def to_json
+      def as_json(opts = nil)
         sections.inject({:resources => []}) do |h, section|
           h[:resources].push(
             :name => section[:resource_name],
@@ -55,7 +57,7 @@ module RspecApiDocumentation
             }
           )
           h
-        end.to_json
+        end
       end
     end
 
@@ -82,7 +84,7 @@ module RspecApiDocumentation
         "#{basename}.json"
       end
 
-      def as_json
+      def as_json(opts = nil)
         {
           :resource => resource_name,
           :http_method => http_method,
@@ -92,10 +94,6 @@ module RspecApiDocumentation
           :parameters => respond_to?(:parameters) ? parameters : [],
           :requests => requests
         }
-      end
-
-      def to_json
-        as_json.to_json
       end
 
       def requests
