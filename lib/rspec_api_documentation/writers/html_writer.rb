@@ -2,30 +2,21 @@ require 'mustache'
 
 module RspecApiDocumentation
   module Writers
-    class HtmlWriter
+    class HtmlWriter < GeneralMarkupWriter
       attr_accessor :index, :configuration
 
-      def initialize(index, configuration)
-        self.index = index
-        self.configuration = configuration
+      EXTENSION = 'html'
+
+      def markup_index_class
+        HtmlIndex
       end
 
-      def self.write(index, configuration)
-        writer = new(index, configuration)
-        writer.write
+      def markup_example_class
+        HtmlExample
       end
 
-      def write
-        File.open(configuration.docs_dir.join("index.html"), "w+") do |f|
-          f.write HtmlIndex.new(index, configuration).render
-        end
-        index.examples.each do |example|
-          html_example = HtmlExample.new(example, configuration)
-          FileUtils.mkdir_p(configuration.docs_dir.join(html_example.dirname))
-          File.open(configuration.docs_dir.join(html_example.dirname, html_example.filename), "w+") do |f|
-            f.write html_example.render
-          end
-        end
+      def extension
+        EXTENSION
       end
     end
 
