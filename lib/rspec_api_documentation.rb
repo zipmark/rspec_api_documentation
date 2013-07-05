@@ -37,6 +37,13 @@ module RspecApiDocumentation
     autoload :CombinedJsonWriter
   end
 
+  module Views
+    extend ActiveSupport::Autoload
+
+    autoload :HtmlIndex
+    autoload :HtmlExample
+  end
+
   def self.configuration
     @configuration ||= Configuration.new
   end

@@ -1,5 +1,3 @@
-require 'mustache'
-
 module RspecApiDocumentation
   module Writers
     class GeneralMarkupWriter
