@@ -33,7 +33,7 @@ RSpec.configure do |config|
 end
 
 RspecApiDocumentation.configure do |config|
-  config.format = [:json, :combined_text]
+  config.format = [:json, :combined_text, :html]
   config.curl_host = 'http://localhost:3000'
   config.api_name = "Example App API"
 end
