@@ -40,6 +40,8 @@ module RspecApiDocumentation
   module Views
     extend ActiveSupport::Autoload
 
+    autoload :MarkupIndex
+    autoload :MarkupExample
     autoload :HtmlIndex
     autoload :HtmlExample
   end
