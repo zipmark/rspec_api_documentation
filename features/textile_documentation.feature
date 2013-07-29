@@ -35,6 +35,28 @@ Feature: Generate Textile documentation from test examples
             status.should eq(200)
             response_body.should eq('{"hello":"rspec_api_documentation"}')
           end
+
+          example "Greeting nothing" do
+            do_request :target => ""
+
+            response_headers["Content-Type"].should eq("application/json")
+            status.should eq(200)
+            response_body.should eq('{"hello":""}')
+          end
+        end
+      end
+
+      resource "Cucumbers" do
+        get "/cucumbers" do
+          parameter :target, "The thing in which you want to eat cucumbers"
+
+          example "Eating cucumbers in a bowl" do
+            do_request :target => "bowl"
+
+            response_headers["Content-Type"].should eq("application/json")
+            status.should eq(200)
+            response_body.should eq('{"hello":"bowl"}')
+          end
         end
       end
       """
@@ -47,8 +69,12 @@ Feature: Generate Textile documentation from test examples
         Greetings
         GET /greetings
           * Greeting your favorite gem
+          * Greeting nothing
+        Cucumbers
+        GET /cucumbers
+          * Eating cucumbers in a bowl
       """
-    And   the output should contain "1 example, 0 failures"
+    And   the output should contain "3 examples, 0 failures"
     And   the exit status should be 0
 
   Scenario: Index file should look like we expect
@@ -56,9 +82,15 @@ Feature: Generate Textile documentation from test examples
     """
     h1. Example API
 
+    h2. Cucumbers
+
+    * "Eating cucumbers in a bowl":cucumbers/eating_cucumbers_in_a_bowl.html
+
     h2. Greetings
 
+    * "Greeting nothing":greetings/greeting_nothing.html
     * "Greeting your favorite gem":greetings/greeting_your_favorite_gem.html
+
 
     """
 
