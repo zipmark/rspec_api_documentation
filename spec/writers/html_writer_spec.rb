@@ -6,10 +6,10 @@ describe RspecApiDocumentation::Writers::HtmlWriter do
   let(:configuration) { RspecApiDocumentation::Configuration.new }
 
   describe ".write" do
-    let(:writer) { stub }
+    let(:writer) { double(:writer) }
 
     it "should build a new writer and write the docs" do
-      described_class.stub!(:new).with(index, configuration).and_return(writer)
+      described_class.stub(:new).with(index, configuration).and_return(writer)
       writer.should_receive(:write)
       described_class.write(index, configuration)
     end

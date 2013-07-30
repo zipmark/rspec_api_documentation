@@ -11,7 +11,7 @@ describe RspecApiDocumentation::ApiFormatter do
 
     before do
       RspecApiDocumentation.documentations.each do |configuration|
-        configuration.stub!(
+        configuration.stub(
           :clear_docs => nil,
           :document_example => nil,
           :write => nil
@@ -49,7 +49,7 @@ describe RspecApiDocumentation::ApiFormatter do
   describe "output" do
     before do
       # don't do any work
-      RspecApiDocumentation.stub!(:documentations).and_return([])
+      RspecApiDocumentation.stub(:documentations).and_return([])
     end
 
     context "with passing examples" do

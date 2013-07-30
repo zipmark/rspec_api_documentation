@@ -5,10 +5,10 @@ describe RspecApiDocumentation::Writers::JsonIodocsWriter do
   let(:configuration) { RspecApiDocumentation::Configuration.new }
 
   describe ".write" do
-    let(:writer) { stub }
+    let(:writer) { double(:writer) }
 
     it "should build a new writer and write the docs" do
-      described_class.stub!(:new).with(index, configuration).and_return(writer)
+      described_class.stub(:new).with(index, configuration).and_return(writer)
       writer.should_receive(:write)
       described_class.write(index, configuration)
     end
@@ -18,7 +18,7 @@ describe RspecApiDocumentation::Writers::JsonIodocsWriter do
     let(:writer) { described_class.new(index, configuration) }
 
     before do
-      configuration.api_name.stub!(:parameterize => "Name")
+      configuration.api_name.stub(:parameterize => "Name")
       FileUtils.mkdir_p(configuration.docs_dir)
     end
 

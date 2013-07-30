@@ -33,9 +33,9 @@ describe RspecApiDocumentation::Configuration do
 
     context "when Rails is defined" do
       let(:rails_root) { Pathname.new("tmp") }
-      let(:rails_app) { stub }
+      let(:rails_app) { double(:rails_app) }
 
-      before { Rails = stub(:application => rails_app, :root => rails_root) }
+      before { Rails = double(:application => rails_app, :root => rails_root) }
       after { Object.send(:remove_const, :Rails) }
 
       its(:docs_dir) { should == rails_root.join("docs") }

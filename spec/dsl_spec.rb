@@ -193,7 +193,7 @@ resource "Order" do
   end
 
   get "/orders/:order_id" do
-    let(:order) { stub(:id => 1) }
+    let(:order) { double(:id => 1) }
 
     describe "path" do
       subject { self.path }
@@ -240,7 +240,7 @@ resource "Order" do
     end
 
     describe "trigger_callback" do
-      let(:callback_url) { stub }
+      let(:callback_url) { double(:callback_url) }
       let(:callbacks_triggered) { [] }
 
       trigger_callback do
@@ -266,7 +266,7 @@ resource "Order" do
 
         it "should mock requests to the callback url to be handled by the destination" do
           called = false
-          destination.stub!(:call).and_return do
+          destination.stub(:call).and_return do
             called = true
             [200, {}, []]
           end
@@ -454,12 +454,12 @@ resource "Order" do
   context "last_response helpers" do
     put "/orders" do
       it "status" do
-        client.stub!(:last_response).and_return(stub(:status => 200))
+        client.stub(:last_response).and_return(double(:status => 200))
         status.should == 200
       end
 
       it "response_body" do
-        client.stub!(:last_response).and_return(stub(:body => "the body"))
+        client.stub(:last_response).and_return(double(:body => "the body"))
         response_body.should == "the body"
       end
     end
