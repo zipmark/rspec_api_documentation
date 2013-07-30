@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  # If adding, please consider gemfiles/minimum_dependencies
   s.add_runtime_dependency "rspec", ">= 2.6.0"
   s.add_runtime_dependency "activesupport", ">= 3.0.0"
   s.add_runtime_dependency "i18n", ">= 0.1.0"
