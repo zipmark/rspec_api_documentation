@@ -84,12 +84,12 @@ Feature: Generate Textile documentation from test examples
 
     h2. Cucumbers
 
-    * "Eating cucumbers in a bowl":cucumbers/eating_cucumbers_in_a_bowl.html
+    * Eating cucumbers in a bowl
 
     h2. Greetings
 
-    * "Greeting nothing":greetings/greeting_nothing.html
-    * "Greeting your favorite gem":greetings/greeting_your_favorite_gem.html
+    * Greeting nothing
+    * Greeting your favorite gem
 
 
     """
