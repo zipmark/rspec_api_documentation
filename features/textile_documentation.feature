@@ -27,6 +27,7 @@ Feature: Generate Textile documentation from test examples
       resource "Greetings" do
         get "/greetings" do
           parameter :target, "The thing you want to greet"
+          required_parameters :target
 
           example "Greeting your favorite gem" do
             do_request :target => "rspec_api_documentation"
@@ -92,6 +93,11 @@ Feature: Generate Textile documentation from test examples
     * Greeting your favorite gem
 
 
+    """
+
+  Scenario: Example 'Greeting nothing' file should look like we expect
+    Then the file "docs/greetings/greeting_nothing.textile" should contain exactly:
+    """
     """
 
   # Scenario: Create an index of all API examples, including all resources

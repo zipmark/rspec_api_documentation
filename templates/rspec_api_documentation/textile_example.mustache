@@ -1,0 +1,71 @@
+h1. {{ resource_name }} API
+
+h2. {{ description }}
+
+h3. {{ http_method }} {{ route }}
+
+{{# explanation }}
+{{ explanation }}
+
+{{/ explanation }}
+
+{{# has_parameters? }}
+
+h3. Parameters
+{{# parameters }}
+
+Name : {{ name }} {{# required }} *- required -* {{/ required }}
+Description : {{ description }}
+
+{{/ parameters }}
+{{/ has_parameters? }}
+
+{{# requests }}
+h3. Request
+
+h4. Headers
+
+<pre>{{ request_headers_text }}</pre>
+
+h4. Route
+
+<pre>{{ request_method }} {{ request_path }}</pre>
+
+{{# request_query_parameters_text }}
+h4. Query Parameters
+
+<pre>{{ request_query_parameters_text }}</pre>
+{{/ request_query_parameters_text }}
+
+{{# request_body }}
+h4. Body
+
+<pre>{{{ request_body }}}</pre>
+{{/ request_body }}
+
+{{# curl }}
+h4. cURL
+
+<pre class="request">{{ curl }}</pre>
+{{/ curl }}
+
+{{# response_status }}
+h3. Response
+
+h4. Headers
+
+<pre>{{ response_headers_text }}</pre>
+
+h4. Status
+
+<pre>{{ response_status }} {{ response_status_text}}</pre>
+
+{{# response_body }}
+h4. Body
+
+<pre>{{{ response_body }}}</pre>
+{{/ response_body }}
+{{/ response_status }}
+
+{{/ requests }}
+
