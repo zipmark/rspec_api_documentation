@@ -42,6 +42,8 @@ module RspecApiDocumentation::DSL
       end
 
       def required_parameters(*names)
+        warn "required_parameters is not longer supported. Please use parameter :name, '', :required => true instead."
+
         names.each do |name|
           param = parameters.find { |param| param[:name] == name.to_s }
           raise "Undefined parameters can not be required." unless param
