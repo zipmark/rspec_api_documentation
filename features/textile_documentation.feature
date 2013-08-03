@@ -95,42 +95,53 @@ Feature: Generate Textile documentation from test examples
 
     """
 
-  Scenario: Example 'Greeting nothing' file should look like we expect
-    Then the file "docs/greetings/greeting_nothing.textile" should contain exactly:
+  Scenario: Example 'Greeting your favorite gem' file should look like we expect
+    Then the file "docs/greetings/greeting_your_favorite_gem.textile" should contain exactly:
     """
+    h1. Greetings API
+
+    h2. Greeting your favorite gem
+
+    h3. GET /greetings
+
+
+    h3. Parameters
+
+    Name : target  *- required -*
+    Description : The thing you want to greet
+
+    h3. Request
+
+    h4. Headers
+
+    <pre>Host: example.org
+    Cookie: </pre>
+
+    h4. Route
+
+    <pre>GET /greetings?target=rspec_api_documentation</pre>
+
+    h4. Query Parameters
+
+    <pre>target: rspec_api_documentation</pre>
+
+
+
+    h3. Response
+
+    h4. Headers
+
+    <pre>Content-Type: application/json
+    Content-Length: 35</pre>
+
+    h4. Status
+
+    <pre>200 OK</pre>
+
+    h4. Body
+
+    <pre>{"hello":"rspec_api_documentation"}</pre>
+
+
+
     """
-
-  # Scenario: Create an index of all API examples, including all resources
-  #   When  I open the index
-  #   Then  I should see the following resources:
-  #     | Greetings |
-  #   And   I should see the api name "Example API"
-
-  # Scenario: Example HTML documentation includes the parameters
-  #   When  I open the index
-  #   And   I navigate to "Greeting your favorite gem"
-  #   Then  I should see the following parameters:
-  #     | name   | description                 |
-  #     | target | The thing you want to greet |
-
-  # Scenario: Example HTML documentation includes the request information
-  #   When  I open the index
-  #   And   I navigate to "Greeting your favorite gem"
-  #   Then  I should see the route is "GET /greetings?target=rspec_api_documentation"
-  #   And   I should see the following request headers:
-  #     | Host   | example.org |
-  #     | Cookie |             |
-  #   And   I should see the following query parameters:
-  #     | target | rspec_api_documentation |
-
-  # Scenario: Example HTML documentation includes the response information
-  #   When  I open the index
-  #   And   I navigate to "Greeting your favorite gem"
-  #   Then  I should see the response status is "200 OK"
-  #   And   I should see the following response headers:
-  #     | Content-Type   | application/json |
-  #     | Content-Length | 35               |
-  #   And   I should see the following response body:
-  #     """
-  #     {"hello":"rspec_api_documentation"}
-  #     """
