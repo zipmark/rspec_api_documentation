@@ -36,9 +36,9 @@ module RspecApiDocumentation
 
     add_setting :docs_dir, :default => lambda { |config|
       if defined?(Rails)
-        Rails.root.join("docs")
+        Rails.root.join("doc", "api")
       else
-        Pathname.new("docs")
+        Pathname.new("doc/api")
       end
     }
 

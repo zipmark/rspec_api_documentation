@@ -38,11 +38,11 @@ describe RspecApiDocumentation::Configuration do
       before { Rails = double(:application => rails_app, :root => rails_root) }
       after { Object.send(:remove_const, :Rails) }
 
-      its(:docs_dir) { should == rails_root.join("docs") }
+      its(:docs_dir) { should == rails_root.join("doc", "api") }
       its(:app) { should == rails_app }
     end
 
-    its(:docs_dir) { should == Pathname.new("docs") }
+    its(:docs_dir) { should == Pathname.new("doc/api") }
     its(:format) { should == :html }
     its(:template_path) { should == default_template_path }
     its(:filter) { should == :all }

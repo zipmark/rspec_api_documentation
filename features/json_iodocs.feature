@@ -64,7 +64,7 @@ Feature: Json Iodocs
     And   the exit status should be 0
 
   Scenario: File should look like we expect
-    Then the file "docs/app.json" should contain JSON exactly like:
+    Then the file "doc/api/app.json" should contain JSON exactly like:
     """
       {
         "endpoints": [
