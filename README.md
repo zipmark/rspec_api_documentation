@@ -81,6 +81,72 @@ RspecApiDocumentation.configure do |config|
 end
 ```
 
+## Filtering and Exclusion
+rspec_api_documentation lets you determine which examples get outputted into the final documentation.
+All filtering is done via the `:document` metadata key.
+You tag examples with either a single symbol or an array of symbols.
+`:document` can also be false, which will make sure it does not get outputted.
+
+```ruby
+resource "Account" do
+  get "/accounts" do
+    parameter :page, "Page to view"
+    
+    # default :document is :all
+    example "Get a list of all accounts" do
+      do_request
+      status.should == 200
+    end
+    
+    # Don't actually document this example, purely for testing purposes
+    example "Get a list on page 2", :document => false do
+      do_request(:page => 2)
+      status.should == 404
+    end
+    
+    # With example_request, you can't change the :document
+    example_request "Get a list on page 3", :page => 3 do
+      status.should == 404
+    end
+  end
+  
+  post "/accounts" do
+    parameter :email, "User email"
+    
+    example "Creating an account", :document => :private do
+      do_request(:email => "eric@example.com")
+      status.should == 201
+    end
+    
+    example "Creating an account - errors", :document => [:private, :developers] do
+      do_request
+      status.should == 422
+    end
+  end
+end
+```
+
+```ruby
+# All documents will be generated into the top folder, :document => false
+# examples will never be generated.
+RspecApiDocumentation.configure do |config|
+  # Exclude only document examples marked as 'private'
+  config.define_group :non_private do |config|
+    config.exclusion_filter = :private
+  end
+  
+  # Only document examples marked as 'public'
+  config.define_group :public do |config|
+    config.filter = :public
+  end
+  
+  # Only document examples marked as 'developer'
+  config.define_group :developers do |config|
+    config.filter = :developers
+  end
+end
+```
+
 ## Gotchas
 
 - rspec_api_documentation relies on a variable `client` to be the test client. Make sure you don't redefine this variable.
