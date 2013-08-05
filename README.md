@@ -37,25 +37,46 @@ See the `example` folder for a sample Rails app that has been documented.
 
 
 ## Configuration options
-- app - Set the application that Rack::Test uses, defaults to `Rails.application`
-- docs_dir - Output folder
-- format - An array of output format(s). Possible values are :json, :html
-- template_path - Location of templates
-- filter - Filter by example document type
-- exclusion_filter - Filter by example document type
-- curl_host - Used when adding a cURL output to the docs
-- keep_source_order - By default examples and resources are ordered by description. Set to true keep the source order.
-- api_name - Change the name of the API on index pages, default is "API Documentation"
-
-### Example Configuration
-`spec/spec_helper.rb`
-
 ```ruby
+# Values listed are the default values
 RspecApiDocumentation.configure do |config|
-  config.docs_dir = Rails.root.join("app", "views", "pages")
-
+  # Set the application that Rack::Test uses
+  config.app = Rails.application
+  
+  # Output folder
+  config.docs_dir = Rails.root.join("doc", "api")
+  
+  # An array of output format(s). Possible values are :json, :html
+  config.format = [:html]
+  
+  # Location of templates
+  config.template_path = "inside of the gem"
+  
+  # Filter by example document type
+  config.filter = :all
+  
+  # Filter by example document type
+  config.exclusion_filter = nil
+  
+  # Used when adding a cURL output to the docs
+  config.curl_host = nil
+  
+  # By default examples and resources are ordered by description. Set to true keep
+  # the source order.
+  config.keep_source_order = false
+  
+  # Change the name of the API on index pages
+  config.api_name = "API Documentation"
+  
+  # You can define documentation groups as well. A group allows you generate multiple
+  # sets of documentation.
   config.define_group :public do |config|
-    config.docs_dir = Rails.root.join("public", "docs")
+    # By default the group's doc_dir is a subfolder under the parent group, based
+    # on the group's name.
+    config.docs_dir = Rails.root.join("doc", "api", "public")
+    
+    # Change the filter to only include :public examples
+    config.filter = :public
   end
 end
 ```
