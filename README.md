@@ -20,16 +20,49 @@ Add rspec_api_documentation to your Gemfile
 
 Bundle it!
 
-    $> bundle install
+    $ bundle install
+    
+Set up specs.
 
-See the wiki for additional setup. [Setting up RSpec API Documentation](https://github.com/zipmark/rspec_api_documentation/wiki/Setting-up-RspecApiDocumentation)
+    $ mkdir spec/acceptance
+    $ vim spec/acceptance/orders_spec.rb
+    
+```ruby
+require 'spec_helper'
+require 'rspec_api_documentation/dsl'
+
+resource "Orders" do
+  get "/orders" do
+    example "Listing orders" do
+      do_request
+      
+      status.should == 200
+    end
+  end
+end
+```
+
+Generate the docs!
+
+    $ rake docs:generate
+    $ open doc/api/index.html
 
 ### Raddocs
 
 Also consider adding [Raddocs](http://github.com/smartlogic/raddocs/) as a viewer. It has much better HTML output than
 rspec_api_documentation.
 
+#### Gemfile
+
     gem 'raddocs'
+    
+#### spec/spec_helper.rb
+
+```ruby
+RspecApiDocumentation.configure do |config|
+  config.format = :json
+end
+```
 
 ## Sample App
 
