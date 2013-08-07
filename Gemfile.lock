@@ -75,7 +75,7 @@ GEM
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.14.2)
     rubyzip (0.9.8)
-    safe_yaml (0.9.4)
+    safe_yaml (0.9.5)
     selenium-webdriver (2.21.2)
       childprocess (>= 0.2.5)
       ffi (~> 1.0)
