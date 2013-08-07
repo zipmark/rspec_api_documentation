@@ -180,6 +180,267 @@ RspecApiDocumentation.configure do |config|
 end
 ```
 
+## DSL
+
+### Require the DSL
+
+At the beginning of each acceptance/*_spec.rb file, make sure to require the following to pull in the DSL definitions:
+
+```ruby
+require 'rspec_api_documentation/dsl'
+```
+
+
+### Example Group Methods
+
+
+#### resource
+
+Create a set of documentation examples that go together. Acts as a describe block.
+
+```ruby
+resource "Orders" do
+end
+```
+
+#### get, post, put, delete
+
+The method that will be sent along with the url.
+
+```ruby
+resource "Orders" do
+  post "/orders" do
+  end
+
+  get "/orders" do
+  end
+
+  head "/orders" do
+  end
+
+  put "/orders/:id" do
+    let(:id) { order.id }
+
+    example "Get an order" do
+      path.should == "/orders/1" # `:id` is replaced with the value of `id`
+    end
+  end
+
+  delete "/orders/:id" do
+  end
+
+  patch "/orders/:id" do
+  end
+end
+```
+
+#### example
+
+This is just RSpec's built in example method, we hook into the metadata surrounding it. `it` could also be used.
+
+```ruby
+resource "Orders" do
+  post "/orders" do
+    example "Creating an order" do
+      do_request
+      # make assertions
+    end
+  end
+end
+```
+
+#### example_request
+
+The same as example, except it calls `do_request` as the first step. Only assertions are required in the block.
+
+Similar to `do_request` you can pass in a hash as the last parameter that will be passed along to `do_request` as extra parameters. These will _not_ become metadata like with `example`.
+
+```ruby
+resource "Orders" do
+  parameter :name, "Order name"
+
+  post "/orders" do
+    example_request "Creating an order", :name => "Other name" do
+      # make assertions
+    end
+  end
+end
+```
+
+#### parameter
+
+This method takes the parameter name, a description, and an optional hash of extra metadata that can be displayed in Raddocs as extra columns. If a method with the parameter name exists, e.g. a `let`, it will send the returned value up to the server as URL encoded data. 
+
+Special values:
+
+* `:required => true` Will display a red '*' to show it's required
+* `:scope => :the_scope` Will scope parameters in the hash. See example
+
+```ruby
+resource "Orders" do
+  parameter :auth_token, "Authentication Token"
+
+  let(:auth_token) { user.authentication_token }
+
+  post "/orders" do
+    parameter :name, "Order Name", :required => true, :scope => :order
+
+    let(:name) { "My Order" }
+
+    example "Creating an order" do
+      params.should == { :order => { :name => "My Order" }, :auth_token => auth_token }
+    end
+  end
+end
+```
+
+#### callback
+
+This is complicated, see [relish docs](https://www.relishapp.com/zipmark/rspec-api-documentation/docs/document-callbacks).
+
+#### trigger_callback
+
+Pass this method a block which, when evaluated, will cause the application to make a request to `callback_url`.
+
+### Example methods
+
+#### callback_url
+
+Defines the destination of the callback.
+
+For an example, see [relish docs](https://www.relishapp.com/zipmark/rspec-api-documentation/docs/document-callbacks).
+
+#### client
+
+Returns the test client which makes requests and documents the responses.
+
+```ruby
+resource "Order" do
+  get "/orders" do
+    example "Listing orders" do
+      # Create an order via the API instead of via factories
+      client.post "/orders", order_hash
+
+      do_request
+
+      status.should == 200
+    end
+  end
+end
+```
+
+#### do_callback
+
+This will evaluate the block passed to `trigger_callback`, which should cause the application under test to make a callback request. See [relish docs](https://www.relishapp.com/zipmark/rspec-api-documentation/docs/document-callbacks).
+
+#### do_request
+
+Sends the request to the app with any parameters and headers defined.
+
+```ruby
+resource "Order" do
+  get "/orders" do
+    example "Listing orders" do
+      do_request
+
+      status.should == 200
+    end
+  end
+end
+```
+
+#### no_doc
+
+If you wish to make a request via the client that should not be included in your documentation, do it inside of a no_doc block.
+
+```ruby
+resource "Order" do
+  get "/orders" do
+    example "Listing orders" do
+      no_doc do
+        # Create an order via the API instead of via factories, don't document it
+        client.post "/orders", order_hash
+      end
+
+      do_request
+
+      status.should == 200
+    end
+  end
+end
+```
+
+#### params
+
+Get a hash of parameters that will be sent. See `parameter` documentation for an example.
+
+#### response_body
+
+Returns a string containing the response body from the previous request.
+
+```ruby
+resource "Order" do
+  get "/orders" do
+    example "Listing orders" do
+      do_request
+
+      response_body.should == [{ :name => "Order 1" }].to_json
+    end
+  end
+end
+```
+
+#### response_headers
+
+Returns a hash of the response headers from the previous request.
+
+```ruby
+resource "Order" do
+  get "/orders" do
+    example "Listing orders" do
+      do_request
+
+      response_headers["Content-Type"].should == "application/json"
+    end
+  end
+end
+```
+
+#### status, response_status
+
+Returns the numeric status code from the response, eg. 200. `response_status` is an alias to status because status is commonly a parameter.
+
+```ruby
+resource "Order" do
+  get "/orders" do
+    example "Listing orders" do
+      do_request
+
+      status.should == 200
+      response_status.should == 200
+    end
+  end
+end
+```
+
+#### query_string
+
+Data that will be sent as a query string instead of post data. Used in GET requests.
+
+```ruby
+resource "Orders" do
+  parameter :name
+
+  let(:name) { "My Order" }
+
+  get "/orders" do
+    example "List orders" do
+      query_string.should == "name=My+Orders"
+    end
+  end
+end
+```
+
 ## Gotchas
 
 - rspec_api_documentation relies on a variable `client` to be the test client. Make sure you don't redefine this variable.
