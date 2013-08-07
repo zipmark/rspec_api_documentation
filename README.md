@@ -203,7 +203,7 @@ resource "Orders" do
 end
 ```
 
-#### get, post, put, delete
+#### get, head, post, put, delete, patch
 
 The method that will be sent along with the url.
 
