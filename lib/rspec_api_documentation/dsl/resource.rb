@@ -42,7 +42,7 @@ module RspecApiDocumentation::DSL
       end
 
       def required_parameters(*names)
-        warn "required_parameters is not longer supported. Please use parameter :name, '', :required => true instead."
+        warn "required_parameters is no longer supported. Please use parameter :name, '', :required => true instead."
 
         names.each do |name|
           param = parameters.find { |param| param[:name] == name.to_s }
@@ -52,6 +52,8 @@ module RspecApiDocumentation::DSL
       end
 
       def scope_parameters(scope, keys)
+        warn "scope_paramters is no longer supported. Please use parameter :name, '', :scope => 'scope' instead."
+
         return unless metadata[:parameters]
 
         if keys == :all
