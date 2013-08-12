@@ -441,6 +441,40 @@ resource "Orders" do
 end
 ```
 
+## Rake Task
+
+The gem contains a Railtie that defines a rake task for generating docs easily with Rails.
+It loads all files in `spec/acceptance/**/*_spec.rb`.
+
+```bash
+$ rake docs:generate
+```
+
+If you are not using Rails, you can use Rake with the following Task:
+
+```ruby
+require 'rspec/core/rake_task'
+
+desc 'Generate API request documentation from API specs'
+  RSpec::Core::RakeTask.new('docs:generate') do |t|
+  t.pattern = 'spec/acceptance/**/*_spec.rb'
+  t.rspec_opts = ["--format RspecApiDocumentation::ApiFormatter"]
+end
+```
+
+or
+
+```ruby
+require 'rspec_api_documentation'
+load 'tasks/docs.rake'
+```
+
+If you are not using Rake:
+
+```bash
+$ rspec spec/acceptance --format RspecApiDocumentation::ApiFormatter
+```
+
 ## Gotchas
 
 - rspec_api_documentation relies on a variable `client` to be the test client. Make sure you don't redefine this variable.
