@@ -101,6 +101,10 @@ RspecApiDocumentation.configure do |config|
   # Change the name of the API on index pages
   config.api_name = "API Documentation"
   
+  # Redefine what method the DSL thinks is the client
+  # This is useful if you need to `let` your own client, most likely a model.
+  config.client_method = :client
+  
   # You can define documentation groups as well. A group allows you generate multiple
   # sets of documentation.
   config.define_group :public do |config|
