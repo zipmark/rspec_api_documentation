@@ -481,5 +481,5 @@ $ rspec spec/acceptance --format RspecApiDocumentation::ApiFormatter
 
 ## Gotchas
 
-- rspec_api_documentation relies on a variable `client` to be the test client. Make sure you don't redefine this variable.
+- rspec_api_documentation relies on a variable `client` to be the test client. If you define your own `client` please configure rspec_api_documentation to use another one, see Configuration above.
 - We make heavy use of RSpec metadata, you can actually use the entire gem without the DSL if you hand write the metadata.
