@@ -58,6 +58,19 @@ module RspecApiDocumentation
     add_setting :keep_source_order, :default => false
     add_setting :api_name, :default => "API Documentation"
 
+    def client_method=(new_client_method)
+      RspecApiDocumentation::DSL::Resource.module_eval <<-RUBY
+        alias :#{new_client_method} #{client_method}
+        undef #{client_method}
+      RUBY
+
+      @client_method = new_client_method
+    end
+
+    def client_method
+      @client_method ||= :client
+    end
+
     def settings
       @settings ||= {}
     end

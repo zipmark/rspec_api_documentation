@@ -7,7 +7,7 @@ module RspecApiDocumentation::DSL
     extend ActiveSupport::Concern
     include Rack::Test::Utils
 
-    delegate :response_headers, :status, :response_status, :response_body, :to => :client
+    delegate :response_headers, :status, :response_status, :response_body, :to => :rspec_api_documentation_client
 
     module ClassMethods
       def example_request(description, params = {}, &block)
@@ -44,7 +44,7 @@ module RspecApiDocumentation::DSL
         params_or_body = respond_to?(:raw_post) ? raw_post : params
       end
 
-      client.send(method, path_or_query, params_or_body, headers)
+      rspec_api_documentation_client.send(method, path_or_query, params_or_body, headers)
     end
 
     def query_string
@@ -101,6 +101,11 @@ module RspecApiDocumentation::DSL
     end
 
     private
+
+    def rspec_api_documentation_client
+      send(RspecApiDocumentation.configuration.client_method)
+    end
+
     def extra_params
       return {} if @extra_params.nil?
       @extra_params.inject({}) do |h, (k, v)|
