@@ -3,13 +3,19 @@ Feature: Generate Textile documentation from test examples
   Background:
     Given a file named "app.rb" with:
       """
-      class App
-        def self.call(env)
-          request = Rack::Request.new(env)
-          response = Rack::Response.new
-          response["Content-Type"] = "application/json"
-          response.write({ "hello" => request.params["target"] }.to_json)
-          response.finish
+      require 'sinatra'
+
+      class App < Sinatra::Base
+        get '/greetings' do
+          content_type :json
+
+          [200, { 'hello' => params[:target] }.to_json ]
+        end
+
+        get '/cucumbers' do
+          content_type :json
+
+          [200, { 'hello' => params[:target] }.to_json ]
         end
       end
       """
@@ -32,7 +38,7 @@ Feature: Generate Textile documentation from test examples
           example "Greeting your favorite gem" do
             do_request :target => "rspec_api_documentation"
 
-            response_headers["Content-Type"].should eq("application/json")
+            response_headers["Content-Type"].should eq("application/json;charset=utf-8")
             status.should eq(200)
             response_body.should eq('{"hello":"rspec_api_documentation"}')
           end
@@ -40,7 +46,7 @@ Feature: Generate Textile documentation from test examples
           example "Greeting nothing" do
             do_request :target => ""
 
-            response_headers["Content-Type"].should eq("application/json")
+            response_headers["Content-Type"].should eq("application/json;charset=utf-8")
             status.should eq(200)
             response_body.should eq('{"hello":""}')
           end
@@ -54,7 +60,7 @@ Feature: Generate Textile documentation from test examples
           example "Eating cucumbers in a bowl" do
             do_request :target => "bowl"
 
-            response_headers["Content-Type"].should eq("application/json")
+            response_headers["Content-Type"].should eq("application/json;charset=utf-8")
             status.should eq(200)
             response_body.should eq('{"hello":"bowl"}')
           end
@@ -131,7 +137,9 @@ Feature: Generate Textile documentation from test examples
 
     h4. Headers
 
-    <pre>Content-Type: application/json
+    <pre>X-Frame-Options: sameorigin
+    X-XSS-Protection: 1; mode=block
+    Content-Type: application/json;charset=utf-8
     Content-Length: 35</pre>
 
     h4. Status
