@@ -6,16 +6,33 @@ Feature: Generate Textile documentation from test examples
       require 'sinatra'
 
       class App < Sinatra::Base
-        get '/greetings' do
+        get '/orders' do
           content_type :json
 
-          [200, { 'hello' => params[:target] }.to_json ]
+          [200, [{ name: 'Order 1', amount: 9.99, description: nil },
+                 { name: 'Order 2', amount: 100.0, description: 'A great order' }].to_json]
         end
 
-        get '/cucumbers' do
+        get '/orders/:id' do
           content_type :json
 
-          [200, { 'hello' => params[:target] }.to_json ]
+          [200, { order: { name: 'Order 1', amount: 100.0, description: 'A great order' } }.to_json]
+        end
+
+        post '/orders' do
+          201
+        end
+
+        put '/orders/:id' do
+          200
+        end
+
+        delete '/orders/:id' do
+          200
+        end
+
+        get '/help' do
+          [200, 'Welcome Henry !']
         end
       end
       """
@@ -30,41 +47,71 @@ Feature: Generate Textile documentation from test examples
         config.format = :textile
       end
 
-      resource "Greetings" do
-        get "/greetings" do
-          parameter :target, "The thing you want to greet"
-          required_parameters :target
+      resource 'Orders' do
+        get '/orders' do
 
-          example "Greeting your favorite gem" do
-            do_request :target => "rspec_api_documentation"
-
-            response_headers["Content-Type"].should eq("application/json;charset=utf-8")
+          example_request 'Getting a list of orders' do
             status.should eq(200)
-            response_body.should eq('{"hello":"rspec_api_documentation"}')
+            response_body.should eq('[{"name":"Order 1","amount":9.99,"description":null},{"name":"Order 2","amount":100.0,"description":"A great order"}]')
           end
+        end
 
-          example "Greeting nothing" do
-            do_request :target => ""
+        get '/orders/:id' do
+          let(:id) { 1 }
 
-            response_headers["Content-Type"].should eq("application/json;charset=utf-8")
+          example_request 'Getting a specific order' do
             status.should eq(200)
-            response_body.should eq('{"hello":""}')
+            response_body.should == '{"order":{"name":"Order 1","amount":100.0,"description":"A great order"}}'
+          end
+        end
+
+        post '/orders' do
+          parameter :name, 'Name of order'
+          parameter :amount, 'Amount paid'
+          parameter :description, 'Some comments on the order'
+
+          required_parameters :name, :amount
+
+          let(:name) { "Order 3" }
+          let(:amount) { 33.0 }
+
+          example_request 'Creating an order' do
+            status.should == 201
+          end
+        end
+
+        put '/orders/:id' do
+          parameter :name, 'Name of order'
+          parameter :amount, 'Amount paid'
+          parameter :description, 'Some comments on the order'
+
+          required_parameters :name, :amount
+
+          let(:id) { 2 }
+          let(:name) { "Updated name" }
+
+          example_request 'Updating an order' do
+            status.should == 200
+          end
+        end
+
+        delete "/orders/:id" do
+          let(:id) { 1 }
+
+          example_request "Deleting an order" do
+            status.should == 200
           end
         end
       end
 
-      resource "Cucumbers" do
-        get "/cucumbers" do
-          parameter :target, "The thing in which you want to eat cucumbers"
-
-          example "Eating cucumbers in a bowl" do
-            do_request :target => "bowl"
-
-            response_headers["Content-Type"].should eq("application/json;charset=utf-8")
+      resource 'Help' do
+        get '/help' do
+          example_request 'Getting welcome message' do
             status.should eq(200)
-            response_body.should eq('{"hello":"bowl"}')
+            response_body.should == 'Welcome Henry !'
           end
         end
+
       end
       """
     When  I run `rspec app_spec.rb --require ./app.rb --format RspecApiDocumentation::ApiFormatter`
@@ -73,15 +120,22 @@ Feature: Generate Textile documentation from test examples
     Then  the output should contain:
       """
       Generating API Docs
-        Greetings
-        GET /greetings
-          * Greeting your favorite gem
-          * Greeting nothing
-        Cucumbers
-        GET /cucumbers
-          * Eating cucumbers in a bowl
+        Orders
+        GET /orders
+          * Getting a list of orders
+        GET /orders/:id
+          * Getting a specific order
+        POST /orders
+          * Creating an order
+        PUT /orders/:id
+          * Updating an order
+        DELETE /orders/:id
+          * Deleting an order
+        Help
+        GET /help
+          * Getting welcome message
       """
-    And   the output should contain "3 examples, 0 failures"
+    And   the output should contain "6 examples, 0 failures"
     And   the exit status should be 0
 
   Scenario: Index file should look like we expect
