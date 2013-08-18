@@ -143,14 +143,17 @@ Feature: Generate Textile documentation from test examples
     """
     h1. Example API
 
-    h2. Cucumbers
+    h2. Help
 
-    * Eating cucumbers in a bowl
+    * Getting welcome message
 
-    h2. Greetings
+    h2. Orders
 
-    * Greeting nothing
-    * Greeting your favorite gem
+    * Creating an order
+    * Deleting an order
+    * Getting a list of orders
+    * Getting a specific order
+    * Updating an order
 
 
     """
