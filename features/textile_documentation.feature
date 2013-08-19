@@ -158,36 +158,43 @@ Feature: Generate Textile documentation from test examples
 
     """
 
-  Scenario: Example 'Greeting your favorite gem' file should look like we expect
-    Then the file "docs/greetings/greeting_your_favorite_gem.textile" should contain exactly:
+  Scenario: Example 'Creating an order' file should look like we expect
+    Then the file "docs/orders/creating_an_order.textile" should contain exactly:
     """
-    h1. Greetings API
+    h1. Orders API
 
-    h2. Greeting your favorite gem
+    h2. Creating an order
 
-    h3. GET /greetings
+    h3. POST /orders
 
 
     h3. Parameters
 
-    Name : target  *- required -*
-    Description : The thing you want to greet
+    Name : name  *- required -*
+    Description : Name of order
+
+    Name : amount  *- required -*
+    Description : Amount paid
+
+    Name : description 
+    Description : Some comments on the order
 
     h3. Request
 
     h4. Headers
 
     <pre>Host: example.org
+    Content-Type: application/x-www-form-urlencoded
     Cookie: </pre>
 
     h4. Route
 
-    <pre>GET /greetings?target=rspec_api_documentation</pre>
+    <pre>POST /orders</pre>
 
-    h4. Query Parameters
 
-    <pre>target: rspec_api_documentation</pre>
+    h4. Body
 
+    <pre>name=Order+3&amount=33.0</pre>
 
 
     h3. Response
@@ -196,16 +203,13 @@ Feature: Generate Textile documentation from test examples
 
     <pre>X-Frame-Options: sameorigin
     X-XSS-Protection: 1; mode=block
-    Content-Type: application/json;charset=utf-8
-    Content-Length: 35</pre>
+    Content-Type: text/html;charset=utf-8
+    Content-Length: 0</pre>
 
     h4. Status
 
-    <pre>200 OK</pre>
+    <pre>201 Created</pre>
 
-    h4. Body
-
-    <pre>{"hello":"rspec_api_documentation"}</pre>
 
 
 
