@@ -215,19 +215,19 @@ Feature: Generate Textile documentation from test examples
 
     """
 
-  Scenario: Example 'Deleting an order' file should exist
-    Then the file "docs/orders/deleting_an_order.textile" should exist
+  Scenario: Example 'Deleting an order' file should be created
+    Then a file named "docs/orders/deleting_an_order.textile" should exist
 
-  Scenario: Example 'Getting a list of orders' file should exist
-    Then the file "docs/orders/getting_a_list_of_orders.textile" should exist
+  Scenario: Example 'Getting a list of orders' file should be created
+    Then a file named "docs/orders/getting_a_list_of_orders.textile" should exist
 
-  Scenario: Example 'Getting a specific order' file should exist
-    Then the file "docs/orders/getting_a_specific_order.textile" should exist
+  Scenario: Example 'Getting a specific order' file should be created
+    Then a file named "docs/orders/getting_a_specific_order.textile" should exist
 
-  Scenario: Example 'Updating an order' file should exist
-    Then the file "docs/orders/updating_an_order.textile" should exist
+  Scenario: Example 'Updating an order' file should be created
+    Then a file named "docs/orders/updating_an_order.textile" should exist
 
-  Scenario: Example 'Getting welcome message' file should exist
-    Then the file "docs/help/getting_welcome_message.textile" should exist
+  Scenario: Example 'Getting welcome message' file should be created
+    Then a file named "docs/help/getting_welcome_message.textile" should exist
 
 
