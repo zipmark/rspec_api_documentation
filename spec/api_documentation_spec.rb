@@ -60,14 +60,16 @@ describe RspecApiDocumentation::ApiDocumentation do
   describe "#writers" do
     class RspecApiDocumentation::Writers::HtmlWriter; end
     class RspecApiDocumentation::Writers::JsonWriter; end
+    class RspecApiDocumentation::Writers::TextileWriter; end
 
     context "multiple" do
       before do
-        configuration.format = [:html, :json]
+        configuration.format = [:html, :json, :textile]
       end
 
       it "should return the classes from format" do
-        subject.writers.should == [RspecApiDocumentation::Writers::HtmlWriter, RspecApiDocumentation::Writers::JsonWriter]
+        subject.writers.should == [RspecApiDocumentation::Writers::HtmlWriter, RspecApiDocumentation::Writers::JsonWriter,
+                                   RspecApiDocumentation::Writers::TextileWriter]
       end
     end
 
@@ -85,14 +87,16 @@ describe RspecApiDocumentation::ApiDocumentation do
   describe "#write" do
     let(:html_writer) { stub }
     let(:json_writer) { stub }
+    let(:textile_writer) { stub }
 
     before do
-      subject.stub!(:writers => [html_writer, json_writer])
+      subject.stub!(:writers => [html_writer, json_writer, textile_writer])
     end
 
     it "should write the docs in each format" do
       html_writer.should_receive(:write).with(subject.index, configuration)
       json_writer.should_receive(:write).with(subject.index, configuration)
+      textile_writer.should_receive(:write).with(subject.index, configuration)
       subject.write
     end
   end
