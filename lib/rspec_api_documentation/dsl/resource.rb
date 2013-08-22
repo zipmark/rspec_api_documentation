@@ -52,7 +52,7 @@ module RspecApiDocumentation::DSL
       end
 
       def scope_parameters(scope, keys)
-        warn "scope_paramters is no longer supported. Please use parameter :name, '', :scope => 'scope' instead."
+        warn "scope_parameters is no longer supported. Please use parameter :name, '', :scope => 'scope' instead."
 
         return unless metadata[:parameters]
 
