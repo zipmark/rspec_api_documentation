@@ -41,33 +41,6 @@ module RspecApiDocumentation::DSL
         headers[name] = value
       end
 
-      def required_parameters(*names)
-        warn "required_parameters is no longer supported. Please use parameter :name, '', :required => true instead."
-
-        names.each do |name|
-          param = parameters.find { |param| param[:name] == name.to_s }
-          raise "Undefined parameters can not be required." unless param
-          param[:required] = true
-        end
-      end
-
-      def scope_parameters(scope, keys)
-        warn "scope_parameters is no longer supported. Please use parameter :name, '', :scope => 'scope' instead."
-
-        return unless metadata[:parameters]
-
-        if keys == :all
-          keys = parameter_keys.map(&:to_s)
-        else
-          keys = keys.map(&:to_s)
-        end
-
-        keys.each do |key|
-          param = parameters.detect { |param| param[:name] == key }
-          param[:scope] = scope if param
-        end
-      end
-
       private
       def parameters
         metadata[:parameters] ||= []

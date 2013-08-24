@@ -53,46 +53,10 @@ resource "Order" do
     end
   end
 
-  context "required_parameters" do
-    parameter :type, "The type of drink you want."
-    parameter :size, "The size of drink you want."
-    parameter :note, "Any additional notes about your order."
-
-    subject { example.metadata }
-
-    post "/orders" do
-      required_parameters :type, :size
-
-      it "should have type and size required" do
-        subject[:parameters].should eq(
-          [
-            { :name => "type", :description => "The type of drink you want.", :required => true },
-            { :name => "size", :description => "The size of drink you want.", :required => true },
-            { :name => "note", :description => "Any additional notes about your order." }
-          ]
-        )
-      end
-    end
-
-    get "/orders" do
-      it "should not have type and size required" do
-        subject[:parameters].should eq(
-          [
-            { :name => "type", :description => "The type of drink you want." },
-            { :name => "size", :description => "The size of drink you want." },
-            { :name => "note", :description => "Any additional notes about your order." }
-          ]
-        )
-      end
-    end
-  end
-
   post "/orders" do
-    parameter :type, "The type of drink you want."
-    parameter :size, "The size of drink you want."
+    parameter :type, "The type of drink you want.", :required => true
+    parameter :size, "The size of drink you want.", :required => true
     parameter :note, "Any additional notes about your order."
-
-    required_parameters :type, :size
 
     let(:type) { "coffee" }
     let(:size) { "medium" }
@@ -123,11 +87,9 @@ resource "Order" do
   end
 
   put "/orders/:id" do
-    parameter :type, "The type of drink you want."
-    parameter :size, "The size of drink you want."
+    parameter :type, "The type of drink you want.", :required => true
+    parameter :size, "The size of drink you want.", :required => true
     parameter :note, "Any additional notes about your order."
-
-    required_parameters :type, :size
 
     let(:type) { "coffee" }
     let(:size) { "medium" }
@@ -326,61 +288,6 @@ resource "Order" do
     end
   end
 
-  context "#scope_parameters" do
-    post "/orders" do
-      let(:api_key) { "1234" }
-      let(:name) { "Order 5" }
-      let(:size) { 5 }
-
-      context "parameters except scope" do
-        parameter :type, "Order type", :scope => :order
-
-        it "should save the scope" do
-          param = example.metadata[:parameters].detect { |param| param[:name] == "type" }
-          param[:scope].should == :order
-        end
-      end
-
-      context "certain parameters" do
-        parameter :api_key, "API Key"
-        parameter :name, "Order name"
-        parameter :size, "Size of order"
-
-        scope_parameters :order, [:name, :size]
-
-        it 'should set the scope on listed parameters' do
-          param = example.metadata[:parameters].detect { |param| param[:name] == "name" }
-          param[:scope].should == :order
-        end
-
-        it 'parameters should be scoped appropriately' do
-          params.should == { "api_key" => api_key, "order" => { "name" => name, "size" => size } }
-        end
-      end
-
-      context "all parameters" do
-        parameter :api_key, "API Key"
-        parameter :name, "Order name"
-        parameter :size, "Size of order"
-
-        scope_parameters :order, :all
-
-        it "should scope all parameters under order" do
-          params.should == { "order" => { "api_key" => api_key, "name" => name, "size" => size } }
-        end
-      end
-
-      context "param does not exist" do
-        it "should not raise exceptions" do
-          expect {
-            self.class.scope_parameters :order, [:not_there]
-            self.class.scope_parameters :order, :all
-          }.to_not raise_error
-        end
-      end
-    end
-  end
-
   context "#explanation" do
     post "/orders" do
       example "Creating an order" do
@@ -406,10 +313,9 @@ resource "Order" do
       end
 
       context "with a deep nested parameter, including Hashes and Arrays" do
-        parameter :within_id, "Fancy search condition"
+        parameter :within_id, "Fancy search condition", :scope => :search
 
         let(:within_id) { {"first" => 1, "last" => 10, "exclude" => [3,5,7]} }
-        scope_parameters :search, :all
 
         example "parsed properly" do
           client.should_receive(:get).with do |path, data, headers|
