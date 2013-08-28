@@ -57,6 +57,7 @@ module RspecApiDocumentation
     add_setting :curl_host, :default => nil
     add_setting :keep_source_order, :default => false
     add_setting :api_name, :default => "API Documentation"
+    add_setting :io_docs_protocol, :default => "http"
 
     def client_method=(new_client_method)
       RspecApiDocumentation::DSL::Resource.module_eval <<-RUBY

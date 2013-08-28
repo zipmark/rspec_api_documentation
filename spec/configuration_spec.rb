@@ -52,6 +52,7 @@ describe RspecApiDocumentation::Configuration do
     its(:keep_source_order) { should be_false }
     its(:api_name) { should == "API Documentation" }
     its(:client_method) { should == :client }
+    its(:io_docs_protocol) { should == "http" }
   end
 
   describe "#define_groups" do

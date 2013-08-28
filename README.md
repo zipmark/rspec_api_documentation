@@ -104,6 +104,9 @@ RspecApiDocumentation.configure do |config|
   # Redefine what method the DSL thinks is the client
   # This is useful if you need to `let` your own client, most likely a model.
   config.client_method = :client
+
+  # Change the IODocs writer protocol
+  config.io_docs_protocol = "http"
   
   # You can define documentation groups as well. A group allows you generate multiple
   # sets of documentation.

@@ -25,6 +25,7 @@ Feature: Json Iodocs
         config.app = App
         config.api_name = "app"
         config.format = :json_iodocs
+        config.io_docs_protocol = "https"
       end
 
       resource "Greetings" do
@@ -64,6 +65,17 @@ Feature: Json Iodocs
     And   the exit status should be 0
 
   Scenario: File should look like we expect
+    Then the file "doc/api/apiconfig.json" should contain JSON exactly like:
+    """
+    {
+      "app" : {
+        "name" : "app",
+        "protocol" : "https",
+        "publicPath" : "",
+        "baseURL" : null
+      }
+    }
+    """
     Then the file "doc/api/app.json" should contain JSON exactly like:
     """
       {
