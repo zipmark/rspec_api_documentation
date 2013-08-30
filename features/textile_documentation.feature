@@ -66,11 +66,9 @@ Feature: Generate Textile documentation from test examples
         end
 
         post '/orders' do
-          parameter :name, 'Name of order'
-          parameter :amount, 'Amount paid'
+          parameter :name, 'Name of order', :required => true
+          parameter :amount, 'Amount paid', :required => true
           parameter :description, 'Some comments on the order'
-
-          required_parameters :name, :amount
 
           let(:name) { "Order 3" }
           let(:amount) { 33.0 }
@@ -81,11 +79,9 @@ Feature: Generate Textile documentation from test examples
         end
 
         put '/orders/:id' do
-          parameter :name, 'Name of order'
-          parameter :amount, 'Amount paid'
+          parameter :name, 'Name of order', :required => true
+          parameter :amount, 'Amount paid', :required => true
           parameter :description, 'Some comments on the order'
-
-          required_parameters :name, :amount
 
           let(:id) { 2 }
           let(:name) { "Updated name" }
@@ -139,7 +135,7 @@ Feature: Generate Textile documentation from test examples
     And   the exit status should be 0
 
   Scenario: Index file should look like we expect
-    Then the file "docs/index.textile" should contain exactly:
+    Then the file "doc/api/index.textile" should contain exactly:
     """
     h1. Example API
 
@@ -159,7 +155,7 @@ Feature: Generate Textile documentation from test examples
     """
 
   Scenario: Example 'Creating an order' file should look like we expect
-    Then the file "docs/orders/creating_an_order.textile" should contain exactly:
+    Then the file "doc/api/orders/creating_an_order.textile" should contain exactly:
     """
     h1. Orders API
 
@@ -216,18 +212,18 @@ Feature: Generate Textile documentation from test examples
     """
 
   Scenario: Example 'Deleting an order' file should be created
-    Then a file named "docs/orders/deleting_an_order.textile" should exist
+    Then a file named "doc/api/orders/deleting_an_order.textile" should exist
 
   Scenario: Example 'Getting a list of orders' file should be created
-    Then a file named "docs/orders/getting_a_list_of_orders.textile" should exist
+    Then a file named "doc/api/orders/getting_a_list_of_orders.textile" should exist
 
   Scenario: Example 'Getting a specific order' file should be created
-    Then a file named "docs/orders/getting_a_specific_order.textile" should exist
+    Then a file named "doc/api/orders/getting_a_specific_order.textile" should exist
 
   Scenario: Example 'Updating an order' file should be created
-    Then a file named "docs/orders/updating_an_order.textile" should exist
+    Then a file named "doc/api/orders/updating_an_order.textile" should exist
 
   Scenario: Example 'Getting welcome message' file should be created
-    Then a file named "docs/help/getting_welcome_message.textile" should exist
+    Then a file named "doc/api/help/getting_welcome_message.textile" should exist
 
 
