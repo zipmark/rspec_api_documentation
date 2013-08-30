@@ -28,12 +28,25 @@ module RspecApiDocumentation
   module Writers
     extend ActiveSupport::Autoload
 
+    autoload :GeneralMarkupWriter
     autoload :HtmlWriter
+    autoload :TextileWriter
     autoload :JsonWriter
     autoload :JsonIodocsWriter
     autoload :IndexWriter
     autoload :CombinedTextWriter
     autoload :CombinedJsonWriter
+  end
+
+  module Views
+    extend ActiveSupport::Autoload
+
+    autoload :MarkupIndex
+    autoload :MarkupExample
+    autoload :HtmlIndex
+    autoload :HtmlExample
+    autoload :TextileIndex
+    autoload :TextileExample
   end
 
   def self.configuration
