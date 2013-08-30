@@ -6,7 +6,7 @@ describe RspecApiDocumentation::Index do
   subject { index }
 
   describe "#examples" do
-    let(:examples) { [stub, stub] }
+    let(:examples) { [double(:example), double(:example)] }
 
     before do
       index.examples.push(*examples)

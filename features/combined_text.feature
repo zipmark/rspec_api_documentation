@@ -68,7 +68,7 @@ Feature: Combined text
     And   the exit status should be 0
 
   Scenario: File should look like we expect
-    Then the file "docs/greetings/index.txt" should contain exactly:
+    Then the file "doc/api/greetings/index.txt" should contain exactly:
     """
     Greeting your favorite gem
     --------------------------
