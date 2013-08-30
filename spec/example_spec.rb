@@ -133,13 +133,13 @@ describe RspecApiDocumentation::Example do
     subject { example.has_parameters? }
 
     context "when parameters are defined" do
-      before { example.stub!(:parameters).and_return([stub]) }
+      before { example.stub(:parameters).and_return([double]) }
 
       it { should be_true }
     end
 
     context "when parameters are empty" do
-      before { example.stub!(:parameters).and_return([]) }
+      before { example.stub(:parameters).and_return([]) }
 
       it { should be_false }
     end

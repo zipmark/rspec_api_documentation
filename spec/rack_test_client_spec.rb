@@ -30,7 +30,7 @@ class StubApp < Sinatra::Base
 end
 
 describe RspecApiDocumentation::RackTestClient do
-  let(:context) { stub(:app => StubApp, :example => example) }
+  let(:context) { double(:app => StubApp, :example => example) }
   let(:test_client) { RspecApiDocumentation::RackTestClient.new(context, {}) }
 
   subject { test_client }

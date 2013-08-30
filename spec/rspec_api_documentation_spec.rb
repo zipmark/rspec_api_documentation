@@ -12,10 +12,10 @@ describe RspecApiDocumentation do
   end
 
   describe "#configure" do
-    let(:configuration) { stub }
+    let(:configuration) { double(:confiugration) }
 
     before do
-      RspecApiDocumentation.stub!(:configuration).and_return(configuration)
+      RspecApiDocumentation.stub(:configuration).and_return(configuration)
     end
 
     it "should yield the configuration to the block" do

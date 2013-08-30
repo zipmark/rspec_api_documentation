@@ -33,16 +33,16 @@ describe RspecApiDocumentation::Configuration do
 
     context "when Rails is defined" do
       let(:rails_root) { Pathname.new("tmp") }
-      let(:rails_app) { stub }
+      let(:rails_app) { double(:rails_app) }
 
-      before { Rails = stub(:application => rails_app, :root => rails_root) }
+      before { Rails = double(:application => rails_app, :root => rails_root) }
       after { Object.send(:remove_const, :Rails) }
 
-      its(:docs_dir) { should == rails_root.join("docs") }
+      its(:docs_dir) { should == rails_root.join("doc", "api") }
       its(:app) { should == rails_app }
     end
 
-    its(:docs_dir) { should == Pathname.new("docs") }
+    its(:docs_dir) { should == Pathname.new("doc/api") }
     its(:format) { should == :html }
     its(:template_path) { should == default_template_path }
     its(:filter) { should == :all }
@@ -51,6 +51,8 @@ describe RspecApiDocumentation::Configuration do
     its(:curl_host) { should be_nil }
     its(:keep_source_order) { should be_false }
     its(:api_name) { should == "API Documentation" }
+    its(:client_method) { should == :client }
+    its(:io_docs_protocol) { should == "http" }
   end
 
   describe "#define_groups" do

@@ -36,9 +36,9 @@ module RspecApiDocumentation
 
     add_setting :docs_dir, :default => lambda { |config|
       if defined?(Rails)
-        Rails.root.join("docs")
+        Rails.root.join("doc", "api")
       else
-        Pathname.new("docs")
+        Pathname.new("doc/api")
       end
     }
 
@@ -57,6 +57,20 @@ module RspecApiDocumentation
     add_setting :curl_host, :default => nil
     add_setting :keep_source_order, :default => false
     add_setting :api_name, :default => "API Documentation"
+    add_setting :io_docs_protocol, :default => "http"
+
+    def client_method=(new_client_method)
+      RspecApiDocumentation::DSL::Resource.module_eval <<-RUBY
+        alias :#{new_client_method} #{client_method}
+        undef #{client_method}
+      RUBY
+
+      @client_method = new_client_method
+    end
+
+    def client_method
+      @client_method ||= :client
+    end
 
     def settings
       @settings ||= {}

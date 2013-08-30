@@ -31,19 +31,15 @@ resource "Orders" do
   end
 
   post "/orders" do
-    parameter :name, "Name of order"
-    parameter :paid, "If the order has been paid for"
-    parameter :email, "Email of user that placed the order"
-
-    required_parameters :name, :paid
+    parameter :name, "Name of order", :required => true, :scope => :order
+    parameter :paid, "If the order has been paid for", :required => true, :scope => :order
+    parameter :email, "Email of user that placed the order", :scope => :order
 
     let(:name) { "Order 1" }
     let(:paid) { true }
     let(:email) { "email@example.com" }
 
     let(:raw_post) { params.to_json }
-
-    scope_parameters :order, :all
 
     example_request "Creating an order" do
       explanation "First, create an order, then make a later request to get it back"
@@ -71,10 +67,9 @@ resource "Orders" do
   end
 
   put "/orders/:id" do
-    parameter :name, "Name of order"
-    parameter :paid, "If the order has been paid for"
-    parameter :email, "Email of user that placed the order"
-    scope_parameters :order, :all
+    parameter :name, "Name of order", :scope => :order
+    parameter :paid, "If the order has been paid for", :scope => :order
+    parameter :email, "Email of user that placed the order", :scope => :order
 
     let(:id) { order.id }
     let(:name) { "Updated Name" }
