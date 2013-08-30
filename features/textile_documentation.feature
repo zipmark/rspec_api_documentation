@@ -141,15 +141,15 @@ Feature: Generate Textile documentation from test examples
 
     h2. Help
 
-    * Getting welcome message
+    * "Getting welcome message":help/getting_welcome_message.textile
 
     h2. Orders
 
-    * Creating an order
-    * Deleting an order
-    * Getting a list of orders
-    * Getting a specific order
-    * Updating an order
+    * "Creating an order":orders/creating_an_order.textile
+    * "Deleting an order":orders/deleting_an_order.textile
+    * "Getting a list of orders":orders/getting_a_list_of_orders.textile
+    * "Getting a specific order":orders/getting_a_specific_order.textile
+    * "Updating an order":orders/updating_an_order.textile
 
 
     """
