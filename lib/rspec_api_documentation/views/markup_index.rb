@@ -16,10 +16,6 @@ module RspecApiDocumentation
       def sections
         RspecApiDocumentation::Writers::IndexWriter.sections(examples, @configuration)
       end
-
-      def examples
-        @index.examples.map { |example| HtmlExample.new(example, @configuration) }
-      end
     end
   end
 end
