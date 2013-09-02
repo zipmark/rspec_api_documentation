@@ -357,6 +357,18 @@ resource "Order" do
     end
   end
 
+  context "request with only extra params" do
+    post "/orders" do
+      context "extra options for do_request" do
+        before do
+          client.should_receive(:post).with("/orders", {"order_type" => "big"}, nil)
+        end
+
+        example_request "should take an optional parameter hash", :order_type => "big"
+      end
+    end
+  end
+
   context "last_response helpers" do
     put "/orders" do
       it "status" do
