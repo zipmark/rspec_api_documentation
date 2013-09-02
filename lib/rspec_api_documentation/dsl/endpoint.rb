@@ -52,8 +52,7 @@ module RspecApiDocumentation::DSL
     end
 
     def params
-      return unless example.metadata[:parameters]
-      parameters = example.metadata[:parameters].inject({}) do |hash, param|
+      parameters = example.metadata.fetch(:parameters, {}).inject({}) do |hash, param|
         set_param(hash, param)
       end
       parameters.merge!(extra_params)
