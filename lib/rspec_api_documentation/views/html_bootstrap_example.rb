@@ -7,7 +7,7 @@ module RspecApiDocumentation
       def initialize(example, configuration)
         super
         self.template_name = "rspec_api_documentation/html_bootstrap_example"
-        @bootstrap_css_url = configuration.boostrap_css_url
+        @bootstrap_css_url = configuration.bootstrap_css_url
       end
 
       def requests

@@ -7,7 +7,7 @@ module RspecApiDocumentation
       def initialize(index, configuration)
         super
         self.template_name = "rspec_api_documentation/html_bootstrap_index"
-        @bootstrap_css_url = configuration.boostrap_css_url
+        @bootstrap_css_url = configuration.bootstrap_css_url
       end
     end
   end
