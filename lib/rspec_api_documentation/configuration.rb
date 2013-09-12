@@ -58,6 +58,7 @@ module RspecApiDocumentation
     add_setting :keep_source_order, :default => false
     add_setting :api_name, :default => "API Documentation"
     add_setting :io_docs_protocol, :default => "http"
+    add_setting :boostrap_css_url, :default => "http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
 
     def client_method=(new_client_method)
       RspecApiDocumentation::DSL::Resource.module_eval <<-RUBY

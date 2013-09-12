@@ -30,6 +30,7 @@ module RspecApiDocumentation
 
     autoload :GeneralMarkupWriter
     autoload :HtmlWriter
+    autoload :HtmlBootstrapWriter
     autoload :TextileWriter
     autoload :JsonWriter
     autoload :JsonIodocsWriter
@@ -45,6 +46,8 @@ module RspecApiDocumentation
     autoload :MarkupExample
     autoload :HtmlIndex
     autoload :HtmlExample
+    autoload :HtmlBootstrapIndex
+    autoload :HtmlBootstrapExample
     autoload :TextileIndex
     autoload :TextileExample
   end
