@@ -18,7 +18,7 @@ module RspecApiDocumentation
       end
 
       def dirname
-        resource_name.downcase.gsub(/\s+/, '_')
+        resource_name.downcase.gsub(/[^0-9A-Za-z.\-]+/, '_')
       end
       
       def filename
