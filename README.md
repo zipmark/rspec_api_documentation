@@ -274,6 +274,25 @@ resource "Orders" do
 end
 ```
 
+#### header
+
+This method takes the header name and value. The value can be a string or a symbol. If it is a symbol it will `send` the symbol, allowing you to `let` header values.
+
+```ruby
+resource "Orders" do
+  header "Accept", "application/json"
+  header "X-Custom", :custom_header
+
+  let(:custom_header) { "dynamic" }
+
+  get "/orders" do
+    example_request "Headers" do
+      headers.should == { "Accept" => "application/json", "X-Custom" => "dynamic" }
+    end
+  end
+end
+```
+
 #### parameter
 
 This method takes the parameter name, a description, and an optional hash of extra metadata that can be displayed in Raddocs as extra columns. If a method with the parameter name exists, e.g. a `let`, it will send the returned value up to the server as URL encoded data. 
@@ -380,6 +399,28 @@ end
 #### params
 
 Get a hash of parameters that will be sent. See `parameter` documentation for an example.
+
+#### header
+
+This method takes the header name and value.
+
+```ruby
+resource "Orders" do
+  before do
+    header "Accept", "application/json"
+  end
+
+  get "/orders" do
+    example_request "Headers" do
+      headers.should == { "Accept" => "application/json" }
+    end
+  end
+end
+```
+
+#### headers
+
+This returns the headers that were sent as the request. See `header` documentation for an example.
 
 #### response_body
 
