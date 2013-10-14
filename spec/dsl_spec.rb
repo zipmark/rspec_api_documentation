@@ -401,6 +401,19 @@ resource "Order" do
     end
 
     put "/orders" do
+      context "setting header in example level" do
+        before do
+          header "Accept", "application/json"
+          header "Content-Type", "application/json"
+        end
+
+        it "adds to headers" do
+          headers.should == { "Accept" => "application/json", "Content-Type" => "application/json" }
+        end
+      end
+    end
+
+    put "/orders" do
       header "Accept", :accept
 
       let(:accept) { "application/json" }

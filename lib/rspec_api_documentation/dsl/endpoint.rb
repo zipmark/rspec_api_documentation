@@ -59,6 +59,11 @@ module RspecApiDocumentation::DSL
       parameters
     end
 
+    def header(name, value)
+      example.metadata[:headers] ||= {}
+      example.metadata[:headers][name] = value
+    end
+
     def headers
       return unless example.metadata[:headers]
       example.metadata[:headers].inject({}) do |hash, (header, value)|
