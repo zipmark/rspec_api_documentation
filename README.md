@@ -47,10 +47,12 @@ Generate the docs!
     $ rake docs:generate
     $ open doc/api/index.html
 
-### Raddocs
+### Viewers
 
-Also consider adding [Raddocs](http://github.com/smartlogic/raddocs/) as a viewer. It has much better HTML output than
-rspec_api_documentation.
+Consider adding a viewer to enhance the generated documentation. By itself rspec_api_documentation will generate very simple HTML. All viewers use the generated JSON.
+
+* [Raddocs](http://github.com/smartlogic/raddocs/) - Sinatra app
+* [Apitome](https://github.com/modeset/apitome) - Rails engine
 
 #### Gemfile
 
