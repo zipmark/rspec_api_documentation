@@ -10,10 +10,9 @@ module RspecApiDocumentation
     end
 
     def clear_docs
-      if File.exists?(docs_dir)
-        FileUtils.rm_rf(docs_dir, :secure => true)
+      writers.each do |writer|
+        writer.clear_docs(docs_dir)
       end
-      FileUtils.mkdir_p(docs_dir)
     end
 
     def document_example(rspec_example)

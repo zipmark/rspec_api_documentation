@@ -1,6 +1,6 @@
 module RspecApiDocumentation
   module Writers
-    class CombinedTextWriter
+    class CombinedTextWriter < Writer
       def self.write(index, configuration)
         index.examples.each do |rspec_example|
           example = CombinedTextExample.new(rspec_example)

@@ -1,20 +1,8 @@
 module RspecApiDocumentation
   module Writers
-    class GeneralMarkupWriter
-      attr_accessor :index, :configuration
-
+    class GeneralMarkupWriter < Writer
       INDEX_FILE_NAME = 'index'
-      
-      def initialize(index, configuration)
-        self.index = index
-        self.configuration = configuration
-      end
 
-      def self.write(index, configuration)
-        writer = new(index, configuration)
-        writer.write
-      end
-      
       def write
         File.open(configuration.docs_dir.join(index_file_name + '.' + extension), "w+") do |f|
           f.write markup_index_class.new(index, configuration).render

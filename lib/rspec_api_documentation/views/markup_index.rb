@@ -14,7 +14,7 @@ module RspecApiDocumentation
       end
 
       def sections
-        RspecApiDocumentation::Writers::IndexWriter.sections(examples, @configuration)
+        RspecApiDocumentation::Writers::IndexHelper.sections(examples, @configuration)
       end
     end
   end

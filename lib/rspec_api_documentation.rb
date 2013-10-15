@@ -28,12 +28,14 @@ module RspecApiDocumentation
   module Writers
     extend ActiveSupport::Autoload
 
+    autoload :Writer
     autoload :GeneralMarkupWriter
     autoload :HtmlWriter
     autoload :TextileWriter
     autoload :JsonWriter
+    autoload :AppendJsonWriter
     autoload :JsonIodocsWriter
-    autoload :IndexWriter
+    autoload :IndexHelper
     autoload :CombinedTextWriter
     autoload :CombinedJsonWriter
   end
