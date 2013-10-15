@@ -4,7 +4,7 @@ require 'spec_helper'
 describe RspecApiDocumentation::Writers::TextileWriter do
   let(:index) { RspecApiDocumentation::Index.new }
   let(:configuration) { RspecApiDocumentation::Configuration.new }
-  
+
   describe ".write" do
     let(:writer) { double(:writer) }
 
@@ -14,7 +14,7 @@ describe RspecApiDocumentation::Writers::TextileWriter do
       described_class.write(index, configuration)
     end
   end
-  
+
   describe "#write" do
     let(:writer) { described_class.new(index, configuration) }
 

@@ -33,7 +33,7 @@ describe RspecApiDocumentation::Writers::CombinedTextExample do
 
   context "when there are requests" do
     let(:requests) {[
-      { 
+      {
         :request_method => "GET",
         :request_path => "/greetings",
         :request_headers => { "Header" => "value" },
@@ -43,7 +43,7 @@ describe RspecApiDocumentation::Writers::CombinedTextExample do
         :response_headers => { "Header" => "value", "Foo" => "bar" },
         :response_body => "body"
       },
-      { 
+      {
         :request_method => "POST",
         :request_path => "/greetings",
         :request_body => "body",
@@ -52,7 +52,7 @@ describe RspecApiDocumentation::Writers::CombinedTextExample do
         :response_headers => { "Header" => "value" },
         :response_body => "body"
       },
-      { 
+      {
         :request_method => "DELETE",
         :request_path => "/greetings/1",
         :response_status => 200,

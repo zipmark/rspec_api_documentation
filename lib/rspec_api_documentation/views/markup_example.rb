@@ -8,7 +8,7 @@ module RspecApiDocumentation
         @host = configuration.curl_host
         self.template_path = configuration.template_path
       end
-      
+
       def method_missing(method, *args, &block)
         @example.send(method, *args, &block)
       end
@@ -20,13 +20,13 @@ module RspecApiDocumentation
       def dirname
         resource_name.downcase.gsub(/\s+/, '_')
       end
-      
+
       def filename
         basename = description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '')
         basename = Digest::MD5.new.update(description).to_s if basename.blank?
         "#{basename}.#{extension}"
       end
-      
+
       def requests
         super.map do |hash|
           hash[:request_headers_text] = format_hash(hash[:request_headers])
@@ -40,7 +40,7 @@ module RspecApiDocumentation
           hash
         end
       end
-      
+
       def extension
         raise 'Parent class. This method should not be called.'
       end

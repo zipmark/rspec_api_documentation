@@ -4,7 +4,7 @@ module RspecApiDocumentation
       attr_accessor :index, :configuration
 
       INDEX_FILE_NAME = 'index'
-      
+
       def initialize(index, configuration)
         self.index = index
         self.configuration = configuration
@@ -14,7 +14,7 @@ module RspecApiDocumentation
         writer = new(index, configuration)
         writer.write
       end
-      
+
       def write
         File.open(configuration.docs_dir.join(index_file_name + '.' + extension), "w+") do |f|
           f.write markup_index_class.new(index, configuration).render
