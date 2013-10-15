@@ -491,6 +491,28 @@ resource "Orders" do
 end
 ```
 
+#### raw_post
+
+You can completely override what gets sent as parameters by `let`-ing `raw_post`.
+
+```ruby
+resource "Orders" do
+  header "Content-Type", "application/json"
+
+  parameter :name
+
+  let(:name) { "My Order" }
+
+  post "/orders" do
+    let(:raw_post) { params.to_json }
+
+    example_request "Create new order" do
+      # params get sent as JSON
+    end
+  end
+end
+```
+
 ## Rake Task
 
 The gem contains a Railtie that defines a rake task for generating docs easily with Rails.
