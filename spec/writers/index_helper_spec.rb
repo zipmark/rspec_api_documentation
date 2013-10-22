@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RspecApiDocumentation::Writers::IndexWriter do
+describe RspecApiDocumentation::Writers::IndexHelper do
   describe "#sections" do
     let(:example_1) { double(:resource_name => "Order", :description => "Updating an order") }
     let(:example_2) { double(:resource_name => "Order", :description => "Creating an order") }
@@ -9,7 +9,7 @@ describe RspecApiDocumentation::Writers::IndexWriter do
 
     context "with default value for keep_source_order" do
       let(:configuration) { RspecApiDocumentation::Configuration.new }
-      subject { RspecApiDocumentation::Writers::IndexWriter.sections(examples, configuration) }
+      subject { RspecApiDocumentation::Writers::IndexHelper.sections(examples, configuration) }
 
       it "should order resources by resource name" do
         subject.map { |resource| resource[:resource_name] }.should == ["Cart", "Order"]
@@ -21,7 +21,7 @@ describe RspecApiDocumentation::Writers::IndexWriter do
     end
 
     context "with keep_source_order set to true" do
-      subject { RspecApiDocumentation::Writers::IndexWriter.sections(examples, double(:keep_source_order => true)) }
+      subject { RspecApiDocumentation::Writers::IndexHelper.sections(examples, double(:keep_source_order => true)) }
 
       it "should order resources by source code declaration" do
         subject.map { |resource| resource[:resource_name] }.should == ["Order", "Cart"]

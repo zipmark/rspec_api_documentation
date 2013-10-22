@@ -1,8 +1,6 @@
 module RspecApiDocumentation
   module Writers
     class TextileWriter < GeneralMarkupWriter
-      attr_accessor :index, :configuration
-
       EXTENSION = 'textile'
 
       def markup_index_class

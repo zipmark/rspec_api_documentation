@@ -2,24 +2,17 @@ require 'rspec_api_documentation/writers/formatter'
 
 module RspecApiDocumentation
   module Writers
-    class JsonWriter
-      attr_accessor :index, :configuration
+    class JsonWriter < Writer
       delegate :docs_dir, :to => :configuration
-
-      def initialize(index, configuration)
-        self.index = index
-        self.configuration = configuration
-      end
-
-      def self.write(index, configuration)
-        writer = new(index, configuration)
-        writer.write
-      end
 
       def write
         File.open(docs_dir.join("index.json"), "w+") do |f|
           f.write Formatter.to_json(JsonIndex.new(index, configuration))
         end
+        write_examples
+      end
+
+      def write_examples
         index.examples.each do |example|
           json_example = JsonExample.new(example, configuration)
           FileUtils.mkdir_p(docs_dir.join(json_example.dirname))
@@ -37,7 +30,7 @@ module RspecApiDocumentation
       end
 
       def sections
-        IndexWriter.sections(examples, @configuration)
+        IndexHelper.sections(examples, @configuration)
       end
 
       def examples
@@ -46,18 +39,22 @@ module RspecApiDocumentation
 
       def as_json(opts = nil)
         sections.inject({:resources => []}) do |h, section|
-          h[:resources].push(
-            :name => section[:resource_name],
-            :examples => section[:examples].map { |example|
-              {
-                :description => example.description,
-                :link => "#{example.dirname}/#{example.filename}",
-                :groups => example.metadata[:document]
-              }
-            }
-          )
+          h[:resources].push(section_hash(section))
           h
         end
+      end
+
+      def section_hash(section)
+        {
+          :name => section[:resource_name],
+          :examples => section[:examples].map { |example|
+            {
+              :description => example.description,
+              :link => "#{example.dirname}/#{example.filename}",
+              :groups => example.metadata[:document]
+            }
+          }
+        }
       end
     end
 

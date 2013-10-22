@@ -2,19 +2,13 @@ require 'rspec_api_documentation/writers/formatter'
 
 module RspecApiDocumentation
   module Writers
-    class JsonIodocsWriter
-      attr_accessor :index, :configuration, :api_key
+    class JsonIodocsWriter < Writer
+      attr_accessor :api_key
       delegate :docs_dir, :to => :configuration
 
       def initialize(index, configuration)
-        self.index = index
-        self.configuration = configuration
+        super
         self.api_key = configuration.api_name.parameterize
-      end
-
-      def self.write(index, configuration)
-        writer = new(index, configuration)
-        writer.write
       end
 
       def write
@@ -34,7 +28,7 @@ module RspecApiDocumentation
       end
 
       def sections
-        IndexWriter.sections(examples, @configuration)
+        IndexHelper.sections(examples, @configuration)
       end
 
       def examples

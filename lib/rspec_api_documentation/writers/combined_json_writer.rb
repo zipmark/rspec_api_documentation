@@ -2,7 +2,7 @@ require 'rspec_api_documentation/writers/json_writer'
 
 module RspecApiDocumentation
   module Writers
-    class CombinedJsonWriter
+    class CombinedJsonWriter < Writer
       def self.write(index, configuration)
         File.open(configuration.docs_dir.join("combined.json"), "w+") do |f|
           examples = []

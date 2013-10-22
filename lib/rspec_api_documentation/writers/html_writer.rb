@@ -1,8 +1,6 @@
 module RspecApiDocumentation
   module Writers
     class HtmlWriter < GeneralMarkupWriter
-      attr_accessor :index, :configuration
-
       EXTENSION = 'html'
 
       def markup_index_class
