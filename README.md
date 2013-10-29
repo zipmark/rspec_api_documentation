@@ -125,6 +125,48 @@ RspecApiDocumentation.configure do |config|
 end
 ```
 
+## Format
+
+* **json**: Generates an index file and example files in JSON.
+* **html**: Generates an index file and example files in HTML.
+* **combined_text**: Generates a single file for each resource. Used by [Raddocs](http://github.com/smartlogic/raddocs) for command line docs.
+* **combined_json**: Generates a single file for all examples.
+* **json_iodocs**: Generates [I/O Docs](http://www.mashery.com/product/io-docs) style documentation.
+* **textile**: Generates an index file and example files in Textile.
+* **append_json**: Lets you selectively run specs without destroying current documentation. See section below.
+
+### append_json
+
+This format cannot be run with other formats as they will delete the entire documentation folder upon each run. This format appends new examples to the index file, and writes all run examples in the correct folder.
+
+Below is a rake task that allows this format to be used easily.
+
+```ruby
+RSpec::Core::RakeTask.new('docs:generate:append', :spec_file) do |t, task_args|
+  if spec_file = task_args[:spec_file]
+    ENV["DOC_FORMAT"] = "append_json"
+  end
+  t.pattern    = spec_file || 'spec/acceptance/**/*_spec.rb'
+  t.rspec_opts = ["--format RspecApiDocumentation::ApiFormatter"]
+end
+```
+
+And in your `spec/spec_helper.rb`:
+
+```ruby
+ENV["DOC_FORMAT"] ||= "json"
+
+RspecApiDocumentation.configure do |config|
+  config.format    = ENV["DOC_FORMAT"]
+end
+```
+
+```bash
+rake docs:generate:append[spec/acceptance/orders_spec.rb]
+```
+
+This will update the current index's examples to include any in the `orders_spec.rb` file. Any examples inside will be rewritten.
+
 ## Filtering and Exclusion
 rspec_api_documentation lets you determine which examples get outputted into the final documentation.
 All filtering is done via the `:document` metadata key.
