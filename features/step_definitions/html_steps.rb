@@ -22,7 +22,9 @@ Then /^I should see the following (request|response) headers:$/ do |part, table|
   actual_headers = text.split("\n")
   expected_headers = table.raw.map { |row| row.join(": ") }
 
-  actual_headers.should =~ expected_headers
+  expected_headers.each do |row|
+    actual_headers.should include(row)
+  end
 end
 
 Then /^I should see the route is "([^"]*)"$/ do |route|
