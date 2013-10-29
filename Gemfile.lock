@@ -7,7 +7,6 @@ PATH
       json (>= 1.4.6)
       mustache (>= 0.99.4)
       rspec (>= 2.14.0)
-      webmock (>= 1.7.0)
 
 GEM
   remote: http://rubygems.org/
@@ -105,3 +104,4 @@ DEPENDENCIES
   rake
   rspec_api_documentation!
   sinatra
+  webmock (>= 1.7.0)

@@ -3,8 +3,16 @@ begin
 rescue LoadError
   # ActiveSupport::SecureRandom not provided in activesupport >= 3.2
 end
-require "webmock"
-require "rack/oauth2"
+begin
+  require "webmock"
+rescue LoadError
+  raise "Webmock needs to be installed before using the OAuth2MACClient"
+end
+begin
+  require "rack/oauth2"
+rescue LoadError
+  raise "Rack OAuth2 needs to be installed before using the OAuth2MACClient"
+end
 
 module RspecApiDocumentation
   class OAuth2MACClient < ClientBase

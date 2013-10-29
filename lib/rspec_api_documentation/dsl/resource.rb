@@ -23,7 +23,11 @@ module RspecApiDocumentation::DSL
       define_action :patch
 
       def callback(*args, &block)
-        require 'webmock'
+        begin
+          require 'webmock'
+        rescue LoadError
+          raise "Callbacks require webmock to be installed"
+        end
         self.send(:include, WebMock::API)
 
         options = if args.last.is_a?(Hash) then args.pop else {} end
