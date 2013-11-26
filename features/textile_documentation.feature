@@ -197,10 +197,11 @@ Feature: Generate Textile documentation from test examples
 
     h4. Headers
 
-    <pre>X-Frame-Options: sameorigin
+    <pre>Content-Type: text/html;charset=utf-8
+    Content-Length: 0
     X-XSS-Protection: 1; mode=block
-    Content-Type: text/html;charset=utf-8
-    Content-Length: 0</pre>
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN</pre>
 
     h4. Status
 
