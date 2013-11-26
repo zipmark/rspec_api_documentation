@@ -18,12 +18,11 @@ Then /^I should see the following parameters:$/ do |table|
 end
 
 Then /^I should see the following (request|response) headers:$/ do |part, table|
-  text = page.find("pre.#{part}.headers").text
-  actual_headers = text.split("\n")
+  actual_headers = page.find("pre.#{part}.headers").text
   expected_headers = table.raw.map { |row| row.join(": ") }
 
   expected_headers.each do |row|
-    actual_headers.should include(row)
+    actual_headers.should include(row.strip)
   end
 end
 
