@@ -97,6 +97,11 @@ RspecApiDocumentation.configure do |config|
   
   # Used when adding a cURL output to the docs
   config.curl_host = nil
+
+  # Used when adding a cURL output to the docs
+  # Allows you to filter out headers that are not needed in the cURL request,
+  # such as "Host" and "Cookie". Set as an array.
+  config.curl_headers_to_filter = nil
   
   # By default examples and resources are ordered by description. Set to true keep
   # the source order.
