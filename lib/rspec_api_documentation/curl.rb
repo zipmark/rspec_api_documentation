@@ -55,7 +55,8 @@ module RspecApiDocumentation
     private
     def format_header(header, value)
       formatted_header = header.gsub(/^HTTP_/, '').titleize.split.join("-")
-      "#{formatted_header}: #{value}"
+      formatted_value = value.gsub(/"/, "\\\"")
+      "#{formatted_header}: #{formatted_value}"
     end
   end
 end

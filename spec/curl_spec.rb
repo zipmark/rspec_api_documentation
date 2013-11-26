@@ -9,7 +9,13 @@ describe RspecApiDocumentation::Curl do
     let(:method) { "POST" }
     let(:path) { "/orders" }
     let(:data) { "order%5Bsize%5D=large&order%5Btype%5D=cart" }
-    let(:headers) { {"HTTP_ACCEPT" => "application/json", "HTTP_X_HEADER" => "header"} }
+    let(:headers) do
+      {
+        "HTTP_ACCEPT" => "application/json",
+        "HTTP_X_HEADER" => "header",
+        "HTTP_AUTHORIZATION" => %{Token token="mytoken"}
+      }
+    end
 
     it { should =~ /^curl/ }
     it { should =~ /http:\/\/example\.com\/orders/ }
@@ -17,6 +23,7 @@ describe RspecApiDocumentation::Curl do
     it { should =~ /-X POST/ }
     it { should =~ /-H "Accept: application\/json"/ }
     it { should =~ /-H "X-Header: header"/ }
+    it { should =~ /-H "Authorization: Token token=\\"mytoken\\""/ }
 
     it "should call post" do
       curl.should_receive(:post)
