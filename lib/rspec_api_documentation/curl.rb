@@ -4,8 +4,9 @@ module RspecApiDocumentation
   class Curl < Struct.new(:method, :path, :data, :headers)
     attr_accessor :host
 
-    def output(config_host)
+    def output(config_host, config_headers_to_filer = nil)
       self.host = config_host
+      @config_headers_to_filer = Array(config_headers_to_filer)
       send(method.downcase)
     end
 
@@ -17,16 +18,16 @@ module RspecApiDocumentation
       "curl \"#{url}#{get_data}\" -X GET #{headers}"
     end
 
+    def head
+      "curl \"#{url}#{get_data}\" -X HEAD #{headers}"
+    end
+
     def put
       "curl \"#{url}\" #{post_data} -X PUT #{headers}"
     end
 
     def delete
       "curl \"#{url}\" #{post_data} -X DELETE #{headers}"
-    end
-
-    def head
-      "curl \"#{url}#{get_data}\" -X HEAD #{headers}"
     end
 
     def patch
@@ -38,8 +39,8 @@ module RspecApiDocumentation
     end
 
     def headers
-      super.map do |k, v|
-        "\\\n\t-H \"#{format_header(k, v)}\""
+      filter_headers(super).map do |k, v|
+        "\\\n\t-H \"#{format_full_header(k, v)}\""
       end.join(" ")
     end
 
@@ -53,10 +54,24 @@ module RspecApiDocumentation
     end
 
     private
-    def format_header(header, value)
-      formatted_header = header.gsub(/^HTTP_/, '').titleize.split.join("-")
+
+    def format_header(header)
+      header.gsub(/^HTTP_/, '').titleize.split.join("-")
+    end
+
+    def format_full_header(header, value)
       formatted_value = value.gsub(/"/, "\\\"")
-      "#{formatted_header}: #{formatted_value}"
+      "#{format_header(header)}: #{formatted_value}"
+    end
+
+    def filter_headers(headers)
+      if !@config_headers_to_filer.empty?
+        headers.reject do |header|
+          @config_headers_to_filer.include?(format_header(header))
+        end
+      else
+        headers
+      end
     end
   end
 end

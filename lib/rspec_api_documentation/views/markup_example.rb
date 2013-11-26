@@ -6,6 +6,7 @@ module RspecApiDocumentation
       def initialize(example, configuration)
         @example = example
         @host = configuration.curl_host
+        @filter_headers = configuration.curl_headers_to_filter
         self.template_path = configuration.template_path
       end
 
@@ -33,7 +34,9 @@ module RspecApiDocumentation
           hash[:request_query_parameters_text] = format_hash(hash[:request_query_parameters])
           hash[:response_headers_text] = format_hash(hash[:response_headers])
           if @host
-            hash[:curl] = hash[:curl].output(@host) if hash[:curl].is_a? RspecApiDocumentation::Curl
+            if hash[:curl].is_a? RspecApiDocumentation::Curl
+              hash[:curl] = hash[:curl].output(@host, @filter_headers)
+            end
           else
             hash[:curl] = nil
           end

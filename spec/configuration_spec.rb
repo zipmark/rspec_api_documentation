@@ -48,6 +48,7 @@ describe RspecApiDocumentation::Configuration do
     its(:filter) { should == :all }
     its(:exclusion_filter) { should be_nil }
     its(:app) { should be_nil }
+    its(:curl_headers_to_filter) { should be_nil }
     its(:curl_host) { should be_nil }
     its(:keep_source_order) { should be_false }
     its(:api_name) { should == "API Documentation" }
