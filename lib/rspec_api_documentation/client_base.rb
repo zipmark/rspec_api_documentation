@@ -49,6 +49,10 @@ module RspecApiDocumentation
 
       request_metadata = {}
 
+      if request_content_type =~ /multipart\/form-data/ && respond_to?(:handle_multipart_body, true)
+        request_body = handle_multipart_body(request_headers, request_body)
+      end
+
       request_metadata[:request_method] = method
       request_metadata[:request_path] = path
       request_metadata[:request_body] = request_body.empty? ? nil : request_body

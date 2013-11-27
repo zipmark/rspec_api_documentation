@@ -42,6 +42,22 @@ module RspecApiDocumentation
       headers_to_env(super)
     end
 
+    def handle_multipart_body(request_headers, request_body)
+      parsed_parameters = Rack::Request.new({
+        "CONTENT_TYPE" => request_headers["Content-Type"],
+        "rack.input" => StringIO.new(request_body)
+      }).params
+
+      parsed_parameters.each do |_, value|
+        if value.is_a?(Hash) && value.has_key?(:tempfile)
+          data = value[:tempfile].read
+          request_body = request_body.gsub(data, "[uploaded data]")
+        end
+      end
+
+      request_body
+    end
+
     private
 
     def rack_test_session
