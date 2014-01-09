@@ -5,6 +5,7 @@ PATH
       activesupport (>= 3.0.0)
       i18n (>= 0.1.0)
       json (>= 1.4.6)
+      multipart-parser
       mustache (>= 0.99.4)
       rspec (>= 2.14.0)
 
@@ -54,6 +55,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.8.2)
     multi_test (0.0.2)
+    multipart-parser (0.1.1)
     mustache (0.99.5)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
