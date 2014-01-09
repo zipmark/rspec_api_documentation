@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "i18n", ">= 0.1.0"
   s.add_runtime_dependency "mustache", ">= 0.99.4"
   s.add_runtime_dependency "json", ">= 1.4.6"
+  s.add_runtime_dependency "multipart-parser"
 
   s.add_development_dependency "fakefs"
   s.add_development_dependency "sinatra"
