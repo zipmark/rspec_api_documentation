@@ -45,7 +45,7 @@ module RspecApiDocumentation
     def requests
       reqs = metadata[:requests] || []
       reqs.each do |req|
-        if req[:request_headers]["Content-Type"].match /\Amultipart\/form-data/
+        if req[:request_headers]["Content-Type"].try(:match, /\Amultipart\/form-data/)
           i = req[:request_body].index /^Content-Disposition: form-data.* filename=\"/
           i = req[:request_body].index "\r\n\r\n", i unless i.nil?
           unless i.nil?
