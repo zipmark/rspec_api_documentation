@@ -1,6 +1,6 @@
 Feature: Uploading a file
   Background:
-    Given a file named "app.rb" with:
+    Given a file named "nonestedparam.rb" with:
       """
       require 'rack'
 
@@ -11,8 +11,19 @@ Feature: Uploading a file
         end
       end
       """
+    Given a file named "nestedparam.rb" with:
+      """
+      require 'rack'
 
-  Scenario: Uploading a text file
+      class App
+        def self.call(env)
+          request = Rack::Request.new(env)
+          [200, {}, [request.params["post"]["file"][:filename]]]
+        end
+      end
+      """    
+
+  Scenario: Uploading a text file with nested parameters
     Given a file named "file.txt" with:
       """
       a file to upload
@@ -29,10 +40,46 @@ Feature: Uploading a file
 
       resource "FooBars" do
         post "/foobar" do
-          parameter :name, "Name of file"
+          parameter :post, "Post paramter"
+
+          let(:post) do
+            {
+              id: 1,
+              file: Rack::Test::UploadedFile.new("file.txt", "text/plain")
+            }
+          end
+
+          example_request "Uploading a file" do
+            response_body.should == "file.txt"
+          end
+        end
+      end
+      """
+
+    When  I run `rspec app_spec.rb --require ./nestedparam.rb --format RspecApiDocumentation::ApiFormatter`
+
+    Then  the output should contain "1 example, 0 failures"
+    And   the exit status should be 0
+
+  Scenario: Uploading a text file, no nested parameters
+    Given a file named "file.txt" with:
+      """
+      a file to upload
+      """
+    And   a file named "app_spec.rb" with:
+      """
+      require "rspec_api_documentation"
+      require "rspec_api_documentation/dsl"
+      require "rack/test"
+
+      RspecApiDocumentation.configure do |config|
+        config.app = App
+      end
+
+      resource "FooBars" do
+        post "/foobar" do
           parameter :file, "File to upload"
 
-          let(:name) { "my-new-file.txt" }
           let(:file) do
             Rack::Test::UploadedFile.new("file.txt", "text/plain")
           end
@@ -44,12 +91,12 @@ Feature: Uploading a file
       end
       """
 
-    When  I run `rspec app_spec.rb --require ./app.rb --format RspecApiDocumentation::ApiFormatter`
+    When  I run `rspec app_spec.rb --require ./nonestedparam.rb --format RspecApiDocumentation::ApiFormatter`
 
     Then  the output should contain "1 example, 0 failures"
     And   the exit status should be 0
 
-  Scenario: Uploading an image file
+  Scenario: Uploading an image file, no nested parameters
     Given I move the sample image into the workspace
     And   a file named "app_spec.rb" with:
       """
@@ -63,10 +110,8 @@ Feature: Uploading a file
 
       resource "FooBars" do
         post "/foobar" do
-          parameter :name, "Name of file"
           parameter :file, "File to upload"
 
-          let(:name) { "my-new-file.txt" }
           let(:file) do
             Rack::Test::UploadedFile.new("file.png", "image/png")
           end
@@ -78,7 +123,43 @@ Feature: Uploading a file
       end
       """
 
-    When  I run `rspec app_spec.rb --require ./app.rb --format RspecApiDocumentation::ApiFormatter`
+    When  I run `rspec app_spec.rb --require ./nonestedparam.rb --format RspecApiDocumentation::ApiFormatter`
+
+    Then  the output should contain "1 example, 0 failures"
+    And   the exit status should be 0
+    And   the generated documentation should be encoded correctly
+
+  Scenario: Uploading an image file, no nested parameters
+    Given I move the sample image into the workspace
+    And   a file named "app_spec.rb" with:
+      """
+      require "rspec_api_documentation"
+      require "rspec_api_documentation/dsl"
+      require "rack/test"
+
+      RspecApiDocumentation.configure do |config|
+        config.app = App
+      end
+
+      resource "FooBars" do
+        post "/foobar" do
+          parameter :post, "Post parameter"
+
+          let(:post) do
+            {
+              id: 10,
+              file: Rack::Test::UploadedFile.new("file.png", "image/png")
+            }
+          end
+
+          example_request "Uploading a file" do
+            response_body.should == "file.png"
+          end
+        end
+      end
+      """
+
+    When  I run `rspec app_spec.rb --require ./nestedparam.rb --format RspecApiDocumentation::ApiFormatter`
 
     Then  the output should contain "1 example, 0 failures"
     And   the exit status should be 0
