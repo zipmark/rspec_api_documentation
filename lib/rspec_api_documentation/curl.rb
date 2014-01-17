@@ -1,13 +1,22 @@
 require 'active_support/core_ext/object/to_query'
 
 module RspecApiDocumentation
+
   class Curl < Struct.new(:method, :path, :data, :headers)
     attr_accessor :host
 
-    def output(config_host, config_headers_to_filer = nil)
+    def output(config_host, config_headers_to_filter = nil, config_filter_empty_headers = false)
       self.host = config_host
-      @config_headers_to_filer = Array(config_headers_to_filer)
+      @config_headers_to_filter = config_headers_to_filter
+      @config_filter_empty_headers = config_filter_empty_headers
+      
+      append_filters
+
       send(method.downcase)
+    end
+
+    def self.format_header(header)
+      header.gsub(/^HTTP_/, '').titleize.split.join("-")
     end
 
     def post
@@ -55,22 +64,41 @@ module RspecApiDocumentation
 
     private
 
-    def format_header(header)
-      header.gsub(/^HTTP_/, '').titleize.split.join("-")
+    def append_filters
+      @filters = Array.new
+      @filters << ConfiguredHeadersFilter.new(@config_headers_to_filter) if @config_headers_to_filter
+      @filters << EmptyHeaderFilter.new if @config_filter_empty_headers
     end
 
     def format_full_header(header, value)
       formatted_value = value ? value.gsub(/"/, "\\\"") : ''
-      "#{format_header(header)}: #{formatted_value}"
+      "#{Curl.format_header(header)}: #{formatted_value}"
     end
 
     def filter_headers(headers)
-      if !@config_headers_to_filer.empty?
-        headers.reject do |header|
-          @config_headers_to_filer.include?(format_header(header))
-        end
-      else
-        headers
+      @filters.inject(headers) do |headers, filter|
+        filter.call(headers)
+      end
+    end
+  end
+
+  class EmptyHeaderFilter
+    def call(headers)
+      headers.reject do |header, value|
+        value.blank?
+      end
+    end
+  end
+
+  class ConfiguredHeadersFilter
+
+    def initialize(headers_to_filter)
+      @headers_to_filter = Array(headers_to_filter)
+    end
+
+    def call(headers)
+      headers.reject do |header|
+        @headers_to_filter.include?(Curl.format_header(header))
       end
     end
   end
