@@ -15,7 +15,8 @@ describe RspecApiDocumentation::Curl do
         "HTTP_X_HEADER" => "header",
         "HTTP_AUTHORIZATION" => %{Token token="mytoken"},
         "HTTP_HOST" => "example.org",
-        "HTTP_COOKIES" => ""
+        "HTTP_COOKIES" => "",
+        "HTTP_SERVER" => nil
       }
     end
 
@@ -26,6 +27,7 @@ describe RspecApiDocumentation::Curl do
     it { should =~ /-H "Accept: application\/json"/ }
     it { should =~ /-H "X-Header: header"/ }
     it { should =~ /-H "Authorization: Token token=\\"mytoken\\""/ }
+    it { should =~ /-H "Server: "/ }
     it { should_not =~ /-H "Host: example\.org"/ }
     it { should_not =~ /-H "Cookies: "/ }
 
@@ -170,5 +172,35 @@ describe RspecApiDocumentation::Curl do
       curl.should_receive(:patch)
       curl.output(host)
     end
+  end
+
+  describe "Filter empty headers" do
+    subject { curl.output(host, nil, true) }
+
+    let(:method) { "POST" }
+    let(:path) { "/orders" }
+    let(:data) { "order%5Bsize%5D=large&order%5Btype%5D=cart" }
+    let(:headers) do
+      {
+        "HTTP_ACCEPT" => "application/json",
+        "HTTP_X_HEADER" => "header",
+        "HTTP_AUTHORIZATION" => %{Token token="mytoken"},
+        "HTTP_HOST" => "example.org",
+        "HTTP_COOKIES" => "",
+        "HTTP_SERVER" => nil
+      }
+    end
+
+    it { should =~ /^curl/ }
+    it { should =~ /http:\/\/example\.com\/orders/ }
+    it { should =~ /-d 'order%5Bsize%5D=large&order%5Btype%5D=cart'/ }
+    it { should =~ /-X POST/ }
+    it { should =~ /-H "Accept: application\/json"/ }
+    it { should =~ /-H "X-Header: header"/ }
+    it { should =~ /-H "Authorization: Token token=\\"mytoken\\""/ }
+    it { should =~ /-H "Host: example\.org"/ }
+    it { should_not =~ /-H "Server: "/ }
+    it { should_not =~ /-H "Cookies: "/ }
+
   end
 end

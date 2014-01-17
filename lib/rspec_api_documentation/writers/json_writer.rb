@@ -63,6 +63,7 @@ module RspecApiDocumentation
         @example = example
         @host = configuration.curl_host
         @filter_headers = configuration.curl_headers_to_filter
+        @filter_empty = configuration.curl_filter_empty_headers
       end
 
       def method_missing(method, *args, &block)
@@ -98,7 +99,7 @@ module RspecApiDocumentation
         super.map do |hash|
           if @host
             if hash[:curl].is_a? RspecApiDocumentation::Curl
-              hash[:curl] = hash[:curl].output(@host, @filter_headers)
+              hash[:curl] = hash[:curl].output(@host, @filter_headers, @filter_empty)
             end
           else
             hash[:curl] = nil

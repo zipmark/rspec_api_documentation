@@ -102,6 +102,10 @@ RspecApiDocumentation.configure do |config|
   # Allows you to filter out headers that are not needed in the cURL request,
   # such as "Host" and "Cookie". Set as an array.
   config.curl_headers_to_filter = nil
+
+  # Allows you to filter out headers with empty values in the generated cURL.
+  # Set as a boolean.
+  config.curl_filter_empty_headers = false 
   
   # By default examples and resources are ordered by description. Set to true keep
   # the source order.
