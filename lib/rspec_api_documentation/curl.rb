@@ -41,7 +41,7 @@ module RspecApiDocumentation
 
     def headers
       filter_headers(super).map do |k, v|
-        if k == "HTTP_AUTHORIZATION" && v =~ /^Basic/
+        if k =~ /authorization/i && v =~ /^Basic/
           "\\\n\t-u #{format_auth_header(v)}"
         else
           "\\\n\t-H \"#{format_full_header(k, v)}\""
