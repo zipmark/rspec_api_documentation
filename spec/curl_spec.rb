@@ -171,4 +171,18 @@ describe RspecApiDocumentation::Curl do
       curl.output(host)
     end
   end
+
+  describe "Basic Authentication" do
+    let(:method) { "GET" }
+    let(:path) { "/" }
+    let(:data) { "" }
+    let(:headers) do
+      {
+        "HTTP_AUTHORIZATION" => %{Basic dXNlckBleGFtcGxlLm9yZzpwYXNzd29yZA==},
+      }
+    end
+
+    it { should_not =~ /-H "Authorization: Basic dXNlckBleGFtcGxlLm9yZzpwYXNzd29yZA=="/ }
+    it { should =~ /-u user@example\.org:password/ }
+  end
 end

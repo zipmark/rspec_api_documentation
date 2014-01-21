@@ -1,4 +1,5 @@
 require 'active_support/core_ext/object/to_query'
+require 'base64'
 
 module RspecApiDocumentation
   class Curl < Struct.new(:method, :path, :data, :headers)
@@ -40,7 +41,11 @@ module RspecApiDocumentation
 
     def headers
       filter_headers(super).map do |k, v|
-        "\\\n\t-H \"#{format_full_header(k, v)}\""
+        if k == "HTTP_AUTHORIZATION" && v =~ /^Basic/
+          "\\\n\t-u #{format_auth_header(v)}"
+        else
+          "\\\n\t-H \"#{format_full_header(k, v)}\""
+        end
       end.join(" ")
     end
 
@@ -54,6 +59,10 @@ module RspecApiDocumentation
     end
 
     private
+
+    def format_auth_header(value)
+      ::Base64.decode64(value.split(' ', 2).last || '')
+    end
 
     def format_header(header)
       header.gsub(/^HTTP_/, '').titleize.split.join("-")
