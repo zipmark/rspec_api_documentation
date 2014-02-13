@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.summary     = "A double black belt for your docs"
   s.description = "Generate API docs from your test suite"
   s.homepage    = "http://smartlogicsolutions.com"
+  s.license     = "MIT"
 
   s.required_rubygems_version = ">= 1.3.6"
 
