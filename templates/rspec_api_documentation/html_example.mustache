@@ -53,7 +53,12 @@
               {{# parameters }}
               <tr>
                 <td{{# required }} class="required"{{/ required }}>
-                  <span class="name">{{ name }}</span>
+                  {{# scope }}
+                    <span class="name">{{ scope }}[{{ name }}]</span>
+                  {{/ scope }}
+                  {{^ scope }}
+                    <span class="name">{{ name }}</span>
+                  {{/ scope }}
                 </td>
                 <td>
                   <span class="description">{{ description }}</span>

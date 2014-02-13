@@ -26,6 +26,7 @@ Feature: Generate HTML documentation from test examples
       resource "Greetings" do
         get "/greetings" do
           parameter :target, "The thing you want to greet"
+          parameter :scoped, "This is a scoped variable", :scope => :scope
 
           example "Greeting your favorite gem" do
             do_request :target => "rspec_api_documentation"
@@ -60,8 +61,9 @@ Feature: Generate HTML documentation from test examples
     When  I open the index
     And   I navigate to "Greeting your favorite gem"
     Then  I should see the following parameters:
-      | name   | description                 |
-      | target | The thing you want to greet |
+      | name          | description                 |
+      | target        | The thing you want to greet |
+      | scope[scoped] | This is a scoped variable   |
 
   Scenario: Example HTML documentation includes the request information
     When  I open the index
