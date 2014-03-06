@@ -55,17 +55,13 @@ module RspecApiDocumentation
     end
 
     def remap_headers(requests, key, headers_to_include)
+      return requests unless headers_to_include
       requests.each.with_index do |request_hash, index|
         next unless request_hash.key?(key)
         headers = request_hash[key]
-        request_hash[key] = filter_hash(headers, headers_to_include)
+        request_hash[key] = headers.select{ |key, _| headers_to_include.include?(key) }
         requests[index] = request_hash
       end
-    end
-
-    def filter_hash(hash = {}, selection_set = nil)
-      return hash unless selection_set
-      hash.select{ |key, _| selection_set.include?(key) }
     end
   end
 end
