@@ -45,6 +45,8 @@ Feature: Generate Textile documentation from test examples
         config.app = App
         config.api_name = "Example API"
         config.format = :textile
+        config.request_headers_to_include = %w[Content-Type Host]
+        config.response_headers_to_include = %w[Content-Type Content-Length]
       end
 
       resource 'Orders' do
@@ -180,8 +182,7 @@ Feature: Generate Textile documentation from test examples
     h4. Headers
 
     <pre>Host: example.org
-    Content-Type: application/x-www-form-urlencoded
-    Cookie: </pre>
+    Content-Type: application/x-www-form-urlencoded</pre>
 
     h4. Route
 
@@ -198,10 +199,7 @@ Feature: Generate Textile documentation from test examples
     h4. Headers
 
     <pre>Content-Type: text/html;charset=utf-8
-    Content-Length: 0
-    X-XSS-Protection: 1; mode=block
-    X-Content-Type-Options: nosniff
-    X-Frame-Options: SAMEORIGIN</pre>
+    Content-Length: 0</pre>
 
     h4. Status
 

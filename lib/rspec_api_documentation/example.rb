@@ -43,7 +43,29 @@ module RspecApiDocumentation
     end
 
     def requests
-      metadata[:requests] || []
+      filter_headers(metadata[:requests]) || []
+    end
+
+    private
+
+    def filter_headers(requests)
+      requests = remap_headers(requests, :request_headers, configuration.request_headers_to_include)
+      requests = remap_headers(requests, :response_headers, configuration.response_headers_to_include)
+      requests
+    end
+
+    def remap_headers(requests, key, headers_to_include)
+      requests.each.with_index do |request_hash, index|
+        next unless request_hash.key?(key)
+        headers = request_hash[key]
+        request_hash[key] = filter_hash(headers, headers_to_include)
+        requests[index] = request_hash
+      end
+    end
+
+    def filter_hash(hash = {}, selection_set = nil)
+      return hash unless selection_set
+      hash.select{ |key, _| selection_set.include?(key) }
     end
   end
 end

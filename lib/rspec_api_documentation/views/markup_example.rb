@@ -7,8 +7,6 @@ module RspecApiDocumentation
         @example = example
         @host = configuration.curl_host
         @filter_headers = configuration.curl_headers_to_filter
-        @request_headers_to_include = configuration.request_headers_to_include
-        @response_headers_to_include = configuration.response_headers_to_include
         self.template_path = configuration.template_path
       end
 
@@ -32,9 +30,9 @@ module RspecApiDocumentation
 
       def requests
         super.map do |hash|
-          hash[:request_headers_text] = format_hash(filter_hash(hash[:request_headers], @request_headers_to_include))
+          hash[:request_headers_text] = format_hash(hash[:request_headers])
           hash[:request_query_parameters_text] = format_hash(hash[:request_query_parameters])
-          hash[:response_headers_text] = format_hash(filter_hash(hash[:response_headers], @response_headers_to_include))
+          hash[:response_headers_text] = format_hash(hash[:response_headers])
           if @host
             if hash[:curl].is_a? RspecApiDocumentation::Curl
               hash[:curl] = hash[:curl].output(@host, @filter_headers)
@@ -57,11 +55,6 @@ module RspecApiDocumentation
         hash.collect do |k, v|
           "#{k}: #{v}"
         end.join("\n")
-      end
-
-      def filter_hash(hash = {}, selection_set = nil)
-        return hash unless selection_set
-        hash.select{ |key, value| selection_set.include?(key) }
       end
     end
   end
