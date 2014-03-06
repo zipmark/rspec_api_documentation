@@ -21,6 +21,8 @@ Feature: Generate HTML documentation from test examples
       RspecApiDocumentation.configure do |config|
         config.app = App
         config.api_name = "Example API"
+        config.request_headers_to_include = %w[Cookie]
+        config.response_headers_to_include = %w[Content-Type]
       end
 
       resource "Greetings" do
@@ -70,8 +72,9 @@ Feature: Generate HTML documentation from test examples
     And   I navigate to "Greeting your favorite gem"
     Then  I should see the route is "GET /greetings?target=rspec_api_documentation"
     And   I should see the following request headers:
-      | Host   | example.org |
       | Cookie |             |
+    And   I should not see the following request headers:
+      | Host   | example.org |
     And   I should see the following query parameters:
       | target | rspec_api_documentation |
 
@@ -81,6 +84,7 @@ Feature: Generate HTML documentation from test examples
     Then  I should see the response status is "200 OK"
     And   I should see the following response headers:
       | Content-Type   | application/json |
+    And   I should not see the following response headers:
       | Content-Length | 35               |
     And   I should see the following response body:
       """
