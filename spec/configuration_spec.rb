@@ -54,6 +54,8 @@ describe RspecApiDocumentation::Configuration do
     its(:api_name) { should == "API Documentation" }
     its(:client_method) { should == :client }
     its(:io_docs_protocol) { should == "http" }
+    its(:request_headers_to_include) { should be_nil }
+    its(:response_headers_to_include) { should be_nil }
   end
 
   describe "#define_groups" do

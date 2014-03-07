@@ -159,4 +159,82 @@ describe RspecApiDocumentation::Example do
       example.explanation.should == nil
     end
   end
+
+  describe "request headers can be filtered" do
+    before do
+      configuration.request_headers_to_include = %w[Included]
+      metadata[:requests] = [
+          {
+              :request_headers => {
+                  "Included" => "data",
+                  "Filtered" => "not seen"
+              },
+              :request_method => "GET"
+          },
+          {
+              :request_headers => {
+                  "Included" => "data",
+                  "Other" => "not seen"
+              },
+              :request_method => "GET"
+          }
+      ]
+    end
+
+    it "should filter out anything not explicitly mentioned" do
+      subject.requests.should == [
+          {
+              :request_headers => {
+                  "Included" => "data",
+              },
+              :request_method => "GET"
+          },
+          {
+              :request_headers => {
+                  "Included" => "data",
+              },
+              :request_method => "GET"
+          }
+      ]
+    end
+  end
+
+  describe "response headers can be filtered" do
+    before do
+      configuration.response_headers_to_include = %w[Included]
+      metadata[:requests] = [
+          {
+              :response_headers => {
+                  "Included" => "data",
+                  "Filtered" => "not seen"
+              },
+              :request_method => "GET"
+          },
+          {
+              :response_headers => {
+                  "Included" => "data",
+                  "Other" => "not seen"
+              },
+              :request_method => "GET"
+          }
+      ]
+    end
+
+    it "should filter out anything not explicitly mentioned" do
+      subject.requests.should == [
+          {
+              :response_headers => {
+                  "Included" => "data",
+              },
+              :request_method => "GET"
+          },
+          {
+              :response_headers => {
+                  "Included" => "data",
+              },
+              :request_method => "GET"
+          }
+      ]
+    end
+  end
 end
