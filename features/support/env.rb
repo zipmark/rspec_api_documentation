@@ -1,4 +1,5 @@
 require "aruba/cucumber"
+require "capybara"
 
 if RUBY_PLATFORM == "java"
   Aruba.configure do |config|
@@ -14,4 +15,9 @@ Before do
   else
     5
   end
+end
+
+Capybara.configure do |config|
+  config.match = :prefer_exact
+  config.ignore_hidden_elements = false
 end

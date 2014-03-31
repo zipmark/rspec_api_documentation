@@ -24,6 +24,8 @@ Feature: Combined text
       RspecApiDocumentation.configure do |config|
         config.app = App
         config.format = :combined_json
+        config.request_headers_to_include = %w[Host]
+        config.response_headers_to_include = %w[Content-Type]
       end
 
       resource "Greetings" do
@@ -84,8 +86,7 @@ Feature: Combined text
             "request_path": "/greetings?target=rspec_api_documentation",
             "request_body": null,
             "request_headers": {
-              "Host": "example.org",
-              "Cookie": ""
+              "Host": "example.org"
             },
             "request_query_parameters": {
               "target": "rspec_api_documentation"
@@ -95,8 +96,7 @@ Feature: Combined text
             "response_status_text": "OK",
             "response_body": "Hello, rspec_api_documentation!",
             "response_headers": {
-              "Content-Type": "text/plain",
-              "Content-Length": "31"
+              "Content-Type": "text/plain"
             },
             "response_content_type": "text/plain",
             "curl": null
@@ -121,8 +121,7 @@ Feature: Combined text
             "request_path": "/greetings?target=Sam+%26+Eric",
             "request_body": null,
             "request_headers": {
-              "Host": "example.org",
-              "Cookie": ""
+              "Host": "example.org"
             },
             "request_query_parameters": {
               "target": "Sam & Eric"
@@ -132,8 +131,7 @@ Feature: Combined text
             "response_status_text": "OK",
             "response_body": "Hello, Sam & Eric!",
             "response_headers": {
-              "Content-Type": "text/plain",
-              "Content-Length": "18"
+              "Content-Type": "text/plain"
             },
             "response_content_type": "text/plain",
             "curl": null
