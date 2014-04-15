@@ -84,7 +84,7 @@ RspecApiDocumentation.configure do |config|
   
   # An array of output format(s).
   # Possible values are :json, :html, :combined_text, :combined_json,
-  #   :json_iodocs, :textile, :append_json
+  #   :json_iodocs, :textile, :markdown, :append_json
   config.format = [:html]
   
   # Location of templates
@@ -145,6 +145,7 @@ end
 * **combined_json**: Generates a single file for all examples.
 * **json_iodocs**: Generates [I/O Docs](http://www.mashery.com/product/io-docs) style documentation.
 * **textile**: Generates an index file and example files in Textile.
+* **markdown**: Generates an index file and example files in Markdown.
 * **append_json**: Lets you selectively run specs without destroying current documentation. See section below.
 
 ### append_json
