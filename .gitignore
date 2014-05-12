@@ -4,3 +4,4 @@ example/docs
 example/public/docs
 *.gem
 *.swp
+/html/

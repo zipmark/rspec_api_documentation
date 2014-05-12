@@ -1,4 +1,5 @@
 module RspecApiDocumentation::DSL
+  # DSL methods available at the example group level
   module Resource
     extend ActiveSupport::Concern
 

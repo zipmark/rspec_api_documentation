@@ -33,6 +33,7 @@ GEM
       xpath (~> 2.0)
     childprocess (0.3.9)
       ffi (~> 1.0, >= 1.0.11)
+    coderay (1.1.0)
     crack (0.4.1)
       safe_yaml (~> 0.9.0)
     cucumber (1.3.10)
@@ -48,7 +49,13 @@ GEM
       multi_json (~> 1.3)
     httpclient (2.3.4.1)
     i18n (0.6.5)
+    inch (0.4.5)
+      pry
+      sparkr (>= 0.2.0)
+      term-ansicolor
+      yard (~> 0.8.7)
     json (1.8.1)
+    method_source (0.8.2)
     mime-types (2.0)
     mini_portile (0.5.2)
     minitest (4.7.5)
@@ -57,6 +64,10 @@ GEM
     mustache (0.99.5)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
+    pry (0.9.12.6)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
     rack (1.5.2)
     rack-oauth2 (1.0.7)
       activesupport (>= 2.3)
@@ -82,15 +93,21 @@ GEM
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
+    slop (3.5.0)
+    sparkr (0.4.1)
+    term-ansicolor (1.3.0)
+      tins (~> 1.0)
     thread_safe (0.1.3)
       atomic
     tilt (1.4.1)
+    tins (1.1.0)
     tzinfo (0.3.38)
     webmock (1.16.0)
       addressable (>= 2.2.7)
       crack (>= 0.3.2)
     xpath (2.0.0)
       nokogiri (~> 1.3)
+    yard (0.8.7.4)
 
 PLATFORMS
   ruby
@@ -99,6 +116,7 @@ DEPENDENCIES
   aruba
   capybara
   fakefs
+  inch
   rack-oauth2 (>= 0.14.4)
   rack-test (>= 0.6.2)
   rake

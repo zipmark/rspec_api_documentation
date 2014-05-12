@@ -1,4 +1,7 @@
 module RspecApiDocumentation
+  # Base client class that documents all requests that go through it.
+  #
+  #  client.get("/orders", { :page => 2 }, { "Accept" => "application/json" })
   class ClientBase < Struct.new(:context, :options)
     include Headers
 

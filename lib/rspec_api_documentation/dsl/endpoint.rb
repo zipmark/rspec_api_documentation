@@ -3,6 +3,7 @@ require 'rack/utils'
 require 'rack/test/utils'
 
 module RspecApiDocumentation::DSL
+  # DSL methods available inside the RSpec example.
   module Endpoint
     extend ActiveSupport::Concern
     include Rack::Test::Utils
@@ -23,6 +24,7 @@ module RspecApiDocumentation::DSL
       end
 
       private
+
       # from rspec-core
       def relative_path(line)
         line = line.sub(File.expand_path("."), ".")

@@ -1,8 +1,10 @@
 module RspecApiDocumentation
   module Writers
+    # Base class for writers that write HTML
     class GeneralMarkupWriter < Writer
       INDEX_FILE_NAME = 'index'
 
+      # Write out the generated documentation
       def write
         File.open(configuration.docs_dir.join(index_file_name + '.' + extension), "w+") do |f|
           f.write markup_index_class.new(index, configuration).render

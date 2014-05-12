@@ -13,6 +13,23 @@ module RspecApiDocumentation
       @groups ||= []
     end
 
+    # Defines a new sub configuration
+    #
+    # Automatically sets the `filter` to the group name, and the `docs_dir` to
+    # a subfolder of the parent's `doc_dir` named the group name.
+    #
+    #   RspecApiDocumentation.configure do |config|
+    #     config.docs_dir = "doc/api"
+    #     config.define_group(:public) do |config|
+    #       # Default values
+    #       config.docs_dir = "doc/api/public"
+    #       config.filter = :public
+    #     end
+    #   end
+    #
+    # Params:
+    # +name+:: String name of the group
+    # +block+:: Block configuration block
     def define_group(name, &block)
       subconfig = self.class.new(self)
       subconfig.filter = name
@@ -79,6 +96,7 @@ module RspecApiDocumentation
       @settings ||= {}
     end
 
+    # Yields itself and sub groups to hook into the Enumerable module
     def each(&block)
       yield self
       groups.map { |g| g.each &block }

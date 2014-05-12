@@ -1,4 +1,5 @@
 module RspecApiDocumentation::DSL
+  # DSL Methods for testing server callbacks
   module Callback
     extend ActiveSupport::Concern
 
