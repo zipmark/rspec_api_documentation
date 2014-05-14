@@ -1,6 +1,7 @@
 [![Travis status](https://secure.travis-ci.org/zipmark/rspec_api_documentation.png)](https://secure.travis-ci.org/zipmark/rspec_api_documentation)
 [![Gemnasium status](https://gemnasium.com/zipmark/rspec_api_documentation.png)](https://gemnasium.com/zipmark/rspec_api_documentation)
 [![Code Climate](https://codeclimate.com/github/zipmark/rspec_api_documentation.png)](https://codeclimate.com/github/zipmark/rspec_api_documentation)
+[![Inline docs](http://inch-pages.github.io/github/zipmark/rspec_api_documentation.png)](http://inch-pages.github.io/github/zipmark/rspec_api_documentation)
 [![Gem Version](https://badge.fury.io/rb/rspec_api_documentation.svg)](http://badge.fury.io/rb/rspec_api_documentation)
 
 # RSpec API Doc Generator
