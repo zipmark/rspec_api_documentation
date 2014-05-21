@@ -101,11 +101,11 @@ module RspecApiDocumentation::DSL
       example.metadata[:explanation] = text
     end
 
-    private
-
     def example
       RSpec.current_example
     end
+
+    private
 
     def rspec_api_documentation_client
       send(RspecApiDocumentation.configuration.client_method)
