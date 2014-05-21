@@ -18,8 +18,8 @@ describe RspecApiDocumentation::ApiDocumentation do
       FileUtils.stub(:cp_r)
       subject.clear_docs
 
-      File.directory?(configuration.docs_dir).should be_true
-      File.exists?(test_file).should be_false
+      File.directory?(configuration.docs_dir).should be_truthy
+      File.exists?(test_file).should be_falsey
     end
   end
 

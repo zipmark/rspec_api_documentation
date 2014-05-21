@@ -48,25 +48,25 @@ describe RspecApiDocumentation::Example do
     context "when the example's metadata defines a resource name and its document setting is truthy" do
       let(:metadata) {{ :resource_name => "foo", :document => true }}
 
-      it { should be_true }
+      it { should be_truthy }
     end
 
     context "when the example's metadata does not define a resource name" do
       let(:metadata) {{ :document => true }}
 
-      it { should be_false }
+      it { should be_falsey }
     end
 
     context "when the example's metadata document setting is falsy" do
       let(:metadata) {{ :resource_name => "foo", :document => false }}
 
-      it { should be_false }
+      it { should be_falsey }
     end
 
     context "when the example is pending" do
       let(:rspec_example) { rspec_example_group.pending(description, metadata) {} }
 
-      it { should be_false }
+      it { should be_falsey }
     end
 
     context "configuration sets a filter" do
@@ -78,19 +78,19 @@ describe RspecApiDocumentation::Example do
       context "when the example does match the filter" do
         let(:metadata) { { :resource_name => "foo", :document => :public } }
 
-        it { should be_true }
+        it { should be_truthy }
       end
 
       context "when the example does not match the filter" do
         let(:metadata) { { :resource_name => "foo", :document => :private } }
 
-        it { should be_false }
+        it { should be_falsey }
       end
 
       context "when the example is excluded" do
         let(:metadata) { { :resource_name => "foo", :document => [:public, :excluded] } }
 
-        it { should be_false }
+        it { should be_falsey }
       end
     end
 
@@ -102,13 +102,13 @@ describe RspecApiDocumentation::Example do
       context "when example doesn't match exclusion" do
         let(:metadata) { { :resource_name => "foo", :document => :public } }
 
-        it { should be_true }
+        it { should be_truthy }
       end
 
       context "when example matches exclusion" do
         let(:metadata) { { :resource_name => "foo", :document => [:public, :excluded] } }
 
-        it { should be_false }
+        it { should be_falsey }
       end
     end
   end
@@ -119,13 +119,13 @@ describe RspecApiDocumentation::Example do
     context "when the example's metadata public setting is truthy" do
       let(:metadata) {{ :public => true }}
 
-      it { should be_true }
+      it { should be_truthy }
     end
 
     context "when the example's metadata public setting is falsy" do
       let(:metadata) {{ :public => false }}
 
-      it { should be_false }
+      it { should be_falsey }
     end
   end
 
@@ -135,17 +135,17 @@ describe RspecApiDocumentation::Example do
     context "when parameters are defined" do
       before { example.stub(:parameters).and_return([double]) }
 
-      it { should be_true }
+      it { should be_truthy }
     end
 
     context "when parameters are empty" do
       before { example.stub(:parameters).and_return([]) }
 
-      it { should be_false }
+      it { should be_falsey }
     end
 
     context "when parameters are not defined" do
-      it { should be_false }
+      it { should be_falsey }
     end
   end
 

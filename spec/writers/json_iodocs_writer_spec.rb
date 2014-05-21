@@ -25,7 +25,7 @@ describe RspecApiDocumentation::Writers::JsonIodocsWriter do
     it "should write the index" do
       writer.write
       index_file = File.join(configuration.docs_dir, "apiconfig.json")
-      File.exists?(index_file).should be_true
+      File.exists?(index_file).should be_truthy
     end
   end
 end

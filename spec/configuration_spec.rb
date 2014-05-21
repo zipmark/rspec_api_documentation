@@ -50,7 +50,7 @@ describe RspecApiDocumentation::Configuration do
     its(:app) { should be_nil }
     its(:curl_headers_to_filter) { should be_nil }
     its(:curl_host) { should be_nil }
-    its(:keep_source_order) { should be_false }
+    its(:keep_source_order) { should be_falsey }
     its(:api_name) { should == "API Documentation" }
     its(:client_method) { should == :client }
     its(:io_docs_protocol) { should == "http" }
@@ -113,7 +113,7 @@ describe RspecApiDocumentation::Configuration do
       subject.define_group(:sub) do |config|
       end
 
-      subject.groups.should have(1).group
+      expect(subject.groups.count).to eq(1)
     end
   end
 end

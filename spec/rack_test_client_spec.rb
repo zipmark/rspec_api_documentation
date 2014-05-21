@@ -30,7 +30,7 @@ class StubApp < Sinatra::Base
 end
 
 describe RspecApiDocumentation::RackTestClient do
-  let(:context) { double(:app => StubApp, :example => example) }
+  let(:context) { |example| double(:app => StubApp, :example => example) }
   let(:test_client) { RspecApiDocumentation::RackTestClient.new(context, {}) }
 
   subject { test_client }
@@ -38,8 +38,8 @@ describe RspecApiDocumentation::RackTestClient do
   it { should be_a(RspecApiDocumentation::RackTestClient) }
 
   its(:context) { should equal(context) }
-  its(:example) { should equal(example) }
-  its(:metadata) { should equal(example.metadata) }
+  its(:example) { |example| should equal(example) }
+  its(:metadata) { |example| should equal(example.metadata) }
 
   describe "xml data", :document => true do
     before do
@@ -50,7 +50,7 @@ describe RspecApiDocumentation::RackTestClient do
       test_client.response_headers["Content-Type"].should =~ /application\/xml/
     end
 
-    it "should log the request" do
+    it "should log the request" do |example|
       example.metadata[:requests].first[:response_body].should be_present
     end
   end
@@ -86,7 +86,7 @@ describe RspecApiDocumentation::RackTestClient do
     end
 
     context "when examples should be documented", :document => true do
-      it "should still argument the metadata" do
+      it "should still argument the metadata" do |example|
         metadata = example.metadata[:requests].first
         metadata[:request_query_parameters].should == {'query' => nil, 'other' => 'exists'}
       end
@@ -102,7 +102,7 @@ describe RspecApiDocumentation::RackTestClient do
     let(:headers) { { "Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value" } }
 
     context "when examples should be documented", :document => true do
-      it "should augment the metadata with information about the request" do
+      it "should augment the metadata with information about the request" do |example|
         metadata = example.metadata[:requests].first
         metadata[:request_method].should eq("POST")
         metadata[:request_path].should eq("/greet?query=test+query")
@@ -122,7 +122,7 @@ describe RspecApiDocumentation::RackTestClient do
       context "when post data is not json" do
         let(:post_data) { { :target => "nurse", :email => "email@example.com" } }
 
-        it "should not nil out request_body" do
+        it "should not nil out request_body" do |example|
           body = example.metadata[:requests].first[:request_body]
           body.should =~ /target=nurse/
           body.should =~ /email=email%40example\.com/
@@ -132,7 +132,7 @@ describe RspecApiDocumentation::RackTestClient do
       context "when post data is nil" do
         let(:post_data) { }
 
-        it "should nil out request_body" do
+        it "should nil out request_body" do |example|
           example.metadata[:requests].first[:request_body].should be_nil
         end
       end

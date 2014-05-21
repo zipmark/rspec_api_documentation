@@ -3,17 +3,17 @@ require 'rspec_api_documentation/dsl'
 require 'net/http'
 
 describe "Non-api documentation specs" do
-  it "should not be polluted by the rspec api dsl" do
+  it "should not be polluted by the rspec api dsl" do |example|
     example.example_group.should_not include(RspecApiDocumentation::DSL)
   end
 end
 
 resource "Order" do
   describe "example metadata" do
-    subject { example.metadata }
+    subject { |example| example.metadata }
 
     its([:resource_name]) { should eq("Order") }
-    its([:document]) { should be_true }
+    its([:document]) { should be_truthy }
   end
 
   describe "example context" do
@@ -28,10 +28,10 @@ resource "Order" do
 
   [:post, :get, :put, :delete, :head, :patch].each do |http_method|
     send(http_method, "/path") do
-      specify { example.example_group.description.should eq("#{http_method.to_s.upcase} /path") }
+      specify { |example| example.example_group.description.should eq("#{http_method.to_s.upcase} /path") }
 
       describe "example metadata" do
-        subject { example.metadata }
+        subject { |example| example.metadata }
 
         its([:method]) { should eq(http_method) }
         its([:route]) { should eq("/path") }
@@ -62,7 +62,7 @@ resource "Order" do
     let(:size) { "medium" }
 
     describe "example metadata" do
-      subject { example.metadata }
+      subject { |example| example.metadata }
 
       it "should include the documentated parameters" do
         subject[:parameters].should eq(
@@ -130,7 +130,7 @@ resource "Order" do
     end
 
     describe "no_doc" do
-      it "should not add requests" do
+      it "should not add requests" do |example|
         example.metadata[:requests] = ["first request"]
 
         no_doc do
@@ -179,14 +179,14 @@ resource "Order" do
   describe "nested parameters" do
     parameter :per_page, "Number of results on a page"
 
-    it "should only have 1 parameter" do
+    it "should only have 1 parameter" do |example|
       example.metadata[:parameters].length.should == 1
     end
 
     context "another parameter" do
       parameter :page, "Current page"
 
-      it 'should have 2 parameters' do
+      it 'should have 2 parameters' do |example|
         example.metadata[:parameters].length.should == 2
       end
     end
@@ -228,12 +228,12 @@ resource "Order" do
 
         it "should mock requests to the callback url to be handled by the destination" do
           called = false
-          destination.stub(:call).and_return do
+          destination.stub(:call) do
             called = true
             [200, {}, []]
           end
           do_callback
-          called.should be_true
+          called.should be_truthy
         end
       end
 
@@ -255,7 +255,7 @@ resource "Order" do
 
       get "/users/:id/orders" do
         example "Page should be in the query string" do
-          client.should_receive(method).with do |path, data, headers|
+          client.should_receive(method) do |path, data, headers|
             path.should =~ /^\/users\/1\/orders\?/
             path.split("?")[1].split("&").sort.should == "page=2&message=Thank+you".split("&").sort
             data.should be_nil
@@ -290,7 +290,7 @@ resource "Order" do
 
   context "#explanation" do
     post "/orders" do
-      example "Creating an order" do
+      example "Creating an order" do |example|
         explanation "By creating an order..."
         example.metadata[:explanation].should == "By creating an order..."
       end
@@ -305,7 +305,7 @@ resource "Order" do
         let(:id_eq) { [1, 2] }
 
         example "parsed properly" do
-          client.should_receive(:get).with do |path, data, headers|
+          client.should_receive(:get) do |path, data, headers|
             Rack::Utils.parse_nested_query(path.gsub('/orders?', '')).should eq({"id_eq"=>['1', '2']})
           end
           do_request
@@ -318,7 +318,7 @@ resource "Order" do
         let(:within_id) { {"first" => 1, "last" => 10, "exclude" => [3,5,7]} }
 
         example "parsed properly" do
-          client.should_receive(:get).with do |path, data, headers|
+          client.should_receive(:get) do |path, data, headers|
             Rack::Utils.parse_nested_query(path.gsub('/orders?', '')).should eq({
               "search" => { "within_id" => {"first" => '1', "last" => '10', "exclude" => ['3','5','7']}}
             })
@@ -387,7 +387,7 @@ resource "Order" do
     put "/orders" do
       header "Accept", "application/json"
 
-      it "should be sent with the request" do
+      it "should be sent with the request" do |example|
         example.metadata[:headers].should == { "Accept" => "application/json" }
       end
 
@@ -418,7 +418,7 @@ resource "Order" do
 
       let(:accept) { "application/json" }
 
-      it "should be sent with the request" do
+      it "should be sent with the request" do |example|
         example.metadata[:headers].should == { "Accept" => :accept }
       end
 
@@ -448,13 +448,13 @@ end
 resource "top level parameters" do
   parameter :page, "Current page"
 
-  it 'should have 1 parameter' do
+  it 'should have 1 parameter' do |example|
     example.metadata[:parameters].length.should == 1
   end
 end
 
 resource "passing in document to resource", :document => :not_all do
-  it "should have the correct tag" do
+  it "should have the correct tag" do |example|
     example.metadata[:document].should == :not_all
   end
 end

@@ -28,7 +28,7 @@ describe RspecApiDocumentation::Writers::HtmlWriter do
     it "should write the index" do
       writer.write
       index_file = File.join(configuration.docs_dir, "index.html")
-      File.exists?(index_file).should be_true
+      File.exists?(index_file).should be_truthy
     end
   end
 end

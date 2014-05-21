@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_runtime_dependency "rspec", "~> 2.14.0"
+  s.add_runtime_dependency "rspec", "~> 2.99.0.rc1"
   s.add_runtime_dependency "activesupport", ">= 3.0.0"
   s.add_runtime_dependency "i18n", ">= 0.1.0"
   s.add_runtime_dependency "mustache", ">= 0.99.4"
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rack-test", ">= 0.6.2"
   s.add_development_dependency "rack-oauth2", ">= 0.14.4"
   s.add_development_dependency "webmock", ">= 1.7.0"
+  s.add_development_dependency "rspec-its"
 
   s.files        = Dir.glob("lib/**/*") + Dir.glob("templates/**/*")
   s.require_path = 'lib'
