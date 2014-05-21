@@ -108,6 +108,10 @@ module RspecApiDocumentation::DSL
 
     private
 
+    def example
+      RSpec.current_example
+    end
+
     def rspec_api_documentation_client
       send(RspecApiDocumentation.configuration.client_method)
     end
