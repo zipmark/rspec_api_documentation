@@ -18,8 +18,8 @@ describe RspecApiDocumentation::Example do
       let(:metadata) {{ :foo => nil }}
 
       it "should return the metadata value for the given method selector as a key" do
-        example.should respond_to(:foo)
-        example.foo.should eq(nil)
+        expect(example).to respond_to(:foo)
+        expect(example.foo).to eq(nil)
       end
     end
 
@@ -27,8 +27,8 @@ describe RspecApiDocumentation::Example do
       before { metadata.delete(:foo) }
 
       it "should delegate the method to the example" do
-        rspec_example.should_receive(:foo).with(:bar, :baz)
-        example.should respond_to(:foo)
+        expect(rspec_example).to receive(:foo).with(:bar, :baz)
+        expect(example).to respond_to(:foo)
         example.foo(:bar, :baz)
       end
     end
@@ -38,7 +38,7 @@ describe RspecApiDocumentation::Example do
     let(:metadata) {{ :method => "GET" }}
 
     it "should return what is in the metadata" do
-      example.http_method.should == "GET"
+      expect(example.http_method).to eq("GET")
     end
   end
 
@@ -133,13 +133,13 @@ describe RspecApiDocumentation::Example do
     subject { example.has_parameters? }
 
     context "when parameters are defined" do
-      before { example.stub(:parameters).and_return([double]) }
+      before { allow(example).to receive(:parameters).and_return([double]) }
 
       it { should be_truthy }
     end
 
     context "when parameters are empty" do
-      before { example.stub(:parameters).and_return([]) }
+      before { allow(example).to receive(:parameters).and_return([]) }
 
       it { should be_falsey }
     end
@@ -152,11 +152,11 @@ describe RspecApiDocumentation::Example do
   describe "#explanation" do
     it "should return the metadata explanation" do
       example.metadata[:explanation] = "Here is an explanation"
-      example.explanation.should == "Here is an explanation"
+      expect(example.explanation).to eq("Here is an explanation")
     end
 
     it "should return an empty string when not set" do
-      example.explanation.should == nil
+      expect(example.explanation).to eq(nil)
     end
   end
 
@@ -182,7 +182,7 @@ describe RspecApiDocumentation::Example do
     end
 
     it "should filter out anything not explicitly mentioned" do
-      subject.requests.should == [
+      expect(subject.requests).to eq([
           {
               :request_headers => {
                   "Included" => "data",
@@ -195,7 +195,7 @@ describe RspecApiDocumentation::Example do
               },
               :request_method => "GET"
           }
-      ]
+      ])
     end
   end
 
@@ -221,7 +221,7 @@ describe RspecApiDocumentation::Example do
     end
 
     it "should filter out anything not explicitly mentioned" do
-      subject.requests.should == [
+      expect(subject.requests).to eq([
           {
               :response_headers => {
                   "Included" => "data",
@@ -234,7 +234,7 @@ describe RspecApiDocumentation::Example do
               },
               :request_method => "GET"
           }
-      ]
+      ])
     end
   end
 end

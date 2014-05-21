@@ -9,7 +9,7 @@ describe RspecApiDocumentation::Views::HtmlExample do
   let(:html_example) { described_class.new(example, configuration) }
 
   it "should have downcased filename" do
-    html_example.filename.should == "ordering_a_cup_of_coffee.html"
+    expect(html_example.filename).to eq("ordering_a_cup_of_coffee.html")
   end
 
   describe "multi charctor example name" do
@@ -18,7 +18,7 @@ describe RspecApiDocumentation::Views::HtmlExample do
 
     it "should have downcased filename" do
       filename = Digest::MD5.new.update(label).to_s
-      html_example.filename.should == filename + ".html"
+      expect(html_example.filename).to eq(filename + ".html")
     end
   end
 end

@@ -4,7 +4,7 @@ require 'net/http'
 
 describe "Non-api documentation specs" do
   it "should not be polluted by the rspec api dsl" do |example|
-    example.example_group.should_not include(RspecApiDocumentation::DSL)
+    expect(example.example_group).to_not include(RspecApiDocumentation::DSL)
   end
 end
 
@@ -18,17 +18,17 @@ resource "Order" do
 
   describe "example context" do
     it "should provide a client" do
-      client.should be_a(RspecApiDocumentation::RackTestClient)
+      expect(client).to be_a(RspecApiDocumentation::RackTestClient)
     end
 
     it "should return the same client every time" do
-      client.should equal(client)
+      expect(client).to equal(client)
     end
   end
 
   [:post, :get, :put, :delete, :head, :patch].each do |http_method|
     send(http_method, "/path") do
-      specify { |example| example.example_group.description.should eq("#{http_method.to_s.upcase} /path") }
+      specify { |example| expect(example.example_group.description).to eq("#{http_method.to_s.upcase} /path") }
 
       describe "example metadata" do
         subject { |example| example.metadata }
@@ -45,7 +45,7 @@ resource "Order" do
 
         describe "do_request" do
           it "should call the correct method on the client" do
-            client.should_receive(http_method)
+            expect(client).to receive(http_method)
             do_request
           end
         end
@@ -65,7 +65,7 @@ resource "Order" do
       subject { |example| example.metadata }
 
       it "should include the documentated parameters" do
-        subject[:parameters].should eq(
+        expect(subject[:parameters]).to eq(
           [
             { :name => "type", :description => "The type of drink you want.", :required => true },
             { :name => "size", :description => "The size of drink you want.", :required => true },
@@ -80,7 +80,7 @@ resource "Order" do
 
       describe "params" do
         it "should equal the assigned parameter values" do
-          params.should eq("type" => "coffee", "size" => "medium")
+          expect(params).to eq("type" => "coffee", "size" => "medium")
         end
       end
     end
@@ -101,30 +101,30 @@ resource "Order" do
         let(:raw_post) { { :bill => params }.to_json }
 
         it "should send the raw post body" do
-          client.should_receive(method).with(path, raw_post, nil)
+          expect(client).to receive(method).with(path, raw_post, nil)
           do_request
         end
       end
 
       context "when raw_post is not defined" do
         it "should send the params hash" do
-          client.should_receive(method).with(path, params, nil)
+          expect(client).to receive(method).with(path, params, nil)
           do_request
         end
       end
 
       it "should allow extra parameters to be passed in" do
-        client.should_receive(method).with(path, params.merge("extra" => true), nil)
+        expect(client).to receive(method).with(path, params.merge("extra" => true), nil)
         do_request(:extra => true)
       end
 
       it "should overwrite parameters" do
-        client.should_receive(method).with(path, params.merge("size" => "large"), nil)
+        expect(client).to receive(method).with(path, params.merge("size" => "large"), nil)
         do_request(:size => "large")
       end
 
       it "should overwrite path variables" do
-        client.should_receive(method).with("/orders/2", params, nil)
+        expect(client).to receive(method).with("/orders/2", params, nil)
         do_request(:id => 2)
       end
     end
@@ -134,11 +134,11 @@ resource "Order" do
         example.metadata[:requests] = ["first request"]
 
         no_doc do
-          example.metadata[:requests].should be_empty
+          expect(example.metadata[:requests]).to be_empty
           example.metadata[:requests] = ["not documented"]
         end
 
-        example.metadata[:requests].should == ["first request"]
+        expect(example.metadata[:requests]).to eq(["first request"])
       end
     end
   end
@@ -148,7 +148,7 @@ resource "Order" do
 
     describe "do_request" do
       it "should correctly set path variables and other parameters" do
-        client.should_receive(method).with("/orders/3/line_items/2?type=short", nil, nil)
+        expect(client).to receive(method).with("/orders/3/line_items/2?type=short", nil, nil)
         do_request(:id => 2, :order_id => 3, :type => 'short')
       end
     end
@@ -164,13 +164,13 @@ resource "Order" do
         let(:order_id) { order.id }
 
         it "should have the value of id subtituted for :id" do
-          subject.should eq("/orders/1")
+          expect(subject).to eq("/orders/1")
         end
       end
 
       context "when id has not been defined" do
         it "should be unchanged" do
-          subject.should eq("/orders/:order_id")
+          expect(subject).to eq("/orders/:order_id")
         end
       end
     end
@@ -180,29 +180,29 @@ resource "Order" do
     parameter :per_page, "Number of results on a page"
 
     it "should only have 1 parameter" do |example|
-      example.metadata[:parameters].length.should == 1
+      expect(example.metadata[:parameters].length).to eq(1)
     end
 
     context "another parameter" do
       parameter :page, "Current page"
 
       it 'should have 2 parameters' do |example|
-        example.metadata[:parameters].length.should == 2
+        expect(example.metadata[:parameters].length).to eq(2)
       end
     end
   end
 
   callback "Order creation notification callback" do
     it "should provide a destination" do
-      destination.should be_a(RspecApiDocumentation::TestServer)
+      expect(destination).to be_a(RspecApiDocumentation::TestServer)
     end
 
     it "should return the same destination every time" do
-      destination.should equal(destination)
+      expect(destination).to equal(destination)
     end
 
     describe "trigger_callback" do
-      let(:callback_url) { double(:callback_url) }
+      let(:callback_url) { "callback url" }
       let(:callbacks_triggered) { [] }
 
       trigger_callback do
@@ -211,7 +211,7 @@ resource "Order" do
 
       it "should get called once when do_callback is called" do
         do_callback
-        callbacks_triggered.length.should eq(1)
+        expect(callbacks_triggered.length).to eq(1)
       end
     end
 
@@ -228,12 +228,12 @@ resource "Order" do
 
         it "should mock requests to the callback url to be handled by the destination" do
           called = false
-          destination.stub(:call) do
+          allow(destination).to receive(:call) do
             called = true
             [200, {}, []]
           end
           do_callback
-          called.should be_truthy
+          expect(called).to be_truthy
         end
       end
 
@@ -255,11 +255,11 @@ resource "Order" do
 
       get "/users/:id/orders" do
         example "Page should be in the query string" do
-          client.should_receive(method) do |path, data, headers|
-            path.should =~ /^\/users\/1\/orders\?/
-            path.split("?")[1].split("&").sort.should == "page=2&message=Thank+you".split("&").sort
-            data.should be_nil
-            headers.should be_nil
+          expect(client).to receive(method) do |path, data, headers|
+            expect(path).to match(/^\/users\/1\/orders\?/)
+            expect(path.split("?")[1].split("&").sort).to eq("page=2&message=Thank+you".split("&").sort)
+            expect(data).to be_nil
+            expect(headers).to be_nil
           end
           do_request
         end
@@ -267,7 +267,7 @@ resource "Order" do
 
       post "/users/:id/orders" do
         example "Page should be in the post body" do
-          client.should_receive(method).with("/users/1/orders", {"page" => 2, "message" => "Thank you"}, nil)
+          expect(client).to receive(method).with("/users/1/orders", {"page" => 2, "message" => "Thank you"}, nil)
           do_request
         end
       end
@@ -276,14 +276,14 @@ resource "Order" do
 
   context "#app" do
     it "should provide access to the configurations app" do
-      app.should == RspecApiDocumentation.configuration.app
+      expect(app).to eq(RspecApiDocumentation.configuration.app)
     end
 
     context "defining a new app, in an example" do
       let(:app) { "Sinatra" }
 
       it "should use the user defined app" do
-        app.should == "Sinatra"
+        expect(app).to eq("Sinatra")
       end
     end
   end
@@ -292,7 +292,7 @@ resource "Order" do
     post "/orders" do
       example "Creating an order" do |example|
         explanation "By creating an order..."
-        example.metadata[:explanation].should == "By creating an order..."
+        expect(example.metadata[:explanation]).to eq("By creating an order...")
       end
     end
   end
@@ -305,8 +305,8 @@ resource "Order" do
         let(:id_eq) { [1, 2] }
 
         example "parsed properly" do
-          client.should_receive(:get) do |path, data, headers|
-            Rack::Utils.parse_nested_query(path.gsub('/orders?', '')).should eq({"id_eq"=>['1', '2']})
+          expect(client).to receive(:get) do |path, data, headers|
+            expect(Rack::Utils.parse_nested_query(path.gsub('/orders?', ''))).to eq({"id_eq"=>['1', '2']})
           end
           do_request
         end
@@ -318,8 +318,8 @@ resource "Order" do
         let(:within_id) { {"first" => 1, "last" => 10, "exclude" => [3,5,7]} }
 
         example "parsed properly" do
-          client.should_receive(:get) do |path, data, headers|
-            Rack::Utils.parse_nested_query(path.gsub('/orders?', '')).should eq({
+          expect(client).to receive(:get) do |path, data, headers|
+            expect(Rack::Utils.parse_nested_query(path.gsub('/orders?', ''))).to eq({
               "search" => { "within_id" => {"first" => '1', "last" => '10', "exclude" => ['3','5','7']}}
             })
           end
@@ -337,7 +337,7 @@ resource "Order" do
 
       context "no extra params" do
         before do
-          client.should_receive(:post).with("/orders", {}, nil)
+          expect(client).to receive(:post).with("/orders", {}, nil)
         end
 
         example_request "Creating an order"
@@ -349,7 +349,7 @@ resource "Order" do
 
       context "extra options for do_request" do
         before do
-          client.should_receive(:post).with("/orders", {"order_type" => "big"}, nil)
+          expect(client).to receive(:post).with("/orders", {"order_type" => "big"}, nil)
         end
 
         example_request "should take an optional parameter hash", :order_type => "big"
@@ -361,7 +361,7 @@ resource "Order" do
     post "/orders" do
       context "extra options for do_request" do
         before do
-          client.should_receive(:post).with("/orders", {"order_type" => "big"}, nil)
+          expect(client).to receive(:post).with("/orders", {"order_type" => "big"}, nil)
         end
 
         example_request "should take an optional parameter hash", :order_type => "big"
@@ -372,13 +372,13 @@ resource "Order" do
   context "last_response helpers" do
     put "/orders" do
       it "status" do
-        client.stub(:last_response).and_return(double(:status => 200))
-        status.should == 200
+        allow(client).to receive(:last_response).and_return(double(:status => 200))
+        expect(status).to eq(200)
       end
 
       it "response_body" do
-        client.stub(:last_response).and_return(double(:body => "the body"))
-        response_body.should == "the body"
+        allow(client).to receive(:last_response).and_return(double(:body => "the body"))
+        expect(response_body).to eq("the body")
       end
     end
   end
@@ -388,7 +388,7 @@ resource "Order" do
       header "Accept", "application/json"
 
       it "should be sent with the request" do |example|
-        example.metadata[:headers].should == { "Accept" => "application/json" }
+        expect(example.metadata[:headers]).to eq({ "Accept" => "application/json" })
       end
 
       context "nested headers" do
@@ -408,7 +408,7 @@ resource "Order" do
         end
 
         it "adds to headers" do
-          headers.should == { "Accept" => "application/json", "Content-Type" => "application/json" }
+          expect(headers).to eq({ "Accept" => "application/json", "Content-Type" => "application/json" })
         end
       end
     end
@@ -419,18 +419,18 @@ resource "Order" do
       let(:accept) { "application/json" }
 
       it "should be sent with the request" do |example|
-        example.metadata[:headers].should == { "Accept" => :accept }
+        expect(example.metadata[:headers]).to eq({ "Accept" => :accept })
       end
 
       it "should fill out into the headers" do
-        headers.should == { "Accept" => "application/json" }
+        expect(headers).to eq({ "Accept" => "application/json" })
       end
 
       context "nested headers" do
         header "Content-Type", "application/json"
 
         it "does not affect the outer context's assertions" do
-          headers.should == { "Accept" => "application/json", "Content-Type" => "application/json" }
+          expect(headers).to eq({ "Accept" => "application/json", "Content-Type" => "application/json" })
         end
       end
 
@@ -438,7 +438,7 @@ resource "Order" do
         header "X-My-Header", :my_header
 
         it "should not be in the headers hash" do
-          headers.should == { "Accept" => "application/json" }
+          expect(headers).to eq({ "Accept" => "application/json" })
         end
       end
     end
@@ -449,12 +449,12 @@ resource "top level parameters" do
   parameter :page, "Current page"
 
   it 'should have 1 parameter' do |example|
-    example.metadata[:parameters].length.should == 1
+    expect(example.metadata[:parameters].length).to eq(1)
   end
 end
 
 resource "passing in document to resource", :document => :not_all do
   it "should have the correct tag" do |example|
-    example.metadata[:document].should == :not_all
+    expect(example.metadata[:document]).to eq(:not_all)
   end
 end

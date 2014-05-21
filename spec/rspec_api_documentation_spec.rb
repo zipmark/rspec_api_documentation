@@ -3,11 +3,11 @@ require 'spec_helper'
 describe RspecApiDocumentation do
   describe "#configuration" do
     it "should be a configuration" do
-      RspecApiDocumentation.configuration.should be_a(RspecApiDocumentation::Configuration)
+      expect(RspecApiDocumentation.configuration).to be_a(RspecApiDocumentation::Configuration)
     end
 
     it "returns the same configuration every time" do
-      RspecApiDocumentation.configuration.should equal(RspecApiDocumentation.configuration)
+      expect(RspecApiDocumentation.configuration).to equal(RspecApiDocumentation.configuration)
     end
   end
 
@@ -15,11 +15,11 @@ describe RspecApiDocumentation do
     let(:configuration) { double(:confiugration) }
 
     before do
-      RspecApiDocumentation.stub(:configuration).and_return(configuration)
+      allow(RspecApiDocumentation).to receive(:configuration).and_return(configuration)
     end
 
     it "should yield the configuration to the block" do
-      configuration.should_receive(:foo)
+      allow(configuration).to receive(:foo)
       RspecApiDocumentation.configure do |config|
         config.foo
       end
