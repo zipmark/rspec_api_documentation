@@ -34,7 +34,7 @@ module RspecApiDocumentation
       output.puts "    ! #{example_notification.example.description} (FAILED)"
     end
 
-    def stop
+    def stop(notification)
       RspecApiDocumentation.documentations.each(&:write)
     end
   end

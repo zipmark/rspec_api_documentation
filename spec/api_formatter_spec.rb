@@ -40,7 +40,7 @@ describe RspecApiDocumentation::ApiFormatter do
         expect(configuration).to receive(:write)
       end
 
-      formatter.stop
+      formatter.stop(RSpec::Core::Notifications::NullNotification.new)
     end
   end
 
