@@ -12,7 +12,7 @@ module RspecApiDocumentation::DSL
 
     module ClassMethods
       def example_request(description, params = {}, &block)
-        example description do
+        example description, :caller => block.send(:caller) do
           do_request(params)
           instance_eval &block if block_given?
         end
