@@ -32,7 +32,7 @@ describe RspecApiDocumentation::Curl do
     it { should_not =~ /-H "Cookies: "/ }
 
     it "should call post" do
-      curl.should_receive(:post)
+      expect(curl).to receive(:post)
       curl.output(host)
     end
   end
@@ -59,7 +59,7 @@ describe RspecApiDocumentation::Curl do
     it { should_not =~ /-H "Cookies: "/ }
 
     it "should call get" do
-      curl.should_receive(:get)
+      expect(curl).to receive(:get)
       curl.output(host)
     end
   end
@@ -87,7 +87,7 @@ describe RspecApiDocumentation::Curl do
     it { should_not =~ /-H "Cookies: "/ }
 
     it "should call put" do
-      curl.should_receive(:put)
+      expect(curl).to receive(:put)
       curl.output(host)
     end
   end
@@ -114,7 +114,7 @@ describe RspecApiDocumentation::Curl do
     it { should_not =~ /-H "Cookies: "/ }
 
     it "should call delete" do
-      curl.should_receive(:delete)
+      expect(curl).to receive(:delete)
       curl.output(host)
     end
   end
@@ -141,7 +141,7 @@ describe RspecApiDocumentation::Curl do
     it { should_not =~ /-H "Cookies: "/ }
 
     it "should call get" do
-      curl.should_receive(:head)
+      expect(curl).to receive(:head)
       curl.output(host)
     end
   end
@@ -169,7 +169,7 @@ describe RspecApiDocumentation::Curl do
     it { should_not =~ /-H "Cookies: "/ }
 
     it "should call put" do
-      curl.should_receive(:patch)
+      expect(curl).to receive(:patch)
       curl.output(host)
     end
   end

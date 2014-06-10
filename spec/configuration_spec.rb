@@ -13,18 +13,18 @@ describe RspecApiDocumentation::Configuration do
   describe ".add_setting" do
     it 'should allow creating a new setting' do
       RspecApiDocumentation::Configuration.add_setting :new_setting
-      configuration.should respond_to(:new_setting)
-      configuration.should respond_to(:new_setting=)
+      expect(configuration).to respond_to(:new_setting)
+      expect(configuration).to respond_to(:new_setting=)
     end
 
     it 'should allow setting a default' do
       RspecApiDocumentation::Configuration.add_setting :new_setting, :default => "default"
-      configuration.new_setting.should == "default"
+      expect(configuration.new_setting).to eq("default")
     end
 
     it "should allow the default setting to be a lambda" do
       RspecApiDocumentation::Configuration.add_setting :another_setting, :default => lambda { |config| config.new_setting }
-      configuration.another_setting.should == "default"
+      expect(configuration.another_setting).to eq("default")
     end
   end
 
@@ -50,7 +50,7 @@ describe RspecApiDocumentation::Configuration do
     its(:app) { should be_nil }
     its(:curl_headers_to_filter) { should be_nil }
     its(:curl_host) { should be_nil }
-    its(:keep_source_order) { should be_false }
+    its(:keep_source_order) { should be_falsey }
     its(:api_name) { should == "API Documentation" }
     its(:client_method) { should == :client }
     its(:io_docs_protocol) { should == "http" }
@@ -62,37 +62,37 @@ describe RspecApiDocumentation::Configuration do
     it "should take a block" do
       called = false
       subject.define_group(:foo) { called = true }
-      called.should eq(true)
+      expect(called).to eq(true)
     end
 
     it "should yield a sub-configuration" do
       subject.define_group(:foo) do |config|
-        config.should be_a(described_class)
-        config.parent.should equal(subject)
+        expect(config).to be_a(described_class)
+        expect(config.parent).to equal(subject)
       end
     end
 
     it "should set the sub-configuration filter" do
       subject.define_group(:foo) do |config|
-        config.filter.should eq(:foo)
+        expect(config.filter).to eq(:foo)
       end
     end
 
     it "should inherit its parents configurations" do
       subject.format = :json
       subject.define_group(:sub) do |config|
-        config.format.should == :json
+        expect(config.format).to eq(:json)
       end
     end
 
     it "should scope the documentation directory" do
       subject.define_group(:sub) do |config|
-        config.docs_dir.should == subject.docs_dir.join('sub')
+        expect(config.docs_dir).to eq(subject.docs_dir.join('sub'))
       end
     end
   end
 
-  it { should be_a(Enumerable) }
+  it { expect(subject).to be_a(Enumerable) }
 
   it "should enumerate through recursively and include self" do
     configs = [subject]
@@ -105,7 +105,7 @@ describe RspecApiDocumentation::Configuration do
         end
       end
     end
-    subject.to_a.should eq(configs)
+    expect(subject.to_a).to eq(configs)
   end
 
   describe "#groups" do
@@ -113,7 +113,7 @@ describe RspecApiDocumentation::Configuration do
       subject.define_group(:sub) do |config|
       end
 
-      subject.groups.should have(1).group
+      expect(subject.groups.count).to eq(1)
     end
   end
 end

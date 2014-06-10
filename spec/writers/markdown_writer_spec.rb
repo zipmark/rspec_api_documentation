@@ -9,8 +9,8 @@ describe RspecApiDocumentation::Writers::MarkdownWriter do
     let(:writer) { double(:writer) }
 
     it "should build a new writer and write the docs" do
-      described_class.stub(:new).with(index, configuration).and_return(writer)
-      writer.should_receive(:write)
+      allow(described_class).to receive(:new).with(index, configuration).and_return(writer)
+      expect(writer).to receive(:write)
       described_class.write(index, configuration)
     end
   end
@@ -28,8 +28,7 @@ describe RspecApiDocumentation::Writers::MarkdownWriter do
     it "should write the index" do
       writer.write
       index_file = File.join(configuration.docs_dir, "index.markdown")
-      File.exists?(index_file).should be_true
+      expect(File.exists?(index_file)).to be_truthy
     end
   end
-
 end

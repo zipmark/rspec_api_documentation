@@ -20,7 +20,7 @@ Feature: Example Request
       resource "Example Request" do
         get "/" do
           example_request "Greeting your favorite gem" do
-            status.should eq(201)
+            expect(status).to eq(201)
           end
         end
       end
@@ -28,11 +28,8 @@ Feature: Example Request
     When  I run `rspec app_spec.rb --require ./app.rb --format RspecApiDocumentation::ApiFormatter`
 
   Scenario: Output should have the correct error line
-    Then the output should contain:
-      """
-      Failure/Error: status.should eq(201)
-      """
-    Then the output should not contain "dsl.rb"
+    Then the output should contain "expected: 201"
+    Then the output should not contain "endpoint.rb"
     Then the output should contain:
       """
       rspec ./app_spec.rb:10 # Example Request GET / Greeting your favorite gem

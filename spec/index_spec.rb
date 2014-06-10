@@ -13,7 +13,7 @@ describe RspecApiDocumentation::Index do
     end
 
     it "should contain all added examples" do
-      index.examples.should eq(examples)
+      expect(index.examples).to eq(examples)
     end
   end
 end

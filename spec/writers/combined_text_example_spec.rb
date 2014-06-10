@@ -7,11 +7,11 @@ describe RspecApiDocumentation::Writers::CombinedTextExample do
   let(:example) { RspecApiDocumentation::Writers::CombinedTextExample.new(rspec_example) }
 
   it "should format its resource name" do
-    example.resource_name.should == "foo_bar"
+    expect(example.resource_name).to eq("foo_bar")
   end
 
   it "should format its description" do
-    example.description.should == "ABCDEFG\n-------\n\n"
+    expect(example.description).to eq("ABCDEFG\n-------\n\n")
   end
 
   context "given parameters" do
@@ -23,12 +23,12 @@ describe RspecApiDocumentation::Writers::CombinedTextExample do
     }}
 
     it "should format its parameters" do
-      example.parameters.should == "Parameters:\n  * foo - Foo!\n  * bar - Bar!\n\n"
+      expect(example.parameters).to eq("Parameters:\n  * foo - Foo!\n  * bar - Bar!\n\n")
     end
   end
 
   it "renders nothing if there are no parameters" do
-    example.parameters.should == ""
+    expect(example.parameters).to eq("")
   end
 
   context "when there are requests" do
@@ -63,15 +63,15 @@ describe RspecApiDocumentation::Writers::CombinedTextExample do
     let(:metadata) {{ :requests => requests }}
 
     it "exposes the requests" do
-      example.requests.should == [
+      expect(example.requests).to eq([
         ["  GET /greetings\n  Header: value\n\n  baz=quux\n  foo=bar\n", "  Status: 200 OK\n  Foo: bar\n  Header: value\n\n  body\n"],
         ["  POST /greetings\n\n  body\n", "  Status: 404 Not Found\n  Header: value\n\n  body\n"],
         ["  DELETE /greetings/1\n", "  Status: 200 OK\n  Header: value\n"],
-      ]
+      ])
     end
   end
 
   it "returns the empty array if there are no requests" do
-    example.requests.should == []
+    expect(example.requests).to eq([])
   end
 end

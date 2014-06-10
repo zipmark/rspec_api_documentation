@@ -12,12 +12,7 @@ module RspecApiDocumentation::DSL
 
     module ClassMethods
       def example_request(description, params = {}, &block)
-        file_path = caller.first[0, caller.first =~ /:/]
-
-        location = caller.first[0, caller.first =~ /(:in|$)/]
-        location = relative_path(location)
-
-        example description, :location => location, :file_path => file_path do
+        example description, :caller => block.send(:caller) do
           do_request(params)
           instance_eval &block if block_given?
         end
@@ -104,6 +99,10 @@ module RspecApiDocumentation::DSL
 
     def explanation(text)
       example.metadata[:explanation] = text
+    end
+
+    def example
+      RSpec.current_example
     end
 
     private

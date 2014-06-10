@@ -30,10 +30,10 @@ Feature: Document callbacks
 
           example "Receiving a callback when interesting things happen" do
             do_callback
-            request_method.should eq("POST")
-            request_headers["Content-Type"].should eq("application/json")
-            request_headers["User-Agent"].should eq("InterestingThingApp")
-            request_body.should eq('{"message":"Something interesting happened!"}')
+            expect(request_method).to eq("POST")
+            expect(request_headers["Content-Type"]).to eq("application/json")
+            expect(request_headers["User-Agent"]).to eq("InterestingThingApp")
+            expect(request_body).to eq('{"message":"Something interesting happened!"}')
           end
         end
       end

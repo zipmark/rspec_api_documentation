@@ -12,11 +12,11 @@ describe RspecApiDocumentation::Writers::IndexHelper do
       subject { RspecApiDocumentation::Writers::IndexHelper.sections(examples, configuration) }
 
       it "should order resources by resource name" do
-        subject.map { |resource| resource[:resource_name] }.should == ["Cart", "Order"]
+        expect(subject.map { |resource| resource[:resource_name] }).to eq(["Cart", "Order"])
       end
 
       it "should order examples by description" do
-        subject.detect { |resource| resource[:resource_name] == "Order"}[:examples].should == [example_2, example_1]
+        expect(subject.detect { |resource| resource[:resource_name] == "Order"}[:examples]).to eq([example_2, example_1])
       end
     end
 
@@ -24,11 +24,11 @@ describe RspecApiDocumentation::Writers::IndexHelper do
       subject { RspecApiDocumentation::Writers::IndexHelper.sections(examples, double(:keep_source_order => true)) }
 
       it "should order resources by source code declaration" do
-        subject.map { |resource| resource[:resource_name] }.should == ["Order", "Cart"]
+        expect(subject.map { |resource| resource[:resource_name] }).to eq(["Order", "Cart"])
       end
 
       it "should order examples by source code declaration" do
-        subject.detect { |resource| resource[:resource_name] == "Order"}[:examples].should == [example_1, example_2]
+        expect(subject.detect { |resource| resource[:resource_name] == "Order"}[:examples]).to eq([example_1, example_2])
       end
     end
   end

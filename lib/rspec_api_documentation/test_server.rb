@@ -1,8 +1,7 @@
 module RspecApiDocumentation
-  class TestServer < Struct.new(:context)
+  class TestServer < Struct.new(:example)
     include Headers
 
-    delegate :example, :to => :context
     delegate :metadata, :to => :example
 
     attr_reader :request_method, :request_headers, :request_body
