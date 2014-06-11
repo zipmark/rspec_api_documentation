@@ -19,11 +19,11 @@ module RspecApiDocumentation
       end
 
       def dirname
-        resource_name.downcase.gsub(/[^0-9a-z.\-]+/, '_')
+        resource_name.downcase.gsub(/\s+/, '_')
       end
 
       def filename
-        basename = description.downcase.gsub(/\s+/, '_').gsub(/[^a-z_]/, '')
+        basename = description.downcase.gsub(/\s+/, '_').gsub(Pathname::SEPARATOR_PAT, '')
         basename = Digest::MD5.new.update(description).to_s if basename.blank?
         "#{basename}.#{extension}"
       end
