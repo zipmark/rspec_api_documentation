@@ -58,6 +58,10 @@ resource "Order" do
     parameter :size, "The size of drink you want.", :required => true
     parameter :note, "Any additional notes about your order."
 
+    response_field :type, "The type of drink you ordered."
+    response_field :size, "The size of drink you ordered."
+    response_field :note, "Any additional notes about your order."
+
     let(:type) { "coffee" }
     let(:size) { "medium" }
 
@@ -69,6 +73,16 @@ resource "Order" do
           [
             { :name => "type", :description => "The type of drink you want.", :required => true },
             { :name => "size", :description => "The size of drink you want.", :required => true },
+            { :name => "note", :description => "Any additional notes about your order." }
+          ]
+        )
+      end
+
+      it "should include the documentated response fields" do
+        expect(subject[:response_fields]).to eq (
+          [
+            { :name => "type", :description => "The type of drink you ordered." },
+            { :name => "size", :description => "The size of drink you ordered." },
             { :name => "note", :description => "Any additional notes about your order." }
           ]
         )
@@ -188,6 +202,18 @@ resource "Order" do
 
       it 'should have 2 parameters' do |example|
         expect(example.metadata[:parameters].length).to eq(2)
+      end
+    end
+  end
+
+  describe "nested response_fields" do
+    response_field :per_page, "Number of results on a page"
+
+    context "another response field" do
+      response_field :page, "Current page"
+
+      it "should have 2 response fields" do |example|
+        expect(example.metadata[:response_fields].length).to eq(2)
       end
     end
   end
@@ -450,6 +476,14 @@ resource "top level parameters" do
 
   it 'should have 1 parameter' do |example|
     expect(example.metadata[:parameters].length).to eq(1)
+  end
+end
+
+resource "top level response fields" do
+  response_field :page, "Current page"
+
+  it 'should have 1 response field' do |example|
+    expect(example.metadata[:response_fields].length).to eq(1)
   end
 end
 
