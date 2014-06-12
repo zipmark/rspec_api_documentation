@@ -13,12 +13,11 @@ describe RspecApiDocumentation::Views::HtmlExample do
   end
 
   describe "multi charctor example name" do
-    let(:label) { "コーヒーが順番で並んでいること" }
+    let(:label) { "Coffee / Teaが順番で並んでいること" }
     let(:example) { group.example(label) {} }
 
     it "should have downcased filename" do
-      filename = Digest::MD5.new.update(label).to_s
-      expect(html_example.filename).to eq(filename + ".html")
+      expect(html_example.filename).to eq("coffee__teaが順番で並んでいること.html")
     end
   end
 end
