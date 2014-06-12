@@ -1,4 +1,4 @@
-lib = File.expand_path('../lib/', __FILE__)
+lib = File.expand_path("../lib/", __FILE__)
 $:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
@@ -16,20 +16,19 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "rspec", "~> 3.0.0", ">= 3.0.0"
   s.add_runtime_dependency "activesupport", ">= 3.0.0"
-  s.add_runtime_dependency "i18n", ">= 0.1.0"
-  s.add_runtime_dependency "mustache", ">= 0.99.4"
-  s.add_runtime_dependency "json", ">= 1.4.6"
+  s.add_runtime_dependency "mustache", "~> 0.99", ">= 0.99.4"
+  s.add_runtime_dependency "json", "~> 1.4", ">= 1.4.6"
 
-  s.add_development_dependency "fakefs"
-  s.add_development_dependency "sinatra"
-  s.add_development_dependency "aruba"
-  s.add_development_dependency "capybara"
-  s.add_development_dependency "rake"
-  s.add_development_dependency "rack-test", ">= 0.6.2"
-  s.add_development_dependency "rack-oauth2", ">= 0.14.4"
-  s.add_development_dependency "webmock", ">= 1.7.0"
-  s.add_development_dependency "rspec-its"
+  s.add_development_dependency "fakefs", "~> 0.4", ">= 0.4.3"
+  s.add_development_dependency "sinatra", "~> 1.4.4", ">= 1.4.4"
+  s.add_development_dependency "aruba", "~> 0.5", ">= 0.5.3"
+  s.add_development_dependency "capybara", "~> 2.2", ">= 2.2.0"
+  s.add_development_dependency "rake", "~> 10.1", ">= 10.1.0"
+  s.add_development_dependency "rack-test", "~> 0.6.2", ">= 0.6.2"
+  s.add_development_dependency "rack-oauth2", "~> 1.0.7", ">= 1.0.7"
+  s.add_development_dependency "webmock", "~> 1.7", ">= 1.7.0"
+  s.add_development_dependency "rspec-its", "~> 1.0", ">= 1.0.1"
 
   s.files        = Dir.glob("lib/**/*") + Dir.glob("templates/**/*")
-  s.require_path = 'lib'
+  s.require_path = "lib"
 end

@@ -3,9 +3,8 @@ PATH
   specs:
     rspec_api_documentation (4.0.0.pre)
       activesupport (>= 3.0.0)
-      i18n (>= 0.1.0)
-      json (>= 1.4.6)
-      mustache (>= 0.99.4)
+      json (~> 1.4, >= 1.4.6)
+      mustache (~> 0.99, >= 0.99.4)
       rspec (~> 3.0.0, >= 3.0.0)
 
 GEM
@@ -120,14 +119,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aruba
-  capybara
-  fakefs
+  aruba (~> 0.5, >= 0.5.3)
+  capybara (~> 2.2, >= 2.2.0)
+  fakefs (~> 0.4, >= 0.4.3)
   inch
-  rack-oauth2 (>= 0.14.4)
-  rack-test (>= 0.6.2)
-  rake
-  rspec-its
+  rack-oauth2 (~> 1.0.7, >= 1.0.7)
+  rack-test (~> 0.6.2, >= 0.6.2)
+  rake (~> 10.1, >= 10.1.0)
+  rspec-its (~> 1.0, >= 1.0.1)
   rspec_api_documentation!
-  sinatra
-  webmock (>= 1.7.0)
+  sinatra (~> 1.4.4, >= 1.4.4)
+  webmock (~> 1.7, >= 1.7.0)
