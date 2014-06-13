@@ -119,14 +119,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aruba (~> 0.5, >= 0.5.3)
-  capybara (~> 2.2, >= 2.2.0)
-  fakefs (~> 0.4, >= 0.4.3)
+  aruba (~> 0.5)
+  capybara (~> 2.2)
+  fakefs (~> 0.4)
   inch
-  rack-oauth2 (~> 1.0.7, >= 1.0.7)
-  rack-test (~> 0.6.2, >= 0.6.2)
-  rake (~> 10.1, >= 10.1.0)
-  rspec-its (~> 1.0, >= 1.0.1)
+  rack-oauth2 (~> 1.0.7)
+  rack-test (~> 0.6.2)
+  rake (~> 10.1)
+  rspec-its (~> 1.0)
   rspec_api_documentation!
-  sinatra (~> 1.4.4, >= 1.4.4)
-  webmock (~> 1.7, >= 1.7.0)
+  sinatra (~> 1.4.4)
+  webmock (~> 1.7)
