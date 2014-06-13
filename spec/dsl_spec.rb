@@ -58,9 +58,10 @@ resource "Order" do
     parameter :size, "The size of drink you want.", :required => true
     parameter :note, "Any additional notes about your order."
 
-    response_field :type, "The type of drink you ordered."
-    response_field :size, "The size of drink you ordered."
-    response_field :note, "Any additional notes about your order."
+    response_field :type, "The type of drink you ordered.", :scope => :order
+    response_field :size, "The size of drink you ordered.", :scope => :order
+    response_field :note, "Any additional notes about your order.", :scope => :order
+    response_field :id, "The order id"
 
     let(:type) { "coffee" }
     let(:size) { "medium" }
@@ -81,9 +82,10 @@ resource "Order" do
       it "should include the documentated response fields" do
         expect(subject[:response_fields]).to eq (
           [
-            { :name => "type", :description => "The type of drink you ordered." },
-            { :name => "size", :description => "The size of drink you ordered." },
-            { :name => "note", :description => "Any additional notes about your order." }
+            { :name => "type", :description => "The type of drink you ordered.", :scope => :order },
+            { :name => "size", :description => "The size of drink you ordered.", :scope => :order },
+            { :name => "note", :description => "Any additional notes about your order.", :scope => :order },
+            { :name => "id", :description => "The order id" },
           ]
         )
       end
