@@ -69,6 +69,35 @@
           </table>
         {{/ has_parameters? }}
 
+        {{# has_response_fields? }}
+          <h3>Response Fields</h3>
+          <table class="response-fields table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{# response_fields }}
+              <tr>
+                <td>
+                  {{# scope }}
+                    <span class="name">{{ scope }}[{{ name }}]</span>
+                  {{/ scope }}
+                  {{^ scope }}
+                    <span class="name">{{ name }}</span>
+                  {{/ scope }}
+                </td>
+                <td>
+                  <span class="description">{{ description }}</span>
+                </td>
+              </tr>
+              {{/ response_fields }}
+            </tbody>
+          </table>
+        {{/ has_response_fields? }}
+
         {{# requests }}
           <h3>Request</h3>
 

@@ -149,6 +149,26 @@ describe RspecApiDocumentation::Example do
     end
   end
 
+  describe "has_response_fields?" do
+    subject { example.has_response_fields? }
+
+    context "when response fields are defined" do
+      before { allow(example).to receive(:response_fields).and_return([double]) }
+
+      it { should be_truthy }
+    end
+
+    context "when response fields are empty" do
+      before { allow(example).to receive(:response_fields).and_return([]) }
+
+      it { should be_falsey }
+    end
+
+    context "when response fields are not defined" do
+      it { should be_falsey }
+    end
+  end
+
   describe "#explanation" do
     it "should return the metadata explanation" do
       example.metadata[:explanation] = "Here is an explanation"

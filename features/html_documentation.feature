@@ -30,6 +30,8 @@ Feature: Generate HTML documentation from test examples
           parameter :target, "The thing you want to greet"
           parameter :scoped, "This is a scoped variable", :scope => :scope
 
+          response_field :hello, "The greeted thing"
+
           example "Greeting your favorite gem" do
             do_request :target => "rspec_api_documentation"
 
@@ -66,6 +68,13 @@ Feature: Generate HTML documentation from test examples
       | name          | description                 |
       | target        | The thing you want to greet |
       | scope[scoped] | This is a scoped variable   |
+
+  Scenario: Examle HTML documentation should include the response fields
+    When  I open the index
+    And   I navigate to "Greeting your favorite gem"
+    Then  I should see the following response fields:
+      | name  | description       |
+      | hello | The greeted thing |
 
   Scenario: Example HTML documentation includes the request information
     When  I open the index

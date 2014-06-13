@@ -38,6 +38,10 @@ module RspecApiDocumentation
       respond_to?(:parameters) && parameters.present?
     end
 
+    def has_response_fields?
+      respond_to?(:response_fields) && response_fields.present?
+    end
+
     def explanation
       metadata[:explanation] || nil
     end

@@ -17,6 +17,13 @@ Then /^I should see the following parameters:$/ do |table|
   names.zip(descriptions).should == table.rows
 end
 
+Then(/^I should see the following response fields:$/) do |table|
+  names = all(".response-fields .name").map(&:text)
+  descriptions = all(".response-fields .description").map(&:text)
+
+  names.zip(descriptions).should == table.rows
+end
+
 Then /^I should see the following (request|response) headers:$/ do |part, table|
   actual_headers = page.find("pre.#{part}.headers").text
   expected_headers = table.raw.map { |row| row.join(": ") }
