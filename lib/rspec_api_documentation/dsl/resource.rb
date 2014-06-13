@@ -42,6 +42,10 @@ module RspecApiDocumentation::DSL
         parameters.push(options.merge(:name => name.to_s, :description => description))
       end
 
+      def response_field(name, description, options = {})
+        response_fields.push(options.merge(:name => name.to_s, :description => description))
+      end
+
       def header(name, value)
         headers[name] = value
       end
@@ -53,6 +57,14 @@ module RspecApiDocumentation::DSL
           metadata[:parameters] = Marshal.load(Marshal.dump(superclass_metadata[:parameters]))
         end
         metadata[:parameters]
+      end
+
+      def response_fields
+        metadata[:response_fields] ||= []
+        if superclass_metadata && metadata[:response_fields].equal?(superclass_metadata[:response_fields])
+          metadata[:response_fields] = Marshal.load(Marshal.dump(superclass_metadata[:response_fields]))
+        end
+        metadata[:response_fields]
       end
 
       def headers
