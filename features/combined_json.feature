@@ -80,6 +80,7 @@ Feature: Combined text
             "description": "The thing you want to greet"
           }
         ],
+        "response_fields": [],
         "requests": [
           {
             "request_method": "GET",
@@ -115,6 +116,7 @@ Feature: Combined text
             "description": "The thing you want to greet"
           }
         ],
+        "response_fields": [],
         "requests": [
           {
             "request_method": "GET",
