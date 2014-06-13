@@ -3,20 +3,30 @@
 ## {{ description }}
 
 ### {{ http_method }} {{ route }}
-
 {{# explanation }}
+
 {{ explanation }}
 {{/ explanation }}
-
 {{# has_parameters? }}
+
 ### Parameters
 {{# parameters }}
 
-Name : {{ name }} {{# required }} *- required -*{{/ required }}
+Name : {{ name }}{{# required }} *- required -*{{/ required }}
 Description : {{ description }}
 {{/ parameters }}
-{{/ has_parameters? }}
 
+{{/ has_parameters? }}
+{{# has_response_fields? }}
+
+### Response Fields
+{{# response_fields }}
+
+Name : {{ name }}
+Description : {{ description }}
+{{/ response_fields }}
+
+{{/ has_response_fields? }}
 {{# requests }}
 ### Request
 
@@ -27,20 +37,20 @@ Description : {{ description }}
 #### Route
 
 <pre>{{ request_method }} {{ request_path }}</pre>
-
 {{# request_query_parameters_text }}
+
 #### Query Parameters
 
 <pre>{{ request_query_parameters_text }}</pre>
 {{/ request_query_parameters_text }}
-
 {{# request_body }}
+
 #### Body
 
 <pre>{{{ request_body }}}</pre>
 {{/ request_body }}
-
 {{# curl }}
+
 #### cURL
 
 <pre class="request">{{ curl }}</pre>
@@ -63,6 +73,4 @@ Description : {{ description }}
 <pre>{{{ response_body }}}</pre>
 {{/ response_body }}
 {{/ response_status }}
-
 {{/ requests }}
-
