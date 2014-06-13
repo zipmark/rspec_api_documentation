@@ -190,7 +190,7 @@ Feature: Generate Markdown documentation from test examples
 
     #### Headers
 
-    <pre>Content-Type: application/json;charset=utf-8
+    <pre>Content-Type: application/json
     Content-Length: 137</pre>
 
     #### Status

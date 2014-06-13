@@ -190,7 +190,7 @@ Feature: Generate Textile documentation from test examples
 
     h4. Headers
 
-    <pre>Content-Type: application/json;charset=utf-8
+    <pre>Content-Type: application/json
     Content-Length: 137</pre>
 
     h4. Status
