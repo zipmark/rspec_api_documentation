@@ -380,6 +380,25 @@ resource "Orders" do
 end
 ```
 
+#### response_field
+
+This method takes the response field name, a description, and an optional hash of extra metadata that can be displayed in Raddocs as extra columns.
+
+Special values:
+* `:scope => :the_scope` Will scope the response field in the hash
+
+```ruby
+resource "Orders" do
+  response_field :page, "Current page"
+
+  get "/orders" do
+    example_request "Getting orders" do
+      expect(response_body).to eq({ :page => 1 }.to_json)
+    end
+  end
+end
+```
+
 #### callback
 
 This is complicated, see [relish docs](https://www.relishapp.com/zipmark/rspec-api-documentation/docs/document-callbacks).
