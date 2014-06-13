@@ -9,8 +9,13 @@ Feature: Generate Textile documentation from test examples
         get '/orders' do
           content_type :json
 
-          [200, [{ name: 'Order 1', amount: 9.99, description: nil },
-                 { name: 'Order 2', amount: 100.0, description: 'A great order' }].to_json]
+          [200, {
+            :page => 1,
+            :orders => [
+              { name: 'Order 1', amount: 9.99, description: nil },
+              { name: 'Order 2', amount: 100.0, description: 'A great order' }
+            ]
+          }.to_json]
         end
 
         get '/orders/:id' do
@@ -51,10 +56,11 @@ Feature: Generate Textile documentation from test examples
 
       resource 'Orders' do
         get '/orders' do
+          response_field :page, "Current page"
 
           example_request 'Getting a list of orders' do
             status.should eq(200)
-            response_body.should eq('[{"name":"Order 1","amount":9.99,"description":null},{"name":"Order 2","amount":100.0,"description":"A great order"}]')
+            response_body.should eq('{"page":1,"orders":[{"name":"Order 1","amount":9.99,"description":null},{"name":"Order 2","amount":100.0,"description":"A great order"}]}')
           end
         end
 
@@ -156,6 +162,48 @@ Feature: Generate Textile documentation from test examples
 
     """
 
+  Scenario: Example 'Getting al ist of orders' file should look like we expect
+    Then the file "doc/api/orders/getting_a_list_of_orders.textile" should contain exactly:
+    """
+    h1. Orders API
+
+    h2. Getting a list of orders
+
+    h3. GET /orders
+
+    h3. Response Fields
+
+    Name : page
+    Description : Current page
+
+    h3. Request
+
+    h4. Headers
+
+    <pre>Host: example.org</pre>
+
+    h4. Route
+
+    <pre>GET /orders</pre>
+
+    h3. Response
+
+    h4. Headers
+
+    <pre>Content-Type: application/json;charset=utf-8
+    Content-Length: 137</pre>
+
+    h4. Status
+
+    <pre>200 OK</pre>
+
+    h4. Body
+
+    <pre>{"page":1,"orders":[{"name":"Order 1","amount":9.99,"description":null},{"name":"Order 2","amount":100.0,"description":"A great order"}]}</pre>
+
+
+    """
+
   Scenario: Example 'Creating an order' file should look like we expect
     Then the file "doc/api/orders/creating_an_order.textile" should contain exactly:
     """
@@ -164,7 +212,6 @@ Feature: Generate Textile documentation from test examples
     h2. Creating an order
 
     h3. POST /orders
-
 
     h3. Parameters
 
@@ -188,11 +235,9 @@ Feature: Generate Textile documentation from test examples
 
     <pre>POST /orders</pre>
 
-
     h4. Body
 
     <pre>name=Order+3&amount=33.0</pre>
-
 
     h3. Response
 
@@ -204,8 +249,6 @@ Feature: Generate Textile documentation from test examples
     h4. Status
 
     <pre>201 Created</pre>
-
-
 
 
     """

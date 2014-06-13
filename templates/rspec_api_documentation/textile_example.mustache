@@ -6,8 +6,8 @@ h3. {{ http_method }} {{ route }}
 
 {{# explanation }}
 {{ explanation }}
-{{/ explanation }}
 
+{{/ explanation }}
 {{# has_parameters? }}
 h3. Parameters
 {{# parameters }}
@@ -15,8 +15,17 @@ h3. Parameters
 Name : {{ name }} {{# required }} *- required -*{{/ required }}
 Description : {{ description }}
 {{/ parameters }}
-{{/ has_parameters? }}
 
+{{/ has_parameters? }}
+{{# has_response_fields? }}
+h3. Response Fields
+{{# response_fields }}
+
+Name : {{ name }}
+Description : {{ description }}
+{{/ response_fields }}
+
+{{/ has_response_fields? }}
 {{# requests }}
 h3. Request
 
@@ -32,20 +41,20 @@ h4. Route
 h4. Query Parameters
 
 <pre>{{ request_query_parameters_text }}</pre>
-{{/ request_query_parameters_text }}
 
+{{/ request_query_parameters_text }}
 {{# request_body }}
 h4. Body
 
 <pre>{{{ request_body }}}</pre>
-{{/ request_body }}
 
+{{/ request_body }}
 {{# curl }}
 h4. cURL
 
 <pre class="request">{{ curl }}</pre>
-{{/ curl }}
 
+{{/ curl }}
 {{# response_status }}
 h3. Response
 
@@ -61,8 +70,7 @@ h4. Status
 h4. Body
 
 <pre>{{{ response_body }}}</pre>
+
 {{/ response_body }}
 {{/ response_status }}
-
 {{/ requests }}
-
