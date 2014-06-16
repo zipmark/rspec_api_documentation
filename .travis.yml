@@ -5,7 +5,7 @@ rvm:
   - 2.1.1
 gemfile:
   - Gemfile
-script: ./script/travis.sh
+script: ./script/ci/run_build.sh
 install: bundle install --deployment && cd example && bundle install --deployment
 branches:
   only:
