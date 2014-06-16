@@ -3,9 +3,9 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.1'
 gem 'sqlite3'
 gem 'spring', group: :development
+gem 'raddocs', :github => "smartlogic/raddocs"
 
 group :test, :development do
   gem 'rspec-rails'
   gem 'rspec_api_documentation', :path => "../"
-  gem 'raddocs', :github => "smartlogic/raddocs"
 end
