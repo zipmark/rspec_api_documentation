@@ -34,6 +34,10 @@ resource "Orders" do
     parameter :paid, "If the order has been paid for", :required => true, :scope => :order
     parameter :email, "Email of user that placed the order", :scope => :order
 
+    response_field :name, "Name of order", :scope => :order, "Type" => "String"
+    response_field :paid, "If the order has been paid for", :scope => :order, "Type" => "Boolean"
+    response_field :email, "Email of user that placed the order", :scope => :order, "Type" => "String"
+
     let(:name) { "Order 1" }
     let(:paid) { true }
     let(:email) { "email@example.com" }
