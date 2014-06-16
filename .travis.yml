@@ -7,8 +7,6 @@ gemfile:
   - Gemfile
 script:
   - bundle exec rake
-  - cd example && bundle exec rake docs:generate
-install: bundle install --deployment && pushd example && bundle install --deployment && popd
 branches:
   only:
     - master
