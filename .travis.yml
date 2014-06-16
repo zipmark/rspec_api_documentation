@@ -5,7 +5,8 @@ rvm:
   - 2.1.1
 gemfile:
   - Gemfile
-script: bundle exec rake
+script: ./script/travis.sh
+install: bundle install --deployment && cd example && bundle install --deployment
 branches:
   only:
     - master
