@@ -628,3 +628,4 @@ $ rspec spec/acceptance --format RspecApiDocumentation::ApiFormatter
 
 - rspec_api_documentation relies on a variable `client` to be the test client. If you define your own `client` please configure rspec_api_documentation to use another one, see Configuration above.
 - We make heavy use of RSpec metadata, you can actually use the entire gem without the DSL if you hand write the metadata.
+- You must use `response_body`, `status`, `response_content_type`, etc. to access data from the last response. You will not be able to use `response.body` or `response.status` as the response object will not be created.
