@@ -135,6 +135,10 @@ RspecApiDocumentation.configure do |config|
     # Change the filter to only include :public examples
     config.filter = :public
   end
+
+  # Change how the post body is formatted by default, you can still override by `raw_post`
+  # Can be :json, :xml, or a proc that will be passed the params
+  config.post_body_formatter = Proc.new { |params| params }
 end
 ```
 

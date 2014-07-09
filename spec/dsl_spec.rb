@@ -471,6 +471,50 @@ resource "Order" do
       end
     end
   end
+
+  context "post body formatter" do
+    after do
+      RspecApiDocumentation.instance_variable_set(:@configuration, RspecApiDocumentation::Configuration.new)
+    end
+
+    post "/orders" do
+      parameter :page, "Page to view"
+
+      let(:page) { 1 }
+
+      specify "formatting by json" do
+        RspecApiDocumentation.configure do |config|
+          config.post_body_formatter = :json
+        end
+
+        expect(client).to receive(method).with(path, { :page => 1 }.to_json , nil)
+
+        do_request
+      end
+
+      specify "formatting by xml" do
+        RspecApiDocumentation.configure do |config|
+          config.post_body_formatter = :xml
+        end
+
+        expect(client).to receive(method).with(path, { :page => 1 }.to_xml , nil)
+
+        do_request
+      end
+
+      specify "formatting by proc" do
+        RspecApiDocumentation.configure do |config|
+          config.post_body_formatter = Proc.new do |params|
+            { :from => "a proc" }.to_json
+          end
+        end
+
+        expect(client).to receive(method).with(path, { :from => "a proc" }.to_json , nil)
+
+        do_request
+      end
+    end
+  end
 end
 
 resource "top level parameters" do
