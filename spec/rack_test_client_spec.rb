@@ -88,7 +88,7 @@ describe RspecApiDocumentation::RackTestClient do
     context "when examples should be documented", :document => true do
       it "should still argument the metadata" do |example|
         metadata = example.metadata[:requests].first
-        expect(metadata[:request_query_parameters]).to eq({'query' => nil, 'other' => 'exists'})
+        expect(metadata[:request_query_parameters]).to eq({'query' => "", 'other' => 'exists'})
       end
     end
   end
@@ -135,6 +135,13 @@ describe RspecApiDocumentation::RackTestClient do
         it "should nil out request_body" do |example|
           expect(example.metadata[:requests].first[:request_body]).to be_nil
         end
+      end
+
+      specify "array parameters" do |example|
+        test_client.post "/greet?query[]=test&query[]=query", post_data, headers
+
+        metadata = example.metadata[:requests].last
+        expect(metadata[:request_query_parameters]).to eq({ "query" => ["test", "query"] })
       end
     end
   end

@@ -74,12 +74,7 @@ module RspecApiDocumentation
     end
 
     def query_hash
-      strings = query_string.split("&")
-      arrays = strings.map do |segment|
-        k,v = segment.split("=")
-        [k, v && CGI.unescape(v)]
-      end
-      Hash[arrays]
+      Rack::Utils.parse_nested_query(query_string)
     end
 
     def headers(method, path, params, request_headers)
