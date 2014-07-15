@@ -1,5 +1,6 @@
 require 'active_support'
 require 'active_support/inflector'
+require 'active_support/core_ext/hash/conversions'
 require 'cgi'
 require 'json'
 
