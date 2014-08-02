@@ -50,6 +50,10 @@ module RspecApiDocumentation
       filter_headers(metadata[:requests]) || []
     end
 
+    def examples
+      @examples ||= []
+    end
+
     private
 
     def filter_headers(requests)

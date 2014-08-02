@@ -3,7 +3,7 @@ module RspecApiDocumentation
     class TextileExample < MarkupExample
       EXTENSION = 'textile'
 
-      def initialize(example, configuration)
+      def initialize(index, example, configuration)
         super
         self.template_name = "rspec_api_documentation/textile_example"
       end

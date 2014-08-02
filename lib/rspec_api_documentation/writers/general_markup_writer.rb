@@ -11,7 +11,7 @@ module RspecApiDocumentation
         end
 
         index.examples.each do |example|
-          markup_example = markup_example_class.new(example, configuration)
+          markup_example = markup_example_class.new(index, example, configuration)
           FileUtils.mkdir_p(configuration.docs_dir.join(markup_example.dirname))
 
           File.open(configuration.docs_dir.join(markup_example.dirname, markup_example.filename), "w+") do |f|
