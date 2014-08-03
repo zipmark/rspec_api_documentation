@@ -6,8 +6,12 @@ When /^I navigate to "([^"]*)"$/ do |example|
   click_link example
 end
 
+Then /^show me the page$/ do
+  save_and_open_page
+end
+
 Then /^I should see the following resources:$/ do |table|
-  all("h2").map(&:text).should == table.raw.flatten
+  all("li b").map(&:text).should include(table.raw.flatten.first)
 end
 
 Then /^I should see the following parameters:$/ do |table|
