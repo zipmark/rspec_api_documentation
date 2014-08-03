@@ -3,32 +3,36 @@
 <head>
   <title>{{ api_name }}</title>
   <meta charset="utf-8">
-
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <style>
-    body {
-      margin-left: auto;
-      margin-right: auto;
-      width: 900px;
-    }
+    ul { padding-left: 10px }
+    ul li { list-style-type: none; }
+    .sidebar{ margin-top: 40px; }
   </style>
 </head>
 <body>
-<div class="container">
-  <h1>{{ api_name }}</h1>
-
-  {{# sections }}
-  <div class="article">
-    <h2>{{ resource_name }}</h2>
-
-    <ul>
-      {{# examples }}
-      <li>
-        <a href="{{ dirname }}/{{ filename }}">{{ description }}</a>
-      </li>
-      {{/ examples }}
-    </ul>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 sidebar">
+        <ul>
+          <li><b><a href="index.html">{{ api_name }}</a></b>
+            {{# sections }}
+            <ul>
+              <li><b>{{ resource_name }}</b>
+                <ul>
+                  {{# examples }}
+                    <li><a href="{{ dirname }}/{{ filename }}">{{ description }}</a></li>
+                  {{/ examples }}
+                </ul>
+              </li>
+            {{/ sections }}
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-8 main">
+        <h1 class="page-header">{{ api_name }}</h1>
+      </div>
+    </div>
   </div>
-  {{/ sections }}
-</div>
 </body>
 </html>

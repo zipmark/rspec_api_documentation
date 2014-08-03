@@ -3,7 +3,9 @@ require 'mustache'
 module RspecApiDocumentation
   module Views
     class MarkupExample < Mustache
-      def initialize(example, configuration)
+      def initialize(index, example, configuration)
+        @index = index
+        @examples = @index.examples
         @example = example
         @host = configuration.curl_host
         @filter_headers = configuration.curl_headers_to_filter

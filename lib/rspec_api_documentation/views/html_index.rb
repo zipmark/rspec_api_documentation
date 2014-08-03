@@ -7,7 +7,7 @@ module RspecApiDocumentation
       end
 
       def examples
-        @index.examples.map { |example| HtmlExample.new(example, @configuration) }
+        @index.examples.map { |example| HtmlExample.new(@index, example, @configuration) }
       end
     end
   end
