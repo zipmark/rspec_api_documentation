@@ -8,8 +8,9 @@ describe RspecApiDocumentation::Views::HtmlExample do
   let(:rad_example) do
     RspecApiDocumentation::Example.new(rspec_example, configuration)
   end
+  let(:index) { RspecApiDocumentation::Index.new }
   let(:configuration) { RspecApiDocumentation::Configuration.new }
-  let(:html_example) { described_class.new(rad_example, configuration) }
+  let(:html_example) { described_class.new(index, rad_example, configuration) }
 
   specify "the directory is 'orders'" do
     expect(html_example.dirname).to eq("orders")
