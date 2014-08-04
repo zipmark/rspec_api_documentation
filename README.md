@@ -139,6 +139,10 @@ RspecApiDocumentation.configure do |config|
   # Change how the post body is formatted by default, you can still override by `raw_post`
   # Can be :json, :xml, or a proc that will be passed the params
   config.post_body_formatter = Proc.new { |params| params }
+
+  # Dynamically generates response fields from the actual http response body.
+  # Manually set response_fields take precedence.  Default if off. Set to true to enable.
+  config.dynamic_response_fields = false
 end
 ```
 
