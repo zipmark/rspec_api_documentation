@@ -91,6 +91,7 @@ module RspecApiDocumentation
     #
     # See RspecApiDocumentation::DSL::Endpoint#do_request
     add_setting :post_body_formatter, :default => Proc.new { |_| Proc.new { |params| params } }
+    add_setting :dynamic_response_fields, :default => false
 
     def client_method=(new_client_method)
       RspecApiDocumentation::DSL::Resource.module_eval <<-RUBY

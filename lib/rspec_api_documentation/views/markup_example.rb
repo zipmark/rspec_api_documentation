@@ -5,6 +5,7 @@ module RspecApiDocumentation
     class MarkupExample < Mustache
       def initialize(example, configuration)
         @example = example
+        @requests = @example.metadata[:requests]
         @host = configuration.curl_host
         @filter_headers = configuration.curl_headers_to_filter
         self.template_path = configuration.template_path
@@ -46,6 +47,14 @@ module RspecApiDocumentation
 
       def extension
         raise 'Parent class. This method should not be called.'
+      end
+
+      def sections
+        RspecApiDocumentation::Writers::IndexHelper.sections(examples, @configuration)
+      end
+
+      def examples
+        @index.examples.map { |example| HtmlExample.new(@index, example, @configuration) }
       end
 
       private

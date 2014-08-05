@@ -39,7 +39,17 @@ module RspecApiDocumentation
     end
 
     def has_response_fields?
-      respond_to?(:response_fields) && response_fields.present?
+      ((respond_to?(:response_fields) && response_fields.present?) || (respond_to?(:fields) && fields.present?))
+    end
+
+    def response_fields
+      if metadata[:response_fields].present?
+        return metadata[:response_fields]
+      elsif fields_from_response.present? && !!(configuration.dynamic_response_fields)
+        return dynamic_response_fields(fields_from_response)
+      else
+        []
+      end
     end
 
     def explanation
@@ -66,6 +76,37 @@ module RspecApiDocumentation
         request_hash[key] = headers.select{ |key, _| headers_to_include.include?(key) }
         requests[index] = request_hash
       end
+    end
+
+    def dynamic_response_fields(response, results = [], scope=false)
+      response.map do |k, v|
+        type = determine_type(v)
+        if type == "Array" && determine_type(v.first) == "Hash"
+          results  = dynamic_response_fields(v.first, results, k)
+        elsif type == "Hash"
+          results = dynamic_response_fields(v, results, k)
+        else
+          result = {name: k, description: k, type: determine_type(v) }
+          result.merge!(scope: scope) if !!(scope)
+          results.push result
+        end
+      end
+      return results
+    end
+
+    def fields_from_response(response = metadata[:requests])
+      return [] if response.nil? || response.first[:response_body].nil?
+      response = JSON.parse(response.first[:response_body]) rescue response
+      return response.is_a?(Hash) ? response : response.is_a?(Array) ? response.first : response
+    end
+
+    def determine_type(v)
+      return "Integer" if v.is_a?(Integer)
+      return "Boolean" if (v == true || v== 'false')
+      return "DateTime" if Date.parse(v) rescue false
+      return "Hash" if v.is_a?(Hash)
+      return "Array" if v.is_a?(Array)
+      return "String"
     end
   end
 end
