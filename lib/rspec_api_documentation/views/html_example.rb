@@ -13,7 +13,7 @@ module RspecApiDocumentation
       end
 
       def styles
-        app_styles_url = File.join(Dir.pwd, "app", "assets", "stylesheets","rspec_api_documentation", "styles.css")
+        app_styles_url = RspecApiDocumentation.configuration.html_embedded_css_file
         gem_styles_url = File.join(File.dirname(__FILE__), "..", "assets", "stylesheets","rspec_api_documentation", "styles.css")
         return File.read(app_styles_url) rescue File.read(gem_styles_url)
       end
