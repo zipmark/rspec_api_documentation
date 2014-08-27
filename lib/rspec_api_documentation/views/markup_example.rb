@@ -1,4 +1,5 @@
 require 'mustache'
+require 'json'
 
 module RspecApiDocumentation
   module Views
@@ -33,6 +34,7 @@ module RspecApiDocumentation
           hash[:request_headers_text] = format_hash(hash[:request_headers])
           hash[:request_query_parameters_text] = format_hash(hash[:request_query_parameters])
           hash[:response_headers_text] = format_hash(hash[:response_headers])
+          hash[:response_body] = JSON.pretty_generate(JSON.parse(hash[:response_body])) rescue nil
           if @host
             if hash[:curl].is_a? RspecApiDocumentation::Curl
               hash[:curl] = hash[:curl].output(@host, @filter_headers)
