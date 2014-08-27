@@ -47,7 +47,9 @@ Description : {{ description }}
 
 #### Body
 
-<pre>{{{ request_body }}}</pre>
+```javascript
+{{{ request_body }}}
+```
 {{/ request_body }}
 {{# curl }}
 
@@ -70,7 +72,9 @@ Description : {{ description }}
 {{# response_body }}
 #### Body
 
-<pre>{{{ response_body }}}</pre>
+```javascript
+{{{ response_body }}}
+```
 {{/ response_body }}
 {{/ response_status }}
 {{/ requests }}
