@@ -1,5 +1,6 @@
 require 'mustache'
 require 'json'
+require 'uri'
 
 module RspecApiDocumentation
   module Views
@@ -35,6 +36,15 @@ module RspecApiDocumentation
           hash[:request_query_parameters_text] = format_hash(hash[:request_query_parameters])
           hash[:response_headers_text] = format_hash(hash[:response_headers])
           hash[:response_body] = JSON.pretty_generate(JSON.parse(hash[:response_body])) rescue nil
+          # puts "requst body: #{hash[:request_body]}"
+          # puts "uri decode: #{URI.decode_www_form(hash[:request_body])}" rescue nil
+          # puts "uri decode hash: #{Hash[URI.decode_www_form(hash[:request_body])]}" rescue nil
+          # puts "uri decode hash: #{Hash[URI.decode_www_form(hash[:request_body])].to_json}" rescue nil
+          # puts "pretty: #{JSON.pretty_generate(Hash[URI.decode_www_form(hash[:request_body])].to_json)}"
+          rb_hash = Hash[URI.decode_www_form(hash[:request_body])] rescue nil
+          # puts "rb_hash: #{rb_hash}"
+          # puts "pretty: #{JSON.pretty_generate(rb_hash)}" rescue nil
+          hash[:request_body] = JSON.pretty_generate(rb_hash) rescue nil
           if @host
             if hash[:curl].is_a? RspecApiDocumentation::Curl
               hash[:curl] = hash[:curl].output(@host, @filter_headers)
