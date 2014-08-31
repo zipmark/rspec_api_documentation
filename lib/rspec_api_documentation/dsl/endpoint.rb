@@ -38,19 +38,21 @@ module RspecApiDocumentation::DSL
       if method == :get && !query_string.blank?
         path_or_query += "?#{query_string}"
       else
-        formatter = RspecApiDocumentation.configuration.post_body_formatter
-        case formatter
-        when :json
-          params_or_body = params.to_json
-        when :xml
-          params_or_body = params.to_xml
-        when Proc
-          params_or_body = formatter.call(params)
+        if respond_to?(:raw_post) 
+          params_or_body = raw_post
         else
-          params_or_body = params
+          formatter = RspecApiDocumentation.configuration.post_body_formatter
+          case formatter
+          when :json
+            params_or_body = params.to_json
+          when :xml
+            params_or_body = params.to_xml
+          when Proc
+            params_or_body = formatter.call(params)
+          else
+            params_or_body = params
+          end
         end
-
-        params_or_body = respond_to?(:raw_post) ? raw_post : params_or_body
       end
 
       rspec_api_documentation_client.send(method, path_or_query, params_or_body, headers)
