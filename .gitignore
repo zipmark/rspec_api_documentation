@@ -5,3 +5,4 @@ example/public/docs
 *.gem
 *.swp
 /html/
+Gemfile.lock
