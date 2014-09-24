@@ -5,7 +5,7 @@ PATH
       activesupport (>= 3.0.0)
       json (~> 1.4, >= 1.4.6)
       mustache (~> 0.99, >= 0.99.4)
-      rspec (~> 3.0.0, >= 3.0.0)
+      rspec (>= 3.0.0)
 
 GEM
   remote: http://rubygems.org/
