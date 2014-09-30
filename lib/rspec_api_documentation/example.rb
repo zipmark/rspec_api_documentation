@@ -100,13 +100,23 @@ module RspecApiDocumentation
       return response.is_a?(Hash) ? response : response.is_a?(Array) ? response.first : response
     end
 
-    def determine_type(v)
-      return "Integer" if v.is_a?(Integer)
-      return "Boolean" if (v == true || v== 'false')
-      return "DateTime" if Date.parse(v) rescue false
-      return "Hash" if v.is_a?(Hash)
-      return "Array" if v.is_a?(Array)
-      return "String"
+    def determine_type(value)
+      case value
+      when Integer
+        "Integer"
+      when TrueClass, FalseClass, "true", "false"
+        "Boolean"
+      when Date
+        "Date"
+      when Time
+        "Time"
+      when Array
+        "Array"
+      when String
+        "String"
+      else
+        "Object"
+      end
     end
   end
 end

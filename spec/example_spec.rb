@@ -180,6 +180,37 @@ describe RspecApiDocumentation::Example do
     end
   end
 
+  describe "#determine_type" do
+    it "should return integer" do
+      expect(example.send(:determine_type, 1)).to eq("Integer")
+    end
+
+    it "should return Boolean" do
+      expect(example.send(:determine_type, true)).to eq("Boolean")
+      expect(example.send(:determine_type, false)).to eq("Boolean")
+    end
+
+    it "should return Date" do
+      expect(example.send(:determine_type, Date.new(2001,2,3))).to eq("Date")
+    end
+
+    it "should return Time" do
+      expect(example.send(:determine_type, Time.now)).to eq("Time")
+    end
+
+    it "should return Object" do
+      expect(example.send(:determine_type, {a: 1})).to eq("Object")
+    end
+
+    it "should return Srray" do
+      expect(example.send(:determine_type, [1,2,3])).to eq("Array")
+    end
+
+    it "should return String" do
+      expect(example.send(:determine_type, "String")).to eq("String")
+    end
+  end
+
   describe "request headers can be filtered" do
     before do
       configuration.request_headers_to_include = %w[Included]
