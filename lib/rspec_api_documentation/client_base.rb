@@ -58,7 +58,7 @@ module RspecApiDocumentation
 
       request_metadata[:request_method] = method
       request_metadata[:request_path] = path
-      request_metadata[:request_body] = request_body.empty? ? nil : request_body
+      request_metadata[:request_body] = request_body.empty? ? nil : request_body.force_encoding("UTF-8")
       request_metadata[:request_headers] = request_headers
       request_metadata[:request_query_parameters] = query_hash
       request_metadata[:request_content_type] = request_content_type
