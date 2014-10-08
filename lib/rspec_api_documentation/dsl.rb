@@ -7,17 +7,17 @@ require "rspec_api_documentation/dsl/callback"
 module RspecApiDocumentation
   module DSL
 
-  # Custom describe block that sets metadata to enable the rest of RAD
-  #
-  #   resource "Orders", :meta => :data do
-  #     # ...
-  #   end
-  #
-  # Params:
-  # +args+:: Glob of RSpec's `describe` arguments
-  # +block+:: Block to pass into describe
-  #
-  def resource(*args, &block)
+    # Custom describe block that sets metadata to enable the rest of RAD
+    #
+    #   resource "Orders", :meta => :data do
+    #     # ...
+    #   end
+    #
+    # Params:
+    # +args+:: Glob of RSpec's `describe` arguments
+    # +block+:: Block to pass into describe
+    #
+    def resource(*args, &block)
       options = if args.last.is_a?(Hash) then args.pop else {} end
       options[:api_doc_dsl] = :resource
       options[:resource_name] = args.first
