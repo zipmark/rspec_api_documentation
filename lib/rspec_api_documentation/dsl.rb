@@ -1,3 +1,4 @@
+require "rspec_api_documentation"
 require "rspec_api_documentation/dsl/resource"
 require "rspec_api_documentation/dsl/endpoint"
 require "rspec_api_documentation/dsl/callback"
