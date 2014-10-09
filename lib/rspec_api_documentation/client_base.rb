@@ -43,12 +43,16 @@ module RspecApiDocumentation
       document_example(method.to_s.upcase, path)
     end
 
+    def read_request_body
+      input = last_request.env["rack.input"]
+      input.rewind
+      input.read
+    end
+
     def document_example(method, path)
       return unless metadata[:document]
 
-      input = last_request.env["rack.input"]
-      input.rewind
-      request_body = input.read
+      request_body = read_request_body
 
       request_metadata = {}
 

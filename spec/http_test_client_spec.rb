@@ -1,17 +1,38 @@
 require 'spec_helper'
 require 'rack/test'
+require 'capybara'
+require 'capybara/server'
 require 'sinatra/base'
+require 'webmock'
 require 'support/stub_app'
 
-describe RspecApiDocumentation::RackTestClient do
-  let(:context) { |example| double(:app => StubApp, :example => example) }
-  let(:test_client) { RspecApiDocumentation::RackTestClient.new(context, {}) }
+describe RspecApiDocumentation::HttpTestClient do
+  before(:all) do
+    WebMock.allow_net_connect!
+
+    Capybara.server do |app, port|
+      require 'rack/handler/thin'
+      Thin::Logging.silent = true
+      Rack::Handler::Thin.run(app, :Port => port)
+    end
+
+    server = Capybara::Server.new(StubApp.new, 8888)
+    server.boot
+  end
+
+  after(:all) do
+    WebMock.disable_net_connect!
+  end
+
+  let(:client_context) { |example| double(example: example, app_root: 'nowhere') }
+  let(:target_host) { 'http://localhost:8888' }
+  let(:test_client) { RspecApiDocumentation::HttpTestClient.new(client_context, {host: target_host}) }
 
   subject { test_client }
 
-  it { expect(subject).to be_a(RspecApiDocumentation::RackTestClient) }
+  it { should be_a(RspecApiDocumentation::HttpTestClient) }
 
-  its(:context) { should equal(context) }
+  its(:context) { should equal(client_context) }
   its(:example) { |example| should equal(example) }
   its(:metadata) { |example| should equal(example.metadata) }
 
@@ -47,9 +68,7 @@ describe RspecApiDocumentation::RackTestClient do
     it "should contain all the headers" do
       expect(test_client.request_headers).to eq({
         "Accept" => "application/json",
-        "Content-Type" => "application/json",
-        "Host" => "example.org",
-        "Cookie" => ""
+        "Content-Type" => "application/json"
       })
     end
   end
@@ -90,11 +109,12 @@ describe RspecApiDocumentation::RackTestClient do
         expect(metadata[:response_headers]['Content-Type']).to match(/application\/json/)
         expect(metadata[:response_headers]['Content-Length']).to eq('17')
         expect(metadata[:response_content_type]).to match(/application\/json/)
-        expect(metadata[:curl]).to eq(RspecApiDocumentation::Curl.new("POST", "/greet?query=test+query", post_data, {"Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value", "Host" => "example.org", "Cookie" => ""}))
+        expect(metadata[:curl]).to eq(RspecApiDocumentation::Curl.new("POST", "/greet?query=test+query", post_data, {"Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value"}))
       end
 
       context "when post data is not json" do
         let(:post_data) { { :target => "nurse", :email => "email@example.com" } }
+        let(:headers) { { "X-Custom-Header" => "custom header value" } }
 
         it "should not nil out request_body" do |example|
           body = example.metadata[:requests].first[:request_body]
@@ -109,13 +129,6 @@ describe RspecApiDocumentation::RackTestClient do
         it "should nil out request_body" do |example|
           expect(example.metadata[:requests].first[:request_body]).to be_nil
         end
-      end
-
-      specify "array parameters" do |example|
-        test_client.post "/greet?query[]=test&query[]=query", post_data, headers
-
-        metadata = example.metadata[:requests].last
-        expect(metadata[:request_query_parameters]).to eq({ "query" => ["test", "query"] })
       end
     end
   end
