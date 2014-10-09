@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rack-oauth2", "~> 1.0.7"
   s.add_development_dependency "webmock", "~> 1.7"
   s.add_development_dependency "rspec-its", "~> 1.0"
+  s.add_development_dependency "thin"
 
   s.files        = Dir.glob("lib/**/*") + Dir.glob("templates/**/*")
   s.require_path = "lib"

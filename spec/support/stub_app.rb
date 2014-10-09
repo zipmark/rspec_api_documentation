@@ -1,9 +1,4 @@
-require 'sinatra/base'
-require 'json'
-
 class StubApp < Sinatra::Base
-  set :logging, false
-
   get "/" do
     content_type :json
 
@@ -20,7 +15,7 @@ class StubApp < Sinatra::Base
       request.body.rewind
       data = request.body.read
     end
-    data.to_json
+    { :hello => data["target"] }.to_json
   end
 
   get "/xml" do
@@ -29,5 +24,3 @@ class StubApp < Sinatra::Base
     "<hello>World</hello>"
   end
 end
-
-StubApp.run!

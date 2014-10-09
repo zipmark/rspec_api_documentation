@@ -1,23 +1,31 @@
 require 'spec_helper'
 require 'rack/test'
+require 'capybara'
+require 'capybara/server'
+require 'sinatra/base'
+require 'webmock'
+require 'support/stub_app'
 
 describe RspecApiDocumentation::HttpTestClient do
   before(:all) do
-      WebMock.allow_net_connect!
+    WebMock.allow_net_connect!
 
-      $external_test_app_pid = spawn("ruby ./spec/support/external_test_app.rb")
-      Process.detach $external_test_app_pid
-      sleep 3 #Wait until the test app is up
+    Capybara.server do |app, port|
+      require 'rack/handler/thin'
+      Thin::Logging.silent = true
+      Rack::Handler::Thin.run(app, :Port => port)
+    end
+
+    server = Capybara::Server.new(StubApp.new, 8888)
+    server.boot
   end
 
   after(:all) do
     WebMock.disable_net_connect!
-
-    Process.kill('TERM', $external_test_app_pid)
   end
 
-  let(:client_context) { double(example: example, app_root: 'nowhere') }
-  let(:target_host) { 'http://localhost:4567' }
+  let(:client_context) { |example| double(example: example, app_root: 'nowhere') }
+  let(:target_host) { 'http://localhost:8888' }
   let(:test_client) { RspecApiDocumentation::HttpTestClient.new(client_context, {host: target_host}) }
 
   subject { test_client }
@@ -25,8 +33,8 @@ describe RspecApiDocumentation::HttpTestClient do
   it { should be_a(RspecApiDocumentation::HttpTestClient) }
 
   its(:context) { should equal(client_context) }
-  its(:example) { should equal(example) }
-  its(:metadata) { should equal(example.metadata) }
+  its(:example) { |example| should equal(example) }
+  its(:metadata) { |example| should equal(example.metadata) }
 
   describe "xml data", :document => true do
     before do
@@ -34,11 +42,11 @@ describe RspecApiDocumentation::HttpTestClient do
     end
 
     it "should handle xml data" do
-      test_client.response_headers["Content-Type"].should =~ /application\/xml/
+      expect(test_client.response_headers["Content-Type"]).to match(/application\/xml/)
     end
 
-    it "should log the request" do
-      example.metadata[:requests].first[:response_body].should be_present
+    it "should log the request" do |example|
+      expect(example.metadata[:requests].first[:response_body]).to be_present
     end
   end
 
@@ -48,7 +56,7 @@ describe RspecApiDocumentation::HttpTestClient do
     end
 
     it 'should contain the query_string' do
-      test_client.query_string.should == "query_string=true"
+      expect(test_client.query_string).to eq("query_string=true")
     end
   end
 
@@ -58,7 +66,7 @@ describe RspecApiDocumentation::HttpTestClient do
     end
 
     it "should contain all the headers" do
-      test_client.request_headers.should eq({
+      expect(test_client.request_headers).to eq({
         "Accept" => "application/json",
         "Content-Type" => "application/json"
       })
@@ -71,9 +79,9 @@ describe RspecApiDocumentation::HttpTestClient do
     end
 
     context "when examples should be documented", :document => true do
-      it "should still argument the metadata" do
+      it "should still argument the metadata" do |example|
         metadata = example.metadata[:requests].first
-        metadata[:request_query_parameters].should == {'query' => "", 'other' => 'exists'}
+        expect(metadata[:request_query_parameters]).to eq({'query' => "", 'other' => 'exists'})
       end
     end
   end
@@ -87,38 +95,39 @@ describe RspecApiDocumentation::HttpTestClient do
     let(:headers) { { "Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value" } }
 
     context "when examples should be documented", :document => true do
-      it "should augment the metadata with information about the request" do
+      it "should augment the metadata with information about the request" do |example|
         metadata = example.metadata[:requests].first
-        metadata[:request_method].should eq("POST")
-        metadata[:request_path].should eq("/greet?query=test+query")
-        metadata[:request_body].should be_present
-        metadata[:request_headers].should include({'CONTENT_TYPE' => 'application/json;charset=utf-8'})
-        metadata[:request_headers].should include({'HTTP_X_CUSTOM_HEADER' => 'custom header value'})
-        metadata[:request_query_parameters].should == {"query" => "test query"}
-        metadata[:request_content_type].should match(/application\/json/)
-        metadata[:response_status].should eq(200)
-        metadata[:response_body].should be_present
-        metadata[:response_headers]['Content-Type'].should match(/application\/json/)
-        metadata[:response_headers]['Content-Length'].should == '18'
-        metadata[:response_content_type].should match(/application\/json/)
-        metadata[:curl].should eq(RspecApiDocumentation::Curl.new("POST", "/greet?query=test+query", post_data, {"Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value"}))
+        expect(metadata[:request_method]).to eq("POST")
+        expect(metadata[:request_path]).to eq("/greet?query=test+query")
+        expect(metadata[:request_body]).to be_present
+        expect(metadata[:request_headers]).to include({'CONTENT_TYPE' => 'application/json;charset=utf-8'})
+        expect(metadata[:request_headers]).to include({'HTTP_X_CUSTOM_HEADER' => 'custom header value'})
+        expect(metadata[:request_query_parameters]).to eq({"query" => "test query"})
+        expect(metadata[:request_content_type]).to match(/application\/json/)
+        expect(metadata[:response_status]).to eq(200)
+        expect(metadata[:response_body]).to be_present
+        expect(metadata[:response_headers]['Content-Type']).to match(/application\/json/)
+        expect(metadata[:response_headers]['Content-Length']).to eq('17')
+        expect(metadata[:response_content_type]).to match(/application\/json/)
+        expect(metadata[:curl]).to eq(RspecApiDocumentation::Curl.new("POST", "/greet?query=test+query", post_data, {"Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value"}))
       end
 
       context "when post data is not json" do
         let(:post_data) { { :target => "nurse", :email => "email@example.com" } }
+        let(:headers) { { "X-Custom-Header" => "custom header value" } }
 
-        it "should not nil out request_body" do
+        it "should not nil out request_body" do |example|
           body = example.metadata[:requests].first[:request_body]
-          body.should =~ /target=nurse/
-          body.should =~ /email=email%40example\.com/
+          expect(body).to match(/target=nurse/)
+          expect(body).to match(/email=email%40example\.com/)
         end
       end
 
       context "when post data is nil" do
         let(:post_data) { }
 
-        it "should nil out request_body" do
-          example.metadata[:requests].first[:request_body].should be_nil
+        it "should nil out request_body" do |example|
+          expect(example.metadata[:requests].first[:request_body]).to be_nil
         end
       end
     end

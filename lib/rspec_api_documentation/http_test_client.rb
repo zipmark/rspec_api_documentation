@@ -1,35 +1,29 @@
 require 'faraday'
 
-class RequestSaver < Faraday::Middleware
-  def self.last_request
-    @@last_request
-  end
-
-  def self.last_request=(request_env)
-    @@last_request = request_env
-  end
-
-  def self.last_response
-    @@last_response
-  end
-
-  def self.last_response=(response_env)
-    @@last_response = response_env
-  end
-
-  def call(env)
-    RequestSaver.last_request = env
-
-    @app.call(env).on_complete do |env|
-      RequestSaver.last_response = env
-    end
-  end
-end
-
-Faraday::Request.register_middleware :request_saver => lambda { RequestSaver }
+Faraday::Request.register_middleware :request_saver => lambda { RspecApiDocumentation::RequestSaver }
 
 module RspecApiDocumentation
+  class RequestSaver < Faraday::Middleware
+    attr_reader :client
+
+    def initialize(app, client)
+      super(app)
+      @client = client
+    end
+
+    def call(env)
+      client.last_request = env
+
+      @app.call(env).on_complete do |env|
+        client.last_response = env
+      end
+    end
+  end
+
   class HttpTestClient < ClientBase
+    attr_reader :last_response, :last_request
+
+    LastRequest = Struct.new(:url, :method, :request_headers, :body)
 
     def request_headers
       env_to_headers(last_request.request_headers)
@@ -63,6 +57,14 @@ module RspecApiDocumentation
       http_test_session.send(method, path, params, headers(method, path, params, request_headers))
     end
 
+    def last_request=(env)
+      @last_request = LastRequest.new(env.url, env.method, env.request_headers, env.body)
+    end
+
+    def last_response=(env)
+      @last_response = env
+    end
+
     protected
 
     def query_hash(query_string)
@@ -79,7 +81,7 @@ module RspecApiDocumentation
         "rack.input" => StringIO.new(request_body)
       }).params
 
-      clean_out_uploaded_data(parsed_parameters,request_body)
+      clean_out_uploaded_data(parsed_parameters, request_body)
     end
 
     def document_example(method, path)
@@ -87,13 +89,13 @@ module RspecApiDocumentation
 
       req_method = last_request.method
       if req_method == :post || req_method == :put
-        request_body =last_request.body
+        request_body = last_request.body
       else
         request_body = ""
       end
+      request_body = "" unless request_body # could be nil if nothing is sent
 
       request_metadata = {}
-      request_body = "" if request_body == "null"  || request_body == "\"\""
 
       if request_content_type =~ /multipart\/form-data/ && respond_to?(:handle_multipart_body, true)
         request_body = handle_multipart_body(request_headers, request_body)
@@ -118,7 +120,7 @@ module RspecApiDocumentation
 
     private
 
-    def clean_out_uploaded_data(params,request_body)
+    def clean_out_uploaded_data(params, request_body)
       params.each do |_, value|
         if value.is_a?(Hash)
           if value.has_key?(:tempfile)
@@ -135,19 +137,10 @@ module RspecApiDocumentation
 
     def http_test_session
       ::Faraday.new(:url => options[:host]) do |faraday|
-        faraday.request  :request_saver           # save the request and response
-        faraday.request  :url_encoded             # form-encode POST params
-        faraday.response :logger                  # log requests to STDOUT
-        faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+        faraday.request :url_encoded            # form-encode POST params
+        faraday.request :request_saver, self    # save the request and response
+        faraday.adapter Faraday.default_adapter # make requests with Net::HTTP
       end
-    end
-
-    def last_request
-      RequestSaver.last_request
-    end
-
-    def last_response
-      RequestSaver.last_response
     end
   end
 end
