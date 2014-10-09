@@ -67,10 +67,6 @@ module RspecApiDocumentation
 
     protected
 
-    def query_hash(query_string)
-      Faraday::Utils.parse_query(query_string)
-    end
-
     def headers(*args)
       headers_to_env(super)
     end
@@ -84,38 +80,12 @@ module RspecApiDocumentation
       clean_out_uploaded_data(parsed_parameters, request_body)
     end
 
-    def document_example(method, path)
-      return unless metadata[:document]
-
-      req_method = last_request.method
-      if req_method == :post || req_method == :put
-        request_body = last_request.body
+    def read_request_body
+      if [:post, :put].include?(last_request.method)
+        last_request.body || ""
       else
-        request_body = ""
+        ""
       end
-      request_body = "" unless request_body # could be nil if nothing is sent
-
-      request_metadata = {}
-
-      if request_content_type =~ /multipart\/form-data/ && respond_to?(:handle_multipart_body, true)
-        request_body = handle_multipart_body(request_headers, request_body)
-      end
-
-      request_metadata[:request_method] = method
-      request_metadata[:request_path] = path
-      request_metadata[:request_body] = request_body.empty? ? nil : request_body
-      request_metadata[:request_headers] = last_request.request_headers
-      request_metadata[:request_query_parameters] = query_hash(query_string)
-      request_metadata[:request_content_type] = request_content_type
-      request_metadata[:response_status] = status
-      request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[status]
-      request_metadata[:response_body] = response_body.empty? ? nil : response_body
-      request_metadata[:response_headers] = response_headers
-      request_metadata[:response_content_type] = response_content_type
-      request_metadata[:curl] = Curl.new(method, path, request_body, request_headers)
-
-      metadata[:requests] ||= []
-      metadata[:requests] << request_metadata
     end
 
     private

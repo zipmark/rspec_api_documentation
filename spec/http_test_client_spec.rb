@@ -100,8 +100,8 @@ describe RspecApiDocumentation::HttpTestClient do
         expect(metadata[:request_method]).to eq("POST")
         expect(metadata[:request_path]).to eq("/greet?query=test+query")
         expect(metadata[:request_body]).to be_present
-        expect(metadata[:request_headers]).to include({'CONTENT_TYPE' => 'application/json;charset=utf-8'})
-        expect(metadata[:request_headers]).to include({'HTTP_X_CUSTOM_HEADER' => 'custom header value'})
+        expect(metadata[:request_headers]).to include({'Content-Type' => 'application/json;charset=utf-8'})
+        expect(metadata[:request_headers]).to include({'X-Custom-Header' => 'custom header value'})
         expect(metadata[:request_query_parameters]).to eq({"query" => "test query"})
         expect(metadata[:request_content_type]).to match(/application\/json/)
         expect(metadata[:response_status]).to eq(200)
