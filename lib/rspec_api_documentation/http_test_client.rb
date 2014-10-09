@@ -1,4 +1,8 @@
-require 'faraday'
+begin
+  require 'faraday'
+rescue LoadError
+  raise "Faraday needs to be installed before using the HttpTestClient"
+end
 
 Faraday::Request.register_middleware :request_saver => lambda { RspecApiDocumentation::RequestSaver }
 

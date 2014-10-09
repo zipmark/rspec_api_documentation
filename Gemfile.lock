@@ -3,7 +3,6 @@ PATH
   specs:
     rspec_api_documentation (4.2.0)
       activesupport (>= 3.0.0)
-      faraday (>= 0.9.0)
       json (~> 1.4, >= 1.4.6)
       mustache (~> 0.99, >= 0.99.4)
       rspec (>= 3.0.0)
@@ -131,6 +130,7 @@ DEPENDENCIES
   aruba (~> 0.5)
   capybara (~> 2.2)
   fakefs (~> 0.4)
+  faraday (>= 0.9.0)
   inch
   rack-oauth2 (~> 1.0.7)
   rack-test (~> 0.6.2)
