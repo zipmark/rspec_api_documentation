@@ -81,8 +81,10 @@
         {{# requests }}
           <h3>Request</h3>
 
-          <h4>Headers</h4>
-          <pre class="request headers">{{ request_headers_text }}</pre>
+          {{# request_headers_text }}
+            <h4>Headers</h4>
+            <pre class="request headers">{{ request_headers_text }}</pre>
+          {{/ request_headers_text }}
 
           <h4>Route</h4>
           <pre class="request route highlight">{{ request_method }} {{ request_path }}</pre>
@@ -104,8 +106,10 @@
 
           {{# response_status }}
             <h3>Response</h3>
-            <h4>Headers</h4>
-            <pre class="response headers">{{ response_headers_text }}</pre>
+            {{# response_headers_text }}
+              <h4>Headers</h4>
+              <pre class="response headers">{{ response_headers_text }}</pre>
+            {{/ response_headers_text }}
             <h4>Status</h4>
             <pre class="response status">{{ response_status }} {{ response_status_text}}</pre>
             {{# response_body }}
