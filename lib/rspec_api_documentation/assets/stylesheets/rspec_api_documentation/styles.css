@@ -45,11 +45,6 @@ a{
   font-weight: inherit;
 }
 
-p {
-  padding: 15px;
-  font-size: 130%;
-}
-
 h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
   color: #404040;
