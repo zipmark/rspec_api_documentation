@@ -342,6 +342,22 @@ resource "Orders" do
 end
 ```
 
+#### explanation
+
+This method takes a string representing a detailed explanation of the example.
+
+```ruby
+resource "Orders" do
+  post "/orders" do
+    example "Creating an order" do
+      explanation "This method creates a new order."
+      do_request
+      # make assertions
+    end
+  end
+end
+```
+
 #### header
 
 This method takes the header name and value. The value can be a string or a symbol. If it is a symbol it will `send` the symbol, allowing you to `let` header values.
