@@ -94,21 +94,6 @@ module RspecApiDocumentation
 
     private
 
-    def clean_out_uploaded_data(params, request_body)
-      params.each do |_, value|
-        if value.is_a?(Hash)
-          if value.has_key?(:tempfile)
-            data = value[:tempfile].read
-            request_body = request_body.gsub(data, "[uploaded data]")
-          else
-            request_body = clean_out_uploaded_data(value,request_body)
-          end
-        end
-      end
-      request_body
-    end
-
-
     def http_test_session
       ::Faraday.new(:url => options[:host]) do |faraday|
         faraday.request :url_encoded            # form-encode POST params
