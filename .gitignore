@@ -1,5 +1,6 @@
 tmp
 .rvmrc
+.ruby-version
 example/docs
 example/public/docs
 *.gem
