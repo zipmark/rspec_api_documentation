@@ -51,28 +51,25 @@ module RspecApiDocumentation::DSL
       end
 
       private
-      def parameters
-        metadata[:parameters] ||= []
-        if superclass_metadata && metadata[:parameters].equal?(superclass_metadata[:parameters])
-          metadata[:parameters] = Marshal.load(Marshal.dump(superclass_metadata[:parameters]))
+
+      def safe_metadata(field, default)
+        metadata[field] ||= default
+        if superclass_metadata && metadata[field].equal?(superclass_metadata[field])
+          metadata[field] = Marshal.load(Marshal.dump(superclass_metadata[field]))
         end
-        metadata[:parameters]
+        metadata[field]
+      end
+
+      def parameters
+        safe_metadata(:parameters, [])
       end
 
       def response_fields
-        metadata[:response_fields] ||= []
-        if superclass_metadata && metadata[:response_fields].equal?(superclass_metadata[:response_fields])
-          metadata[:response_fields] = Marshal.load(Marshal.dump(superclass_metadata[:response_fields]))
-        end
-        metadata[:response_fields]
+        safe_metadata(:response_fields, [])
       end
 
       def headers
-        metadata[:headers] ||= {}
-        if superclass_metadata && metadata[:headers].equal?(superclass_metadata[:headers])
-          metadata[:headers] = Marshal.load(Marshal.dump(superclass_metadata[:headers]))
-        end
-        metadata[:headers]
+        safe_metadata(:headers, {})
       end
 
       def parameter_keys
