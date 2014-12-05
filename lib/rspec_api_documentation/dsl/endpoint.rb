@@ -66,7 +66,7 @@ module RspecApiDocumentation::DSL
       parameters = example.metadata.fetch(:parameters, {}).inject({}) do |hash, param|
         set_param(hash, param)
       end
-      parameters.merge!(extra_params)
+      parameters.deep_merge!(extra_params)
       parameters
     end
 
