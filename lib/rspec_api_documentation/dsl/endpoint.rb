@@ -38,13 +38,13 @@ module RspecApiDocumentation::DSL
       if method == :get && !query_string.blank?
         path_or_query += "?#{query_string}"
       else
-        if respond_to?(:raw_post) 
+        if respond_to?(:raw_post)
           params_or_body = raw_post
         else
           formatter = RspecApiDocumentation.configuration.post_body_formatter
           case formatter
           when :json
-            params_or_body = params.to_json
+            params_or_body = params.empty? ? nil : params.to_json
           when :xml
             params_or_body = params.to_xml
           when Proc
