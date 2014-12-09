@@ -362,6 +362,9 @@ resource "Order" do
   context "auto request" do
     post "/orders" do
       parameter :order_type, "Type of order"
+      parameter :amount, "Amount of order", scope: :order
+      parameter :name, "Name of order", scope: :order
+
 
       context "no extra params" do
         before do
@@ -381,6 +384,17 @@ resource "Order" do
         end
 
         example_request "should take an optional parameter hash", :order_type => "big"
+      end
+
+      context "extra options for do_request with scoped hash" do
+        before do
+          expect(client).to receive(:post).with("/orders", {"order_type" => "big", "order" => {"amount" => "19.99", "name" => "Friday Order"}}, nil)
+        end
+
+        let(:amount) { '19.99' }
+        let(:name) { 'Monday Order' }
+
+        example_request "should deep merge the optional parameter hash", {:order_type => 'big', :order => {:name => 'Friday Order'}}
       end
     end
   end

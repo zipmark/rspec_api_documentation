@@ -66,7 +66,7 @@ module RspecApiDocumentation::DSL
       parameters = example.metadata.fetch(:parameters, {}).inject({}) do |hash, param|
         set_param(hash, param)
       end
-      parameters.merge!(extra_params)
+      parameters.deep_merge!(extra_params)
       parameters
     end
 
@@ -128,6 +128,7 @@ module RspecApiDocumentation::DSL
     def extra_params
       return {} if @extra_params.nil?
       @extra_params.inject({}) do |h, (k, v)|
+        v = v.is_a?(Hash) ? v.stringify_keys : v
         h[k.to_s] = v
         h
       end
