@@ -477,6 +477,18 @@ resource "Order" do
       RspecApiDocumentation.instance_variable_set(:@configuration, RspecApiDocumentation::Configuration.new)
     end
 
+    get "/orders" do
+      specify "formatting by json without parameters" do
+        RspecApiDocumentation.configure do |config|
+          config.post_body_formatter = :json
+        end
+
+        expect(client).to receive(method).with(path, nil, nil)
+
+        do_request
+      end
+    end
+
     post "/orders" do
       parameter :page, "Page to view"
 
