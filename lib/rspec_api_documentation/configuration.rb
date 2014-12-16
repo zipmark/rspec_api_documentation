@@ -106,6 +106,18 @@ module RspecApiDocumentation
       @client_method ||= :client
     end
 
+    def disable_dsl_status!
+      RspecApiDocumentation::DSL::Endpoint.module_eval <<-RUBY
+        undef status
+      RUBY
+    end
+
+    def disable_dsl_method!
+      RspecApiDocumentation::DSL::Endpoint.module_eval <<-RUBY
+        undef method
+      RUBY
+    end
+
     def settings
       @settings ||= {}
     end

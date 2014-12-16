@@ -35,7 +35,7 @@ module RspecApiDocumentation::DSL
       params_or_body = nil
       path_or_query = path
 
-      if method == :get && !query_string.blank?
+      if http_method == :get && !query_string.blank?
         path_or_query += "?#{query_string}"
       else
         if respond_to?(:raw_post)
@@ -55,7 +55,7 @@ module RspecApiDocumentation::DSL
         end
       end
 
-      rspec_api_documentation_client.send(method, path_or_query, params_or_body, headers)
+      rspec_api_documentation_client.send(http_method, path_or_query, params_or_body, headers)
     end
 
     def query_string
@@ -87,8 +87,12 @@ module RspecApiDocumentation::DSL
       end
     end
 
-    def method
+    def http_method
       example.metadata[:method]
+    end
+
+    def method
+      http_method
     end
 
     def status
