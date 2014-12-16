@@ -8,7 +8,7 @@ module RspecApiDocumentation::DSL
     extend ActiveSupport::Concern
     include Rack::Test::Utils
 
-    delegate :response_headers, :status, :response_status, :response_body, :to => :rspec_api_documentation_client
+    delegate :response_headers, :response_status, :response_body, :to => :rspec_api_documentation_client
 
     module ClassMethods
       def example_request(description, params = {}, &block)
@@ -89,6 +89,10 @@ module RspecApiDocumentation::DSL
 
     def method
       example.metadata[:method]
+    end
+
+    def status
+      rspec_api_documentation_client.status
     end
 
     def in_path?(param)
