@@ -74,7 +74,7 @@ module RspecApiDocumentation
       end
 
       def dirname
-        resource_name.downcase.gsub(/\s+/, '_')
+        resource_name.to_s.downcase.gsub(/\s+/, '_')
       end
 
       def filename

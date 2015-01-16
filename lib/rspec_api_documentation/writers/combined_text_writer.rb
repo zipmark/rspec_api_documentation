@@ -44,7 +44,7 @@ module RspecApiDocumentation
       end
 
       def resource_name
-        example.resource_name.downcase.gsub(/\s+/, '_')
+        example.resource_name.to_s.downcase.gsub(/\s+/, '_')
       end
 
       def description
