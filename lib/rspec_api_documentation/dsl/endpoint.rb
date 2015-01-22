@@ -14,7 +14,7 @@ module RspecApiDocumentation::DSL
       def example_request(description, params = {}, &block)
         example description, :caller => block.send(:caller) do
           do_request(params)
-          instance_eval &block if block_given?
+          instance_eval(&block) if block_given?
         end
       end
 
@@ -63,11 +63,14 @@ module RspecApiDocumentation::DSL
     end
 
     def params
-      parameters = example.metadata.fetch(:parameters, {}).inject({}) do |hash, param|
-        set_param(hash, param)
-      end
+      parameters = if RspecApiDocumentation.configuration.infer_parameters
+                     example.metadata.fetch(:parameters, {}).inject({}) do |hash, param|
+                       set_param(hash, param)
+                     end
+                   else
+                     {}
+                   end
       parameters.deep_merge!(extra_params)
-      parameters
     end
 
     def header(name, value)
