@@ -10,6 +10,11 @@
   <body>
     <div class="container">
       <h1>{{resource_name}} API</h1>
+        {{# resource_explanation }}
+            <p class="explanation">
+                {{{ resource_explanation }}}
+            </p>
+        {{/ resource_explanation }}
 
       <div class="article">
         <h2>{{ description }}</h2>

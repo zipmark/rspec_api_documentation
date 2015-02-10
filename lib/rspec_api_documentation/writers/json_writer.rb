@@ -47,6 +47,7 @@ module RspecApiDocumentation
       def section_hash(section)
         {
           :name => section[:resource_name],
+          :explanation => section[:resource_explanation],
           :examples => section[:examples].map { |example|
             {
               :description => example.description,
@@ -85,6 +86,7 @@ module RspecApiDocumentation
       def as_json(opts = nil)
         {
           :resource => resource_name,
+          :resource_explanation => resource_explanation,
           :http_method => http_method,
           :route => route,
           :description => description,

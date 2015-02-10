@@ -42,6 +42,10 @@ module RspecApiDocumentation
       respond_to?(:response_fields) && response_fields.present?
     end
 
+    def resource_explanation
+      metadata[:resource_explanation] || nil
+    end
+
     def explanation
       metadata[:explanation] || nil
     end

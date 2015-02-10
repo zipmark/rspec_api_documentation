@@ -14,6 +14,11 @@
   {{# sections }}
   <div class="article">
     <h2>{{ resource_name }}</h2>
+    {{# resource_explanation }}
+      <p class="explanation">
+          {{{ resource_explanation }}}
+      </p>
+    {{/ resource_explanation }}
 
     <ul>
       {{# examples }}
