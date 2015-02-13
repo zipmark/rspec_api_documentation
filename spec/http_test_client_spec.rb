@@ -62,13 +62,14 @@ describe RspecApiDocumentation::HttpTestClient do
 
   describe "#request_headers" do
     before do
-      test_client.get "/", {}, { "Accept" => "application/json", "Content-Type" => "application/json" }
+      test_client.get "/", {}, { "Accept" => "application/json", "Content-Type" => "application/json", "User-Id" => "1" }
     end
 
     it "should contain all the headers" do
       expect(test_client.request_headers).to eq({
         "Accept" => "application/json",
-        "Content-Type" => "application/json"
+        "Content-Type" => "application/json",
+        "User-Id" => "1"
       })
     end
   end
