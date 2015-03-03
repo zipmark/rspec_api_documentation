@@ -33,6 +33,7 @@ module RspecApiDocumentation
           hash[:request_headers_text] = format_hash(hash[:request_headers])
           hash[:request_query_parameters_text] = format_hash(hash[:request_query_parameters])
           hash[:response_headers_text] = format_hash(hash[:response_headers])
+          hash[:response_body_text] = clean_response_data(hash[:response_body])
           if @host
             if hash[:curl].is_a? RspecApiDocumentation::Curl
               hash[:curl] = hash[:curl].output(@host, @filter_headers)
@@ -49,6 +50,15 @@ module RspecApiDocumentation
       end
 
       private
+
+      def clean_response_data(response_body)
+        return nil if response_body.nil?
+        if response_body.encoding == Encoding::ASCII_8BIT
+          return "[BINARY DATA]"
+        else
+          return response_body
+        end
+      end
 
       def format_hash(hash = {})
         return nil unless hash.present?
