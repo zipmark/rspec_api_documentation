@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "mustache", "~> 0.99", ">= 0.99.4"
   s.add_runtime_dependency "json", "~> 1.4", ">= 1.4.6"
 
+  s.add_development_dependency "bundler"
   s.add_development_dependency "fakefs", "~> 0.4"
   s.add_development_dependency "sinatra", "~> 1.4.4"
   s.add_development_dependency "aruba", "~> 0.5"
