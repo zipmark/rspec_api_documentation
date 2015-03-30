@@ -1,9 +1,13 @@
 language: ruby
 rvm:
   - 2.0.0
-  - 2.1.5
+  - 2.1
+  - 2.2
 gemfile:
   - Gemfile
+  - gemfiles/rspec-3.0.x.gemfile
+  - gemfiles/rspec-3.1.x.gemfile
+  - gemfiles/rspec-3.2.x.gemfile
 script:
   - bundle exec rake
 branches:
