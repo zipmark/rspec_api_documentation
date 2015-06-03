@@ -51,7 +51,9 @@ module RspecApiDocumentation
             {
               :description => example.description,
               :link => "#{example.dirname}/#{example.filename}",
-              :groups => example.metadata[:document]
+              :groups => example.metadata[:document],
+              :route => example.route,
+              :method => example.metadata[:method]
             }
           }
         }
