@@ -33,6 +33,11 @@ module RspecApiDocumentation
           hash[:request_headers_text] = format_hash(hash[:request_headers])
           hash[:request_query_parameters_text] = format_hash(hash[:request_query_parameters])
           hash[:response_headers_text] = format_hash(hash[:response_headers])
+
+          if hash[:response_content_type] =~ /application\/json/
+            hash[:response_body] = JSON.pretty_generate(JSON.parse(hash[:response_body]))
+          end
+
           if @host
             if hash[:curl].is_a? RspecApiDocumentation::Curl
               hash[:curl] = hash[:curl].output(@host, @filter_headers)
