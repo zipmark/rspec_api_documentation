@@ -377,6 +377,24 @@ resource "Orders" do
 end
 ```
 
+**Note:** 
+Headers are sent with the prefix `HTTP_`.
+
+i.e.
+
+```ruby
+header "AUTHORIZATION", "myAuth"
+```
+
+Will be received in your controller as:
+
+```ruby
+$ request.env
+...
+"HTTP_AUTHORIZATION"=>"myAuth"
+...
+```
+
 #### parameter
 
 This method takes the parameter name, a description, and an optional hash of extra metadata that can be displayed in Raddocs as extra columns. If a method with the parameter name exists, e.g. a `let`, it will send the returned value up to the server as URL encoded data.
