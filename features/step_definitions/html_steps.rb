@@ -51,7 +51,7 @@ Then /^I should see the following query parameters:$/ do |table|
   actual = text.split("\n")
   expected = table.raw.map { |row| row.join(": ") }
 
-  expect(actual).to eq(expected)
+  expect(actual).to match(expected)
 end
 
 Then /^I should see the response status is "([^"]*)"$/ do |status|
