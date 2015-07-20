@@ -1,6 +1,6 @@
 Then /^the file "(.*?)" should contain JSON exactly like:$/ do |file, exact_content|
-  prep_for_fs_check do
+  in_current_directory do
     json = IO.read(file)
-    JSON.parse(json).should == JSON.parse(exact_content)
+    expect(JSON.parse(json)).to eq(JSON.parse(exact_content))
   end
 end

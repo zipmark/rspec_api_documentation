@@ -35,17 +35,17 @@ Feature: Json Iodocs
           example "Greeting your favorite gem" do
             do_request :target => "rspec_api_documentation"
 
-            response_headers["Content-Type"].should eq("text/plain")
-            status.should eq(200)
-            response_body.should eq('Hello, rspec_api_documentation!')
+            expect(response_headers["Content-Type"]).to eq("text/plain")
+            expect(status).to eq(200)
+            expect(response_body).to eq('Hello, rspec_api_documentation!')
           end
 
           example "Greeting your favorite developers of your favorite gem" do
             do_request :target => "Sam & Eric"
 
-            response_headers["Content-Type"].should eq("text/plain")
-            status.should eq(200)
-            response_body.should eq('Hello, Sam & Eric!')
+            expect(response_headers["Content-Type"]).to eq("text/plain")
+            expect(status).to eq(200)
+            expect(response_body).to eq('Hello, Sam & Eric!')
           end
         end
       end

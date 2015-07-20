@@ -3,11 +3,11 @@ Then /the outputted docs should( not)? filter out headers$/ do |condition|
 
   within("pre.curl") do
     if condition
-      page.should have_content("Host")
-      page.should have_content("Cookie")
+      expect(page).to have_content("Host")
+      expect(page).to have_content("Cookie")
     else
-      page.should_not have_content("Host")
-      page.should_not have_content("Cookie")
+      expect(page).to_not have_content("Host")
+      expect(page).to_not have_content("Cookie")
     end
   end
 end
