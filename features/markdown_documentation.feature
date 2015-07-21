@@ -109,6 +109,8 @@ Feature: Generate Markdown documentation from test examples
       end
 
       resource 'Help' do
+        explanation 'Getting help'
+
         get '/help' do
           example_request 'Getting welcome message' do
             expect(status).to eq(200)
@@ -148,6 +150,8 @@ Feature: Generate Markdown documentation from test examples
     # Example API
 
     ## Help
+
+    Getting help
 
     * [Getting welcome message](help/getting_welcome_message.markdown)
 
