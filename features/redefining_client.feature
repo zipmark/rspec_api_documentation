@@ -23,7 +23,7 @@ Feature: Redefining the client method
 
         get "/" do
           example_request "Trying out get" do
-            status.should eq(200)
+            expect(status).to eq(200)
           end
         end
       end

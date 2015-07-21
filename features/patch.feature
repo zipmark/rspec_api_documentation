@@ -24,7 +24,7 @@ Feature: Example Request with PATCH
       resource "Example Request" do
         patch "/" do
           example_request "Trying out patch" do
-            status.should eq(200)
+            expect(status).to eq(200)
           end
         end
       end

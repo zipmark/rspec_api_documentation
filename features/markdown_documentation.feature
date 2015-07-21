@@ -59,8 +59,8 @@ Feature: Generate Markdown documentation from test examples
           response_field :page, "Current page"
 
           example_request 'Getting a list of orders' do
-            status.should eq(200)
-            response_body.should eq('{"page":1,"orders":[{"name":"Order 1","amount":9.99,"description":null},{"name":"Order 2","amount":100.0,"description":"A great order"}]}')
+            expect(status).to eq(200)
+            expect(response_body).to eq('{"page":1,"orders":[{"name":"Order 1","amount":9.99,"description":null},{"name":"Order 2","amount":100.0,"description":"A great order"}]}')
           end
         end
 
@@ -68,8 +68,8 @@ Feature: Generate Markdown documentation from test examples
           let(:id) { 1 }
 
           example_request 'Getting a specific order' do
-            status.should eq(200)
-            response_body.should == '{"order":{"name":"Order 1","amount":100.0,"description":"A great order"}}'
+            expect(status).to eq(200)
+            expect(response_body).to eq('{"order":{"name":"Order 1","amount":100.0,"description":"A great order"}}')
           end
         end
 
@@ -82,7 +82,7 @@ Feature: Generate Markdown documentation from test examples
           let(:amount) { 33.0 }
 
           example_request 'Creating an order' do
-            status.should == 201
+            expect(status).to eq(201)
           end
         end
 
@@ -95,7 +95,7 @@ Feature: Generate Markdown documentation from test examples
           let(:name) { "Updated name" }
 
           example_request 'Updating an order' do
-            status.should == 200
+            expect(status).to eq(200)
           end
         end
 
@@ -103,16 +103,18 @@ Feature: Generate Markdown documentation from test examples
           let(:id) { 1 }
 
           example_request "Deleting an order" do
-            status.should == 200
+            expect(status).to eq(200)
           end
         end
       end
 
       resource 'Help' do
+        explanation 'Getting help'
+
         get '/help' do
           example_request 'Getting welcome message' do
-            status.should eq(200)
-            response_body.should == 'Welcome Henry !'
+            expect(status).to eq(200)
+            expect(response_body).to eq('Welcome Henry !')
           end
         end
 
@@ -149,6 +151,8 @@ Feature: Generate Markdown documentation from test examples
 
     ## Help
 
+    Getting help
+
     * [Getting welcome message](help/getting_welcome_message.markdown)
 
     ## Orders
@@ -158,8 +162,6 @@ Feature: Generate Markdown documentation from test examples
     * [Getting a list of orders](orders/getting_a_list_of_orders.markdown)
     * [Getting a specific order](orders/getting_a_specific_order.markdown)
     * [Updating an order](orders/updating_an_order.markdown)
-
-
     """
 
   Scenario: Example 'Getting al ist of orders' file should look like we expect
@@ -200,7 +202,6 @@ Feature: Generate Markdown documentation from test examples
     #### Body
 
     <pre>{"page":1,"orders":[{"name":"Order 1","amount":9.99,"description":null},{"name":"Order 2","amount":100.0,"description":"A great order"}]}</pre>
-
     """
 
   Scenario: Example 'Creating an order' file should look like we expect
@@ -248,8 +249,6 @@ Feature: Generate Markdown documentation from test examples
     #### Status
 
     <pre>201 Created</pre>
-
-
     """
 
   Scenario: Example 'Deleting an order' file should be created
