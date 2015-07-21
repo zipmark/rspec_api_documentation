@@ -29,6 +29,8 @@ Feature: Combined text
       end
 
       resource "Greetings" do
+        explanation "Welcome to the party"
+
         get "/greetings" do
           parameter :target, "The thing you want to greet"
 
@@ -70,6 +72,7 @@ Feature: Combined text
     [
       {
         "resource": "Greetings",
+        "resource_explanation": "Welcome to the party",
         "http_method": "GET",
         "route": "/greetings",
         "description": "Greeting your favorite gem",
@@ -106,6 +109,7 @@ Feature: Combined text
       },
       {
         "resource": "Greetings",
+        "resource_explanation": "Welcome to the party",
         "http_method": "GET",
         "route": "/greetings",
         "description": "Greeting your favorite developers of your favorite gem",

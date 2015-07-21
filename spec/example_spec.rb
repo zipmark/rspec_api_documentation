@@ -169,6 +169,17 @@ describe RspecApiDocumentation::Example do
     end
   end
 
+  describe "#resource_explanation" do
+    it "should return the metadata resource_explanation" do
+      example.metadata[:resource_explanation] = "Here is a resource explanation"
+      expect(example.resource_explanation).to eq("Here is a resource explanation")
+    end
+
+    it "should return an empty string when not set" do
+      expect(example.resource_explanation).to eq(nil)
+    end
+  end
+
   describe "#explanation" do
     it "should return the metadata explanation" do
       example.metadata[:explanation] = "Here is an explanation"
