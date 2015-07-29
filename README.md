@@ -143,6 +143,12 @@ RspecApiDocumentation.configure do |config|
   # Change the embedded style for HTML output. This file will not be processed by
   # RspecApiDocumentation and should be plain CSS.
   config.html_embedded_css_file = nil
+
+  # Removes the DSL method `status`, this is required if you have a parameter named status
+  config.disable_dsl_status!
+
+  # Removes the DSL method `method`, this is required if you have a parameter named method
+  config.disable_dsl_method!
 end
 ```
 
