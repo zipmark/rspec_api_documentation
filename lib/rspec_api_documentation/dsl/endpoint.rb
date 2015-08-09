@@ -150,9 +150,13 @@ module RspecApiDocumentation::DSL
       key = param[:name]
       return hash if !respond_to?(key) || in_path?(key)
 
-      if param[:scope]
-        hash[param[:scope].to_s] ||= {}
-        hash[param[:scope].to_s][key] = send(key)
+      if scope = param[:scope]
+        if scope.is_a?(Array)
+          hash.merge!(scope.reverse.inject({key => send(key)}) { |a,n| { n.to_s => a }})
+        else
+          hash[scope.to_s] ||= {}
+          hash[scope.to_s][key] = send(key)
+        end
       else
         hash[key] = send(key)
       end
