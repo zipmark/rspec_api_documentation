@@ -148,16 +148,23 @@ module RspecApiDocumentation::DSL
 
     def set_param(hash, param)
       key = param[:name]
-      return hash if !respond_to?(key) || in_path?(key)
+      return hash if in_path?(key)
 
-      if param[:scope]
-        hash[param[:scope].to_s] ||= {}
-        hash[param[:scope].to_s][key] = send(key)
-      else
-        hash[key] = send(key)
+      keys = [param[:scope], key].flatten.compact
+      method_name = keys.join('_')
+
+      unless respond_to?(method_name)
+        method_name = key
+        return hash unless respond_to?(method_name)
       end
 
-      hash
+      hash.deep_merge(build_param_hash(keys, method_name))
     end
+
+    def build_param_hash(keys, method_name)
+      value = keys[1] ? build_param_hash(keys[1..-1], method_name) : send(method_name)
+      { keys[0].to_s => value }
+    end
+
   end
 end

@@ -364,6 +364,7 @@ resource "Order" do
       parameter :order_type, "Type of order"
       parameter :amount, "Amount of order", scope: :order
       parameter :name, "Name of order", scope: :order
+      parameter :street, "order location country", scope: [:order,:location,:address]
 
 
       context "no extra params" do
@@ -395,6 +396,16 @@ resource "Order" do
         let(:name) { 'Monday Order' }
 
         example_request "should deep merge the optional parameter hash", {:order_type => 'big', :order => {:name => 'Friday Order'}}
+      end
+
+      context "extra options for do_request with nested scope" do
+        before do
+          expect(client).to receive(:post).with("/orders", {"order" => {"location" => {"address" => {"street" => "123 Main St"}}}}, nil)
+        end
+
+        let(:street) { '123 Main St' }
+
+        example_request "should deep merge the optional parameter hash with nested scope"
       end
     end
   end
