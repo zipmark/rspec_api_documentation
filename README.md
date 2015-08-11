@@ -390,7 +390,7 @@ This method takes the parameter name, a description, and an optional hash of ext
 Special values:
 
 * `:required => true` Will display a red '*' to show it's required
-* `:scope => :the_scope` Will scope parameters in the hash. See example
+* `:scope => :the_scope` Will scope parameters in the hash, scoping can be nested. See example
 
 ```ruby
 resource "Orders" do
@@ -400,11 +400,22 @@ resource "Orders" do
 
   post "/orders" do
     parameter :name, "Order Name", :required => true, :scope => :order
+    parameter :item, "Order items", :scope => :order
+    parameter :item_id, "Item id", :scope => [:order, :item]
 
     let(:name) { "My Order" }
+    let(:item_id) { 1 }
 
     example "Creating an order" do
-      params.should == { :order => { :name => "My Order" }, :auth_token => auth_token }
+      params.should eq({
+        :order => {
+          :name => "My Order",
+          :item => {
+            :item_id => 1,
+          }
+        },
+        :auth_token => auth_token,
+      })
     end
   end
 end
