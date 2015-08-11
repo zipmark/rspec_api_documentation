@@ -99,6 +99,13 @@ describe RspecApiDocumentation::RackTestClient do
         expect(metadata[:response_body]).to eq("[binary data]")
       end
 
+      specify "fetching json data" do |example|
+        metadata = example.metadata[:requests].first
+        expect(metadata[:response_body]).to eq(JSON.pretty_generate({
+          :hello => "nurse",
+        }))
+      end
+
       context "when post data is not json" do
         let(:post_data) { { :target => "nurse", :email => "email@example.com" } }
 

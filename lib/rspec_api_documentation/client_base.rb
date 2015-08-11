@@ -68,7 +68,7 @@ module RspecApiDocumentation
       request_metadata[:request_content_type] = request_content_type
       request_metadata[:response_status] = status
       request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[status]
-      request_metadata[:response_body] = record_response_body(response_body)
+      request_metadata[:response_body] = record_response_body(response_content_type, response_body)
       request_metadata[:response_headers] = response_headers
       request_metadata[:response_content_type] = response_content_type
       request_metadata[:curl] = Curl.new(method, path, request_body, request_headers)
@@ -85,10 +85,12 @@ module RspecApiDocumentation
       request_headers || {}
     end
 
-    def record_response_body(response_body)
+    def record_response_body(response_content_type, response_body)
       return nil if response_body.empty?
       if response_body.encoding == Encoding::ASCII_8BIT
         "[binary data]"
+      elsif response_content_type =~ /application\/json/
+        JSON.pretty_generate(JSON.parse(response_body))
       else
         response_body
       end

@@ -199,7 +199,21 @@ Feature: Generate Markdown documentation from test examples
 
     #### Body
 
-    <pre>{"page":1,"orders":[{"name":"Order 1","amount":9.99,"description":null},{"name":"Order 2","amount":100.0,"description":"A great order"}]}</pre>
+    <pre>{
+      "page": 1,
+      "orders": [
+        {
+          "name": "Order 1",
+          "amount": 9.99,
+          "description": null
+        },
+        {
+          "name": "Order 2",
+          "amount": 100.0,
+          "description": "A great order"
+        }
+      ]
+    }</pre>
 
     """
 
