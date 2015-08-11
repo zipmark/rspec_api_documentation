@@ -93,6 +93,12 @@ describe RspecApiDocumentation::RackTestClient do
         expect(metadata[:curl]).to eq(RspecApiDocumentation::Curl.new("POST", "/greet?query=test+query", post_data, {"Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value", "Host" => "example.org", "Cookie" => ""}))
       end
 
+      specify "fetching binary data" do |example|
+        test_client.get "/binary"
+        metadata = example.metadata[:requests].last
+        expect(metadata[:response_body]).to eq("[binary data]")
+      end
+
       context "when post data is not json" do
         let(:post_data) { { :target => "nurse", :email => "email@example.com" } }
 

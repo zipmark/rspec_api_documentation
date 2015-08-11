@@ -23,4 +23,9 @@ class StubApp < Sinatra::Base
 
     "<hello>World</hello>"
   end
+
+  get '/binary' do
+    content_type 'application/octet-stream'
+    "\x01\x02\x03".force_encoding(Encoding::ASCII_8BIT)
+  end
 end

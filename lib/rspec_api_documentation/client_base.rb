@@ -68,7 +68,7 @@ module RspecApiDocumentation
       request_metadata[:request_content_type] = request_content_type
       request_metadata[:response_status] = status
       request_metadata[:response_status_text] = Rack::Utils::HTTP_STATUS_CODES[status]
-      request_metadata[:response_body] = response_body.empty? ? nil : response_body
+      request_metadata[:response_body] = record_response_body(response_body)
       request_metadata[:response_headers] = response_headers
       request_metadata[:response_content_type] = response_content_type
       request_metadata[:curl] = Curl.new(method, path, request_body, request_headers)
@@ -83,6 +83,15 @@ module RspecApiDocumentation
 
     def headers(method, path, params, request_headers)
       request_headers || {}
+    end
+
+    def record_response_body(response_body)
+      return nil if response_body.empty?
+      if response_body.encoding == Encoding::ASCII_8BIT
+        "[binary data]"
+      else
+        response_body
+      end
     end
 
     def clean_out_uploaded_data(params, request_body)
