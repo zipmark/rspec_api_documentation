@@ -4,5 +4,5 @@ end
 
 Then /^the generated documentation should be encoded correctly$/ do
   file = File.read(File.join(current_dir, "doc", "api", "foobars", "uploading_a_file.html"))
-  file.should =~ /file\.png/
+  expect(file).to match(/file\.png/)
 end

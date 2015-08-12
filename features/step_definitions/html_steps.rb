@@ -7,21 +7,21 @@ When /^I navigate to "([^"]*)"$/ do |example|
 end
 
 Then /^I should see the following resources:$/ do |table|
-  all("h2").map(&:text).should == table.raw.flatten
+  expect(all("h2").map(&:text)).to eq(table.raw.flatten)
 end
 
 Then /^I should see the following parameters:$/ do |table|
   names = all(".parameters .name").map(&:text)
   descriptions = all(".parameters .description").map(&:text)
 
-  names.zip(descriptions).should == table.rows
+  expect(names.zip(descriptions)).to eq(table.rows)
 end
 
 Then(/^I should see the following response fields:$/) do |table|
   names = all(".response-fields .name").map(&:text)
   descriptions = all(".response-fields .description").map(&:text)
 
-  names.zip(descriptions).should == table.rows
+  expect(names.zip(descriptions)).to eq(table.rows)
 end
 
 Then /^I should see the following (request|response) headers:$/ do |part, table|
@@ -29,7 +29,7 @@ Then /^I should see the following (request|response) headers:$/ do |part, table|
   expected_headers = table.raw.map { |row| row.join(": ") }
 
   expected_headers.each do |row|
-    actual_headers.should include(row.strip)
+    expect(actual_headers).to include(row.strip)
   end
 end
 
@@ -38,12 +38,12 @@ Then /^I should not see the following (request|response) headers:$/ do |part, ta
   expected_headers = table.raw.map { |row| row.join(": ") }
 
   expected_headers.each do |row|
-    actual_headers.should_not include(row.strip)
+    expect(actual_headers).to_not include(row.strip)
   end
 end
 
 Then /^I should see the route is "([^"]*)"$/ do |route|
-  page.should have_css(".request.route", :text => route)
+  expect(page).to have_css(".request.route", :text => route)
 end
 
 Then /^I should see the following query parameters:$/ do |table|
@@ -51,25 +51,25 @@ Then /^I should see the following query parameters:$/ do |table|
   actual = text.split("\n")
   expected = table.raw.map { |row| row.join(": ") }
 
-  actual.should =~ expected
+  expect(actual).to match(expected)
 end
 
 Then /^I should see the response status is "([^"]*)"$/ do |status|
-  page.should have_css(".response.status", :text => status)
+  expect(page).to have_css(".response.status", :text => status)
 end
 
 Then /^I should see the following request body:$/ do |request_body|
-  page.should have_css("pre.request.body", :text => request_body)
+  expect(page).to have_css("pre.request.body", :text => request_body)
 end
 
 Then /^I should see the following response body:$/ do |response_body|
-  page.should have_css("pre.response.body", :text => response_body)
+  expect(page).to have_css("pre.response.body", :text => response_body)
 end
 
 Then /^I should see the api name "(.*?)"$/ do |name|
   title = find("title").text
   header = find("h1").text
 
-  title.should eq(name)
-  header.should eq(name)
+  expect(title).to eq(name)
+  expect(header).to eq(name)
 end
