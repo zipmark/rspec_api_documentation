@@ -28,6 +28,21 @@ module RspecApiDocumentation
         "#{basename}.#{extension}"
       end
 
+      def parameters
+        super.each do |parameter|
+          if parameter.has_key?(:scope)
+            scope = Array(parameter[:scope]).each_with_index.map do |scope, index|
+              if index == 0
+                scope
+              else
+                "[#{scope}]"
+              end
+            end.join
+            parameter[:scope] = scope
+          end
+        end
+      end
+
       def requests
         super.map do |hash|
           hash[:request_headers_text] = format_hash(hash[:request_headers])

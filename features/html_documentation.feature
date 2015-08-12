@@ -29,6 +29,7 @@ Feature: Generate HTML documentation from test examples
         get "/greetings" do
           parameter :target, "The thing you want to greet"
           parameter :scoped, "This is a scoped variable", :scope => :scope
+          parameter :sub, "This is scoped", :scope => [:scope, :further]
 
           response_field :hello, "The greeted thing"
 
@@ -65,9 +66,10 @@ Feature: Generate HTML documentation from test examples
     When  I open the index
     And   I navigate to "Greeting your favorite gem"
     Then  I should see the following parameters:
-      | name          | description                 |
-      | target        | The thing you want to greet |
-      | scope[scoped] | This is a scoped variable   |
+      | name                | description                 |
+      | target              | The thing you want to greet |
+      | scope[scoped]       | This is a scoped variable   |
+      | scope[further][sub] | This is scoped              |
 
   Scenario: Examle HTML documentation should include the response fields
     When  I open the index
