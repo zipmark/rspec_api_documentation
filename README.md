@@ -392,6 +392,8 @@ Special values:
 * `:required => true` Will display a red '*' to show it's required
 * `:scope => :the_scope` Will scope parameters in the hash, scoping can be nested. See example
 
+The value of scoped parameters can be set with both scoped (`let(:order_item_item_id)`) and unscoped (`let(:item_id)`) methods. It always searches for the scoped method first and falls back to the unscoped method.
+
 ```ruby
 resource "Orders" do
   parameter :auth_token, "Authentication Token"
@@ -403,8 +405,8 @@ resource "Orders" do
     parameter :item, "Order items", :scope => :order
     parameter :item_id, "Item id", :scope => [:order, :item]
 
-    let(:name) { "My Order" }
-    let(:item_id) { 1 }
+    let(:name) { "My Order" } # OR let(:order_name) { "My Order" }
+    let(:item_id) { 1 } # OR let(:order_item_item_id) { 1 }
 
     example "Creating an order" do
       params.should eq({
