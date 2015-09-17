@@ -148,10 +148,11 @@ module RspecApiDocumentation::DSL
 
     def set_param(hash, param)
       key = param[:name]
-      return hash if in_path?(key)
 
       keys = [param[:scope], key].flatten.compact
       method_name = keys.join('_')
+
+      return hash if in_path?(method_name)
 
       unless respond_to?(method_name)
         method_name = key

@@ -105,10 +105,12 @@ resource "Order" do
   put "/orders/:id" do
     parameter :type, "The type of drink you want.", :required => true
     parameter :size, "The size of drink you want.", :required => true
+    parameter :id, 'The ID of the resource.', :required => true, scope: :data
     parameter :note, "Any additional notes about your order."
 
     let(:type) { "coffee" }
     let(:size) { "medium" }
+    let(:data_id) { 2 }
 
     let(:id) { 1 }
 
@@ -127,6 +129,10 @@ resource "Order" do
           expect(client).to receive(method).with(path, params, nil)
           do_request
         end
+      end
+
+      it 'should set the scoped data ID' do
+        expect(params['data']).to eq({'id' => 2})
       end
 
       it "should allow extra parameters to be passed in" do
