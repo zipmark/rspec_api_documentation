@@ -6,7 +6,7 @@ module RspecApiDocumentation::DSL
     module ClassMethods
       def self.define_action(method)
         define_method method do |*args, &block|
-          options = if args.last.is_a?(Hash) then args.pop else {} end
+          options = args.extract_options!
           options[:method] = method
           options[:route] = args.first
           options[:api_doc_dsl] = :endpoint
@@ -38,7 +38,10 @@ module RspecApiDocumentation::DSL
         context(*args, &block)
       end
 
-      def parameter(name, description, options = {})
+      def parameter(name, *args)
+        options = args.extract_options!
+        description = args.pop || "#{Array(options[:scope]).join(" ")} #{name}".humanize
+
         parameters.push(options.merge(:name => name.to_s, :description => description))
       end
 
@@ -89,7 +92,7 @@ module RspecApiDocumentation::DSL
       requests = example.metadata[:requests]
       example.metadata[:requests] = []
 
-      instance_eval &block
+      instance_eval(&block)
 
       example.metadata[:requests] = requests
     end
