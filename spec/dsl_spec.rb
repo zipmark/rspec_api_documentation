@@ -57,6 +57,7 @@ resource "Order" do
     parameter :type, "The type of drink you want.", :required => true
     parameter :size, "The size of drink you want.", :required => true
     parameter :note, "Any additional notes about your order."
+    parameter :name, :scope => :order
 
     response_field :type, "The type of drink you ordered.", :scope => :order
     response_field :size, "The size of drink you ordered.", :scope => :order
@@ -74,7 +75,8 @@ resource "Order" do
           [
             { :name => "type", :description => "The type of drink you want.", :required => true },
             { :name => "size", :description => "The size of drink you want.", :required => true },
-            { :name => "note", :description => "Any additional notes about your order." }
+            { :name => "note", :description => "Any additional notes about your order." },
+            { :name => "name", :description => "Order name", :scope => :order},
           ]
         )
       end
