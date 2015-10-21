@@ -62,6 +62,7 @@ resource "Order" do
     response_field :type, "The type of drink you ordered.", :scope => :order
     response_field :size, "The size of drink you ordered.", :scope => :order
     response_field :note, "Any additional notes about your order.", :scope => :order
+    response_field :name, :scope => :order
     response_field :id, "The order id"
 
     let(:type) { "coffee" }
@@ -87,6 +88,7 @@ resource "Order" do
             { :name => "type", :description => "The type of drink you ordered.", :scope => :order },
             { :name => "size", :description => "The size of drink you ordered.", :scope => :order },
             { :name => "note", :description => "Any additional notes about your order.", :scope => :order },
+            { :name => "name", :description => "Order name", :scope => :order },
             { :name => "id", :description => "The order id" },
           ]
         )

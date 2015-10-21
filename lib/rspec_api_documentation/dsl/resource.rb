@@ -39,14 +39,11 @@ module RspecApiDocumentation::DSL
       end
 
       def parameter(name, *args)
-        options = args.extract_options!
-        description = args.pop || "#{Array(options[:scope]).join(" ")} #{name}".humanize
-
-        parameters.push(options.merge(:name => name.to_s, :description => description))
+        parameters.push(field_specification(name, *args))
       end
 
-      def response_field(name, description, options = {})
-        response_fields.push(options.merge(:name => name.to_s, :description => description))
+      def response_field(name, *args)
+        response_fields.push(field_specification(name, *args))
       end
 
       def header(name, value)
@@ -54,6 +51,13 @@ module RspecApiDocumentation::DSL
       end
 
       private
+
+      def field_specification(name, *args)
+        options = args.extract_options!
+        description = args.pop || "#{Array(options[:scope]).join(" ")} #{name}".humanize
+
+        options.merge(:name => name.to_s, :description => description)
+      end
 
       def safe_metadata(field, default)
         metadata[field] ||= default
