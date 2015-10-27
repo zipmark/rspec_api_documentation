@@ -89,10 +89,9 @@ module RspecApiDocumentation
       return nil if response_body.empty?
       if response_body.encoding == Encoding::ASCII_8BIT
         "[binary data]"
-      elsif response_content_type =~ /application\/json/
-        JSON.pretty_generate(JSON.parse(response_body))
       else
-        response_body
+        formatter = RspecApiDocumentation.configuration.response_body_formatter
+        return formatter.call(response_content_type, response_body)
       end
     end
 

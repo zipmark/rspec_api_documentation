@@ -140,6 +140,11 @@ RspecApiDocumentation.configure do |config|
   # Can be :json, :xml, or a proc that will be passed the params
   config.post_body_formatter = Proc.new { |params| params }
 
+  # Change how the response body is formatted by default
+  # Is proc that will be called with the response_content_type & response_body
+  # by default response_content_type of `application/json` are pretty formated.
+  config.response_body_formatter = Proc.new { |response_content_type, response_body| response_body }
+
   # Change the embedded style for HTML output. This file will not be processed by
   # RspecApiDocumentation and should be plain CSS.
   config.html_embedded_css_file = nil

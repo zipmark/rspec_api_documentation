@@ -133,4 +133,29 @@ describe RspecApiDocumentation::HttpTestClient do
       end
     end
   end
+
+  context "formating response body", :document => true do
+    after do
+      RspecApiDocumentation.instance_variable_set(:@configuration, RspecApiDocumentation::Configuration.new)
+    end
+
+    before do
+      RspecApiDocumentation.configure do |config|
+        config.response_body_formatter =
+          Proc.new do |_, response_body|
+            response_body.upcase
+          end
+      end
+      test_client.post "/greet?query=test+query", post_data, headers
+    end
+
+    let(:post_data) { { :target => "nurse" }.to_json }
+    let(:headers) { { "Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value" } }
+
+    it "it formats the response_body based on the defined proc" do |example|
+      metadata = example.metadata[:requests].first
+      expect(metadata[:response_body]).to be_present
+      expect(metadata[:response_body]).to eq '{"HELLO":"NURSE"}'
+    end
+  end
 end
