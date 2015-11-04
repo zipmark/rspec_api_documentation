@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rspec_api_documentation (4.5.0)
+    rspec_api_documentation (4.6.0)
       activesupport (>= 3.0.0)
       json (~> 1.4, >= 1.4.6)
       mustache (~> 0.99, >= 0.99.4)
@@ -142,3 +142,6 @@ DEPENDENCIES
   sinatra (~> 1.4.4)
   thin
   webmock (~> 1.7)
+
+BUNDLED WITH
+   1.10.6
