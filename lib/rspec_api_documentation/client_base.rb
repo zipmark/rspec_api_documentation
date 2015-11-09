@@ -62,7 +62,7 @@ module RspecApiDocumentation
 
       request_metadata[:request_method] = method
       request_metadata[:request_path] = path
-      request_metadata[:request_body] = request_body.empty? ? nil : request_body.force_encoding("UTF-8")
+      request_metadata[:request_body] = record_request_body(request_content_type, request_body)
       request_metadata[:request_headers] = request_headers
       request_metadata[:request_query_parameters] = query_hash
       request_metadata[:request_content_type] = request_content_type
@@ -89,10 +89,19 @@ module RspecApiDocumentation
       return nil if response_body.empty?
       if response_body.encoding == Encoding::ASCII_8BIT
         "[binary data]"
-      elsif response_content_type =~ /application\/json/
+      elsif response_content_type =~ /application\/(vnd\.api\+)json/
         JSON.pretty_generate(JSON.parse(response_body))
       else
         response_body
+      end
+    end
+
+    def record_request_body(request_content_type, request_body)
+      return nil if request_body.empty?
+      if request_content_type =~ /application\/(vnd\.api\+)json/
+        JSON.pretty_generate(JSON.parse(request_body.force_encoding("UTF-8")))
+      else
+        request_body.force_encoding("UTF-8")
       end
     end
 
