@@ -41,7 +41,7 @@ module RspecApiDocumentation::DSL
         if respond_to?(:raw_post)
           params_or_body = raw_post
         else
-          formatter = RspecApiDocumentation.configuration.post_body_formatter
+          formatter = RspecApiDocumentation.configuration.request_body_formatter
           case formatter
           when :json
             params_or_body = params.empty? ? nil : params.to_json

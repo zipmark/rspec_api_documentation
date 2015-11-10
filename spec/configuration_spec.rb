@@ -59,7 +59,7 @@ describe RspecApiDocumentation::Configuration do
     its(:html_embedded_css_file) { should be_nil }
 
     specify "post body formatter" do
-      expect(configuration.post_body_formatter.call({ :page => 1})).to eq({ :page => 1 })
+      expect(configuration.request_body_formatter.call({ :page => 1})).to eq({ :page => 1 })
     end
   end
 
