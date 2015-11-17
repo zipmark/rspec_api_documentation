@@ -93,6 +93,27 @@ module RspecApiDocumentation
     # See RspecApiDocumentation::DSL::Endpoint#do_request
     add_setting :post_body_formatter, :default => Proc.new { |_| Proc.new { |params| params } }
 
+    # Change how the response body is formatted
+    # Can be a proc that will be passed the response body
+    #
+    #   RspecApiDocumentation.configure do |config|
+    #     config.response_body_formatter = Proc.new do |content_type, response_body|
+    #       # convert to whatever you want
+    #       response_body
+    #     end
+    #   end
+    #
+    # See RspecApiDocumentation::DSL::Endpoint#do_request
+    add_setting :response_body_formatter, default: Proc.new { |_, _|
+      Proc.new do |content_type, response_body|
+        if content_type =~ /application\/json/
+          JSON.pretty_generate(JSON.parse(response_body))
+        else
+          response_body
+        end
+      end
+    }
+
     def client_method=(new_client_method)
       RspecApiDocumentation::DSL::Resource.module_eval <<-RUBY
         alias :#{new_client_method} #{client_method}
