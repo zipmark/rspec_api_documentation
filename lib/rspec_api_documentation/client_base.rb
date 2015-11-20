@@ -98,7 +98,7 @@ module RspecApiDocumentation
 
     def record_request_body(request_content_type, request_body)
       return nil if request_body.empty?
-      if request_content_type =~ /application\/(vnd\.api\+)json/
+      if request_content_type =~ /application\/(vnd\.api\+)?json/
         JSON.pretty_generate(JSON.parse(request_body.force_encoding("UTF-8")))
       else
         request_body.force_encoding("UTF-8")
