@@ -80,18 +80,21 @@ module RspecApiDocumentation
     add_setting :response_headers_to_include, :default => nil
     add_setting :html_embedded_css_file, :default => nil
 
+    # renamed to request_body_formatter. here for backwards compatibility
+    add_setting :post_body_formatter, :default => nil
+
     # Change how the post body is formatted by default, you can still override by `raw_post`
     # Can be :json, :xml, or a proc that will be passed the params
     #
     #   RspecApiDocumentation.configure do |config|
-    #     config.post_body_formatter = Proc.new do |params|
+    #     config.request_body_formatter = Proc.new do |params|
     #       # convert to whatever you want
     #       params.to_s
     #     end
     #   end
     #
     # See RspecApiDocumentation::DSL::Endpoint#do_request
-    add_setting :post_body_formatter, :default => Proc.new { |_| Proc.new { |params| params } }
+    add_setting :request_body_formatter, :default => Proc.new { |_| RspecApiDocumentation.configuration.post_body_formatter || Proc.new { |params| params } }
 
     # Change how the response body is formatted
     # Can be a proc that will be passed the response body
