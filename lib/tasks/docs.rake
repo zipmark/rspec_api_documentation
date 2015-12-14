@@ -9,5 +9,5 @@ end
 desc 'Generate API request documentation from API specs (ordered)'
 RSpec::Core::RakeTask.new('docs:generate:ordered') do |t|
   t.pattern = 'spec/acceptance/**/*_spec.rb'
-  t.rspec_opts = ["--format RspecApiDocumentation::ApiFormatter", "--order default"]
+  t.rspec_opts = ["--format RspecApiDocumentation::ApiFormatter", "--order defined"]
 end
