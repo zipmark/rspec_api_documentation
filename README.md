@@ -447,6 +447,33 @@ resource "Orders" do
 end
 ```
 
+
+You can also group metadata using [with_options](http://api.rubyonrails.org/classes/Object.html#method-i-with_options) to factor out duplications.
+
+```ruby
+resource "Orders" do
+  post "/orders" do
+
+    with_options :scope => :order, :required => true do
+      parameter :name, "Order Name"
+      parameter :item, "Order items"
+    end
+
+    with_options :scope => :order do
+      response_field :id, "Order ID"
+      response_field :status, "Order status"
+    end
+
+    let(:name) { "My Order" }
+    let(:item_id) { 1 }
+
+    example "Creating an order" do
+      expect(status).to be 201
+    end
+  end
+end
+```
+
 #### callback
 
 This is complicated, see [relish docs](https://www.relishapp.com/zipmark/rspec-api-documentation/docs/document-callbacks).
