@@ -40,6 +40,7 @@ module RspecApiDocumentation
     autoload :JsonWriter
     autoload :AppendJsonWriter
     autoload :JsonIodocsWriter
+    autoload :JsonApiWriter
     autoload :IndexHelper
     autoload :CombinedTextWriter
     autoload :CombinedJsonWriter
