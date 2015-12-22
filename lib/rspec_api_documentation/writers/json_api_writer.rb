@@ -17,16 +17,20 @@ module RspecApiDocumentation
       end
 
       def json_index
-        Formatter.to_json(JsonApiIndex.new(index, configuration))
+        Formatter.to_json(json_api_index)
+      end
+
+      def json_api_index
+        @json_api_index ||= JsonApiIndex.new(index, configuration)
+      end
+
+      def write_example
+        JsonApiExample.new(example, configuration).write
       end
 
       def write_examples
         index.examples.each do |example|
-          json_example = JsonApiExample.new(example, configuration)
-          FileUtils.mkdir_p(docs_dir.join(json_example.dirname))
-          File.open(docs_dir.join(json_example.dirname, json_example.filename), "w+") do |f|
-            f.write Formatter.to_json(json_example)
-          end
+          write_example(example)
         end
       end
     end
@@ -38,43 +42,71 @@ module RspecApiDocumentation
       end
 
       def sections
-        IndexHelper.sections(examples, @configuration)
+        @sections ||= IndexHelper.sections(examples, @configuration)
       end
 
       def examples
-        @index.examples.map do |example|
+        @examples ||= @index.examples.map do |example|
           JsonApiExample.new(example, @configuration)
         end
       end
 
-      def as_json(opts = nil)
-        sections.inject({:resources => []}) do |h, section|
-          h[:resources].push(section_hash(section))
-          h
-        end
+      def meta
+        {
+          count: sections.count,
+          example_count: examples.count
+        }
+      end
+
+      def included_resources
+        # [TODO] add examples, parameters, requests, response_fields
+        []
+      end
+
+      def data
+        sections.map { |section| section_hash(section) }
+      end
+
+      def as_json(_opts = nil)
+        {
+          meta: meta,
+          data: data,
+          included: included_resources
+        }
       end
 
       def section_hash(section)
         {
-          :name => section[:resource_name],
-          :examples => section[:examples].map { |example|
-            {
-              :description => example.description,
-              :link => "#{example.dirname}/#{example.filename}",
-              :groups => example.metadata[:document],
-              :route => example.route,
-              :method => example.metadata[:method]
-            }
-          }
+          type: 'resource',
+          id: Digest::SHA1.hexdigest(section.to_s),
+          attributes: {
+            name: section[:resource_name],
+          },
+          examples: section[:examples].map { |example| example.as_json }
         }
       end
     end
 
     class JsonApiExample
+      attr_accessor :configuration
+      delegate :docs_dir, to: :configuration
+
       def initialize(example, configuration)
+        @configuration = configuration
         @example = example
         @host = configuration.curl_host
         @filter_headers = configuration.curl_headers_to_filter
+      end
+
+      def write
+        FileUtils.mkdir_p(docs_dir.join(dirname))
+        File.open(file_path, "w+") do |f|
+          f.write Formatter.to_json(self)
+        end
+      end
+
+      def file_path
+        docs_dir.join(dirname, filename)
       end
 
       def method_missing(method, *args, &block)
@@ -89,21 +121,29 @@ module RspecApiDocumentation
         resource_name.to_s.downcase.gsub(/\s+/, '_').sub(/^\//,'')
       end
 
+      def basename
+        description.downcase.gsub(/\s+/, '_').gsub(Pathname::SEPARATOR_PAT, '')
+      end
+
       def filename
-        basename = description.downcase.gsub(/\s+/, '_').gsub(Pathname::SEPARATOR_PAT, '')
         "#{basename}.json"
       end
 
-      def as_json(opts = nil)
+      def as_json(_opts = nil)
         {
-          :resource => resource_name,
-          :http_method => http_method,
-          :route => route,
-          :description => description,
-          :explanation => explanation,
-          :parameters => respond_to?(:parameters) ? parameters : [],
-          :response_fields => respond_to?(:response_fields) ? response_fields : [],
-          :requests => requests
+          type: 'example',
+          id: Digest::SHA1.hexdigest(basename),
+          attributes: {
+            resource: resource_name,
+            http_method: http_method,
+            route: route,
+            description: description,
+            explanation: explanation,
+            parameters: respond_to?(:parameters) ? parameters : [],
+            response_fields: respond_to?(:response_fields) ? response_fields : [],
+            # TODO: move this to own object
+            :requests => requests
+          }
         }
       end
 
