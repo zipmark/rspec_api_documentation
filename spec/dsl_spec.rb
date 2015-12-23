@@ -595,3 +595,10 @@ resource "passing in document to resource", :document => :not_all do
     expect(example.metadata[:document]).to eq(:not_all)
   end
 end
+
+class Order; end
+resource Order do
+  it 'should have a string resource_name' do |example|
+    expect(example.metadata[:resource_name]).to eq(Order.to_s)
+  end
+end

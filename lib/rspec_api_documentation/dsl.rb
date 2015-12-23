@@ -18,9 +18,9 @@ module RspecApiDocumentation
     # +block+:: Block to pass into describe
     #
     def resource(*args, &block)
-      options = if args.last.is_a?(Hash) then args.pop else {} end
+      options = args.last.is_a?(Hash) ? args.pop : {}
       options[:api_doc_dsl] = :resource
-      options[:resource_name] = args.first
+      options[:resource_name] = args.first.to_s
       options[:document] ||= :all
       args.push(options)
       describe(*args, &block)
