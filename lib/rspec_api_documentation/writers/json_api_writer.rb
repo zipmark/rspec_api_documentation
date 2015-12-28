@@ -7,7 +7,7 @@ module RspecApiDocumentation
 
       def write
         write_index
-        write_examples
+       # write_examples
       end
 
       def write_index
@@ -24,66 +24,78 @@ module RspecApiDocumentation
         @json_api_index ||= JsonApiIndex.new(index, configuration)
       end
 
-      def write_example
-        JsonApiExample.new(example, configuration).write
-      end
-
-      def write_examples
-        index.examples.each do |example|
-          write_example(example)
-        end
-      end
+    #   def write_example(example)
+    #     JsonApiExample.new(example, configuration).write
+    #   end
+    #
+    #   def write_examples
+    #     index.examples.each do |example|
+    #       write_example(example)
+    #     end
+    #   end
     end
 
     class JsonApiIndex
+      RESOURCE_TYPE = 'section'
+
       def initialize(index, configuration)
         @index = index
         @configuration = configuration
       end
 
-      def sections
-        @sections ||= IndexHelper.sections(examples, @configuration)
-      end
-
-      def examples
-        @examples ||= @index.examples.map do |example|
-          JsonApiExample.new(example, @configuration)
-        end
+      def as_json(_opts = nil)
+        {
+          meta: meta,
+          sections: data,
+          examples: json_examples
+        }
       end
 
       def meta
         {
-          count: sections.count,
+          section_count: sections.count,
           example_count: examples.count
         }
-      end
-
-      def included_resources
-        # [TODO] add examples, parameters, requests, response_fields
-        []
       end
 
       def data
         sections.map { |section| section_hash(section) }
       end
 
-      def as_json(_opts = nil)
+      # data resources:
+      def section_hash(section)
         {
-          meta: meta,
-          data: data,
-          included: included_resources
+          id: section_id(section),
+          name: section[:resource_name],
+          example_ids: example_ids,
         }
       end
 
-      def section_hash(section)
-        {
-          type: 'resource',
-          id: Digest::SHA1.hexdigest(section.to_s),
-          attributes: {
-            name: section[:resource_name],
-          },
-          examples: section[:examples].map { |example| example.as_json }
-        }
+      def section_id(section)
+        '1'
+        # Digest::SHA1.hexdigest(section.to_s)
+      end
+
+      def sections
+        @sections ||= IndexHelper.sections(examples, @configuration)
+      end
+
+      #
+      ## included
+      #
+
+      def examples
+        @examples ||= @index.examples
+      end
+
+      def json_examples
+        examples.map do |example|
+          JsonApiExample.new(example, @configuration).as_json
+        end
+      end
+
+      def example_ids
+        examples.map(&:id)
       end
     end
 
@@ -96,13 +108,6 @@ module RspecApiDocumentation
         @example = example
         @host = configuration.curl_host
         @filter_headers = configuration.curl_headers_to_filter
-      end
-
-      def write
-        FileUtils.mkdir_p(docs_dir.join(dirname))
-        File.open(file_path, "w+") do |f|
-          f.write Formatter.to_json(self)
-        end
       end
 
       def file_path
@@ -129,22 +134,31 @@ module RspecApiDocumentation
         "#{basename}.json"
       end
 
+      def id
+        Digest::SHA1.hexdigest(basename)
+      end
+
       def as_json(_opts = nil)
         {
-          type: 'example',
-          id: Digest::SHA1.hexdigest(basename),
-          attributes: {
-            resource: resource_name,
-            http_method: http_method,
-            route: route,
-            description: description,
-            explanation: explanation,
-            parameters: respond_to?(:parameters) ? parameters : [],
-            response_fields: respond_to?(:response_fields) ? response_fields : [],
-            # TODO: move this to own object
-            :requests => requests
-          }
+          id: id,
+          resource: resource_name,
+          http_method: http_method,
+          route: route,
+          description: description,
+          explanation: explanation,
+          parameters: potential_parameters,
+          response_fields: potential_response_fields,
+          # TODO: move this to own object
+          requests: requests
         }
+      end
+
+      def potential_parameters
+        respond_to?(:parameters) ? parameters : []
+      end
+
+      def potential_response_fields
+        respond_to?(:response_fields) ? response_fields : []
       end
 
       def requests
