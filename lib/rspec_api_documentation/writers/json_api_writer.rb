@@ -47,7 +47,6 @@ module RspecApiDocumentation
         {
           meta: meta,
           sections: data,
-          examples: json_examples
         }
       end
 
@@ -67,7 +66,7 @@ module RspecApiDocumentation
         {
           id: section_id(section),
           name: section[:resource_name],
-          example_ids: example_ids,
+          examples: json_examples,
         }
       end
 
@@ -95,7 +94,7 @@ module RspecApiDocumentation
       end
 
       def example_ids
-        examples.map(&:id)
+        json_examples.map{|j_example| j_example[:id] }
       end
     end
 
@@ -171,6 +170,7 @@ module RspecApiDocumentation
           else
             hash[:curl] = nil
           end
+          # hash.merge!(id: Digest::SHA1.hexdigest(hash.to_s))
           hash
         end
       end

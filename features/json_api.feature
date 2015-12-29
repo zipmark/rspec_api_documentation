@@ -70,42 +70,65 @@ class App
         "meta": {
           "section_count": 1,
           "example_count": 2
-        },
-        "sections": [
-          {
-            "id": "1",
-            "name": "Greetings",
-            "example_ids": ["1", "2"]
-          }
-        ],
-        "examples": [
-          {
-            "id": "1",
-            "resource": "Greetings",
-            "http_method": "GET",
-            "route": "/greetings",
-            "description": "Greeting your favorite gem",
-            "explanation": null,
-            "parameters": [{"name": "target", "description": "The thing you want to greet"}],
-            "response_fields": [],
-            "requests": [
-              {
-                "request_method": "GET",
-                "request_path": "/greetings?target=rspec_api_documentation",
-                "request_body": null,
-                "request_headers": {"Host": "example.org", "Cookie": ""},
-                "request_query_parameters": {"target": "rspec_api_documentation"},
-                "request_content_type": null,
-                "response_status": 200,
-                "response_status_text": "OK",
-                "response_body": "Hello, rspec_api_documentation!",
-                "response_headers": {"Content-Type": "text/plain", "Content-Length": "31"},
-                "response_content_type": "text/plain",
-                "curl":  null
+          },
+          "sections": [
+            {
+              "id": "1",
+              "name": "Greetings",
+              "examples": [
+                {
+                  "id": "1",
+                  "resource": "Greetings",
+                  "http_method": "GET",
+                  "route": "/greetings",
+                  "description": "Greeting your favorite gem",
+                  "explanation": null,
+                  "parameters": [{"name": "target", "description": "The thing you want to greet"}],
+                  "response_fields": [],
+                  "requests": [
+                    {
+                      "request_method": "GET",
+                      "request_path": "/greetings?target=rspec_api_documentation",
+                      "request_body": null,
+                      "request_headers": {"Host": "example.org", "Cookie": ""},
+                      "request_query_parameters": {"target": "rspec_api_documentation"},
+                      "request_content_type": null,
+                      "response_status": 200,
+                      "response_status_text": "OK",
+                      "response_body": "Hello, rspec_api_documentation!",
+                      "response_headers": {"Content-Type": "text/plain", "Content-Length": "31"},
+                      "response_content_type": "text/plain",
+                      "curl":  null
+                    }
+                  ]
+                  },{
+                    "id": "1",
+                    "resource": "Greetings",
+                    "http_method": "GET",
+                    "route": "/greetings",
+                    "description": "Greeting your favorite developers of your favorite gem",
+                    "explanation": null,
+                    "parameters": [{"name": "target", "description": "The thing you want to greet"}], 
+                    "response_fields": [],
+                    "requests": [
+                      {
+                        "request_method": "GET",
+                        "request_path": "/greetings?target=Sam+%26+Eric",
+                        "request_body": null,
+                        "request_headers": {"Host": "example.org", "Cookie": ""},
+                        "request_query_parameters": {"target": "Sam & Eric"},
+                        "request_content_type": null,
+                        "response_status": 200,
+                        "response_status_text": "OK",
+                        "response_body": "Hello, Sam & Eric!",
+                        "response_headers": {"Content-Type": "text/plain", "Content-Length": "18"}, "response_content_type": "text/plain",
+                        "curl": null
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }
-        ]
-      }
-      """
+          """
 
