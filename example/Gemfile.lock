@@ -10,11 +10,11 @@ GIT
 PATH
   remote: ../
   specs:
-    rspec_api_documentation (4.0.0.pre)
+    rspec_api_documentation (4.6.0)
       activesupport (>= 3.0.0)
       json (~> 1.4, >= 1.4.6)
       mustache (~> 0.99, >= 0.99.4)
-      rspec (~> 3.0.0, >= 3.0.0)
+      rspec (>= 3.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -60,7 +60,7 @@ GEM
     mime-types (1.25.1)
     minitest (5.3.4)
     multi_json (1.10.1)
-    mustache (0.99.5)
+    mustache (0.99.8)
     polyglot (0.3.5)
     rack (1.5.2)
     rack-protection (1.5.3)

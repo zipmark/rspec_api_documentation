@@ -142,6 +142,3 @@ DEPENDENCIES
   sinatra (~> 1.4.4)
   thin
   webmock (~> 1.7)
-
-BUNDLED WITH
-   1.10.6
