@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe RspecApiDocumentation::Writers::JsonApiExample do
+describe RspecApiDocumentation::Writers::JsonAmsExample do
   let(:configuration) { RspecApiDocumentation::Configuration.new }
 
   describe "#dirname" do

@@ -1,4 +1,4 @@
-Feature: Json Iodocs
+Feature: Json AMS
 In order to serve the docs from my API
 As Zipmark
 I want to generate text files for each of my resources containing their combined docs
@@ -24,7 +24,7 @@ class App
       RspecApiDocumentation.configure do |config|
         config.app = App
         config.api_name = "app"
-        config.format = :json_api
+        config.format = :json_ams
       end
 
       resource "Greetings" do

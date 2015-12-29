@@ -2,7 +2,7 @@ require 'rspec_api_documentation/writers/formatter'
 
 module RspecApiDocumentation
   module Writers
-    class JsonApiWriter < Writer
+    class JsonAmsWriter < Writer
       delegate :docs_dir, :to => :configuration
 
       def write
@@ -20,7 +20,7 @@ module RspecApiDocumentation
       end
 
       def json_api_index
-        @json_api_index ||= JsonApiIndex.new(index, configuration)
+        @json_api_index ||= JsonAmsIndex.new(index, configuration)
       end
 
     #   def write_example(example)
@@ -34,7 +34,7 @@ module RspecApiDocumentation
     #   end
     end
 
-    class JsonApiIndex
+    class JsonAmsIndex
       RESOURCE_TYPE = 'section'
 
       def initialize(index, configuration)
@@ -87,7 +87,7 @@ module RspecApiDocumentation
 
       def json_examples
         examples.map do |example|
-          JsonApiExample.new(example, @configuration).as_json
+          JsonAmsExample.new(example, @configuration).as_json
         end
       end
 
@@ -96,7 +96,7 @@ module RspecApiDocumentation
       end
     end
 
-    class JsonApiExample
+    class JsonAmsExample
       attr_accessor :configuration
       delegate :docs_dir, to: :configuration
 
