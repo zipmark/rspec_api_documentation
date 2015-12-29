@@ -71,8 +71,7 @@ module RspecApiDocumentation
       end
 
       def section_id(section)
-        '1'
-        # Digest::SHA1.hexdigest(section.to_s)
+        section[:resource_name]
       end
 
       def sections
@@ -133,9 +132,9 @@ module RspecApiDocumentation
         "#{basename}.json"
       end
 
+      # remove all . to make valid id.
       def id
-        '1'
-        # Digest::SHA1.hexdigest(basename)
+        basename.gsub('.', '-')
       end
 
       def as_json(_opts = nil)
@@ -170,7 +169,7 @@ module RspecApiDocumentation
           else
             hash[:curl] = nil
           end
-          # hash.merge!(id: Digest::SHA1.hexdigest(hash.to_s))
+          hash.merge!(id: hash[:request_path])
           hash
         end
       end

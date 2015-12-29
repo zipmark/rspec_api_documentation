@@ -11,9 +11,9 @@ describe RspecApiDocumentation::RackTestClient do
 
   it { expect(subject).to be_a(RspecApiDocumentation::RackTestClient) }
 
-  its(:context) { should equal(context) }
-  its(:example) { |example| should equal(example) }
-  its(:metadata) { |example| should equal(example.metadata) }
+  its(:context) { to equal(context) }
+  its(:example) { |example| to equal(example) }
+  its(:metadata) { |example| to equal(example.metadata) }
 
   describe "xml data", :document => true do
     before do

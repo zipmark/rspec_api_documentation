@@ -73,11 +73,11 @@ class App
           },
           "sections": [
             {
-              "id": "1",
+            "id": "Greetings",
               "name": "Greetings",
               "examples": [
                 {
-                  "id": "1",
+                "id": "greeting_your_favorite_gem",
                   "resource": "Greetings",
                   "http_method": "GET",
                   "route": "/greetings",
@@ -86,7 +86,8 @@ class App
                   "parameters": [{"name": "target", "description": "The thing you want to greet"}],
                   "response_fields": [],
                   "requests": [
-                    {
+                  {
+                      "id": "/greetings?target=rspec_api_documentation",
                       "request_method": "GET",
                       "request_path": "/greetings?target=rspec_api_documentation",
                       "request_body": null,
@@ -102,7 +103,7 @@ class App
                     }
                   ]
                   },{
-                    "id": "1",
+                  "id": "greeting_your_favorite_developers_of_your_favorite_gem",
                     "resource": "Greetings",
                     "http_method": "GET",
                     "route": "/greetings",
@@ -111,7 +112,8 @@ class App
                     "parameters": [{"name": "target", "description": "The thing you want to greet"}], 
                     "response_fields": [],
                     "requests": [
-                      {
+                    {
+                        "id": "/greetings?target=Sam+%26+Eric",
                         "request_method": "GET",
                         "request_path": "/greetings?target=Sam+%26+Eric",
                         "request_body": null,
