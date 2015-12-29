@@ -65,8 +65,15 @@ module RspecApiDocumentation
         {
           id: section_id(section),
           name: section[:resource_name],
+          examples_json: section_examples(section),
           examples: json_examples,
         }
+      end
+
+      def section_examples(section)
+        section[:examples].map do |example|
+          JsonAmsExample.new(example, @configuration).as_json
+        end
       end
 
       def section_id(section)
@@ -80,20 +87,6 @@ module RspecApiDocumentation
       #
       ## included
       #
-
-      def examples
-        @examples ||= @index.examples
-      end
-
-      def json_examples
-        examples.map do |example|
-          JsonAmsExample.new(example, @configuration).as_json
-        end
-      end
-
-      def example_ids
-        json_examples.map{|j_example| j_example[:id] }
-      end
     end
 
     class JsonAmsExample
