@@ -88,7 +88,7 @@ class App
             "explanation": null,
             "parameters": [{"name": "target", "description": "The thing you want to greet"}],
             "response_fields": [],
-            "requests": [ 
+            "requests": [
               {
                 "request_method": "GET",
                 "request_path": "/greetings?target=rspec_api_documentation",

@@ -135,7 +135,8 @@ module RspecApiDocumentation
       end
 
       def id
-        Digest::SHA1.hexdigest(basename)
+        '1'
+        # Digest::SHA1.hexdigest(basename)
       end
 
       def as_json(_opts = nil)
