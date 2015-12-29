@@ -7,7 +7,6 @@ module RspecApiDocumentation
 
       def write
         write_index
-       # write_examples
       end
 
       def write_index
