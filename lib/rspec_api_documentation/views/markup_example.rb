@@ -30,17 +30,30 @@ module RspecApiDocumentation
 
       def parameters
         super.each do |parameter|
-          if parameter.has_key?(:scope)
-            scope = Array(parameter[:scope]).each_with_index.map do |scope, index|
-              if index == 0
-                scope
+          next unless parameter.key?(:scope)
+
+          parameter[:scope] =
+            Array(parameter[:scope]).each_with_index.map do |scope, index|
+              case index
+              when 0
+                array_param?(scope) ? "#{scope}[]" : scope
               else
-                "[#{scope}]"
+                array_param?(scope) ? "[#{scope}][]" : "[#{scope}]"
               end
             end.join
-            parameter[:scope] = scope
+        end
+      end
+
+      def array_param?(param_name)
+        @parameter_is_array_lookup ||= begin
+          {}.tap do |hash|
+            parameters = example.metadata[:parameters] || []
+            parameters.each do |parameter|
+              hash[parameter[:name]] = parameter.fetch(:array, false)
+            end
           end
         end
+        @parameter_is_array_lookup.fetch(param_name.to_s, false)
       end
 
       def requests

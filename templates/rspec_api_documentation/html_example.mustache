@@ -34,10 +34,10 @@
               <tr>
                 <td{{# required }} class="required"{{/ required }}>
                   {{# scope }}
-                    <span class="name">{{ scope }}[{{ name }}]</span>
+                    <span class="name">{{ scope }}[{{ name }}]{{# array }}[]{{/ array }}</span>
                   {{/ scope }}
                   {{^ scope }}
-                    <span class="name">{{ name }}</span>
+                    <span class="name">{{ name }}{{# array }}[]{{/ array }}</span>
                   {{/ scope }}
                 </td>
                 <td>
