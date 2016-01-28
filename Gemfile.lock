@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rspec_api_documentation (4.6.0)
+    rspec_api_documentation (4.7.0)
       activesupport (>= 3.0.0)
       json (~> 1.4, >= 1.4.6)
       mustache (~> 0.99, >= 0.99.4)
