@@ -36,7 +36,7 @@ RSpec.configuration.include RspecApiDocumentation::DSL::Endpoint, :api_doc_dsl =
 RSpec.configuration.include RspecApiDocumentation::DSL::Callback, :api_doc_dsl => :callback
 RSpec.configuration.backtrace_exclusion_patterns << %r{lib/rspec_api_documentation/dsl/}
 
-if defined? RSpec::Rails
+if defined? RSpec::Rails::DIRECTORY_MAPPINGS
   RSpec::Rails::DIRECTORY_MAPPINGS[:acceptance] = %w[spec acceptance]
   RSpec.configuration.infer_spec_type_from_file_location!
 end
