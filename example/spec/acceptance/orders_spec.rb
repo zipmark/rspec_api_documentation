@@ -25,7 +25,7 @@ resource "Orders" do
 
   head "/orders" do
     example_request "Getting the headers" do
-      expect(response_headers["Cache-Control"]).to eq("no-cache")
+      expect(response_headers["Cache-Control"]).to eq("max-age=0, private, must-revalidate")
     end
   end
 

@@ -1,22 +1,21 @@
 class OrdersController < ApplicationController
-  respond_to :json
-
   def index
-    respond_with Order.all
+    render :json => Order.all
   end
 
   def show
-    respond_with Order.find(params[:id])
+    render :json => Order.find(params[:id])
   end
 
   def create
-    respond_with Order.create(order_params)
+    order = Order.create(order_params)
+    render :json => order, :status => 201, :location => order_url(order)
   end
 
   def update
     order = Order.find(params[:id])
     order.update(order_params)
-    respond_with order
+    render :nothing => true, :status => 204
   end
 
   def destroy
