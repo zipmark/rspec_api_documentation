@@ -158,8 +158,6 @@ Feature: Generate Markdown documentation from test examples
     * [Getting a list of orders](orders/getting_a_list_of_orders.markdown)
     * [Getting a specific order](orders/getting_a_specific_order.markdown)
     * [Updating an order](orders/updating_an_order.markdown)
-
-
     """
 
   Scenario: Example 'Getting al ist of orders' file should look like we expect
@@ -262,8 +260,6 @@ Feature: Generate Markdown documentation from test examples
     #### Status
 
     <pre>201 Created</pre>
-
-
     """
 
   Scenario: Example 'Deleting an order' file should be created

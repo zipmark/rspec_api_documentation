@@ -158,8 +158,6 @@ Feature: Generate Textile documentation from test examples
     * "Getting a list of orders":orders/getting_a_list_of_orders.textile
     * "Getting a specific order":orders/getting_a_specific_order.textile
     * "Updating an order":orders/updating_an_order.textile
-
-
     """
 
   Scenario: Example 'Getting al ist of orders' file should look like we expect
@@ -214,8 +212,6 @@ Feature: Generate Textile documentation from test examples
         }
       ]
     }</pre>
-
-
     """
 
   Scenario: Example 'Creating an order' file should look like we expect
@@ -263,8 +259,6 @@ Feature: Generate Textile documentation from test examples
     h4. Status
 
     <pre>201 Created</pre>
-
-
     """
 
   Scenario: Example 'Deleting an order' file should be created

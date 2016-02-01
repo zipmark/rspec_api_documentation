@@ -14,23 +14,23 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_runtime_dependency "rspec", ">= 3.0.0"
+  s.add_runtime_dependency "rspec", "~> 3.0", ">= 3.0.0"
   s.add_runtime_dependency "activesupport", ">= 3.0.0"
   s.add_runtime_dependency "mustache", "~> 1.0", ">= 0.99.4"
   s.add_runtime_dependency "json", "~> 1.4", ">= 1.4.6"
 
-  s.add_development_dependency "bundler"
+  s.add_development_dependency "bundler", "~> 1.0"
   s.add_development_dependency "fakefs", "~> 0.4"
-  s.add_development_dependency "sinatra", "~> 1.4.4"
+  s.add_development_dependency "sinatra", "~> 1.4", ">= 1.4.4"
   s.add_development_dependency "aruba", "~> 0.5"
   s.add_development_dependency "capybara", "~> 2.2"
   s.add_development_dependency "rake", "~> 10.1"
   s.add_development_dependency "rack-test", "~> 0.6.2"
-  s.add_development_dependency "rack-oauth2", "~> 1.0.7"
+  s.add_development_dependency "rack-oauth2", "~> 1.2.2", ">= 1.0.7"
   s.add_development_dependency "webmock", "~> 1.7"
   s.add_development_dependency "rspec-its", "~> 1.0"
-  s.add_development_dependency "faraday", ">= 0.9.0"
-  s.add_development_dependency "thin"
+  s.add_development_dependency "faraday", "~> 0.9", ">= 0.9.0"
+  s.add_development_dependency "thin", "~> 1.6", ">= 1.6.3"
 
   s.files        = Dir.glob("lib/**/*") + Dir.glob("templates/**/*")
   s.require_path = "lib"

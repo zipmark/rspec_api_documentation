@@ -240,7 +240,7 @@ resource "Order" do
     end
 
     describe "trigger_callback" do
-      let(:callback_url) { "callback url" }
+      let(:callback_url) { "http://example.com/callback-url" }
       let(:callbacks_triggered) { [] }
 
       trigger_callback do
