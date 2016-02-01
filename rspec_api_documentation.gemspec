@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "rspec", ">= 3.0.0"
   s.add_runtime_dependency "activesupport", ">= 3.0.0"
-  s.add_runtime_dependency "mustache", "~> 0.99", ">= 0.99.4"
+  s.add_runtime_dependency "mustache", "~> 1.0", ">= 0.99.4"
   s.add_runtime_dependency "json", "~> 1.4", ">= 1.4.6"
 
   s.add_development_dependency "bundler"
