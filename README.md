@@ -699,6 +699,10 @@ If you are not using Rake:
 $ rspec spec/acceptance --format RspecApiDocumentation::ApiFormatter
 ```
 
+## Uploading a file
+
+For an example on uploading a file see `examples/spec/acceptance/upload_spec.rb`.
+
 ## Gotchas
 
 - rspec_api_documentation relies on a variable `client` to be the test client. If you define your own `client` please configure rspec_api_documentation to use another one, see Configuration above.
