@@ -7,7 +7,7 @@ module RspecApiDocumentation
       env.each do |key, value|
         # HTTP_ACCEPT_CHARSET => Accept-Charset
         if key =~ /^(HTTP_|CONTENT_TYPE)/
-          header = key.gsub(/^HTTP_/, '').split('_').map{|s| s.titleize}.join("-")
+          header = RspecApiDocumentation.format_header(key)
           headers[header] = value
         end
       end

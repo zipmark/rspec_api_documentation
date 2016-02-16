@@ -1,4 +1,9 @@
 require 'spec_helper'
+
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  inflect.acronym 'AUTH'
+end
+
 describe RspecApiDocumentation::Curl do
   let(:host) { "http://example.com" }
   let(:curl) { RspecApiDocumentation::Curl.new(method, path, data, headers) }

@@ -64,19 +64,15 @@ module RspecApiDocumentation
       ::Base64.decode64(value.split(' ', 2).last || '')
     end
 
-    def format_header(header)
-      header.gsub(/^HTTP_/, '').titleize.split.join("-")
-    end
-
     def format_full_header(header, value)
       formatted_value = value ? value.gsub(/"/, "\\\"") : ''
-      "#{format_header(header)}: #{formatted_value}"
+      "#{RspecApiDocumentation.format_header(header)}: #{formatted_value}"
     end
 
     def filter_headers(headers)
       if !@config_headers_to_filer.empty?
         headers.reject do |header|
-          @config_headers_to_filer.include?(format_header(header))
+          @config_headers_to_filer.include?(RspecApiDocumentation.format_header(header))
         end
       else
         headers

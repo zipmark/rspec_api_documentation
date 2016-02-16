@@ -76,4 +76,11 @@ module RspecApiDocumentation
   def self.configure
     yield configuration if block_given?
   end
+
+  def self.format_header(header)
+    header.gsub(/^HTTP_/, '').split('_').map do |s|
+      first_letter, rest = [s[0], s[1..-1]]
+      first_letter.upcase + rest.downcase
+    end.join("-")
+  end
 end
