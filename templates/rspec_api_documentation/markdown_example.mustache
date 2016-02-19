@@ -10,10 +10,11 @@
 {{# has_parameters? }}
 
 ### Parameters
-{{# parameters }}
 
-Name : {{ name }}{{# required }} *- required -*{{/ required }}
-Description : {{ description }}
+| Name | Description | Required | Scope |
+|------|-------------|----------|-------|
+{{# parameters }}
+| {{ name }} | {{ description }} | {{ required }} | {{ scope }} |
 {{/ parameters }}
 
 {{/ has_parameters? }}

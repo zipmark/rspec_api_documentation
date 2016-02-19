@@ -226,14 +226,11 @@ Feature: Generate Markdown documentation from test examples
 
     ### Parameters
 
-    Name : name *- required -*
-    Description : Name of order
-
-    Name : amount *- required -*
-    Description : Amount paid
-
-    Name : description
-    Description : Some comments on the order
+    | Name | Description | Required | Scope |
+    |------|-------------|----------|-------|
+    | name | Name of order | true |  |
+    | amount | Amount paid | true |  |
+    | description | Some comments on the order | false |  |
 
     ### Request
 
