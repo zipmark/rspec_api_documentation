@@ -29,6 +29,7 @@ module RspecApiDocumentation
       def as_json(opts = nil)
         sections.inject(@existing_index_hash) do |h, section|
           h[:resources].push(section_hash(section))
+          h[:resources].sort! { |x, y| x[:name] <=> y[:name] }
           h
         end
       end
