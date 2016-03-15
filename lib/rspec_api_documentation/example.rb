@@ -63,7 +63,7 @@ module RspecApiDocumentation
       requests.each.with_index do |request_hash, index|
         next unless request_hash.key?(key)
         headers = request_hash[key]
-        request_hash[key] = headers.select{ |key, _| headers_to_include.include?(key) }
+        request_hash[key] = headers.select{ |key, _| headers_to_include.map(&:downcase).include?(key.downcase) }
         requests[index] = request_hash
       end
     end
