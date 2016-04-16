@@ -14,6 +14,10 @@ Check out a [sample](http://rad-example.herokuapp.com).
 
 Please see the wiki for latest [changes](https://github.com/zipmark/rspec_api_documentation/wiki/Changes).
 
+## RSpec 3.5 Beta
+
+Use the `rspec-3.5` branch until RSpec 3.5 is out of beta.
+
 ## Installation
 
 Add rspec_api_documentation to your Gemfile
