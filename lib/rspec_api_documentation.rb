@@ -77,10 +77,18 @@ module RspecApiDocumentation
     yield configuration if block_given?
   end
 
+  #Transforms hello_world in HelloWorld
+  def self.classify(underscored_string)
+    underscored_string.split('_').map do |string|
+      first_letter, rest = [string[0], string[1..-1]]
+      first_letter.upcase + rest.downcase
+    end.join
+  end
+
+  #Transforms HTTP_HELLO_WORLD in Hello-World
   def self.format_header(header)
     header.gsub(/^HTTP_/, '').split('_').map do |s|
-      first_letter, rest = [s[0], s[1..-1]]
-      first_letter.upcase + rest.downcase
+      self.classify(s)
     end.join("-")
   end
 end

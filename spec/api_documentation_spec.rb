@@ -1,5 +1,10 @@
 require 'spec_helper'
 
+#Proves that the inflector related error 'uninitialized constant JSONWriter' is fixed
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  inflect.acronym 'JSON'
+end
+
 describe RspecApiDocumentation::ApiDocumentation do
   let(:configuration) { RspecApiDocumentation::Configuration.new }
   let(:documentation) { RspecApiDocumentation::ApiDocumentation.new(configuration) }
