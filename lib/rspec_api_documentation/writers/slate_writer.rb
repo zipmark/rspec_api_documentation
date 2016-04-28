@@ -1,8 +1,9 @@
 module RspecApiDocumentation
   module Writers
-    FILENAME = '_generated_examples'
 
     class SlateWriter < MarkdownWriter
+      FILENAME = '_generated_examples'
+
       def self.clear_docs(docs_dir)
         FileUtils.mkdir_p(docs_dir)
         FileUtils.rm Dir[File.join docs_dir, "#{FILENAME}.*"]
