@@ -15,6 +15,18 @@ module RspecApiDocumentation
       def explanation_with_linebreaks
         explanation.gsub "\n", "<br>\n"
       end
+
+      def write
+        File.open(configuration.docs_dir.join("#{FILENAME}.#{extension}"), 'w+') do |file|
+          file.write "# #{configuration.api_name}\n\n"
+          index.examples.sort_by!(&:description) unless configuration.keep_source_order
+
+          index.examples.each do |example|
+            markup_example = markup_example_class.new(example, configuration)
+            file.write markup_example.render
+          end
+        end
+      end
     end
   end
 end

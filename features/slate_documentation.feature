@@ -143,26 +143,8 @@ Feature: Generate Slate documentation from test examples
     And   the output should contain "6 examples, 0 failures"
     And   the exit status should be 0
 
-  Scenario: Index file should look like we expect
-    Then the file "doc/api/index.markdown" should contain exactly:
-    """
-    # Example API
-
-    ## Help
-
-    * [Getting welcome message](help/getting_welcome_message.markdown)
-
-    ## Orders
-
-    * [Creating an order](orders/creating_an_order.markdown)
-    * [Deleting an order](orders/deleting_an_order.markdown)
-    * [Getting a list of orders](orders/getting_a_list_of_orders.markdown)
-    * [Getting a specific order](orders/getting_a_specific_order.markdown)
-    * [Updating an order](orders/updating_an_order.markdown)
-    """
-
-  Scenario: Example 'Getting a list of orders' file should look like we expect
-    Then the file "doc/api/orders/getting_a_list_of_orders.markdown" should contain exactly:
+  Scenario: Example 'Getting a list of orders' docs should look like we expect
+    Then the file "doc/api/_generated_examples.markdown" should contain:
     """
     ## Getting a list of orders
 
@@ -226,8 +208,8 @@ Feature: Generate Slate documentation from test examples
     <code>curl&nbsp;"http://localhost:3000/orders"&nbsp;-X&nbsp;GET&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Host:&nbsp;example.org"&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Cookie:&nbsp;"</code>
     """
 
-  Scenario: Example 'Creating an order' file should look like we expect
-    Then the file "doc/api/orders/creating_an_order.markdown" should contain exactly:
+  Scenario: Example 'Creating an order' docs should look like we expect
+    Then the file "doc/api/_generated_examples.markdown" should contain:
     """
     ## Creating an order
 
@@ -277,17 +259,32 @@ Feature: Generate Slate documentation from test examples
     <code>curl&nbsp;"http://localhost:3000/orders"&nbsp;-d&nbsp;'name=Order+3&amount=33.0'&nbsp;-X&nbsp;POST&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Host:&nbsp;example.org"&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Content-Type:&nbsp;application/x-www-form-urlencoded"&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Cookie:&nbsp;"</code>
     """
 
-  Scenario: Example 'Deleting an order' file should be created
-    Then a file named "doc/api/orders/deleting_an_order.markdown" should exist
+  Scenario: Example 'Deleting an order' docs should be created
+    Then the file "doc/api/_generated_examples.markdown" should contain:
+    """
+    ## Deleting an order
+    """
 
-  Scenario: Example 'Getting a list of orders' file should be created
-    Then a file named "doc/api/orders/getting_a_list_of_orders.markdown" should exist
+  Scenario: Example 'Getting a list of orders' docs should be created
+    Then the file "doc/api/_generated_examples.markdown" should contain:
+    """
+    ## Getting a list of orders
+    """
 
-  Scenario: Example 'Getting a specific order' file should be created
-    Then a file named "doc/api/orders/getting_a_specific_order.markdown" should exist
+  Scenario: Example 'Getting a specific order' docs should be created
+    Then the file "doc/api/_generated_examples.markdown" should contain:
+    """
+    ## Getting a specific order
+    """
 
-  Scenario: Example 'Updating an order' file should be created
-    Then a file named "doc/api/orders/updating_an_order.markdown" should exist
+  Scenario: Example 'Updating an order' docs should be created
+    Then the file "doc/api/_generated_examples.markdown" should contain:
+    """
+    ## Updating an order
+    """
 
-  Scenario: Example 'Getting welcome message' file should be created
-    Then a file named "doc/api/help/getting_welcome_message.markdown" should exist
+  Scenario: Example 'Getting welcome message' docs should be created
+    Then the file "doc/api/_generated_examples.markdown" should contain:
+    """
+    ## Getting welcome message
+    """
