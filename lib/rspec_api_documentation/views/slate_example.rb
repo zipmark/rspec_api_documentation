@@ -11,6 +11,10 @@ module RspecApiDocumentation
           line.rstrip.gsub("\t", '  ').gsub(' ', '&nbsp;').gsub('\\', '&#92;')
         end.join "<br>"
       end
+
+      def explanation_with_linebreaks
+        explanation.gsub "\n", "<br>\n"
+      end
     end
   end
 end
