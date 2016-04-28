@@ -50,6 +50,7 @@ Feature: Generate Slate documentation from test examples
         config.app = App
         config.api_name = "Example API"
         config.format = :slate
+        config.curl_host = 'http://localhost:3000'
         config.request_headers_to_include = %w[Content-Type Host]
         config.response_headers_to_include = %w[Content-Type Content-Length]
       end
@@ -219,6 +220,10 @@ Feature: Generate Slate documentation from test examples
     | page | Current page |
 
 
+
+    ### cURL
+
+    <code>curl&nbsp;"http://localhost:3000/orders"&nbsp;-X&nbsp;GET&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Host:&nbsp;example.org"&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Cookie:&nbsp;"</code>
     """
 
   Scenario: Example 'Creating an order' file should look like we expect
@@ -266,6 +271,10 @@ Feature: Generate Slate documentation from test examples
 
 
 
+
+    ### cURL
+
+    <code>curl&nbsp;"http://localhost:3000/orders"&nbsp;-d&nbsp;'name=Order+3&amount=33.0'&nbsp;-X&nbsp;POST&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Host:&nbsp;example.org"&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Content-Type:&nbsp;application/x-www-form-urlencoded"&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Cookie:&nbsp;"</code>
     """
 
   Scenario: Example 'Deleting an order' file should be created
