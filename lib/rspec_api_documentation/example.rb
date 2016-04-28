@@ -19,6 +19,10 @@ module RspecApiDocumentation
       super || example.metadata.has_key?(method_sym) || example.respond_to?(method_sym, include_private)
     end
 
+    def description
+      build_documented_context(example_group) + metadata[:description]
+    end
+
     def http_method
       metadata[:method].to_s.upcase
     end
@@ -51,6 +55,21 @@ module RspecApiDocumentation
     end
 
     private
+
+    def build_documented_context(example_group)
+      parent_example_group  = example_group[:parent_example_group]
+      base_description      = if parent_example_group
+                                build_documented_context(parent_example_group)
+                              else
+                                ''
+                              end
+
+      if example_group[:document_context]
+        base_description + example_group[:description] + ' '
+      else
+        base_description
+      end
+    end
 
     def filter_headers(requests)
       requests = remap_headers(requests, :request_headers, configuration.request_headers_to_include)
