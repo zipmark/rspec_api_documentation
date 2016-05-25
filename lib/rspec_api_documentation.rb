@@ -43,6 +43,7 @@ module RspecApiDocumentation
     autoload :IndexHelper
     autoload :CombinedTextWriter
     autoload :CombinedJsonWriter
+    autoload :SlateWriter
   end
 
   module Views
@@ -56,6 +57,7 @@ module RspecApiDocumentation
     autoload :TextileExample
     autoload :MarkdownIndex
     autoload :MarkdownExample
+    autoload :SlateExample
   end
 
   def self.configuration
