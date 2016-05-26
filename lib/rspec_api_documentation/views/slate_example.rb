@@ -18,10 +18,14 @@ module RspecApiDocumentation
 
       def write
         File.open(configuration.docs_dir.join("#{FILENAME}.#{extension}"), 'w+') do |file|
-          file.write "# #{configuration.api_name}\n\n"
-          index.examples.sort_by!(&:description) unless configuration.keep_source_order
 
-          index.examples.each do |example|
+          sections.each do |section|
+            file.write "# #{section[:resource_name]}\n\n"
+          end
+
+          section[:examples].examples.sort_by!(&:description) unless configuration.keep_source_order
+
+          section[:examples].examples.each do |example|
             markup_example = markup_example_class.new(example, configuration)
             file.write markup_example.render
           end
