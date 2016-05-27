@@ -6,10 +6,6 @@ module RspecApiDocumentation
         self.template_name = "rspec_api_documentation/slate_example"
       end
 
-      def explanation_with_linebreaks
-        explanation.gsub "\n", "<br>\n"
-      end
-
       def write
         File.open(configuration.docs_dir.join("#{FILENAME}.#{extension}"), 'w+') do |file|
 

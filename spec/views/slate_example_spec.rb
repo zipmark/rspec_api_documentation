@@ -10,11 +10,4 @@ describe RspecApiDocumentation::Views::SlateExample do
   let(:configuration) { RspecApiDocumentation::Configuration.new }
   let(:slate_example) { described_class.new(rad_example, configuration) }
 
-  describe '#explanation_with_linebreaks' do
-    it 'returns the explanation with HTML linebreaks' do
-      explanation = "Line 1\nLine 2\nLine 3\Line 4"
-      allow(slate_example).to receive(:explanation).and_return explanation
-      expect(slate_example.explanation_with_linebreaks).to be == explanation.gsub("\n", "<br>\n")
-    end
-  end
 end
