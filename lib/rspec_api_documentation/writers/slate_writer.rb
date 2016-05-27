@@ -22,8 +22,10 @@ module RspecApiDocumentation
         File.open(configuration.docs_dir.join("#{FILENAME}.#{extension}"), 'w+') do |file|
 
           file.write %Q{---\n}
-          file.write %Q{title: "#{configuration.api_name}"\n\n}
-          file.write %Q{---\n}
+          file.write %Q{title: "#{configuration.api_name}"\n}
+          file.write %Q{language_tabs:\n}
+          file.write %Q{  - json: JSON\n}
+          file.write %Q{---\n\n}
 
           IndexHelper.sections(index.examples, @configuration).each do |section|
 
