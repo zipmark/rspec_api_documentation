@@ -144,9 +144,10 @@ Feature: Generate Slate documentation from test examples
     And   the exit status should be 0
 
   Scenario: Example 'Getting a list of orders' docs should look like we expect
-    Then the file "doc/api/_generated_examples.markdown" should contain:
+    Then the file "doc/api/index.html.md" should contain:
     """
     ## Getting a list of orders
+
 
     ### Request
 
@@ -158,7 +159,6 @@ Feature: Generate Slate documentation from test examples
     ```
 
     `GET /orders`
-
 
     #### Parameters
 
@@ -202,16 +202,19 @@ Feature: Generate Slate documentation from test examples
     | page | Current page |
 
 
-
-    ### cURL
-
-    <code>curl&nbsp;"http://localhost:3000/orders"&nbsp;-X&nbsp;GET&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Host:&nbsp;example.org"&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Cookie:&nbsp;"</code>
+    ```shell
+    curl "http://localhost:3000/orders" -X GET \
+    	-H "Host: example.org" \
+    	-H "Cookie: "
     """
 
   Scenario: Example 'Creating an order' docs should look like we expect
-    Then the file "doc/api/_generated_examples.markdown" should contain:
+    Then the file "doc/api/index.html.md" should contain:
     """
+    # Orders
+
     ## Creating an order
+
 
     ### Request
 
@@ -224,7 +227,6 @@ Feature: Generate Slate documentation from test examples
     ```
 
     `POST /orders`
-
 
     #### Parameters
 
@@ -253,38 +255,40 @@ Feature: Generate Slate documentation from test examples
 
 
 
-
-    ### cURL
-
-    <code>curl&nbsp;"http://localhost:3000/orders"&nbsp;-d&nbsp;'name=Order+3&amount=33.0'&nbsp;-X&nbsp;POST&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Host:&nbsp;example.org"&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Content-Type:&nbsp;application/x-www-form-urlencoded"&nbsp;&#92;<br>&nbsp;&nbsp;-H&nbsp;"Cookie:&nbsp;"</code>
+    ```shell
+    curl "http://localhost:3000/orders" -d 'name=Order+3&amount=33.0' -X POST \
+    	-H "Host: example.org" \
+    	-H "Content-Type: application/x-www-form-urlencoded" \
+    	-H "Cookie: "
+    ```
     """
 
   Scenario: Example 'Deleting an order' docs should be created
-    Then the file "doc/api/_generated_examples.markdown" should contain:
+    Then the file "doc/api/index.html.md" should contain:
     """
     ## Deleting an order
     """
 
   Scenario: Example 'Getting a list of orders' docs should be created
-    Then the file "doc/api/_generated_examples.markdown" should contain:
+    Then the file "doc/api/index.html.md" should contain:
     """
     ## Getting a list of orders
     """
 
   Scenario: Example 'Getting a specific order' docs should be created
-    Then the file "doc/api/_generated_examples.markdown" should contain:
+    Then the file "doc/api/index.html.md" should contain:
     """
     ## Getting a specific order
     """
 
   Scenario: Example 'Updating an order' docs should be created
-    Then the file "doc/api/_generated_examples.markdown" should contain:
+    Then the file "doc/api/index.html.md" should contain:
     """
     ## Updating an order
     """
 
   Scenario: Example 'Getting welcome message' docs should be created
-    Then the file "doc/api/_generated_examples.markdown" should contain:
+    Then the file "doc/api/index.html.md" should contain:
     """
     ## Getting welcome message
     """
