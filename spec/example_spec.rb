@@ -204,7 +204,7 @@ describe RspecApiDocumentation::Example do
           },
           {
               :request_headers => {
-                  "Included" => "data",
+                  "included" => "data",
                   "Other" => "not seen"
               },
               :request_method => "GET"
@@ -222,7 +222,7 @@ describe RspecApiDocumentation::Example do
           },
           {
               :request_headers => {
-                  "Included" => "data",
+                  "included" => "data",
               },
               :request_method => "GET"
           }
@@ -243,7 +243,7 @@ describe RspecApiDocumentation::Example do
           },
           {
               :response_headers => {
-                  "Included" => "data",
+                  "included" => "data",
                   "Other" => "not seen"
               },
               :request_method => "GET"
@@ -261,7 +261,7 @@ describe RspecApiDocumentation::Example do
           },
           {
               :response_headers => {
-                  "Included" => "data",
+                  "included" => "data",
               },
               :request_method => "GET"
           }
