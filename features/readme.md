@@ -30,7 +30,7 @@ See the wiki for additional setup. [Setting up RSpec API Documentation](https://
       get "/accounts" do
         example "Get a list of all accounts" do
           do_request
-          last_response.status.should be_ok
+          expect(last_response.status).to be_ok
         end
       end
 
@@ -42,7 +42,7 @@ See the wiki for additional setup. [Setting up RSpec API Documentation](https://
 
         example "Get an account", :document => :public do
           do_request
-          last_response.status.should be_ok
+          expect(last_response.status).to be_ok
         end
       end
     end

@@ -50,6 +50,10 @@ module RspecApiDocumentation::DSL
         headers[name] = value
       end
 
+      def explanation(text)
+        safe_metadata(:resource_explanation, text)
+      end
+
       private
 
       def field_specification(name, *args)

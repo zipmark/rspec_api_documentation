@@ -373,6 +373,22 @@ resource "Orders" do
 end
 ```
 
+A resource can also have an explanation.
+
+```ruby
+resource "Orders" do
+  explanation "Orders are top-level business objects. They can be created by a POST request"
+  post "/orders" do
+    example "Creating an order" do
+      explanation "This method creates a new order."
+      do_request
+      # make assertions
+    end
+  end
+end
+```
+
+
 #### header
 
 This method takes the header name and value. The value can be a string or a symbol. If it is a symbol it will `send` the symbol, allowing you to `let` header values.

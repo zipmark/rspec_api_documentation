@@ -9,10 +9,13 @@ describe "Non-api documentation specs" do
 end
 
 resource "Order" do
+  explanation "Order resource explanation"
+
   describe "example metadata" do
     subject { |example| example.metadata }
 
     its([:resource_name]) { should eq("Order") }
+    its([:resource_explanation]) { should eq("Order resource explanation") }
     its([:document]) { should be_truthy }
   end
 
