@@ -9,8 +9,10 @@ module RspecApiDocumentation
       end
 
       def parameters
-        super.each do |parameter|
-          parameter[:required] = parameter[:required] ? 'true' : 'false'
+        super.map do |parameter|
+          parameter.merge({
+            :required => parameter[:required] ? 'true' : 'false',
+          })
         end
       end
 
