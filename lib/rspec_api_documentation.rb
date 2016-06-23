@@ -57,6 +57,7 @@ module RspecApiDocumentation
     autoload :TextileExample
     autoload :MarkdownIndex
     autoload :MarkdownExample
+    autoload :SlateIndex
     autoload :SlateExample
   end
 

@@ -1,5 +1,9 @@
 ## {{ description }}
 
+{{# explanation }}
+{{{ explanation }}}
+{{/ explanation }}
+
 ### Request
 
 #### Endpoint
@@ -12,11 +16,6 @@
 {{/ requests}}
 
 `{{ http_method }} {{ route }}`
-
-{{# explanation }}
-
-{{{ explanation_with_linebreaks }}}
-{{/ explanation }}
 
 #### Parameters
 
@@ -78,9 +77,8 @@ None known.
 {{/ has_response_fields? }}
 
 {{# curl }}
-
-### cURL
-
-<code>{{{ curl_with_linebreaks }}}</code>
+```shell
+{{{ curl }}}
+```
 {{/ curl }}
 {{/ requests}}

@@ -15,6 +15,23 @@ describe RspecApiDocumentation::Writers::SlateWriter do
     end
   end
 
+  describe "#write" do
+    let(:writer) { described_class.new(index, configuration) }
+
+    before do
+      template_dir = File.join(configuration.template_path, "rspec_api_documentation")
+      FileUtils.mkdir_p(template_dir)
+      File.open(File.join(template_dir, "markdown_index.mustache"), "w+") { |f| f << "{{ mustache }}" }
+      FileUtils.mkdir_p(configuration.docs_dir)
+    end
+
+    it "should write the index" do
+      writer.write
+      index_file = File.join(configuration.docs_dir, "index.html.md")
+      expect(File.exists?(index_file)).to be_truthy
+    end
+  end
+
   context 'instance methods' do
     let(:writer) { described_class.new(index, configuration) }
 
