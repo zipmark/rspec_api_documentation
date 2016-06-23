@@ -8,6 +8,12 @@ module RspecApiDocumentation
         self.template_name = "rspec_api_documentation/markdown_example"
       end
 
+      def parameters
+        super.each do |parameter|
+          parameter[:required] = parameter[:required] ? 'true' : 'false'
+        end
+      end
+
       def extension
         EXTENSION
       end
