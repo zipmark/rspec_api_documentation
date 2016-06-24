@@ -158,6 +158,10 @@ RspecApiDocumentation.configure do |config|
 
   # Removes the DSL method `method`, this is required if you have a parameter named method
   config.disable_dsl_method!
+
+  # By default, examples infer parameter values from context.  Disable to force all
+  # parameters to be explicitly passed to `do_request`
+  config.infer_parameters = true
 end
 ```
 
