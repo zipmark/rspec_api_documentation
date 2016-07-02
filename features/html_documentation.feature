@@ -75,7 +75,7 @@ Feature: Generate HTML documentation from test examples
       | scope[scoped]       | This is a scoped variable   |
       | scope[further][sub] | This is scoped              |
 
-  Scenario: Examle HTML documentation should include the response fields
+  Scenario: Example HTML documentation should include the response fields
     When  I open the index
     And   I navigate to "Greeting your favorite gem"
     Then  I should see the following response fields:
