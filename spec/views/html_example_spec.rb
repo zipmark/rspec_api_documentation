@@ -19,7 +19,7 @@ describe RspecApiDocumentation::Views::HtmlExample do
     expect(html_example.filename).to eq("ordering_a_cup_of_coffee.html")
   end
 
-  describe "multi charctor example name" do
+  describe "multi-character example name" do
     let(:metadata) { { :resource_name => "オーダ" } }
     let(:label) { "Coffee / Teaが順番で並んでいること" }
     let(:rspec_example) { group.example(label) {} }
