@@ -1,4 +1,8 @@
 # {{ resource_name }} API
+{{# resource_explanation }}
+
+{{{ resource_explanation }}}
+{{/ resource_explanation }}
 
 ## {{ description }}
 
@@ -10,20 +14,22 @@
 {{# has_parameters? }}
 
 ### Parameters
-{{# parameters }}
 
-Name : {{ name }}{{# required }} *- required -*{{/ required }}
-Description : {{ description }}
+| Name | Description | Required | Scope |
+|------|-------------|----------|-------|
+{{# parameters }}
+| {{ name }} | {{ description }} | {{ required }} | {{ scope }} |
 {{/ parameters }}
 
 {{/ has_parameters? }}
 {{# has_response_fields? }}
 
 ### Response Fields
-{{# response_fields }}
 
-Name : {{ name }}
-Description : {{ description }}
+| Name | Description | Type | Scope |
+|------|-------------|----------|-------|
+{{# response_fields }}
+| {{ name }} | {{ description }} | {{ Type }} | {{ scope }} |
 {{/ response_fields }}
 
 {{/ has_response_fields? }}
