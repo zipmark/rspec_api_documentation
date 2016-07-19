@@ -101,9 +101,9 @@ module RspecApiDocumentation::DSL
         if extra_params.keys.include?($1)
           delete_extra_param($1)
         elsif respond_to?($1)
-          send($1)
+          escape send($1)
         else
-          match
+          escape match
         end
       end
     end
