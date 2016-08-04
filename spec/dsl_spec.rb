@@ -147,6 +147,20 @@ resource "Order" do
         do_request(:extra => true)
       end
 
+      context "when #infer_parameters is disabled" do
+        around(:each) do |example|
+          default = RspecApiDocumentation.configuration.infer_parameters
+          RspecApiDocumentation.configuration.infer_parameters = false
+          example.run
+          RspecApiDocumentation.configuration.infer_parameters = default
+        end
+
+        it "should restrict to extra parameters if #infer_parameters is disabled" do
+          expect(client).to receive(method).with(path, {"extra" => true}, nil)
+          do_request(:extra => true)
+        end
+      end
+
       it "should overwrite parameters" do
         expect(client).to receive(method).with(path, params.merge("size" => "large"), nil)
         do_request(:size => "large")
