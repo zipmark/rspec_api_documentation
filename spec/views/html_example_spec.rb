@@ -4,7 +4,8 @@ require 'spec_helper'
 describe RspecApiDocumentation::Views::HtmlExample do
   let(:metadata) { { :resource_name => "Orders" } }
   let(:group) { RSpec::Core::ExampleGroup.describe("Orders", metadata) }
-  let(:rspec_example) { group.example("Ordering a cup of coffee") {} }
+  let(:description) { "Ordering a cup of coffee" }
+  let(:rspec_example) { group.example(description) {} }
   let(:rad_example) do
     RspecApiDocumentation::Example.new(rspec_example, configuration)
   end
@@ -17,6 +18,14 @@ describe RspecApiDocumentation::Views::HtmlExample do
 
   it "should have downcased filename" do
     expect(html_example.filename).to eq("ordering_a_cup_of_coffee.html")
+  end
+
+  context "when description contains special characters for Windows OS" do
+    let(:description) { 'foo<>:"/\|?*bar' }
+
+    it "removes them" do
+      expect(html_example.filename).to eq("foobar.html")
+    end
   end
 
   describe "multi charctor example name" do
