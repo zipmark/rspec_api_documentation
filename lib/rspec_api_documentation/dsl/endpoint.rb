@@ -38,7 +38,7 @@ module RspecApiDocumentation::DSL
       if method == :get && !query_string.blank?
         path_or_query += "?#{query_string}"
       else
-        if respond_to?(:raw_post) 
+        if respond_to?(:raw_post)
           params_or_body = raw_post
         else
           formatter = RspecApiDocumentation.configuration.post_body_formatter
@@ -104,9 +104,9 @@ module RspecApiDocumentation::DSL
         if extra_params.keys.include?($1)
           delete_extra_param($1)
         elsif respond_to?($1)
-          send($1)
+          escape send($1)
         else
-          match
+          escape match
         end
       end
     end
