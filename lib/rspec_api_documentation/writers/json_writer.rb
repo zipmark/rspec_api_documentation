@@ -95,7 +95,8 @@ module RspecApiDocumentation
           :explanation => explanation,
           :parameters => respond_to?(:parameters) ? parameters : [],
           :response_fields => respond_to?(:response_fields) ? response_fields : [],
-          :requests => requests
+          :requests => requests,
+          :link => "#{dirname}/#{filename}"
         }
       end
 
