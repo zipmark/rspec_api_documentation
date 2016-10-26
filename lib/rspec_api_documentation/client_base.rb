@@ -97,15 +97,13 @@ module RspecApiDocumentation
 
     def clean_out_uploaded_data(params, request_body)
       params.each do |value|
-        if value.is_a?(Hash)
-          if value.has_key?(:tempfile)
-            data = value[:tempfile].read
-            request_body = request_body.gsub(data, "[uploaded data]")
-          else
-            request_body = clean_out_uploaded_data(value, request_body)
-          end
-        elsif value.is_a?(Array)
-          request_body = clean_out_uploaded_data(value, request_body)
+        if [Hash, Array].member? value.class
+          request_body = if value.respond_to?(:has_key?) && value.has_key?(:tempfile)
+                           data = value[:tempfile].read
+                           request_body.gsub(data, "[uploaded data]")
+                         else
+                           clean_out_uploaded_data(value, request_body)
+                         end
         end
       end
       request_body
