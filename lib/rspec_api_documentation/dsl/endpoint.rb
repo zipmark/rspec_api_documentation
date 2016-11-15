@@ -147,19 +147,27 @@ module RspecApiDocumentation::DSL
     end
 
     def set_param(hash, param)
-      key = param[:name]
+      key                = param[:name]
+      key_scope          = param[:scope] && Array(param[:scope]).dup.push(key)
+      scoped_key         = key_scope && key_scope.join('_')
+      custom_method_name = param[:method]
+      path_name          = scoped_key || key
 
-      keys = [param[:scope], key].flatten.compact
-      method_name = keys.join('_')
+      return hash if in_path?(path_name)
 
-      return hash if in_path?(method_name)
-
-      unless respond_to?(method_name)
-        method_name = key
-        return hash unless respond_to?(method_name)
+      build_param_data = if custom_method_name && respond_to?(custom_method_name)
+        [key_scope || [key], custom_method_name]
+      elsif scoped_key && respond_to?(scoped_key)
+        [key_scope, scoped_key]
+      elsif respond_to?(key)
+        [key_scope || [key], key]
+      else
+        []
       end
+      # binding.pry if key == "street"
 
-      hash.deep_merge(build_param_hash(keys, method_name))
+      return hash if build_param_data.empty?
+      hash.deep_merge(build_param_hash(*build_param_data))
     end
 
     def build_param_hash(keys, method_name)
