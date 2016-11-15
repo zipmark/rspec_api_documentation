@@ -6,7 +6,7 @@ module RspecApiDocumentation
       class Params
         attr_reader :example_group, :example
 
-        def initialize(example_group, example:, extra_params:)
+        def initialize(example_group, example, extra_params)
           @example_group = example_group
           @example = example
           @extra_params = extra_params
@@ -14,7 +14,7 @@ module RspecApiDocumentation
 
         def call
           parameters = example.metadata.fetch(:parameters, {}).inject({}) do |hash, param|
-            SetParam.new(self, hash: hash, param: param).call
+            SetParam.new(self, hash, param).call
           end
           parameters.deep_merge!(extra_params)
           parameters

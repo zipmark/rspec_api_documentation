@@ -2,7 +2,7 @@ module RspecApiDocumentation
   module DSL
     module Endpoint
       class SetParam
-        def initialize(parent, hash:, param:)
+        def initialize(parent, hash, param)
           @parent = parent
           @hash = hash
           @param = param

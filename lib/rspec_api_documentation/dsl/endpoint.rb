@@ -64,7 +64,7 @@ module RspecApiDocumentation::DSL
     end
 
     def params
-      Params.new(self, example: example, extra_params: extra_params).call
+      Params.new(self, example, extra_params).call
     end
 
     def header(name, value)
