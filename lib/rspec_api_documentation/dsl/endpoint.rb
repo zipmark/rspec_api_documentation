@@ -1,6 +1,7 @@
 require 'rspec/core/formatters/base_formatter'
 require 'rack/utils'
 require 'rack/test/utils'
+require 'rspec_api_documentation/dsl/endpoint/params'
 
 module RspecApiDocumentation::DSL
   # DSL methods available inside the RSpec example.
@@ -63,11 +64,7 @@ module RspecApiDocumentation::DSL
     end
 
     def params
-      parameters = example.metadata.fetch(:parameters, {}).inject({}) do |hash, param|
-        set_param(hash, param)
-      end
-      parameters.deep_merge!(extra_params)
-      parameters
+      Params.new(self, example: example, extra_params: extra_params).call
     end
 
     def header(name, value)
@@ -97,14 +94,6 @@ module RspecApiDocumentation::DSL
 
     def status
       rspec_api_documentation_client.status
-    end
-
-    def in_path?(param)
-      path_params.include?(param)
-    end
-
-    def path_params
-      example.metadata[:route].scan(/:(\w+)/).flatten
     end
 
     def path
@@ -144,35 +133,6 @@ module RspecApiDocumentation::DSL
 
     def delete_extra_param(key)
       @extra_params.delete(key.to_sym) || @extra_params.delete(key.to_s)
-    end
-
-    def set_param(hash, param)
-      key                = param[:name]
-      key_scope          = param[:scope] && Array(param[:scope]).dup.push(key)
-      scoped_key         = key_scope && key_scope.join('_')
-      custom_method_name = param[:method]
-      path_name          = scoped_key || key
-
-      return hash if in_path?(path_name)
-
-      build_param_data = if custom_method_name && respond_to?(custom_method_name)
-        [key_scope || [key], custom_method_name]
-      elsif scoped_key && respond_to?(scoped_key)
-        [key_scope, scoped_key]
-      elsif respond_to?(key)
-        [key_scope || [key], key]
-      else
-        []
-      end
-      # binding.pry if key == "street"
-
-      return hash if build_param_data.empty?
-      hash.deep_merge(build_param_hash(*build_param_data))
-    end
-
-    def build_param_hash(keys, method_name)
-      value = keys[1] ? build_param_hash(keys[1..-1], method_name) : send(method_name)
-      { keys[0].to_s => value }
     end
 
   end
