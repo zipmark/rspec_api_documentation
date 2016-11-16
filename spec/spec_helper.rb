@@ -4,5 +4,4 @@ require 'rspec/its'
 require 'pry'
 
 RSpec.configure do |config|
-  config.include FakeFS::SpecHelpers
 end
