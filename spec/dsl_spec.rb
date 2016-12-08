@@ -59,8 +59,8 @@ resource "Order" do
   post "/orders" do
     parameter :type, "The type of drink you want.", :required => true
     parameter :size, "The size of drink you want.", :required => true
-    parameter :note, "Any additional notes about your order."
-    parameter :name, :scope => :order
+    parameter :note, "Any additional notes about your order.", method: :custom_note
+    parameter :name, :scope => :order, method: :custom_order_name
 
     response_field :type, "The type of drink you ordered.", :scope => :order
     response_field :size, "The size of drink you ordered.", :scope => :order
@@ -71,6 +71,12 @@ resource "Order" do
     let(:type) { "coffee" }
     let(:size) { "medium" }
 
+    let(:note) { "Made in Brazil" }
+    let(:custom_note) { "Made in India" }
+
+    let(:order_name) { "Nescoffee" }
+    let(:custom_order_name) { "Jakobz" }
+
     describe "example metadata" do
       subject { |example| example.metadata }
 
@@ -79,8 +85,8 @@ resource "Order" do
           [
             { :name => "type", :description => "The type of drink you want.", :required => true },
             { :name => "size", :description => "The size of drink you want.", :required => true },
-            { :name => "note", :description => "Any additional notes about your order." },
-            { :name => "name", :description => "Order name", :scope => :order},
+            { :name => "note", :description => "Any additional notes about your order.", method: :custom_note },
+            { :name => "name", :description => "Order name", :scope => :order, method: :custom_order_name },
           ]
         )
       end
@@ -103,7 +109,12 @@ resource "Order" do
 
       describe "params" do
         it "should equal the assigned parameter values" do
-          expect(params).to eq("type" => "coffee", "size" => "medium")
+          expect(params).to eq({
+            "type" => "coffee",
+            "size" => "medium",
+            "note" => "Made in India",
+            "order" => { "name" => "Jakobz" }
+          })
         end
       end
     end
