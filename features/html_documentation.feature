@@ -8,7 +8,10 @@ Feature: Generate HTML documentation from test examples
           request = Rack::Request.new(env)
           response = Rack::Response.new
           response["Content-Type"] = "application/json"
-          response.write({ "hello" => request.params["target"] }.to_json)
+          response.write({
+            "hello" => request.params["target"],
+            "more_greetings" => { "bonjour" => { "message" => "le monde" } }
+          }.to_json)
           response.finish
         end
       end
@@ -31,14 +34,15 @@ Feature: Generate HTML documentation from test examples
           parameter :scoped, "This is a scoped variable", :scope => :scope
           parameter :sub, "This is scoped", :scope => [:scope, :further]
 
-          response_field :hello, "The greeted thing"
+          response_field :hello,   "The greeted thing"
+          response_field :message, "Translated greeting", scope: [:more_greetings, :bonjour]
 
           example "Greeting your favorite gem" do
             do_request :target => "rspec_api_documentation"
 
             expect(response_headers["Content-Type"]).to eq("application/json")
             expect(status).to eq(200)
-            expect(response_body).to eq('{"hello":"rspec_api_documentation"}')
+            expect(response_body).to eq('{"hello":"rspec_api_documentation","more_greetings":{"bonjour":{"message":"le monde"}}}')
           end
         end
       end
@@ -71,12 +75,13 @@ Feature: Generate HTML documentation from test examples
       | scope[scoped]       | This is a scoped variable   |
       | scope[further][sub] | This is scoped              |
 
-  Scenario: Examle HTML documentation should include the response fields
+  Scenario: Example HTML documentation should include the response fields
     When  I open the index
     And   I navigate to "Greeting your favorite gem"
     Then  I should see the following response fields:
-      | name  | description       |
-      | hello | The greeted thing |
+      | name                             | description         |
+      | hello                            | The greeted thing   |
+      | more_greetings[bonjour][message] | Translated greeting |
 
   Scenario: Example HTML documentation includes the request information
     When  I open the index
@@ -99,5 +104,5 @@ Feature: Generate HTML documentation from test examples
       | Content-Length | 35               |
     And   I should see the following response body:
       """
-      { "hello": "rspec_api_documentation" }
+      { "hello": "rspec_api_documentation", "more_greetings": { "bonjour": { "message": "le monde" } } }
       """
