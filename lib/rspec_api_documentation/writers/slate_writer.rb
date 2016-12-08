@@ -25,6 +25,7 @@ module RspecApiDocumentation
           file.write %Q{title: "#{configuration.api_name}"\n}
           file.write %Q{language_tabs:\n}
           file.write %Q{  - json: JSON\n}
+          file.write %Q{  - shell: cURL\n}
           file.write %Q{---\n\n}
 
           IndexHelper.sections(index.examples, @configuration).each do |section|
