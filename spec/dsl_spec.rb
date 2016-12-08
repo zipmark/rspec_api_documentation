@@ -210,7 +210,7 @@ resource "Order" do
 
       context "when id has not been defined" do
         it "should be unchanged" do
-          expect(subject).to eq("/orders/:order_id")
+          expect(subject).to eq("/orders/%3Aorder_id")
         end
       end
     end
