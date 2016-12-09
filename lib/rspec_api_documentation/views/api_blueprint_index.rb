@@ -9,8 +9,8 @@ module RspecApiDocumentation
       def sections
         super.map do |section|
           routes = section[:examples].group_by(&:route_uri).map do |route_uri, examples|
-            attrs = examples.map { |example| example.metadata[:attributes] }.flatten.compact.uniq { |attr| attr[:name] }
-            params = examples.map { |example| example.metadata[:parameters] }.flatten.compact.uniq { |param| param[:name] }
+            attrs  = fields(:attributes, examples)
+            params = fields(:parameters, examples)
 
             methods = examples.group_by(&:http_method).map do |http_method, examples|
               {
@@ -41,6 +41,49 @@ module RspecApiDocumentation
         @index.examples.map do |example|
           ApiBlueprintExample.new(example, @configuration)
         end
+      end
+
+      private
+
+      # APIB has both `parameters` and `attributes`. This generates a hash
+      # with all of its properties, like name, description, required.
+      #   {
+      #     required: true,
+      #     example: "1",
+      #     type: "string",
+      #     name: "id",
+      #     description: "The id",
+      #     properties_description: "required, string"
+      #   }
+      def fields(property_name, examples)
+        examples
+          .map { |example| example.metadata[property_name] }
+          .flatten
+          .compact
+          .uniq { |property| property[:name] }
+          .map do |property|
+            properties = []
+            properties << "required"      if property[:required]
+            properties << property[:type] if property[:type]
+            if properties.count > 0
+              property[:properties_description] = properties.join(", ")
+            else
+              property[:properties_description] = nil
+            end
+
+            property[:description] = nil if description_blank?(property)
+            property
+          end
+      end
+
+      # When no `description` was specified for a parameter, the DSL class
+      # is making `description = "#{scope} #{name}"`, which is bad because it
+      # assumes that all formats want this behavior. To avoid changing there
+      # and breaking everything, I do my own check here and if description
+      # equals the name, I assume it is blank.
+      def description_blank?(property)
+        !property[:description] ||
+          property[:description].to_s.strip == property[:name].to_s.strip
       end
     end
   end

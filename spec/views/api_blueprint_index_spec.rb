@@ -37,7 +37,7 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
 
   let(:rspec_example_posts) do
     post_group.route "/posts", "Posts Collection" do
-      attribute :description, "Order description", required: false
+      attribute :description, required: false
 
       get("/posts") do
         example_request 'Get all posts' do
@@ -105,12 +105,14 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
           type: "string",
           name: "id",
           description: "The id",
+          properties_description: "required, string"
         }]
         expect(post_route[:has_attributes?]).to eq true
         expect(post_route[:attributes]).to eq [{
           required: true,
           name: "name",
           description: "Order name 1",
+          properties_description: "required"
         }]
 
         posts_examples = posts_route[:http_methods].map { |http_method| http_method[:examples] }.flatten
@@ -123,7 +125,8 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
         expect(posts_route[:attributes]).to eq [{
           required: false,
           name: "description",
-          description: "Order description",
+          description: nil,
+          properties_description: nil
         }]
       end
     end

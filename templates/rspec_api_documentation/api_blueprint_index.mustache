@@ -25,14 +25,14 @@ explanation: {{ explanation }}
 
 + Parameters
 {{# parameters }}
-  + {{ name }}: ({{# required }}required, {{/ required }}{{ type }}) - {{ description }}
+  + {{ name }}{{# example }}: {{ example }}{{/ example }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
 {{/ parameters }}
 {{/ has_parameters? }}
 {{# has_attributes? }}
 
 + Attributes (object)
 {{# attributes }}
-  + {{ name }}: ({{# required }}required, {{/ required }}{{ type }}) - {{ description }}
+  + {{ name }}{{# example }}: {{ example }}{{/ example }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
 {{/ attributes }}
 {{/ has_attributes? }}
 {{# http_methods }}

@@ -110,7 +110,9 @@ Feature: Generate API Blueprint documentation from test examples
         route '/orders/{id}', "Single Order" do
           parameter :id, 'Order id', required: true, type: 'string', :example => '1'
 
-          attribute :name, 'The order name', required: true, type: 'string', :example => '1'
+          attribute :name, 'The order name', required: true, :example => 'a name'
+          attribute :amount, required: false
+          attribute :description, 'The order description', type: 'string', required: false, example: "a description"
 
           get 'Returns a single order' do
             explanation "This is used to return orders."
@@ -354,10 +356,12 @@ Feature: Generate API Blueprint documentation from test examples
     ## Single Order [/orders/{id}]
 
     + Parameters
-      + id: (required, string) - Order id
+      + id: 1 (required, string) - Order id
 
     + Attributes (object)
-      + name: (required, string) - The order name
+      + name: a name (required) - The order name
+      + amount
+      + description: a description (string) - The order description
 
     ### Deletes a specific order [DELETE]
 
