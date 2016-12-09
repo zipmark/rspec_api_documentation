@@ -47,7 +47,8 @@ module RspecApiDocumentation::DSL
         raise "You must define the route URI"  if args[0].blank?
         raise "You must define the route name" if args[1].blank?
         options = args.extract_options!
-        options[:route_uri] = args[0]
+        options[:route_uri] = args[0].gsub(/\{.*\}/, "")
+        options[:route_optionals] = (optionals = args[0].match(/(\{.*\})/) and optionals[-1])
         options[:route_name] = args[1]
         args.push(options)
         context(*args, &block)

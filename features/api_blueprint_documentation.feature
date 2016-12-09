@@ -107,8 +107,9 @@ Feature: Generate API Blueprint documentation from test examples
           end
         end
 
-        route '/orders/{id}', "Single Order" do
+        route '/orders/:id{?optional=:optional}', "Single Order" do
           parameter :id, 'Order id', required: true, type: 'string', :example => '1'
+          parameter :optional
 
           attribute :name, 'The order name', required: true, :example => 'a name'
           attribute :amount, required: false
@@ -225,7 +226,7 @@ Feature: Generate API Blueprint documentation from test examples
           * Getting a list of orders
         POST Creates an order
           * Creating an order
-        /orders/{id} Single Order
+        /orders/:id{?optional=:optional} Single Order
         GET Returns a single order
           * Getting a specific order
         PUT Updates a single order
@@ -353,10 +354,11 @@ Feature: Generate API Blueprint documentation from test examples
               ]
             }
 
-    ## Single Order [/orders/{id}]
+    ## Single Order [/orders/:id{?optional=:optional}]
 
     + Parameters
       + id: 1 (required, string) - Order id
+      + optional
 
     + Attributes (object)
       + name: a name (required) - The order name

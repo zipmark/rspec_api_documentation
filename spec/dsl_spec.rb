@@ -605,11 +605,15 @@ resource "Order" do
     end
   end
 
-  route "/orders", "Orders Collection" do
+  route "/orders{?application_id=:some_id}", "Orders Collection" do
     attribute :description, "Order description"
 
     it "saves the route URI" do |example|
       expect(example.metadata[:route_uri]).to eq "/orders"
+    end
+
+    it "saves the route optionals" do |example|
+      expect(example.metadata[:route_optionals]).to eq "{?application_id=:some_id}"
     end
 
     it "saves the route name" do |example|
