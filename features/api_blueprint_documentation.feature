@@ -254,7 +254,7 @@ Feature: Generate API Blueprint documentation from test examples
 
     ### Returns all instructions [GET]
 
-    + Request List all instructions ()
+    + Request List all instructions
 
         + Headers
 
@@ -315,7 +315,7 @@ Feature: Generate API Blueprint documentation from test examples
 
     ### Return all orders [GET]
 
-    + Request Getting a list of orders ()
+    + Request Getting a list of orders
 
         + Headers
 
@@ -382,7 +382,7 @@ Feature: Generate API Blueprint documentation from test examples
 
     ### Returns a single order [GET]
 
-    + Request Getting a specific order ()
+    + Request Getting a specific order
 
         + Headers
 

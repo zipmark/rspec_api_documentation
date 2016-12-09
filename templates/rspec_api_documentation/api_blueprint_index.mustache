@@ -42,7 +42,7 @@ explanation: {{ explanation }}
 {{# requests }}
 {{# has_request? }}
 
-+ Request {{ description }} ({{ request_content_type }})
++ Request {{ description }}{{# request_content_type }} ({{ request_content_type }}){{/ request_content_type }}
 {{/ has_request? }}
 {{# request_headers_text }}
 
