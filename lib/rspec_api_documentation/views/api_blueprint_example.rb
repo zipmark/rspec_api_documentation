@@ -20,14 +20,13 @@ module RspecApiDocumentation
 
       def requests
         super.map do |request|
-          if request[:request_content_type] =~ /application\/json/ && request[:request_body]
-            request[:request_body] = JSON.pretty_generate(JSON.parse(request[:request_body]))
-          end
+          request[:request_body]  = body_to_json(request, :request)
+          request[:response_body] = body_to_json(request, :response)
 
           request[:request_body] = indent(request[:request_body])
-          request[:request_body] = indent(request[:request_headers_text])
-          request[:request_body] = indent(request[:response_body])
-          request[:request_body] = indent(request[:response_headers_text])
+          request[:request_headers_text] = indent(request[:request_headers_text])
+          request[:response_body] = indent(request[:response_body])
+          request[:response_headers_text] = indent(request[:response_headers_text])
           request
         end
       end
@@ -44,6 +43,20 @@ module RspecApiDocumentation
             str.gsub!(/\n/, "\n" + (" " * TOTAL_SPACES_INDENTATION))
           end
         end
+      end
+
+      # http_call: the hash that contains all information about the HTTP
+      #            request and response.
+      # message_direction: either `request` or `response`.
+      def body_to_json(http_call, message_direction)
+        content_type = http_call["#{message_direction}_content_type".to_sym]
+        body         = http_call["#{message_direction}_body".to_sym] # e.g request_body
+
+        if content_type =~ /application\/.*json/ && body
+          body = JSON.pretty_generate(JSON.parse(body))
+        end
+
+        body
       end
     end
   end

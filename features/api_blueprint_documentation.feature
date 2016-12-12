@@ -7,7 +7,7 @@ Feature: Generate API Blueprint documentation from test examples
 
       class App < Sinatra::Base
         get '/orders' do
-          content_type :json
+          content_type "application/vnd.api+json"
 
           [200, {
             :page => 1,
@@ -263,11 +263,6 @@ Feature: Generate API Blueprint documentation from test examples
 
             Host: example.org
 
-        + Body
-
-            Content-Type: text/html;charset=utf-8
-            Content-Length: 57
-
     + Response 200 (text/html;charset=utf-8)
 
         + Headers
@@ -296,8 +291,16 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Body
 
-            Content-Type: application/json
-            Content-Length: 73
+            {
+              "data": {
+                "type": "order",
+                "attributes": {
+                  "name": "Order 1",
+                  "amount": 100.0,
+                  "description": "A description"
+                }
+              }
+            }
 
     + Response 201 (application/json)
 
@@ -324,16 +327,11 @@ Feature: Generate API Blueprint documentation from test examples
 
             Host: example.org
 
-        + Body
-
-            Content-Type: application/json
-            Content-Length: 137
-
-    + Response 200 (application/json)
+    + Response 200 (application/vnd.api+json)
 
         + Headers
 
-            Content-Type: application/json
+            Content-Type: application/vnd.api+json
             Content-Length: 137
 
         + Body
@@ -374,11 +372,6 @@ Feature: Generate API Blueprint documentation from test examples
             Host: example.org
             Content-Type: application/x-www-form-urlencoded
 
-        + Body
-
-            Content-Type: text/html;charset=utf-8
-            Content-Length: 0
-
     + Response 200 (text/html;charset=utf-8)
 
         + Headers
@@ -393,11 +386,6 @@ Feature: Generate API Blueprint documentation from test examples
         + Headers
 
             Host: example.org
-
-        + Body
-
-            Content-Type: application/json
-            Content-Length: 73
 
     + Response 200 (application/json)
 
@@ -425,11 +413,6 @@ Feature: Generate API Blueprint documentation from test examples
             Content-Type: application/json
             Host: example.org
 
-        + Body
-
-            Content-Type: application/json
-            Content-Length: 0
-
     + Response 400 (application/json)
 
         + Headers
@@ -446,8 +429,15 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Body
 
-            Content-Type: application/json
-            Content-Length: 111
+            {
+              "data": {
+                "id": "1",
+                "type": "order",
+                "attributes": {
+                  "name": "Order 1"
+                }
+              }
+            }
 
     + Response 200 (application/json)
 
