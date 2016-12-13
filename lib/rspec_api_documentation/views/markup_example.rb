@@ -47,13 +47,9 @@ module RspecApiDocumentation
 
       def requests
         super.map do |hash|
-          hash[:request_content_type] = content_type(hash[:request_headers])
           hash[:request_headers_text] = format_hash(hash[:request_headers])
           hash[:request_query_parameters_text] = format_hash(hash[:request_query_parameters])
-          hash[:response_content_type] = content_type(hash[:response_headers])
           hash[:response_headers_text] = format_hash(hash[:response_headers])
-          hash[:has_request?] = has_request?(hash)
-          hash[:has_response?] = has_response?(hash)
           if @host
             if hash[:curl].is_a? RspecApiDocumentation::Curl
               hash[:curl] = hash[:curl].output(@host, @filter_headers)
@@ -70,18 +66,6 @@ module RspecApiDocumentation
       end
 
       private
-
-      def has_request?(metadata)
-        metadata.any? do |key, value|
-          [:request_body, :request_headers, :request_content_type].include?(key) && value
-        end
-      end
-
-      def has_response?(metadata)
-        metadata.any? do |key, value|
-          [:response_status, :response_body, :response_headers, :response_content_type].include?(key) && value
-        end
-      end
 
       def format_hash(hash = {})
         return nil unless hash.present?

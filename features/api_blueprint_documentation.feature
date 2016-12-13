@@ -131,7 +131,7 @@ Feature: Generate API Blueprint documentation from test examples
           put 'Updates a single order' do
             explanation "This is used to update orders."
 
-            header "Content-Type", "application/json"
+            header "Content-Type", "application/json; charset=utf-16"
 
             context "with a valid id" do
               let(:id) { 1 }
@@ -406,11 +406,11 @@ Feature: Generate API Blueprint documentation from test examples
 
     ### Updates a single order [PUT]
 
-    + Request Invalid request (application/json)
+    + Request Invalid request (application/json; charset=utf-16)
 
         + Headers
 
-            Content-Type: application/json
+            Content-Type: application/json; charset=utf-16
             Host: example.org
 
     + Response 400 (application/json)
@@ -420,11 +420,11 @@ Feature: Generate API Blueprint documentation from test examples
             Content-Type: application/json
             Content-Length: 0
 
-    + Request Update an order (application/json)
+    + Request Update an order (application/json; charset=utf-16)
 
         + Headers
 
-            Content-Type: application/json
+            Content-Type: application/json; charset=utf-16
             Host: example.org
 
         + Body
