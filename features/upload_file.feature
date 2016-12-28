@@ -50,7 +50,7 @@ Feature: Uploading a file
           end
 
           example_request "Uploading a file" do
-            response_body.should == "file.txt"
+            expect(response_body).to eq("file.txt")
           end
         end
       end
@@ -85,7 +85,7 @@ Feature: Uploading a file
           end
 
           example_request "Uploading a file" do
-            response_body.should == "file.txt"
+            expect(response_body).to eq("file.txt")
           end
         end
       end
@@ -117,7 +117,7 @@ Feature: Uploading a file
           end
 
           example_request "Uploading a file" do
-            response_body.should == "file.png"
+            expect(response_body).to eq("file.png")
           end
         end
       end
@@ -153,7 +153,7 @@ Feature: Uploading a file
           end
 
           example_request "Uploading a file" do
-            response_body.should == "file.png"
+            expect(response_body).to eq("file.png")
           end
         end
       end

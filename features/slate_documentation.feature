@@ -1,4 +1,4 @@
-Feature: Generate Textile documentation from test examples
+Feature: Generate Slate documentation from test examples
 
   Background:
     Given a file named "app.rb" with:
@@ -49,7 +49,8 @@ Feature: Generate Textile documentation from test examples
       RspecApiDocumentation.configure do |config|
         config.app = App
         config.api_name = "Example API"
-        config.format = :textile
+        config.format = :slate
+        config.curl_host = 'http://localhost:3000'
         config.request_headers_to_include = %w[Content-Type Host]
         config.response_headers_to_include = %w[Content-Type Content-Length]
       end
@@ -59,8 +60,8 @@ Feature: Generate Textile documentation from test examples
           response_field :page, "Current page"
 
           example_request 'Getting a list of orders' do
-            expect(status).to eq(200)
-            expect(response_body).to eq('{"page":1,"orders":[{"name":"Order 1","amount":9.99,"description":null},{"name":"Order 2","amount":100.0,"description":"A great order"}]}')
+            status.should eq(200)
+            response_body.should eq('{"page":1,"orders":[{"name":"Order 1","amount":9.99,"description":null},{"name":"Order 2","amount":100.0,"description":"A great order"}]}')
           end
         end
 
@@ -68,8 +69,8 @@ Feature: Generate Textile documentation from test examples
           let(:id) { 1 }
 
           example_request 'Getting a specific order' do
-            expect(status).to eq(200)
-            expect(response_body).to eq('{"order":{"name":"Order 1","amount":100.0,"description":"A great order"}}')
+            status.should eq(200)
+            response_body.should == '{"order":{"name":"Order 1","amount":100.0,"description":"A great order"}}'
           end
         end
 
@@ -82,7 +83,7 @@ Feature: Generate Textile documentation from test examples
           let(:amount) { 33.0 }
 
           example_request 'Creating an order' do
-            expect(status).to eq(201)
+            status.should == 201
           end
         end
 
@@ -95,7 +96,7 @@ Feature: Generate Textile documentation from test examples
           let(:name) { "Updated name" }
 
           example_request 'Updating an order' do
-            expect(status).to eq(200)
+            status.should == 200
           end
         end
 
@@ -103,18 +104,16 @@ Feature: Generate Textile documentation from test examples
           let(:id) { 1 }
 
           example_request "Deleting an order" do
-            expect(status).to eq(200)
+            status.should == 200
           end
         end
       end
 
       resource 'Help' do
-        explanation 'Getting help'
-
         get '/help' do
           example_request 'Getting welcome message' do
-            expect(status).to eq(200)
-            expect(response_body).to eq('Welcome Henry !')
+            status.should eq(200)
+            response_body.should == 'Welcome Henry !'
           end
         end
 
@@ -144,64 +143,40 @@ Feature: Generate Textile documentation from test examples
     And   the output should contain "6 examples, 0 failures"
     And   the exit status should be 0
 
-  Scenario: Index file should look like we expect
-    Then the file "doc/api/index.textile" should contain exactly:
+  Scenario: Example 'Getting a list of orders' docs should look like we expect
+    Then the file "doc/api/index.html.md" should contain:
     """
-    h1. Example API
+    ## Getting a list of orders
 
-    h2. Help
 
-    Getting help
+    ### Request
 
-    * "Getting welcome message":help/getting_welcome_message.textile
+    #### Endpoint
 
-    h2. Orders
+    ```
+    GET /orders
+    Host: example.org
+    ```
 
-    * "Creating an order":orders/creating_an_order.textile
-    * "Deleting an order":orders/deleting_an_order.textile
-    * "Getting a list of orders":orders/getting_a_list_of_orders.textile
-    * "Getting a specific order":orders/getting_a_specific_order.textile
-    * "Updating an order":orders/updating_an_order.textile
-    """
+    `GET /orders`
 
-  Scenario: Example 'Getting a list of orders' file should look like we expect
-    Then the file "doc/api/orders/getting_a_list_of_orders.textile" should contain exactly:
-    """
-    h1. Orders API
+    #### Parameters
 
-    h2. Getting a list of orders
 
-    h3. GET /orders
+    None known.
 
-    h3. Response Fields
 
-    Name : page
-    Description : Current page
+    ### Response
 
-    h3. Request
+    ```
+    Content-Type: application/json
+    Content-Length: 137
+    200 OK
+    ```
 
-    h4. Headers
 
-    <pre>Host: example.org</pre>
-
-    h4. Route
-
-    <pre>GET /orders</pre>
-
-    h3. Response
-
-    h4. Headers
-
-    <pre>Content-Type: application/json
-    Content-Length: 137</pre>
-
-    h4. Status
-
-    <pre>200 OK</pre>
-
-    h4. Body
-
-    <pre>{
+    ```json
+    {
       "page": 1,
       "orders": [
         {
@@ -215,69 +190,105 @@ Feature: Generate Textile documentation from test examples
           "description": "A great order"
         }
       ]
-    }</pre>
+    }
+    ```
+
+
+
+    #### Fields
+
+    | Name       | Description         |
+    |:-----------|:--------------------|
+    | page | Current page |
+
+
+    ```shell
+    curl "http://localhost:3000/orders" -X GET \
+    	-H "Host: example.org" \
+    	-H "Cookie: "
     """
 
-  Scenario: Example 'Creating an order' file should look like we expect
-    Then the file "doc/api/orders/creating_an_order.textile" should contain exactly:
+  Scenario: Example 'Creating an order' docs should look like we expect
+    Then the file "doc/api/index.html.md" should contain:
     """
-    h1. Orders API
+    # Orders
 
-    h2. Creating an order
+    ## Creating an order
 
-    h3. POST /orders
 
-    h3. Parameters
+    ### Request
 
-    Name : name  *- required -*
-    Description : Name of order
+    #### Endpoint
 
-    Name : amount  *- required -*
-    Description : Amount paid
+    ```
+    POST /orders
+    Host: example.org
+    Content-Type: application/x-www-form-urlencoded
+    ```
 
-    Name : description 
-    Description : Some comments on the order
+    `POST /orders`
 
-    h3. Request
+    #### Parameters
 
-    h4. Headers
 
-    <pre>Host: example.org
-    Content-Type: application/x-www-form-urlencoded</pre>
+    ```json
+    name=Order+3&amount=33.0
+    ```
 
-    h4. Route
 
-    <pre>POST /orders</pre>
+    | Name | Description |
+    |:-----|:------------|
+    | name *required* | Name of order |
+    | amount *required* | Amount paid |
+    | description  | Some comments on the order |
 
-    h4. Body
 
-    <pre>name=Order+3&amount=33.0</pre>
 
-    h3. Response
+    ### Response
 
-    h4. Headers
+    ```
+    Content-Type: text/html;charset=utf-8
+    Content-Length: 0
+    201 Created
+    ```
 
-    <pre>Content-Type: text/html;charset=utf-8
-    Content-Length: 0</pre>
 
-    h4. Status
 
-    <pre>201 Created</pre>
+
+    ```shell
+    curl "http://localhost:3000/orders" -d 'name=Order+3&amount=33.0' -X POST \
+    	-H "Host: example.org" \
+    	-H "Content-Type: application/x-www-form-urlencoded" \
+    	-H "Cookie: "
+    ```
     """
 
-  Scenario: Example 'Deleting an order' file should be created
-    Then a file named "doc/api/orders/deleting_an_order.textile" should exist
+  Scenario: Example 'Deleting an order' docs should be created
+    Then the file "doc/api/index.html.md" should contain:
+    """
+    ## Deleting an order
+    """
 
-  Scenario: Example 'Getting a list of orders' file should be created
-    Then a file named "doc/api/orders/getting_a_list_of_orders.textile" should exist
+  Scenario: Example 'Getting a list of orders' docs should be created
+    Then the file "doc/api/index.html.md" should contain:
+    """
+    ## Getting a list of orders
+    """
 
-  Scenario: Example 'Getting a specific order' file should be created
-    Then a file named "doc/api/orders/getting_a_specific_order.textile" should exist
+  Scenario: Example 'Getting a specific order' docs should be created
+    Then the file "doc/api/index.html.md" should contain:
+    """
+    ## Getting a specific order
+    """
 
-  Scenario: Example 'Updating an order' file should be created
-    Then a file named "doc/api/orders/updating_an_order.textile" should exist
+  Scenario: Example 'Updating an order' docs should be created
+    Then the file "doc/api/index.html.md" should contain:
+    """
+    ## Updating an order
+    """
 
-  Scenario: Example 'Getting welcome message' file should be created
-    Then a file named "doc/api/help/getting_welcome_message.textile" should exist
-
-
+  Scenario: Example 'Getting welcome message' docs should be created
+    Then the file "doc/api/index.html.md" should contain:
+    """
+    ## Getting welcome message
+    """

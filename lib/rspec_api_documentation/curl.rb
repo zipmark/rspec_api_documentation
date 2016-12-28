@@ -76,7 +76,7 @@ module RspecApiDocumentation
     def filter_headers(headers)
       if !@config_headers_to_filer.empty?
         headers.reject do |header|
-          @config_headers_to_filer.include?(format_header(header))
+          @config_headers_to_filer.map(&:downcase).include?(format_header(header).downcase)
         end
       else
         headers

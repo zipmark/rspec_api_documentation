@@ -28,7 +28,7 @@ Feature: Specifying request headers
 
           example "Getting Foo" do
             do_request
-            response_body.should == "foo"
+            expect(response_body).to eq("foo")
           end
         end
       end

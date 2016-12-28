@@ -1,0 +1,84 @@
+## {{ description }}
+
+{{# explanation }}
+{{{ explanation }}}
+{{/ explanation }}
+
+### Request
+
+#### Endpoint
+
+{{# requests}}
+```
+{{ request_method }} {{ request_path }}
+{{ request_headers_text }}
+```
+{{/ requests}}
+
+`{{ http_method }} {{ route }}`
+
+#### Parameters
+
+{{# requests}}
+{{# request_query_parameters_text }}
+
+```json
+{{ request_query_parameters_text }}
+```
+{{/ request_query_parameters_text }}
+{{# request_body }}
+
+```json
+{{{ request_body }}}
+```
+{{/ request_body }}
+
+{{# has_parameters? }}
+
+| Name | Description |
+|:-----|:------------|
+{{# parameters }}
+| {{#scope}}{{scope}}[{{/scope}}{{ name }}{{#scope}}]{{/scope}} {{# required }}*required*{{/ required }} | {{{ description }}} |
+{{/ parameters }}
+
+{{/ has_parameters? }}
+{{^ has_parameters? }}
+None known.
+{{/ has_parameters? }}
+
+{{# response_status}}
+
+### Response
+
+```
+{{ response_headers_text }}
+{{ response_status }} {{ response_status_text}}
+```
+
+{{# response_body}}
+
+```json
+{{{ response_body }}}
+```
+{{/response_body}}
+
+{{/ response_status}}
+
+{{# has_response_fields? }}
+
+#### Fields
+
+| Name       | Description         |
+|:-----------|:--------------------|
+{{# response_fields }}
+| {{#scope}}{{scope}}[{{/scope}}{{ name }}{{#scope}}]{{/scope}} | {{{ description }}} |
+{{/ response_fields }}
+
+{{/ has_response_fields? }}
+
+{{# curl }}
+```shell
+{{{ curl }}}
+```
+{{/ curl }}
+{{/ requests}}

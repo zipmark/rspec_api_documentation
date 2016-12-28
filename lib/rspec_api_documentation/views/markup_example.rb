@@ -23,7 +23,8 @@ module RspecApiDocumentation
       end
 
       def filename
-        basename = description.downcase.gsub(/\s+/, '_').gsub(Pathname::SEPARATOR_PAT, '')
+        special_chars = /[<>:"\/\\|?*]/
+        basename = description.downcase.gsub(/\s+/, '_').gsub(special_chars, '')
         basename = Digest::MD5.new.update(description).to_s if basename.blank?
         "#{basename}.#{extension}"
       end
@@ -31,14 +32,15 @@ module RspecApiDocumentation
       def parameters
         super.each do |parameter|
           if parameter.has_key?(:scope)
-            scope = Array(parameter[:scope]).each_with_index.map do |scope, index|
-              if index == 0
-                scope
-              else
-                "[#{scope}]"
-              end
-            end.join
-            parameter[:scope] = scope
+            parameter[:scope] = format_scope(parameter[:scope])
+          end
+        end
+      end
+
+      def response_fields
+        super.each do |response_field|
+          if response_field.has_key?(:scope)
+            response_field[:scope] = format_scope(response_field[:scope])
           end
         end
       end
@@ -70,6 +72,16 @@ module RspecApiDocumentation
         hash.collect do |k, v|
           "#{k}: #{v}"
         end.join("\n")
+      end
+
+      def format_scope(unformatted_scope)
+        Array(unformatted_scope).each_with_index.map do |scope, index|
+          if index == 0
+            scope
+          else
+            "[#{scope}]"
+          end
+        end.join
       end
     end
   end

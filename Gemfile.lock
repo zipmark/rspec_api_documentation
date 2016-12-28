@@ -1,11 +1,10 @@
 PATH
   remote: .
   specs:
-    rspec_api_documentation (4.7.0)
+    rspec_api_documentation (4.9.0)
       activesupport (>= 3.0.0)
-      json (~> 1.4, >= 1.4.6)
       mustache (~> 1.0, >= 0.99.4)
-      rspec (~> 3.0, >= 3.0.0)
+      rspec (~> 3.0)
 
 GEM
   remote: http://rubygems.org/
@@ -76,7 +75,7 @@ GEM
     multi_json (1.11.2)
     multi_test (0.1.2)
     multipart-post (2.0.0)
-    mustache (1.0.2)
+    mustache (1.0.3)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     pry (0.10.3)
@@ -158,4 +157,4 @@ DEPENDENCIES
   webmock (~> 1.7)
 
 BUNDLED WITH
-   1.11.2
+   1.13.6

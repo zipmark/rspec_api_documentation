@@ -1,6 +1,7 @@
 require 'rspec/core/formatters/base_formatter'
 require 'rack/utils'
 require 'rack/test/utils'
+require 'rspec_api_documentation/dsl/endpoint/params'
 
 module RspecApiDocumentation::DSL
   # DSL methods available inside the RSpec example.
@@ -63,11 +64,7 @@ module RspecApiDocumentation::DSL
     end
 
     def params
-      parameters = example.metadata.fetch(:parameters, {}).inject({}) do |hash, param|
-        set_param(hash, param)
-      end
-      parameters.deep_merge!(extra_params)
-      parameters
+      Params.new(self, example, extra_params).call
     end
 
     def header(name, value)
@@ -99,22 +96,14 @@ module RspecApiDocumentation::DSL
       rspec_api_documentation_client.status
     end
 
-    def in_path?(param)
-      path_params.include?(param)
-    end
-
-    def path_params
-      example.metadata[:route].scan(/:(\w+)/).flatten
-    end
-
     def path
       example.metadata[:route].gsub(/:(\w+)/) do |match|
         if extra_params.keys.include?($1)
           delete_extra_param($1)
         elsif respond_to?($1)
-          send($1)
+          escape send($1)
         else
-          match
+          escape match
         end
       end
     end
@@ -144,27 +133,6 @@ module RspecApiDocumentation::DSL
 
     def delete_extra_param(key)
       @extra_params.delete(key.to_sym) || @extra_params.delete(key.to_s)
-    end
-
-    def set_param(hash, param)
-      key = param[:name]
-
-      keys = [param[:scope], key].flatten.compact
-      method_name = keys.join('_')
-
-      return hash if in_path?(method_name)
-
-      unless respond_to?(method_name)
-        method_name = key
-        return hash unless respond_to?(method_name)
-      end
-
-      hash.deep_merge(build_param_hash(keys, method_name))
-    end
-
-    def build_param_hash(keys, method_name)
-      value = keys[1] ? build_param_hash(keys[1..-1], method_name) : send(method_name)
-      { keys[0].to_s => value }
     end
 
   end
