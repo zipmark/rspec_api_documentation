@@ -164,7 +164,7 @@ Feature: Generate Markdown documentation from test examples
     * [Updating an order](orders/updating_an_order.markdown)
     """
 
-  Scenario: Example 'Getting al ist of orders' file should look like we expect
+  Scenario: Example 'Getting a list of orders' file should look like we expect
     Then the file "doc/api/orders/getting_a_list_of_orders.markdown" should contain exactly:
     """
     # Orders API
@@ -175,8 +175,9 @@ Feature: Generate Markdown documentation from test examples
 
     ### Response Fields
 
-    Name : page
-    Description : Current page
+    | Name | Description | Scope |
+    |------|-------------|-------|
+    | page | Current page |  |
 
     ### Request
 
@@ -276,5 +277,3 @@ Feature: Generate Markdown documentation from test examples
 
   Scenario: Example 'Getting welcome message' file should be created
     Then a file named "doc/api/help/getting_welcome_message.markdown" should exist
-
-

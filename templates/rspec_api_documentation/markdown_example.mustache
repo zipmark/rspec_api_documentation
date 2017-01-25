@@ -25,10 +25,11 @@
 {{# has_response_fields? }}
 
 ### Response Fields
-{{# response_fields }}
 
-Name : {{ name }}
-Description : {{ description }}
+| Name | Description | Scope |
+|------|-------------|-------|
+{{# response_fields }}
+| {{ name }} | {{ description }} | {{ scope }} |
 {{/ response_fields }}
 
 {{/ has_response_fields? }}
