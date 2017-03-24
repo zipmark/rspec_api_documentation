@@ -8,6 +8,7 @@ module RspecApiDocumentation
         @host = configuration.curl_host
         @filter_headers = configuration.curl_headers_to_filter
         self.template_path = configuration.template_path
+        super({})
       end
 
       def method_missing(method, *args, &block)

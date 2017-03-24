@@ -7,6 +7,7 @@ module RspecApiDocumentation
         @index = index
         @configuration = configuration
         self.template_path = configuration.template_path
+        super({})
       end
 
       def api_name
