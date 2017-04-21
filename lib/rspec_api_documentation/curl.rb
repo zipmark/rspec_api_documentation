@@ -16,7 +16,7 @@ module RspecApiDocumentation
     end
 
     def get
-      "curl \"#{url}#{get_data}\" -X GET #{headers}"
+      "curl -g \"#{url}#{get_data}\" -X GET #{headers}"
     end
 
     def head

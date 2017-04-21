@@ -203,7 +203,7 @@ Feature: Generate Slate documentation from test examples
 
 
     ```shell
-    curl "http://localhost:3000/orders" -X GET \
+    curl -g "http://localhost:3000/orders" -X GET \
     	-H "Host: example.org" \
     	-H "Cookie: "
     """
