@@ -116,10 +116,10 @@
             {{/ response_headers_text }}
             <h4>Status</h4>
             <pre class="response status">{{ response_status }} {{ response_status_text}}</pre>
-            {{# response_body }}
+            {{# response_body_text }}
               <h4>Body</h4>
-              <pre class="response body">{{ response_body }}</pre>
-            {{/ response_body }}
+              <pre class="response body">{{ response_body_text }}</pre>
+            {{/ response_body_text }}
           {{/ response_status }}
         {{/ requests }}
       </div>
