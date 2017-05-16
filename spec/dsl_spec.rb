@@ -454,8 +454,18 @@ resource "Order" do
       end
 
       it "response_body" do
-        allow(client).to receive(:last_response).and_return(double(:body => "the body"))
+        allow(client).to receive(:last_response).and_return(double(:body => "the body", :content_type => 'application/octet-stream'))
         expect(response_body).to eq("the body")
+      end
+
+      it "prettify json response_body" do
+        allow(client).to receive(:last_response).and_return(double(:body => '{"foo":{"bar":"1337"}}', :content_type => 'application/json'))
+        expect(response_body).to eq("{\n  \"foo\": {\n    \"bar\": \"1337\"\n  }\n}")
+      end
+
+      it "returns response_body if body is no json" do
+        allow(client).to receive(:last_response).and_return(double(:body => "the body", :content_type => 'application/json'))
+        expect(response_body.to_s).to eq("the body")
       end
     end
   end
