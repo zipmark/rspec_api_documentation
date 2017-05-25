@@ -250,18 +250,18 @@ end
 # examples will never be generated.
 RspecApiDocumentation.configure do |config|
   # Exclude only document examples marked as 'private'
-  config.define_group :non_private do |config|
-    config.exclusion_filter = :private
+  config.define_group :non_private do |config_group|
+    config_group.exclusion_filter = :private
   end
 
   # Only document examples marked as 'public'
-  config.define_group :public do |config|
-    config.filter = :public
+  config.define_group :public do |config_group|
+    config_group.filter = :public
   end
 
   # Only document examples marked as 'developer'
-  config.define_group :developers do |config|
-    config.filter = :developers
+  config.define_group :developers do |config_group|
+    config_group.filter = :developers
   end
 end
 ```
