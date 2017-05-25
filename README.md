@@ -196,7 +196,7 @@ end
 ```
 
 ```bash
-rake docs:generate:append spec/acceptance/orders_spec.rb
+rails docs:generate:append spec/acceptance/orders_spec.rb
 ```
 
 This will update the current index's examples to include any in the `orders_spec.rb` file. Any examples inside will be rewritten.
