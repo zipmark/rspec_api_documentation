@@ -364,9 +364,22 @@ resource "Order" do
 
   context "#explanation" do
     post "/orders" do
+      route_summary "Route summary"
+      route_description "Route description"
+
       example "Creating an order" do |example|
         explanation "By creating an order..."
         expect(example.metadata[:explanation]).to eq("By creating an order...")
+        expect(example.metadata[:route_summary]).to eq("Route summary")
+        expect(example.metadata[:route_description]).to eq("Route description")
+      end
+
+      context "Nested context" do
+        example "Inner example" do |example|
+          expect(example.metadata[:explanation]).to be_nil
+          expect(example.metadata[:route_summary]).to eq("Route summary")
+          expect(example.metadata[:route_description]).to eq("Route description")
+        end
       end
     end
   end
@@ -573,6 +586,77 @@ resource "Order" do
     end
   end
 
+  context "authentications" do
+    put "/orders" do
+      authentication :apiKey, "Api Key", :name => "API_AUTH"
+      authentication :basic, "Api Key"
+
+      it "should be sent with the request" do |example|
+        expect(example.metadata[:authentications]).to eq(
+          {
+            "API_AUTH" => {
+              :in => :header,
+              :type => :apiKey,
+              :name => "API_AUTH"
+            },
+            "Authorization" => {
+              :type => :basic
+            }
+          })
+      end
+
+      context "nested authentications" do
+        authentication :apiKey, "Api Key", :name => "API_AUTH"
+
+        it "does not affect the outer context's assertions" do
+          # pass
+        end
+      end
+    end
+
+    put "/orders" do
+      context "setting authentication in example level" do
+        before do
+          authentication :apiKey, "Api Key", :name => "API_AUTH"
+        end
+
+        it "adds to headers" do |example|
+          expect(example.metadata[:authentications]).to eq({"API_AUTH" => {
+            :in => :header,
+            :type => :apiKey,
+            :name => "API_AUTH"
+          }})
+        end
+      end
+    end
+
+    put "/orders" do
+      authentication :apiKey, :api_key, :name => "API_AUTH"
+
+      let(:api_key) { "API_KEY_TOKEN" }
+
+      it "should be sent with the request" do |example|
+        expect(example.metadata[:authentications]).to eq({"API_AUTH" => {
+          :in => :header,
+          :type => :apiKey,
+          :name => "API_AUTH"
+        }})
+      end
+
+      it "should fill out into the headers" do
+        expect(headers).to eq({ "API_AUTH" => "API_KEY_TOKEN" })
+      end
+
+      context "nested authentications" do
+        authentication :apiKey, :api_key, :name => "API_AUTH"
+
+        it "does not affect the outer context's assertions" do
+          expect(headers).to eq({ "API_AUTH" => "API_KEY_TOKEN" })
+        end
+      end
+    end
+  end
+
   context "post body formatter" do
     after do
       RspecApiDocumentation.instance_variable_set(:@configuration, RspecApiDocumentation::Configuration.new)
@@ -671,7 +755,29 @@ resource "Order" do
       end
     end
   end
+
+  get "parameter with custom method only" do
+    parameter :custom, "Custom name parameter", method: :custom_method, scope: :some
+
+    context do
+      let(:custom) { "Should not be taken" }
+      let(:some_custom) { "Should not be taken" }
+
+      it "not uses custom as value" do
+        expect(params).to eq({})
+      end
+    end
+
+    context do
+      let(:custom_method) { "Should be taken" }
+
+      it "uses custom_method as value" do
+        expect(params).to eq("some" => {"custom" => "Should be taken"})
+      end
+    end
+  end
 end
+
 
 resource "top level parameters" do
   parameter :page, "Current page"

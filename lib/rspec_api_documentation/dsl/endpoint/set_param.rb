@@ -15,6 +15,10 @@ module RspecApiDocumentation
           hash.deep_merge build_param_hash(key_scope || [key])
         end
 
+        def value
+          example_group.send(method_name) if method_name
+        end
+
       private
 
         attr_reader :parent, :hash, :param

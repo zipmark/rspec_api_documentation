@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20140616151047) do
 
-  create_table "orders", force: true do |t|
+  create_table "orders", force: :cascade do |t|
     t.string   "name"
     t.boolean  "paid"
     t.string   "email"
