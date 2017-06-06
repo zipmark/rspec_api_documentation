@@ -177,12 +177,14 @@ This format cannot be run with other formats as they will delete the entire docu
 Below is a rake task that allows this format to be used easily.
 
 ```ruby
-RSpec::Core::RakeTask.new('docs:generate:append', :spec_file) do |t, task_args|
-  if spec_file = task_args[:spec_file]
-    ENV["DOC_FORMAT"] = "append_json"
+task 'docs:append' do
+  _, spec_file = ARGV
+  RSpec::Core::RakeTask.new('docs:generate:append') do |t|
+    ENV['DOC_FORMAT'] = 'append_json' if spec_file
+    t.pattern = spec_file || 'spec/acceptance/**/*_spec.rb'
+    t.rspec_opts = ['--format RspecApiDocumentation::ApiFormatter']
   end
-  t.pattern    = spec_file || 'spec/acceptance/**/*_spec.rb'
-  t.rspec_opts = ["--format RspecApiDocumentation::ApiFormatter"]
+  Rake::Task['docs:generate:append'].invoke
 end
 ```
 
@@ -197,7 +199,7 @@ end
 ```
 
 ```bash
-rake docs:generate:append[spec/acceptance/orders_spec.rb]
+rails docs:append spec/acceptance/orders_spec.rb
 ```
 
 This will update the current index's examples to include any in the `orders_spec.rb` file. Any examples inside will be rewritten.
