@@ -30,7 +30,7 @@ Set up specs.
     $ vim spec/acceptance/orders_spec.rb
 
 ```ruby
-require 'spec_helper'
+require 'rails_helper'
 require 'rspec_api_documentation/dsl'
 
 resource "Orders" do
