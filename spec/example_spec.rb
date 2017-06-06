@@ -149,6 +149,26 @@ describe RspecApiDocumentation::Example do
     end
   end
 
+  describe "has_attributes?" do
+    subject { example.has_attributes? }
+
+    context "when attributes are defined" do
+      before { allow(example).to receive(:attributes).and_return([double]) }
+
+      it { should eq true }
+    end
+
+    context "when attributes are empty" do
+      before { allow(example).to receive(:attributes).and_return([]) }
+
+      it { should eq false }
+    end
+
+    context "when attributes are not defined" do
+      it { should be_falsey }
+    end
+  end
+
   describe "has_response_fields?" do
     subject { example.has_response_fields? }
 

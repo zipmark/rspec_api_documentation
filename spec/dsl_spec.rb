@@ -183,11 +183,29 @@ resource "Order" do
     end
   end
 
+  put "/orders/{id}" do
+    describe "url params with curly braces" do
+      it "should overwrite path variables" do
+        expect(client).to receive(method).with("/orders/2", params, nil)
+        do_request(:id => 2)
+      end
+    end
+  end
+
   get "/orders/:order_id/line_items/:id" do
     parameter :type, "The type document you want"
 
     describe "do_request" do
       it "should correctly set path variables and other parameters" do
+        expect(client).to receive(method).with("/orders/3/line_items/2?type=short", nil, nil)
+        do_request(:id => 2, :order_id => 3, :type => 'short')
+      end
+    end
+  end
+
+  get "/orders/{order_id}/line_items/{id}" do
+    describe "url params with curly braces" do
+      it "should overwrite path variables and other parameters" do
         expect(client).to receive(method).with("/orders/3/line_items/2?type=short", nil, nil)
         do_request(:id => 2, :order_id => 3, :type => 'short')
       end
@@ -583,6 +601,39 @@ resource "Order" do
         expect(client).to receive(method).with(path, { :from => "a proc" }.to_json , nil)
 
         do_request
+      end
+    end
+  end
+
+  route "/orders{?application_id=:some_id}", "Orders Collection" do
+    attribute :description, "Order description"
+
+    it "saves the route URI" do |example|
+      expect(example.metadata[:route_uri]).to eq "/orders"
+    end
+
+    it "saves the route optionals" do |example|
+      expect(example.metadata[:route_optionals]).to eq "{?application_id=:some_id}"
+    end
+
+    it "saves the route name" do |example|
+      expect(example.metadata[:route_name]).to eq "Orders Collection"
+    end
+
+    it "has 1 attribute" do |example|
+      expect(example.metadata[:attributes]).to eq [{
+        name: "description",
+        description: "Order description"
+      }]
+    end
+
+    get("Returns all orders") do
+      it "uses the route URI" do
+        expect(example.metadata[:route]).to eq "/orders"
+      end
+
+      it "bubbles down the parent group metadata" do
+        expect(example.metadata[:method]).to eq :get
       end
     end
   end

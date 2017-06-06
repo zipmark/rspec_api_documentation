@@ -83,6 +83,10 @@ module RspecApiDocumentation
           end
         end.join
       end
+
+      def content_type(headers)
+        headers && headers.fetch("Content-Type", nil)
+      end
     end
   end
 end

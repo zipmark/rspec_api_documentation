@@ -8,7 +8,12 @@ module RspecApiDocumentation::DSL
         define_method method do |*args, &block|
           options = args.extract_options!
           options[:method] = method
-          options[:route] = args.first
+          if metadata[:route_uri]
+            options[:route] = metadata[:route_uri]
+            options[:action_name] = args.first
+          else
+            options[:route] = args.first
+          end
           options[:api_doc_dsl] = :endpoint
           args.push(options)
           args[0] = "#{method.to_s.upcase} #{args[0]}"
@@ -38,8 +43,23 @@ module RspecApiDocumentation::DSL
         context(*args, &block)
       end
 
+      def route(*args, &block)
+        raise "You must define the route URI"  if args[0].blank?
+        raise "You must define the route name" if args[1].blank?
+        options = args.extract_options!
+        options[:route_uri] = args[0].gsub(/\{.*\}/, "")
+        options[:route_optionals] = (optionals = args[0].match(/(\{.*\})/) and optionals[-1])
+        options[:route_name] = args[1]
+        args.push(options)
+        context(*args, &block)
+      end
+
       def parameter(name, *args)
         parameters.push(field_specification(name, *args))
+      end
+
+      def attribute(name, *args)
+        attributes.push(field_specification(name, *args))
       end
 
       def response_field(name, *args)
@@ -73,6 +93,10 @@ module RspecApiDocumentation::DSL
 
       def parameters
         safe_metadata(:parameters, [])
+      end
+
+      def attributes
+        safe_metadata(:attributes, [])
       end
 
       def response_fields

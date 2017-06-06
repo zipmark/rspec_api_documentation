@@ -85,7 +85,8 @@ RspecApiDocumentation.configure do |config|
 
   # An array of output format(s).
   # Possible values are :json, :html, :combined_text, :combined_json,
-  #   :json_iodocs, :textile, :markdown, :append_json, :slate
+  #   :json_iodocs, :textile, :markdown, :append_json, :slate,
+  #   :api_blueprint
   config.format = [:html]
 
   # Location of templates
@@ -166,6 +167,7 @@ end
 * **json_iodocs**: Generates [I/O Docs](http://www.mashery.com/product/io-docs) style documentation.
 * **textile**: Generates an index file and example files in Textile.
 * **markdown**: Generates an index file and example files in Markdown.
+* **api_blueprint**: Generates an index file and example files in [APIBlueprint](https://apiblueprint.org).
 * **append_json**: Lets you selectively run specs without destroying current documentation. See section below.
 
 ### append_json
@@ -200,7 +202,32 @@ rake docs:generate:append[spec/acceptance/orders_spec.rb]
 
 This will update the current index's examples to include any in the `orders_spec.rb` file. Any examples inside will be rewritten.
 
+### api_blueprint
+
+This [format](https://apiblueprint.org) (APIB) has additional functions:
+
+* `route`: APIB groups URLs together and then below them are HTTP verbs.
+
+  ```ruby
+  route "/orders", "Orders Collection" do
+    get "Returns all orders" do
+      # ...
+    end
+
+    delete "Deletes all orders" do
+      # ...
+    end
+  end
+  ```
+
+  If you don't use `route`, then param in `get(param)` should be an URL as
+  states in the rest of this documentation.
+
+* `attribute`: APIB has attributes besides parameters. Use attributes exactly
+  like you'd use `parameter` (see documentation below).
+
 ## Filtering and Exclusion
+
 rspec_api_documentation lets you determine which examples get outputted into the final documentation.
 All filtering is done via the `:document` metadata key.
 You tag examples with either a single symbol or an array of symbols.
