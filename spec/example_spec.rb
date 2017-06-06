@@ -34,6 +34,20 @@ describe RspecApiDocumentation::Example do
     end
   end
 
+  describe '#description' do
+    let(:rspec_example) {
+      rspec_example_group
+        .context('with first-level',  document_context: true)
+        .context('skip this level',   document_context: false)
+        .context('with second-level', document_context: true)
+        .example(description, metadata) {}
+    }
+
+    it 'should include documented contexts' do
+      expect(example.description).to eq 'with first-level with second-level foo'
+    end
+  end
+
   describe "#http_method" do
     let(:metadata) {{ :method => "GET" }}
 
