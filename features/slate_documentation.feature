@@ -153,7 +153,7 @@ Feature: Generate Slate documentation from test examples
 
     #### Endpoint
 
-    ```
+    ```plaintext
     GET /orders
     Host: example.org
     ```
@@ -168,7 +168,7 @@ Feature: Generate Slate documentation from test examples
 
     ### Response
 
-    ```
+    ```plaintext
     Content-Type: application/json
     Content-Length: 137
     200 OK
@@ -220,7 +220,7 @@ Feature: Generate Slate documentation from test examples
 
     #### Endpoint
 
-    ```
+    ```plaintext
     POST /orders
     Host: example.org
     Content-Type: application/x-www-form-urlencoded
@@ -246,7 +246,7 @@ Feature: Generate Slate documentation from test examples
 
     ### Response
 
-    ```
+    ```plaintext
     Content-Type: text/html;charset=utf-8
     Content-Length: 0
     201 Created
