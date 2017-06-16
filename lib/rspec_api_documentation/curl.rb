@@ -69,7 +69,7 @@ module RspecApiDocumentation
     end
 
     def format_full_header(header, value)
-      formatted_value = value ? value.gsub(/"/, "\\\"") : ''
+      formatted_value = value ? value.gsub(/"/, "\\\"") : '' unless value.is_a?(Numeric)
       "#{format_header(header)}: #{formatted_value}"
     end
 
