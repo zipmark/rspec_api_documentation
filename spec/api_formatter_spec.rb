@@ -1,14 +1,13 @@
 require 'spec_helper'
 
 describe RspecApiDocumentation::ApiFormatter do
-  let(:metadata) { {} }
-  let(:group) { RSpec::Core::ExampleGroup.describe("Orders", metadata) }
+  include FakeFS::SpecHelpers
+
+  let(:group) { RSpec::Core::ExampleGroup.describe("Orders") }
   let(:output) { StringIO.new }
   let(:formatter) { RspecApiDocumentation::ApiFormatter.new(output) }
 
   describe "generating documentation" do
-    include FakeFS::SpecHelpers
-
     before do
       RspecApiDocumentation.documentations.each do |configuration|
         allow(configuration).to receive(:clear_docs)
