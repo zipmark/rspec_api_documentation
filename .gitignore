@@ -8,3 +8,4 @@ example/public/docs
 *.swp
 /html/
 /doc
+Gemfile.lock
