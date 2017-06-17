@@ -9,3 +9,4 @@ example/public/docs
 /html/
 /doc
 Gemfile.lock
+gemfiles/*.lock

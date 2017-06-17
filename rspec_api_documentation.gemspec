@@ -18,7 +18,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "activesupport", ">= 3.0.0"
   s.add_runtime_dependency "mustache", "~> 1.0"
 
-  s.add_development_dependency "bundler", "~> 1.0"
+  s.add_development_dependency "appraisal", "~> 2.2"
+  s.add_development_dependency "bundler", "~> 1.15"
   s.add_development_dependency "fakefs", "~> 0.11.0"
   s.add_development_dependency "sinatra", ">= 1.4.4", "< 3"
   s.add_development_dependency "aruba", "~> 0.14.2"

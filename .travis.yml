@@ -2,13 +2,32 @@ language: ruby
 sudo: false
 rvm:
   - 2.0.0-p648
-  - 2.1.8
-  - 2.2.4
-  - 2.3.0
+  - 2.1.10
+  - 2.2.7
+  - 2.3.4
+  - 2.4.1
 gemfile:
-  - Gemfile
+  - gemfiles/activesupport_4.0.gemfile
+  - gemfiles/activesupport_4.1.gemfile
+  - gemfiles/activesupport_4.2.gemfile
+  - gemfiles/activesupport_5.0.gemfile
+  - gemfiles/activesupport_5.1.gemfile
 script:
   - bundle exec rake
 branches:
   only:
     - master
+matrix:
+  exclude:
+  - rvm: 2.0.0-p648
+    gemfile: gemfiles/activesupport_5.0.gemfile
+  - rvm: 2.0.0-p648
+    gemfile: gemfiles/activesupport_5.1.gemfile
+  - rvm: 2.1.10
+    gemfile: gemfiles/activesupport_5.0.gemfile
+  - rvm: 2.1.10
+    gemfile: gemfiles/activesupport_5.1.gemfile
+  - rvm: 2.4.1
+    gemfile: gemfiles/activesupport_4.0.gemfile
+  - rvm: 2.4.1
+    gemfile: gemfiles/activesupport_4.1.gemfile
