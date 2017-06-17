@@ -95,7 +95,7 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rake (10.5.0)
+    rake (11.3.0)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -152,7 +152,7 @@ DEPENDENCIES
   inch
   rack-oauth2 (~> 1.6)
   rack-test (~> 0.6.3)
-  rake (~> 10.1)
+  rake (~> 11.3)
   rspec-its (~> 1.2)
   rspec_api_documentation!
   sinatra (>= 1.4.4, < 3)
