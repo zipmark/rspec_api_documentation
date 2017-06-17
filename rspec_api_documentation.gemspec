@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "sinatra", ">= 1.4.4", "< 3"
   s.add_development_dependency "aruba", "~> 0.14.2"
   s.add_development_dependency "capybara", "~> 2.14"
-  s.add_development_dependency "rake", "~> 11.3"
+  s.add_development_dependency "rake", "~> 12.0"
   s.add_development_dependency "rack-test", "~> 0.6.3"
   s.add_development_dependency "rack-oauth2", "~> 1.6"
   s.add_development_dependency "webmock", "~> 3.0"
