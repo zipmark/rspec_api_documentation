@@ -3,7 +3,6 @@
 source "http://rubygems.org"
 
 gem "inch"
-gem "rspec", "~> 3.4.0"
 gem "activesupport", "~> 5.1.0"
 
 gemspec path: "../"

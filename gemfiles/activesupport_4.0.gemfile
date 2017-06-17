@@ -3,7 +3,6 @@
 source "http://rubygems.org"
 
 gem "inch"
-gem "rspec", "~> 3.4.0"
 gem "activesupport", "~> 4.0.0"
 
 platforms :ruby_20 do
