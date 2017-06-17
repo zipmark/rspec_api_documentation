@@ -10,7 +10,7 @@ describe RspecApiDocumentation::HttpTestClient do
   before(:all) do
     WebMock.allow_net_connect!
 
-    Capybara.server do |app, port|
+    Capybara.register_server :thin do |app, port|
       require 'rack/handler/thin'
       Thin::Logging.silent = true
       Rack::Handler::Thin.run(app, :Port => port)
