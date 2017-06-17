@@ -5,6 +5,7 @@ rescue LoadError
 end
 begin
   require "webmock"
+  WebMock.enable!
 rescue LoadError
   raise "Webmock needs to be installed before using the OAuth2MACClient"
 end

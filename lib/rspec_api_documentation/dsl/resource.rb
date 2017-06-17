@@ -31,6 +31,7 @@ module RspecApiDocumentation::DSL
       def callback(*args, &block)
         begin
           require 'webmock'
+          WebMock.enable!
         rescue LoadError
           raise "Callbacks require webmock to be installed"
         end
