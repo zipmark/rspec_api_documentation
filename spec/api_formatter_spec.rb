@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe RspecApiDocumentation::ApiFormatter do
-  include FakeFS::SpecHelpers
-
   let(:group) { RSpec::Core::ExampleGroup.describe("Orders") }
   let(:output) { StringIO.new }
   let(:formatter) { RspecApiDocumentation::ApiFormatter.new(output) }
