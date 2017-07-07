@@ -21,7 +21,7 @@ module RspecApiDocumentation
       options = args.last.is_a?(Hash) ? args.pop : {}
       options[:api_doc_dsl] = :resource
       options[:resource_name] = args.first.to_s
-      options[:document] ||= :all
+      options[:document] = :all unless options.key?(:document)
       args.push(options)
       describe(*args, &block)
     end
