@@ -24,7 +24,7 @@ Feature: Generate HTML documentation from test examples
       RspecApiDocumentation.configure do |config|
         config.app = App
         config.api_name = "Example API"
-        config.api_explanation = "Example API Description"
+        config.api_explanation = "<p>Example API Description</p>"
         config.request_headers_to_include = %w[Cookie]
         config.response_headers_to_include = %w[Content-Type]
       end
