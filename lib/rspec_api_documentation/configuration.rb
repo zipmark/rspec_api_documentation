@@ -75,6 +75,7 @@ module RspecApiDocumentation
     add_setting :curl_host, :default => nil
     add_setting :keep_source_order, :default => false
     add_setting :api_name, :default => "API Documentation"
+    add_setting :api_explanation, :default => nil
     add_setting :io_docs_protocol, :default => "http"
     add_setting :request_headers_to_include, :default => nil
     add_setting :response_headers_to_include, :default => nil
