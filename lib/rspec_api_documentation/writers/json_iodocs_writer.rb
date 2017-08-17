@@ -94,6 +94,7 @@ module RspecApiDocumentation
         {
           @api_key.to_sym => {
             :name => @configuration.api_name,
+            :description => @configuration.api_explanation,
             :protocol => @configuration.io_docs_protocol,
             :publicPath => "",
             :baseURL => @configuration.curl_host
