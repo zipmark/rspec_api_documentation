@@ -24,6 +24,7 @@ Feature: Json Iodocs
       RspecApiDocumentation.configure do |config|
         config.app = App
         config.api_name = "app"
+        config.api_explanation = "desc"
         config.format = :json_iodocs
         config.io_docs_protocol = "https"
       end
@@ -70,6 +71,7 @@ Feature: Json Iodocs
     {
       "app" : {
         "name" : "app",
+        "description": "desc",
         "protocol" : "https",
         "publicPath" : "",
         "baseURL" : null

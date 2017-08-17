@@ -49,6 +49,7 @@ Feature: Generate Slate documentation from test examples
       RspecApiDocumentation.configure do |config|
         config.app = App
         config.api_name = "Example API"
+        config.api_explanation = "Description"
         config.format = :slate
         config.curl_host = 'http://localhost:3000'
         config.request_headers_to_include = %w[Content-Type Host]
