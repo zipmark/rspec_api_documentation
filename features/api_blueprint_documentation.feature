@@ -64,6 +64,7 @@ Feature: Generate API Blueprint documentation from test examples
       RspecApiDocumentation.configure do |config|
         config.app = App
         config.api_name = "Example API"
+        config.api_explanation = "Example API Description"
         config.format = :api_blueprint
         config.request_body_formatter = :json
         config.request_headers_to_include = %w[Content-Type Host]

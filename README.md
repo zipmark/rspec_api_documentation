@@ -118,6 +118,9 @@ RspecApiDocumentation.configure do |config|
 
   # Change the name of the API on index pages
   config.api_name = "API Documentation"
+  
+  # Change the description of the API on index pages
+  config.api_explanation = "API Description"
 
   # Redefine what method the DSL thinks is the client
   # This is useful if you need to `let` your own client, most likely a model.

@@ -49,6 +49,7 @@ Feature: Generate Markdown documentation from test examples
       RspecApiDocumentation.configure do |config|
         config.app = App
         config.api_name = "Example API"
+        config.api_explanation = "Example API Description"
         config.format = :markdown
         config.request_headers_to_include = %w[Content-Type Host]
         config.response_headers_to_include = %w[Content-Type Content-Length]
@@ -148,6 +149,7 @@ Feature: Generate Markdown documentation from test examples
     Then the file "doc/api/index.markdown" should contain exactly:
     """
     # Example API
+    Example API Description
 
     ## Help
 
