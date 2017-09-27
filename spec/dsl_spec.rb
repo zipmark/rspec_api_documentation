@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'rspec_api_documentation/dsl'
 require 'net/http'
+require "rack/test"
 
 describe "Non-api documentation specs" do
   it "should not be polluted by the rspec api dsl" do |example|
@@ -394,6 +395,36 @@ resource "Order" do
             })
           end
           do_request
+        end
+      end
+
+      context "with reserved name parameter" do
+        context "without custom method name" do
+          parameter :status, "Filter order by status"
+
+          example "does not work as expected" do
+            expect { do_request }.to raise_error Rack::Test::Error, /No response yet/
+          end
+        end
+
+        context "with custom method name" do
+          parameter :status, "Filter order by status", method: :status_param
+
+          context "when parameter value is not specified" do
+            example "does not serialize param" do
+              expect(client).to receive(method).with("/orders", anything, anything)
+              do_request
+            end
+          end
+
+          context "when parameter value is specified" do
+            let(:status_param) { "pending" }
+
+            example "serializes param" do
+              expect(client).to receive(method).with("/orders?status=pending", anything, anything)
+              do_request
+            end
+          end
         end
       end
     end

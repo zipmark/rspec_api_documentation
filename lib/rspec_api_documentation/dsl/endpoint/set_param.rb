@@ -45,10 +45,12 @@ module RspecApiDocumentation
         end
 
         def method_name
-          @method_name ||= begin
-            [custom_method_name, scoped_key, key].find do |name|
-              name && example_group.respond_to?(name)
-            end
+          if custom_method_name
+            custom_method_name if example_group.respond_to?(custom_method_name)
+          elsif scoped_key && example_group.respond_to?(scoped_key)
+            scoped_key
+          elsif key && example_group.respond_to?(key)
+            key
           end
         end
 
