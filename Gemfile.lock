@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rspec_api_documentation (5.0.0)
+    rspec_api_documentation (5.1.0)
       activesupport (>= 3.0.0)
       mustache (~> 1.0, >= 0.99.4)
       rspec (~> 3.0)
@@ -157,4 +157,4 @@ DEPENDENCIES
   webmock (~> 1.7)
 
 BUNDLED WITH
-   1.13.6
+   1.15.3
