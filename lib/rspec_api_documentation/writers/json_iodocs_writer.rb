@@ -2,7 +2,7 @@ require 'rspec_api_documentation/writers/formatter'
 
 module RspecApiDocumentation
   module Writers
-    class JsonIodocsWriter < Writer
+    class JSONIodocsWriter < Writer
       attr_accessor :api_key
       delegate :docs_dir, :to => :configuration
 

@@ -2,7 +2,7 @@ require 'rspec_api_documentation/writers/formatter'
 
 module RspecApiDocumentation
   module Writers
-    class JsonWriter < Writer
+    class JSONWriter < Writer
       delegate :docs_dir, :to => :configuration
 
       def write
