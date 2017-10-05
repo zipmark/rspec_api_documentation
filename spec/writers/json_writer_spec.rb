@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RspecApiDocumentation::Writers::JsonWriter do
+describe RspecApiDocumentation::Writers::JSONWriter do
   let(:index) { RspecApiDocumentation::Index.new }
   let(:configuration) { RspecApiDocumentation::Configuration.new }
 
