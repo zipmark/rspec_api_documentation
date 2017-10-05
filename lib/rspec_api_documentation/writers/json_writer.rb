@@ -7,14 +7,14 @@ module RspecApiDocumentation
 
       def write
         File.open(docs_dir.join("index.json"), "w+") do |f|
-          f.write Formatter.to_json(JsonIndex.new(index, configuration))
+          f.write Formatter.to_json(JSONIndex.new(index, configuration))
         end
         write_examples
       end
 
       def write_examples
         index.examples.each do |example|
-          json_example = JsonExample.new(example, configuration)
+          json_example = JSONExample.new(example, configuration)
           FileUtils.mkdir_p(docs_dir.join(json_example.dirname))
           File.open(docs_dir.join(json_example.dirname, json_example.filename), "w+") do |f|
             f.write Formatter.to_json(json_example)
@@ -23,7 +23,7 @@ module RspecApiDocumentation
       end
     end
 
-    class JsonIndex
+    class JSONIndex
       def initialize(index, configuration)
         @index = index
         @configuration = configuration
@@ -34,7 +34,7 @@ module RspecApiDocumentation
       end
 
       def examples
-        @index.examples.map { |example| JsonExample.new(example, @configuration) }
+        @index.examples.map { |example| JSONExample.new(example, @configuration) }
       end
 
       def as_json(opts = nil)
@@ -61,7 +61,7 @@ module RspecApiDocumentation
       end
     end
 
-    class JsonExample
+    class JSONExample
       def initialize(example, configuration)
         @example = example
         @host = configuration.curl_host
