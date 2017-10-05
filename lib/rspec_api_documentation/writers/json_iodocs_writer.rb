@@ -2,7 +2,7 @@ require 'rspec_api_documentation/writers/formatter'
 
 module RspecApiDocumentation
   module Writers
-    class JSONIodocsWriter < Writer
+    class JsonIodocsWriter < Writer
       attr_accessor :api_key
       delegate :docs_dir, :to => :configuration
 
@@ -32,7 +32,7 @@ module RspecApiDocumentation
       end
 
       def examples
-        @index.examples.map { |example| JSONExample.new(example, @configuration) }
+        @index.examples.map { |example| JsonIodocsExample.new(example, @configuration) }
       end
 
       def as_json(opts = nil)
@@ -48,7 +48,7 @@ module RspecApiDocumentation
       end
     end
 
-    class JSONExample
+    class JsonIodocsExample
       def initialize(example, configuration)
         @example = example
       end
