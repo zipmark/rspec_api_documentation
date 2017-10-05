@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
+require 'rspec_api_documentation/writers/json_writer'
 
 describe RspecApiDocumentation::Writers::JSONExample do
   let(:configuration) { RspecApiDocumentation::Configuration.new }
