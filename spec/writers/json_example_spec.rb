@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe RspecApiDocumentation::Writers::JsonExample do
+describe RspecApiDocumentation::Writers::JSONExample do
   let(:configuration) { RspecApiDocumentation::Configuration.new }
 
   describe "#dirname" do
@@ -9,7 +9,7 @@ describe RspecApiDocumentation::Writers::JsonExample do
       example = double(resource_name: "/test_string")
 
       json_example =
-        RspecApiDocumentation::Writers::JsonExample.new(example, configuration)
+        RspecApiDocumentation::Writers::JSONExample.new(example, configuration)
 
       expect(json_example.dirname).to eq "test_string"
     end
@@ -18,7 +18,7 @@ describe RspecApiDocumentation::Writers::JsonExample do
       example = double(resource_name: "test_string/test")
 
       json_example =
-        RspecApiDocumentation::Writers::JsonExample.new(example, configuration)
+        RspecApiDocumentation::Writers::JSONExample.new(example, configuration)
 
       expect(json_example.dirname).to eq "test_string/test"
     end
