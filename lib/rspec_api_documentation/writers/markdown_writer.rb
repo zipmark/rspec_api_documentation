@@ -1,7 +1,7 @@
 module RspecApiDocumentation
   module Writers
     class MarkdownWriter < GeneralMarkupWriter
-      EXTENSION = 'markdown'
+      EXTENSION = 'md'
 
       def markup_index_class
         RspecApiDocumentation::Views::MarkdownIndex

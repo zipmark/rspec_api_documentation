@@ -1,7 +1,7 @@
 module RspecApiDocumentation
   module Views
     class MarkdownExample < MarkupExample
-      EXTENSION = 'markdown'
+      EXTENSION = 'md'
 
       def initialize(example, configuration)
         super
