@@ -65,19 +65,19 @@ GEM
       sparkr (>= 0.2.0)
       term-ansicolor
       yard (~> 0.8.7.5)
-    json (1.8.3)
+    json (1.8.6)
     method_source (0.8.2)
     mime-types (3.0)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2015.1120)
-    mini_portile2 (2.0.0)
+    mini_portile2 (2.3.0)
     minitest (5.8.4)
     multi_json (1.11.2)
     multi_test (0.1.2)
     multipart-post (2.0.0)
     mustache (1.0.3)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
+    nokogiri (1.8.1)
+      mini_portile2 (~> 2.3.0)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -157,4 +157,4 @@ DEPENDENCIES
   webmock (~> 1.7)
 
 BUNDLED WITH
-   1.15.3
+   1.16.1
