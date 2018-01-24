@@ -62,6 +62,7 @@ resource "Order" do
     parameter :size, "The size of drink you want.", :required => true
     parameter :note, "Any additional notes about your order.", method: :custom_note
     parameter :name, :scope => :order, method: :custom_order_name
+    parameter :quantity, "The quantity of drinks you want.", value: '3'
 
     response_field :type, "The type of drink you ordered.", :scope => :order
     response_field :size, "The size of drink you ordered.", :scope => :order
@@ -88,6 +89,7 @@ resource "Order" do
             { :name => "size", :description => "The size of drink you want.", :required => true },
             { :name => "note", :description => "Any additional notes about your order.", method: :custom_note },
             { :name => "name", :description => "Order name", :scope => :order, method: :custom_order_name },
+            { :name => "quantity", :description => "The quantity of drinks you want.", value: '3' }
           ]
         )
       end
@@ -114,7 +116,8 @@ resource "Order" do
             "type" => "coffee",
             "size" => "medium",
             "note" => "Made in India",
-            "order" => { "name" => "Jakobz" }
+            "order" => { "name" => "Jakobz" },
+            "quantity" => "3"
           })
         end
       end
