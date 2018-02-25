@@ -7,3 +7,4 @@ example/public/docs
 *.gem
 *.swp
 /html/
+.idea

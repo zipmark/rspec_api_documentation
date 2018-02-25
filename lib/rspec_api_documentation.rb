@@ -45,6 +45,7 @@ module RspecApiDocumentation
     autoload :CombinedJsonWriter
     autoload :SlateWriter
     autoload :ApiBlueprintWriter
+    autoload :PostmanWriter
   end
 
   module Views
