@@ -69,10 +69,6 @@ module RspecApiDocumentation
         @example.send(method, *args, &block)
       end
 
-      def path_without_query(request_path)
-        URI::parse(request_path).path.split('/').reject { |p| p.empty? }
-      end
-
       def as_json(ots = nil)
         {
           :name => description,
@@ -81,9 +77,9 @@ module RspecApiDocumentation
             :header => [],
             :body => {},
             :url => {
-              :raw => ('{{application_url}}' + metadata[:request_path] rescue ''),
               :host => ['{{application_url}}'],
-              :path => path_without_query(metadata[:request_path]),
+              :path => route.split('/').reject { |p| p.empty? },
+              :query => [],
               :variable => []
             },
             :description => explanation

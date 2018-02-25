@@ -85,13 +85,13 @@ Feature: Postman
                   "header": [],
                   "body": {},
                   "url": {
-                    "raw": "{{application_url}}/greetings?target=Sam+%26+Eric",
                     "host": [
                       "{{application_url}}"
                     ],
                     "path": [
                       "greetings"
                     ],
+                    "query" : [],
                     "variable": []
                   },
                   "description": null
@@ -105,13 +105,13 @@ Feature: Postman
                   "header": [],
                   "body": {},
                   "url": {
-                    "raw": "{{application_url}}/greetings?target=rspec_api_documentation",
                     "host": [
                       "{{application_url}}"
                     ],
                     "path": [
                       "greetings"
                     ],
+                    "query" : [],
                     "variable": []
                   },
                   "description": null
