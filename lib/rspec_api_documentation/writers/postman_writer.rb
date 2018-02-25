@@ -69,6 +69,20 @@ module RspecApiDocumentation
         @example.send(method, *args, &block)
       end
 
+      def populate_query
+        query_params = []
+        if @example.respond_to?(:parameters)
+          @example.parameters.map do |param|
+            query_params << {
+              :key => param[:name],
+              :equals => true,
+              :description => (param[:required] ? "Required" : "") +  param[:description]
+            }
+          end
+        end
+        query_params
+      end
+
       def as_json(ots = nil)
         {
           :name => description,
@@ -79,7 +93,7 @@ module RspecApiDocumentation
             :url => {
               :host => ['{{application_url}}'],
               :path => route.split('/').reject { |p| p.empty? },
-              :query => [],
+              :query => populate_query,
               :variable => []
             },
             :description => explanation

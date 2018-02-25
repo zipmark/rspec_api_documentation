@@ -91,7 +91,13 @@ Feature: Postman
                     "path": [
                       "greetings"
                     ],
-                    "query" : [],
+                    "query" : [
+                      {
+                        "key": "target",
+                        "equals": true,
+                        "description": "The thing you want to greet"
+                      }
+                    ],
                     "variable": []
                   },
                   "description": null
@@ -111,7 +117,13 @@ Feature: Postman
                     "path": [
                       "greetings"
                     ],
-                    "query" : [],
+                    "query" : [
+                      {
+                        "key": "target",
+                        "equals": true,
+                        "description": "The thing you want to greet"
+                      }
+                    ],
                     "variable": []
                   },
                   "description": null
