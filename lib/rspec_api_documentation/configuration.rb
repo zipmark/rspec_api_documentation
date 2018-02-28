@@ -119,6 +119,8 @@ module RspecApiDocumentation
     }
 
     def client_method=(new_client_method)
+      return if new_client_method == client_method
+
       RspecApiDocumentation::DSL::Resource.module_eval <<-RUBY
         alias :#{new_client_method} #{client_method}
         undef #{client_method}
