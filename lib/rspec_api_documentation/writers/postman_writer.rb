@@ -88,7 +88,7 @@ module RspecApiDocumentation
           :name => description,
           :request => {
             :method => http_method,
-            :header => [],
+            :header => [ { :key => "Content-Type", :value => @metadata[:request_headers]["Content-Type"] } ],
             :body => {},
             :url => {
               :host => ['{{application_url}}'],

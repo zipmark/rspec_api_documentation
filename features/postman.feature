@@ -28,6 +28,7 @@ Feature: Postman
 
       resource "Greetings" do
         explanation "Greetings API methods"
+        header "Content-Type", "application/json"
 
         get "/greetings" do
           parameter :target, "The thing you want to greet"
@@ -82,7 +83,12 @@ Feature: Postman
                 "name": "Greeting your favorite developers of your favorite gem",
                 "request": {
                   "method": "GET",
-                  "header": [],
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                   ],
                   "body": {},
                   "url": {
                     "host": [
@@ -108,7 +114,12 @@ Feature: Postman
                 "name": "Greeting your favorite gem",
                 "request": {
                   "method": "GET",
-                  "header": [],
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                   ],
                   "body": {},
                   "url": {
                     "host": [
