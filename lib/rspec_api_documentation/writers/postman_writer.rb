@@ -83,13 +83,28 @@ module RspecApiDocumentation
         query_params
       end
 
+      def content_type
+        { :key => 'Content-Type', :value => @metadata[:request_headers]['Content-Type'] }
+      end
+
+      def body
+        case content_type[:value]
+          when 'application/json'
+            @metadata[:request_body] ? { :mode => 'raw', :raw => @metadata[:request_body] } : {}
+          when 'w-www-form-urlencoded'
+            @metadata[:request_body] ? { :mode => 'urlencoded', :urlencoded => @metadata[:request_body] } : {}
+          else
+            {}
+        end
+      end
+
       def as_json(ots = nil)
         {
           :name => description,
           :request => {
             :method => http_method,
-            :header => [ { :key => "Content-Type", :value => @metadata[:request_headers]["Content-Type"] } ],
-            :body => {},
+            :header => [content_type],
+            :body => body,
             :url => {
               :host => ['{{application_url}}'],
               :path => route.split('/').reject { |p| p.empty? },
