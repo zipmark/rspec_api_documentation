@@ -63,6 +63,8 @@ module RspecApiDocumentation
     autoload :SlateExample
     autoload :ApiBlueprintIndex
     autoload :ApiBlueprintExample
+    autoload :PostmanIndex
+    autoload :PostmanRequestExample
   end
 
   def self.configuration
