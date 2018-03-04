@@ -19,16 +19,16 @@ module RspecApiDocumentation
       end
 
       def as_json(opts = nil)
-        collections = { :info => { :name => @configuration.api_name,
-                                   :description => @configuration.api_explanation,
-                                   :schema => POSTMAN_SCHEMA },
-                        :item => []
+        collections = { info: { name: @configuration.api_name,
+                                   description: @configuration.api_explanation,
+                                   schema: POSTMAN_SCHEMA },
+                        item: []
         }
 
         sections.each do |section|
-          folder = { :name => section[:resource_name],
-                     :description => section[:resource_explanation],
-                     :item => section[:examples].map do |example|
+          folder = { name: section[:resource_name],
+                     description: section[:resource_explanation],
+                     item: section[:examples].map do |example|
                        example.as_json(opts)
                      end
           }

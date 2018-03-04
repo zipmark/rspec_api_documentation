@@ -17,9 +17,9 @@ module RspecApiDocumentation
         if @example.respond_to?(:parameters)
           @example.parameters.map do |param|
             query_params << {
-              :key => param[:name],
-              :equals => true,
-              :description => (param[:required] ? "Required" : "") +  param[:description]
+              key: param[:name],
+              equals: true,
+              description: (param[:required] ? "Required" : "") +  param[:description]
             }
           end
         end
@@ -27,15 +27,15 @@ module RspecApiDocumentation
       end
 
       def content_type
-        { :key => 'Content-Type', :value => @metadata[:request_headers]['Content-Type'] }
+        { key: 'Content-Type', value: @metadata[:request_headers]['Content-Type'] }
       end
 
       def body
         case content_type[:value]
         when 'application/json'
-          @metadata[:request_body] ? { :mode => 'raw', :raw => @metadata[:request_body] } : {}
+          @metadata[:request_body] ? { mode: 'raw', raw: @metadata[:request_body] } : {}
         when 'w-www-form-urlencoded'
-          @metadata[:request_body] ? { :mode => 'urlencoded', :urlencoded => @metadata[:request_body] } : {}
+          @metadata[:request_body] ? { mode: 'urlencoded', urlencoded: @metadata[:request_body] } : {}
         else
           @metadata[:request_body]
         end
@@ -43,20 +43,20 @@ module RspecApiDocumentation
 
       def as_json(ots = nil)
         {
-          :name => description,
-          :request => {
-            :method => http_method,
-            :header => [content_type],
-            :body => body,
-            :url => {
-              :host => ['{{application_url}}'],
-              :path => route.split('/').reject { |p| p.empty? },
-              :query => populate_query,
-              :variable => []
+          name: description,
+          request: {
+            method: http_method,
+            header: [content_type],
+            body: body,
+            url: {
+              host: ['{{application_url}}'],
+              path: route.split('/').reject { |p| p.empty? },
+              query: populate_query,
+              variable: []
             },
-            :description => explanation
+            description: explanation
           },
-          :response => []
+          response: []
         }
       end
     end
