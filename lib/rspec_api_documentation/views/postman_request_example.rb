@@ -33,12 +33,12 @@ module RspecApiDocumentation
       def body
         return {} unless metadata[:request_body]
 
-        if content_type[:value].include?('application/json')
-          { mode: 'raw', raw: metadata[:request_body] }
-        elsif content_type[:value] == 'application/w-www-form-urlencoded'
+        if content_type[:value] == 'application/w-www-form-urlencoded'
           { mode: 'urlencoded', urlencoded: build_urlencoded_body }
-        elsif content_type[:value] == 'binary'
-          metadata[:request_body]
+        elsif content_type[:value] == 'application/octet-stream'
+          { mode: 'file', file: {} }
+        else
+          { mode: 'raw', raw: metadata[:request_body] }
         end
       end
 
@@ -67,16 +67,18 @@ module RspecApiDocumentation
         urlencoded_params = []
         params = CGI::parse(metadata[:request_body])
         params.each do |p|
-          param_from_example = @example.parameters.select{ |e| e[:name] == p[0] }.first
-          urlencoded_param = {
-                                key: p[0],
-                                value: '',
-                                description: format_description(param_from_example[:description],
-                                                                param_from_example[:required]),
-                                type: 'text',
-                                disabled: !param_from_example[:required]
-                             }
-          urlencoded_params << urlencoded_param
+          param_from_example = @example.parameters.select{ |e| e[:name] == p.first }.try(:first)
+          if param_from_example
+            urlencoded_param = {
+              key: p.first,
+              value: '',
+              description: format_description(param_from_example[:description],
+                                              param_from_example[:required]),
+              type: 'text',
+              disabled: !param_from_example[:required]
+            }
+            urlencoded_params << urlencoded_param
+          end
         end
         urlencoded_params
       end
