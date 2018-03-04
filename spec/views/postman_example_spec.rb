@@ -41,7 +41,8 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
 
   describe '#populate_query' do
     it 'populates parameters' do
-      expect(subject.populate_query).to eq [{ key: 'type',
+      expect(subject.populate_query).to eq [{
+                                              key: 'type',
                                               equals: true,
                                               description: 'decaf or regular'
                                             },
@@ -56,6 +57,41 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
   describe '#content_type' do
     it 'parses content type' do
       expect(subject.content_type).to eq({ key: 'Content-Type', value: 'application/json' })
+    end
+  end
+
+  describe '#body' do
+    context 'when content type includes application/json' do
+      let(:body_content) { "{ \"customer_name\": \"FooBar\" }" }
+
+      it 'returns raw mode hash' do
+        expect(subject.body).to eq({ mode: 'raw', raw: body_content })
+      end
+    end
+
+    context 'when content type is w-www-form-urlencoded' do
+      let(:content_type) { 'application/w-www-form-urlencoded' }
+      let(:body_content) { "type=decaf&size=regular"}
+
+      it 'returns urlencoded hash' do
+        expect(subject.body).to eq({ mode: 'urlencoded',
+                                     urlencoded: [
+                                       {
+                                         key: 'type',
+                                         value: '',
+                                         description: 'decaf or regular',
+                                         type: 'text',
+                                         disabled: true
+                                        },
+                                       {
+                                         key: 'size',
+                                         value: '',
+                                         description: 'Required. cup size',
+                                         type: 'text',
+                                         disabled: false
+                                       }]
+                                   })
+      end
     end
   end
 

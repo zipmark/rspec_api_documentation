@@ -19,7 +19,7 @@ module RspecApiDocumentation
             query_params << {
               key: param[:name],
               equals: true,
-              description: (param[:required] ? "Required. " : "") +  param[:description]
+              description: format_description(param[:description], param[:required])
             }
           end
         end
@@ -27,17 +27,18 @@ module RspecApiDocumentation
       end
 
       def content_type
-        { key: 'Content-Type', value: @metadata[:request_headers]['Content-Type'] }
+        { key: 'Content-Type', value: metadata[:request_headers]['Content-Type'] }
       end
 
       def body
-        case content_type[:value]
-        when 'application/json'
-          @metadata[:request_body] ? { mode: 'raw', raw: @metadata[:request_body] } : {}
-        when 'w-www-form-urlencoded'
-          @metadata[:request_body] ? { mode: 'urlencoded', urlencoded: @metadata[:request_body] } : {}
-        else
-          @metadata[:request_body]
+        return {} unless metadata[:request_body]
+
+        if content_type[:value].include?('application/json')
+          { mode: 'raw', raw: metadata[:request_body] }
+        elsif content_type[:value] == 'application/w-www-form-urlencoded'
+          { mode: 'urlencoded', urlencoded: build_urlencoded_body }
+        elsif content_type[:value] == 'binary'
+          metadata[:request_body]
         end
       end
 
@@ -58,6 +59,30 @@ module RspecApiDocumentation
           },
           response: []
         }
+      end
+
+      private
+
+      def build_urlencoded_body
+        urlencoded_params = []
+        params = CGI::parse(metadata[:request_body])
+        params.each do |p|
+          param_from_example = @example.parameters.select{ |e| e[:name] == p[0] }.first
+          urlencoded_param = {
+                                key: p[0],
+                                value: '',
+                                description: format_description(param_from_example[:description],
+                                                                param_from_example[:required]),
+                                type: 'text',
+                                disabled: !param_from_example[:required]
+                             }
+          urlencoded_params << urlencoded_param
+        end
+        urlencoded_params
+      end
+
+      def format_description(description, required = false)
+        required ? "Required. #{description}" : description
       end
     end
   end
