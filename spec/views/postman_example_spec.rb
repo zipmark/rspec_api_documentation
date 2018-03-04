@@ -26,7 +26,7 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
        request_headers: {
          "Content-Type" => content_type
        },
-       request_content_type: "",
+       request_content_type: ""
      }]
   end
 
@@ -34,19 +34,25 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
     rspec_example.metadata[:requests] = requests
   end
 
+  subject(:view) { postman_example }
+
   describe '#populate_query' do
-    it 'populates parameteres' do
-      expect(postman_example.populate_query).to eq [{
-                                                      key: 'type',
-                                                      equals: true,
-                                                      description: 'decaf or regular'
-                                                    },
-                                                    {
-                                                      key: 'size',
-                                                      equals: true,
-                                                      description: 'Required. cup size'
-                                                    }
-                                                   ]
+    it 'populates parameters' do
+      expect(subject.populate_query).to eq [{ key: 'type',
+                                              equals: true,
+                                              description: 'decaf or regular'
+                                            },
+                                            {
+                                              key: 'size',
+                                              equals: true,
+                                              description: 'Required. cup size'
+                                            }]
+    end
+  end
+
+  describe '#content_type' do
+    it 'parses content type' do
+      expect(subject.content_type).to eq({key: 'Content-Type', value: 'application/json'})
     end
   end
 end
