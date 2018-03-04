@@ -44,12 +44,14 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
       expect(subject.populate_query).to eq [{
                                               key: 'type',
                                               equals: true,
-                                              description: 'decaf or regular'
+                                              description: 'decaf or regular',
+                                              disabled: true
                                             },
                                             {
                                               key: 'size',
                                               equals: true,
-                                              description: 'Required. cup size'
+                                              description: 'Required. cup size',
+                                              disabled: false
                                             }]
     end
   end
@@ -137,15 +139,18 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
             url: {
               host: ['{{application_url}}'],
               path: ['orders'],
-              query: [{ key: 'type',
-                        equals: true,
-                        description: 'decaf or regular'
-                      },
-                      {
-                        key: 'size',
-                        equals: true,
-                        description: 'Required. cup size'
-                      }],
+              query: [
+                { key: 'type',
+                  equals: true,
+                  description: 'decaf or regular',
+                  disabled: true
+                },
+                {
+                  key: 'size',
+                  equals: true,
+                  description: 'Required. cup size',
+                  disabled: false
+                }],
               variable: []
             },
             description: nil,

@@ -19,7 +19,8 @@ module RspecApiDocumentation
             query_params << {
               key: param[:name],
               equals: true,
-              description: format_description(param[:description], param[:required])
+              description: format_description(param[:description], param[:required]),
+              disabled: param[:required] ? !param[:required] : true
             }
           end
         end
