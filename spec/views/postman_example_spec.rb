@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 describe RspecApiDocumentation::Views::PostmanRequestExample do
   let(:metadata) do
     { resource_name: 'Orders',
@@ -10,21 +9,23 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
           {name: 'size', required: true, description: 'cup size' }
         ],
       route: '/orders',
-      method: 'get'
+      method: 'post'
     }
   end
   let(:group) { RSpec::Core::ExampleGroup.describe('', metadata) }
-  let(:rspec_example) { group.example('Ordering a cup of coffee') {} }
+  let(:description) { 'Ordering a cup of coffee' }
+  let(:rspec_example) { group.example(description) {} }
   let(:rad_example) do
     RspecApiDocumentation::Example.new(rspec_example, configuration)
   end
   let(:configuration) { RspecApiDocumentation::Configuration.new }
   let(:postman_example) { described_class.new(rad_example) }
 
-  let(:content_type) { "application/json" }
+  let(:content_type) { 'application/json' }
+  let(:body_content) { "{ \"customer_name\": \"FooBar\" }" }
   let(:requests) do
     [{
-       request_body: "{}",
+       request_body: body_content,
        request_headers: {
          "Content-Type" => content_type
        },
@@ -61,11 +62,11 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
   describe '#as_json' do
     it 'something' do
       expected_hash = {
-                        name: 'Ordering a cup of coffee',
+                        name: description,
                         request: {
-                          method: 'GET',
+                          method: 'POST',
                           header: [{ key: 'Content-Type', value: content_type }],
-                          body: { mode: 'raw', raw: '{}'},
+                          body: { mode: 'raw', raw: body_content },
                           url: {
                             host: ['{{application_url}}'],
                             path: ['orders'],
