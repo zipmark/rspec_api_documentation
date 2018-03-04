@@ -9,7 +9,7 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
           {name: 'size', required: true, description: 'cup size' }
         ],
       route: '/orders',
-      method: 'post'
+      method: 'get'
     }
   end
   let(:group) { RSpec::Core::ExampleGroup.describe('', metadata) }
@@ -22,7 +22,7 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
   let(:postman_example) { described_class.new(rad_example) }
 
   let(:content_type) { 'application/json' }
-  let(:body_content) { "{ \"customer_name\": \"FooBar\" }" }
+  let(:body_content) { '{}' }
   let(:requests) do
     [{
        request_body: body_content,
@@ -60,32 +60,64 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
   end
 
   describe '#as_json' do
-    it 'something' do
-      expected_hash = {
-                        name: description,
-                        request: {
-                          method: 'POST',
-                          header: [{ key: 'Content-Type', value: content_type }],
-                          body: { mode: 'raw', raw: body_content },
-                          url: {
-                            host: ['{{application_url}}'],
-                            path: ['orders'],
-                            query: [{ key: 'type',
-                                      equals: true,
-                                      description: 'decaf or regular'
-                                    },
-                                    {
-                                      key: 'size',
-                                      equals: true,
-                                      description: 'Required. cup size'
-                                    }],
-                            variable: []
-                          },
-                          description: nil,
-                        },
-                        response: []
-                      }
-      expect(subject.as_json).to eq expected_hash
+    context 'when the example is for POST' do
+      let(:metadata) do
+        { resource_name: 'Orders',
+          route: '/orders',
+          method: 'post'
+        }
+      end
+      let(:body_content) { "{ \"customer_name\": \"FooBar\" }" }
+
+      it 'returns expected hash with correct data' do
+        expected_hash = {
+          name: description,
+          request: {
+            method: 'POST',
+            header: [{ key: 'Content-Type', value: content_type }],
+            body: { mode: 'raw', raw: body_content },
+            url: {
+              host: ['{{application_url}}'],
+              path: ['orders'],
+              query: [],
+              variable: []
+            },
+            description: nil,
+          },
+          response: []
+        }
+        expect(subject.as_json).to eq expected_hash
+      end
+    end
+
+    context 'when the example is for GET' do
+      it 'returns expected hash with correct data' do
+        expected_hash = {
+          name: description,
+          request: {
+            method: 'GET',
+            header: [{ key: 'Content-Type', value: content_type }],
+            body: { mode: 'raw', raw: body_content },
+            url: {
+              host: ['{{application_url}}'],
+              path: ['orders'],
+              query: [{ key: 'type',
+                        equals: true,
+                        description: 'decaf or regular'
+                      },
+                      {
+                        key: 'size',
+                        equals: true,
+                        description: 'Required. cup size'
+                      }],
+              variable: []
+            },
+            description: nil,
+          },
+          response: []
+        }
+        expect(subject.as_json).to eq expected_hash
+      end
     end
   end
 end
