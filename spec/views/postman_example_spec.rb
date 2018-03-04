@@ -8,7 +8,9 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
         [
           {name: 'type', required: false, description: 'decaf or regular'},
           {name: 'size', required: true, description: 'cup size' }
-        ]
+        ],
+      route: '/orders',
+      method: 'get'
     }
   end
   let(:group) { RSpec::Core::ExampleGroup.describe('', metadata) }
@@ -52,7 +54,37 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
 
   describe '#content_type' do
     it 'parses content type' do
-      expect(subject.content_type).to eq({key: 'Content-Type', value: 'application/json'})
+      expect(subject.content_type).to eq({ key: 'Content-Type', value: 'application/json' })
+    end
+  end
+
+  describe '#as_json' do
+    it 'something' do
+      expected_hash = {
+                        name: 'Ordering a cup of coffee',
+                        request: {
+                          method: 'GET',
+                          header: [{ key: 'Content-Type', value: content_type }],
+                          body: { mode: 'raw', raw: '{}'},
+                          url: {
+                            host: ['{{application_url}}'],
+                            path: ['orders'],
+                            query: [{ key: 'type',
+                                      equals: true,
+                                      description: 'decaf or regular'
+                                    },
+                                    {
+                                      key: 'size',
+                                      equals: true,
+                                      description: 'Required. cup size'
+                                    }],
+                            variable: []
+                          },
+                          description: nil,
+                        },
+                        response: []
+                      }
+      expect(subject.as_json).to eq expected_hash
     end
   end
 end
