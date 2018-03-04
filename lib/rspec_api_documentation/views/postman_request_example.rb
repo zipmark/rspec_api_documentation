@@ -19,7 +19,7 @@ module RspecApiDocumentation
             query_params << {
               key: param[:name],
               equals: true,
-              description: (param[:required] ? "Required" : "") +  param[:description]
+              description: (param[:required] ? "Required. " : "") +  param[:description]
             }
           end
         end

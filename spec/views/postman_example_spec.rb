@@ -2,7 +2,15 @@ require 'spec_helper'
 
 
 describe RspecApiDocumentation::Views::PostmanRequestExample do
-  let(:metadata) { { resource_name: 'Orders' } }
+  let(:metadata) do
+    { resource_name: 'Orders',
+      parameters:
+        [
+          {name: 'type', required: false, description: 'decaf or regular'},
+          {name: 'size', required: true, description: 'cup size' }
+        ]
+    }
+  end
   let(:group) { RSpec::Core::ExampleGroup.describe('', metadata) }
   let(:rspec_example) { group.example('Ordering a cup of coffee') {} }
   let(:rad_example) do
@@ -27,10 +35,18 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
   end
 
   describe '#populate_query' do
-    it 'just does something' do
-      puts rspec_example.inspect
-      puts rad_example.inspect
-      expect(postman_example).to eq true
+    it 'populates parameteres' do
+      expect(postman_example.populate_query).to eq [{
+                                                      key: 'type',
+                                                      equals: true,
+                                                      description: 'decaf or regular'
+                                                    },
+                                                    {
+                                                      key: 'size',
+                                                      equals: true,
+                                                      description: 'Required. cup size'
+                                                    }
+                                                   ]
     end
   end
 end
