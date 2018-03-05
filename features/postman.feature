@@ -101,7 +101,8 @@ Feature: Postman
                       {
                         "key": "target",
                         "equals": true,
-                        "description": "The thing you want to greet"
+                        "description": "The thing you want to greet",
+                        "disabled": true
                       }
                     ],
                     "variable": []
@@ -132,7 +133,8 @@ Feature: Postman
                       {
                         "key": "target",
                         "equals": true,
-                        "description": "The thing you want to greet"
+                        "description": "The thing you want to greet",
+                        "disabled": true
                       }
                     ],
                     "variable": []
