@@ -147,7 +147,7 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
               query: [],
               variable: []
             },
-            description: nil,
+            description: "",
           },
           response: []
         }
@@ -182,7 +182,7 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
                 }],
               variable: []
             },
-            description: nil,
+            description: "\n * `type`: decaf or regular\n * `size`: cup size",
           },
           response: []
         }

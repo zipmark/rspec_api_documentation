@@ -86,7 +86,7 @@ module RspecApiDocumentation
               query: query_in_url,
               variable: variables_for_url
             },
-            description: explanation
+            description: request_description
           },
           response: []
         }
@@ -120,6 +120,16 @@ module RspecApiDocumentation
 
       def format_description(description, required = false)
         required ? "Required. #{description}" : description
+      end
+
+      def request_description
+        text = explanation ? explanation : ""
+        if @example.respond_to?(:parameters)
+          @example.parameters.each do |param|
+            text = text + "\n * `#{param[:name]}`: #{param[:description]}"
+          end
+        end
+        text
       end
     end
   end

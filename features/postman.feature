@@ -109,7 +109,7 @@ Feature: Postman
                     ],
                     "variable": []
                   },
-                  "description": null
+                  "description": "\n * `target`: The thing you want to greet\n * `type`: foo"
                 },
                 "response": []
               },
@@ -149,7 +149,7 @@ Feature: Postman
                     ],
                     "variable": []
                   },
-                  "description": null
+                  "description": "\n * `target`: The thing you want to greet\n * `type`: foo"
                 },
                 "response": []
               }
