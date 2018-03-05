@@ -172,7 +172,7 @@ end
 * **markdown**: Generates an index file and example files in Markdown.
 * **api_blueprint**: Generates an index file and example files in [APIBlueprint](https://apiblueprint.org).
 * **append_json**: Lets you selectively run specs without destroying current documentation. See section below.
-* **postman**: Generates a Postman collection JSON file that you can import
+* **postman**: (In Alpha) Generates a Postman collection JSON file that you can import
 
 ### append_json
 
