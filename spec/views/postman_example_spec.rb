@@ -5,8 +5,8 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
     { resource_name: 'Orders',
       parameters:
         [
-          {name: 'type', required: false, description: 'decaf or regular'},
-          {name: 'size', required: true, description: 'cup size' }
+          { name: 'type', required: false, description: 'decaf or regular' },
+          { name: 'size', required: true, description: 'cup size' }
         ],
       route: '/orders',
       method: 'get'
@@ -39,9 +39,9 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
 
   subject(:view) { postman_example }
 
-  describe '#populate_query' do
+  describe '#query_in_url' do
     it 'populates parameters' do
-      expect(subject.populate_query).to eq [{
+      expect(subject.query_in_url).to eq [{
                                               key: 'type',
                                               equals: true,
                                               description: 'decaf or regular',
@@ -93,6 +93,30 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
                                          disabled: false
                                        }]
                                    })
+      end
+    end
+  end
+
+  describe '#variables_for_url' do
+    context 'when route has a variable' do
+      let(:metadata) do
+        { resource_name: 'Orders',
+          parameters:
+            [
+              { name: 'id', required: true, description: 'Order ID' },
+              { name: 'type', required: false, description: 'decaf or regular' },
+              { name: 'size', required: true, description: 'cup size' }
+            ],
+          route: '/orders/:id',
+          method: 'get'
+        }
+      end
+
+      it 'can populate variable for url' do
+        expect(subject.variables_for_url).to eq([{ key: 'id',
+                                                           value: '',
+                                                           description: 'Required. Order ID',
+                                                           disabled: false }])
       end
     end
   end

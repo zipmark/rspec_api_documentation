@@ -12,16 +12,18 @@ module RspecApiDocumentation
         @example.send(method, *args, &block)
       end
 
-      def populate_query
+      def query_in_url
         query_params = []
         if @example.respond_to?(:parameters)
           @example.parameters.map do |param|
-            query_params << {
-              key: param[:name],
-              equals: true,
-              description: format_description(param[:description], param[:required]),
-              disabled: param[:required] ? !param[:required] : true
-            }
+            unless tokenized_path.include?(":#{param[:name]}")
+              query_params << {
+                key: param[:name],
+                equals: true,
+                description: format_description(param[:description], param[:required]),
+                disabled: !param[:required]
+              }
+            end
           end
         end
         query_params
@@ -43,6 +45,30 @@ module RspecApiDocumentation
         end
       end
 
+      def variables_for_url
+        route_variables = tokenized_path.select { |r| r.start_with?(':') }
+        return [] unless route_variables
+
+        variables = []
+        route_variables.each do |rv|
+          param_name = rv.split(':')[1]
+          param_from_example = @example.parameters.select { |e| e[:name] == param_name }.try(:first)
+          if param_from_example
+            variable = {
+              key: param_name,
+              value: '',
+              description: format_description(param_from_example[:description],
+                                              param_from_example[:required]),
+              disabled: !param_from_example[:required]
+
+            }
+            variables << variable
+          end
+        end
+
+        variables
+      end
+
       def as_json(ots = nil)
         {
           name: description,
@@ -52,9 +78,9 @@ module RspecApiDocumentation
             body: body,
             url: {
               host: ['{{application_url}}'],
-              path: route.split('/').reject { |p| p.empty? },
-              query: populate_query,
-              variable: []
+              path: tokenized_path,
+              query: query_in_url,
+              variable: variables_for_url
             },
             description: explanation
           },
@@ -63,6 +89,10 @@ module RspecApiDocumentation
       end
 
       private
+
+      def tokenized_path
+        route.split('/').reject { |p| p.empty? }
+      end
 
       def build_urlencoded_body
         urlencoded_params = []
