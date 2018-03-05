@@ -29,7 +29,8 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
        request_headers: {
          "Content-Type" => content_type
        },
-       request_content_type: ""
+       request_content_type: "",
+       request_query_parameters: { type: 'decaf', size: 'tall' }
      }]
   end
 
@@ -42,17 +43,19 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
   describe '#query_in_url' do
     it 'populates parameters' do
       expect(subject.query_in_url).to eq [{
-                                              key: 'type',
-                                              equals: true,
-                                              description: 'decaf or regular',
-                                              disabled: true
-                                            },
-                                            {
-                                              key: 'size',
-                                              equals: true,
-                                              description: 'Required. cup size',
-                                              disabled: false
-                                            }]
+                                            key: 'type',
+                                            value: '',
+                                            equals: true,
+                                            description: 'decaf or regular',
+                                            disabled: true
+                                          },
+                                          {
+                                            key: 'size',
+                                            value: '',
+                                            equals: true,
+                                            description: 'Required. cup size',
+                                            disabled: false
+                                          }]
     end
   end
 
@@ -165,12 +168,14 @@ describe RspecApiDocumentation::Views::PostmanRequestExample do
               path: ['orders'],
               query: [
                 { key: 'type',
+                  value: '',
                   equals: true,
                   description: 'decaf or regular',
                   disabled: true
                 },
                 {
                   key: 'size',
+                  value: '',
                   equals: true,
                   description: 'Required. cup size',
                   disabled: false

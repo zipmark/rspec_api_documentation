@@ -32,9 +32,10 @@ Feature: Postman
 
         get "/greetings" do
           parameter :target, "The thing you want to greet"
+          parameter :type, "foo"
 
           example "Greeting your favorite gem" do
-            do_request :target => "rspec_api_documentation"
+            do_request({:target => "rspec_api_documentation", :type => "foo"})
 
             expect(response_headers["Content-Type"]).to eq("text/plain")
             expect(status).to eq(200)
@@ -100,6 +101,7 @@ Feature: Postman
                     "query" : [
                       {
                         "key": "target",
+                        "value": "",
                         "equals": true,
                         "description": "The thing you want to greet",
                         "disabled": true
@@ -132,8 +134,16 @@ Feature: Postman
                     "query" : [
                       {
                         "key": "target",
+                        "value": "",
                         "equals": true,
                         "description": "The thing you want to greet",
+                        "disabled": true
+                      },
+                      {
+                        "key": "type",
+                        "value": "",
+                        "equals": true,
+                        "description": "foo",
                         "disabled": true
                       }
                     ],

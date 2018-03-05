@@ -14,18 +14,22 @@ module RspecApiDocumentation
 
       def query_in_url
         query_params = []
-        if @example.respond_to?(:parameters)
-          @example.parameters.map do |param|
-            unless tokenized_path.include?(":#{param[:name]}")
-              query_params << {
-                key: param[:name],
-                equals: true,
-                description: format_description(param[:description], param[:required]),
-                disabled: !param[:required]
-              }
+
+        if metadata[:request_query_parameters] && @example.respond_to?(:parameters)
+          metadata[:request_query_parameters].map do |k, v|
+            documented_param = @example.parameters.select { |p| p[:name] == k.to_s }.try(:first)
+            if documented_param
+              query_params << { key: k.to_s,
+                                value: '',
+                                equals: true,
+                                description: format_description(documented_param[:description],
+                                                                documented_param[:required]),
+                                disabled: !documented_param[:required]
+                              }
             end
           end
         end
+
         query_params
       end
 
@@ -69,7 +73,7 @@ module RspecApiDocumentation
         variables
       end
 
-      def as_json(ots = nil)
+      def as_json(options = nil)
         {
           name: description,
           request: {
