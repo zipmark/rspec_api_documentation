@@ -65,6 +65,7 @@ module RspecApiDocumentation
     autoload :ApiBlueprintExample
     autoload :PostmanIndex
     autoload :PostmanRequestExample
+    autoload :PostmanRequestMetadata
   end
 
   def self.configuration
