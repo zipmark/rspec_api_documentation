@@ -1,7 +1,7 @@
 module RspecApiDocumentation
   module Views
     class ApiBlueprintExample < MarkupExample
-      TOTAL_SPACES_INDENTATION = 8.freeze
+      TOTAL_SPACES_INDENTATION = 12.freeze
 
       def initialize(example, configuration)
         super

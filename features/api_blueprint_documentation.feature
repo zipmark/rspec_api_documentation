@@ -262,18 +262,18 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-            Host: example.org
+                Host: example.org
 
     + Response 200 (text/html;charset=utf-8)
 
         + Headers
 
-            Content-Type: text/html;charset=utf-8
-            Content-Length: 57
+                Content-Type: text/html;charset=utf-8
+                Content-Length: 57
 
         + Body
 
-            {"data":{"id":"1","type":"instructions","attributes":{}}}
+                {"data":{"id":"1","type":"instructions","attributes":{}}}
 
     # Group Orders
 
@@ -287,38 +287,38 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-            Content-Type: application/json
-            Host: example.org
+                Content-Type: application/json
+                Host: example.org
 
         + Body
 
-            {
-              "data": {
-                "type": "order",
-                "attributes": {
-                  "name": "Order 1",
-                  "amount": 100.0,
-                  "description": "A description"
+                {
+                  "data": {
+                    "type": "order",
+                    "attributes": {
+                      "name": "Order 1",
+                      "amount": 100.0,
+                      "description": "A description"
+                    }
+                  }
                 }
-              }
-            }
 
     + Response 201 (application/json)
 
         + Headers
 
-            Content-Type: application/json
-            Content-Length: 73
+                Content-Type: application/json
+                Content-Length: 73
 
         + Body
 
-            {
-              "order": {
-                "name": "Order 1",
-                "amount": 100.0,
-                "description": "A great order"
-              }
-            }
+                {
+                  "order": {
+                    "name": "Order 1",
+                    "amount": 100.0,
+                    "description": "A great order"
+                  }
+                }
 
     ### Return all orders [GET]
 
@@ -326,32 +326,32 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-            Host: example.org
+                Host: example.org
 
     + Response 200 (application/vnd.api+json)
 
         + Headers
 
-            Content-Type: application/vnd.api+json
-            Content-Length: 137
+                Content-Type: application/vnd.api+json
+                Content-Length: 137
 
         + Body
 
-            {
-              "page": 1,
-              "orders": [
                 {
-                  "name": "Order 1",
-                  "amount": 9.99,
-                  "description": null
-                },
-                {
-                  "name": "Order 2",
-                  "amount": 100.0,
-                  "description": "A great order"
+                  "page": 1,
+                  "orders": [
+                    {
+                      "name": "Order 1",
+                      "amount": 9.99,
+                      "description": null
+                    },
+                    {
+                      "name": "Order 2",
+                      "amount": 100.0,
+                      "description": "A great order"
+                    }
+                  ]
                 }
-              ]
-            }
 
     ## Single Order [/orders/:id{?optional=:optional}]
 
@@ -370,15 +370,15 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-            Host: example.org
-            Content-Type: application/x-www-form-urlencoded
+                Host: example.org
+                Content-Type: application/x-www-form-urlencoded
 
     + Response 200 (text/html;charset=utf-8)
 
         + Headers
 
-            Content-Type: text/html;charset=utf-8
-            Content-Length: 0
+                Content-Type: text/html;charset=utf-8
+                Content-Length: 0
 
     ### Returns a single order [GET]
 
@@ -386,24 +386,24 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-            Host: example.org
+                Host: example.org
 
     + Response 200 (application/json)
 
         + Headers
 
-            Content-Type: application/json
-            Content-Length: 73
+                Content-Type: application/json
+                Content-Length: 73
 
         + Body
 
-            {
-              "order": {
-                "name": "Order 1",
-                "amount": 100.0,
-                "description": "A great order"
-              }
-            }
+                {
+                  "order": {
+                    "name": "Order 1",
+                    "amount": 100.0,
+                    "description": "A great order"
+                  }
+                }
 
     ### Updates a single order [PUT]
 
@@ -411,55 +411,55 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-            Content-Type: application/json; charset=utf-16
-            Host: example.org
+                Content-Type: application/json; charset=utf-16
+                Host: example.org
 
     + Response 400 (application/json)
 
         + Headers
 
-            Content-Type: application/json
-            Content-Length: 0
+                Content-Type: application/json
+                Content-Length: 0
 
     + Request Update an order (application/json; charset=utf-16)
 
         + Headers
 
-            Content-Type: application/json; charset=utf-16
-            Host: example.org
+                Content-Type: application/json; charset=utf-16
+                Host: example.org
 
         + Body
 
-            {
-              "data": {
-                "id": "1",
-                "type": "order",
-                "attributes": {
-                  "name": "Order 1"
+                {
+                  "data": {
+                    "id": "1",
+                    "type": "order",
+                    "attributes": {
+                      "name": "Order 1"
+                    }
+                  }
                 }
-              }
-            }
 
     + Response 200 (application/json)
 
         + Headers
 
-            Content-Type: application/json
-            Content-Length: 111
+                Content-Type: application/json
+                Content-Length: 111
 
         + Body
 
-            {
-              "data": {
-                "id": "1",
-                "type": "order",
-                "attributes": {
-                  "name": "Order 1",
-                  "amount": 100.0,
-                  "description": "A description"
+                {
+                  "data": {
+                    "id": "1",
+                    "type": "order",
+                    "attributes": {
+                      "name": "Order 1",
+                      "amount": 100.0,
+                      "description": "A description"
+                    }
+                  }
                 }
-              }
-            }
     """
 
   Scenario: Example 'Deleting an order' file should not be created
