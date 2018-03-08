@@ -248,7 +248,7 @@ Feature: Generate API Blueprint documentation from test examples
   Scenario: Index file should look like we expect
     Then the file "doc/api/index.apib" should contain exactly:
     """
-    FORMAT: A1
+    FORMAT: 1A
 
     # Group Instructions
 
