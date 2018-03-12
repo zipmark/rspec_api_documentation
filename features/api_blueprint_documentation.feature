@@ -354,7 +354,7 @@ Feature: Generate API Blueprint documentation from test examples
                   ]
                 }
 
-    ## Single Order [/orders/:id{?optional=:optional}]
+    ## Single Order [/orders{/id}{?optional=:optional}]
 
     + Parameters
       + id: 1 (required, string) - Order id

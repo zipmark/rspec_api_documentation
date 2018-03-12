@@ -109,7 +109,7 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
 
         post_examples = post_route[:http_methods].map { |http_method| http_method[:examples] }.flatten
         expect(post_examples.size).to eq 2
-        expect(post_route[:route]).to eq "/posts/:id"
+        expect(post_route[:route]).to eq "/posts{/id}"
         expect(post_route[:route_name]).to eq "Single Post"
         expect(post_route[:has_parameters?]).to eq true
         expect(post_route[:parameters]).to eq [{
@@ -130,7 +130,7 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
 
         post_w_optionals_examples = post_route_with_optionals[:http_methods].map { |http_method| http_method[:examples] }.flatten
         expect(post_w_optionals_examples.size).to eq 1
-        expect(post_route_with_optionals[:route]).to eq "/posts/:id{?option=:option}"
+        expect(post_route_with_optionals[:route]).to eq "/posts{/id}{?option=:option}"
         expect(post_route_with_optionals[:route_name]).to eq "Single Post"
         expect(post_route_with_optionals[:has_parameters?]).to eq true
         expect(post_route_with_optionals[:parameters]).to eq [{
