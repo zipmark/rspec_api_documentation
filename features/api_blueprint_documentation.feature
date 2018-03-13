@@ -269,7 +269,6 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-                Content-Type: text/html;charset=utf-8
                 Content-Length: 57
 
         + Body
@@ -288,7 +287,6 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-                Content-Type: application/json
                 Host: example.org
 
         + Body
@@ -308,7 +306,6 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-                Content-Type: application/json
                 Content-Length: 73
 
         + Body
@@ -333,7 +330,6 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-                Content-Type: application/vnd.api+json
                 Content-Length: 137
 
         + Body
@@ -372,13 +368,11 @@ Feature: Generate API Blueprint documentation from test examples
         + Headers
 
                 Host: example.org
-                Content-Type: application/x-www-form-urlencoded
 
     + Response 200 (text/html;charset=utf-8)
 
         + Headers
 
-                Content-Type: text/html;charset=utf-8
                 Content-Length: 0
 
     ### Returns a single order [GET]
@@ -393,7 +387,6 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-                Content-Type: application/json
                 Content-Length: 73
 
         + Body
@@ -412,21 +405,18 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-                Content-Type: application/json; charset=utf-16
                 Host: example.org
 
     + Response 400 (application/json)
 
         + Headers
 
-                Content-Type: application/json
                 Content-Length: 0
 
     + Request Update an order (application/json; charset=utf-16)
 
         + Headers
 
-                Content-Type: application/json; charset=utf-16
                 Host: example.org
 
         + Body
@@ -445,7 +435,6 @@ Feature: Generate API Blueprint documentation from test examples
 
         + Headers
 
-                Content-Type: application/json
                 Content-Length: 111
 
         + Body

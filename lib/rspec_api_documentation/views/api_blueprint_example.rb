@@ -20,14 +20,14 @@ module RspecApiDocumentation
 
       def requests
         super.map do |request|
-          request[:request_headers_text]  = remove_utf8_for_json(request[:request_headers_text])
+          request[:request_headers_text]  = remove_utf8_for_json(remove_content_type(request[:request_headers_text]))
           request[:request_headers_text]  = indent(request[:request_headers_text])
           request[:request_content_type]  = content_type(request[:request_headers])
           request[:request_content_type]  = remove_utf8_for_json(request[:request_content_type])
           request[:request_body]          = body_to_json(request, :request)
           request[:request_body]          = indent(request[:request_body])
 
-          request[:response_headers_text] = remove_utf8_for_json(request[:response_headers_text])
+          request[:response_headers_text] = remove_utf8_for_json(remove_content_type(request[:response_headers_text]))
           request[:response_headers_text] = indent(request[:response_headers_text])
           request[:response_content_type] = content_type(request[:response_headers])
           request[:response_content_type] = remove_utf8_for_json(request[:response_content_type])
@@ -45,6 +45,18 @@ module RspecApiDocumentation
       end
 
       private
+
+      # `Content-Type` header is removed because the information would be duplicated
+      # since it's already present in `request[:request_content_type]`.
+      def remove_content_type(headers)
+        return unless headers
+        headers
+          .split("\n")
+          .reject { |header|
+            header.start_with?('Content-Type:')
+          }
+          .join("\n")
+      end
 
       def has_request?(metadata)
         metadata.any? do |key, value|
