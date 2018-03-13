@@ -13,11 +13,14 @@ module RspecApiDocumentation
         end
 
         def call
-          parameters = example.metadata.fetch(:parameters, {}).inject({}) do |hash, param|
+          set_param = -> hash, param {
             SetParam.new(self, hash, param).call
-          end
-          parameters.deep_merge!(extra_params)
-          parameters
+          }
+
+          example.metadata.fetch(:parameters, {}).inject({}, &set_param)
+            .deep_merge(
+              example.metadata.fetch(:attributes, {}).inject({}, &set_param)
+            ).deep_merge(extra_params)
         end
 
       private
