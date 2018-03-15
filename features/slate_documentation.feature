@@ -49,7 +49,7 @@ Feature: Generate Slate documentation from test examples
       RspecApiDocumentation.configure do |config|
         config.app = App
         config.api_name = "Example API"
-        config.api_explanation = "Description"
+        config.api_explanation = "An explanation of the API"
         config.format = :slate
         config.curl_host = 'http://localhost:3000'
         config.request_headers_to_include = %w[Content-Type Host]
@@ -292,4 +292,10 @@ Feature: Generate Slate documentation from test examples
     Then the file "doc/api/index.html.md" should contain:
     """
     ## Getting welcome message
+    """
+
+  Scenario: API explanation should be included
+    Then the file "doc/api/index.html.md" should contain:
+    """
+    An explanation of the API
     """

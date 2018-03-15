@@ -28,6 +28,8 @@ module RspecApiDocumentation
           file.write %Q{  - shell: cURL\n}
           file.write %Q{---\n\n}
 
+          file.write configuration.api_explanation if configuration.api_explanation
+
           IndexHelper.sections(index.examples, @configuration).each do |section|
 
             file.write "# #{section[:resource_name]}\n\n"
