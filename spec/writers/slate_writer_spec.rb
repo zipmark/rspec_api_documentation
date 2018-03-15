@@ -22,7 +22,7 @@ describe RspecApiDocumentation::Writers::SlateWriter do
       FakeFS do
         template_dir = File.join(configuration.template_path, "rspec_api_documentation")
         FileUtils.mkdir_p(template_dir)
-        File.open(File.join(template_dir, "markdown_index.mustache"), "w+") { |f| f << "{{ mustache }}" }
+        File.open(File.join(template_dir, "slate_index.mustache"), "w+") { |f| f << "{{ mustache }}" }
         FileUtils.mkdir_p(configuration.docs_dir)
 
         writer.write

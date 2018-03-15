@@ -21,14 +21,7 @@ module RspecApiDocumentation
       def write
         File.open(configuration.docs_dir.join("#{FILENAME}.#{extension}"), 'w+') do |file|
 
-          file.write %Q{---\n}
-          file.write %Q{title: "#{configuration.api_name}"\n}
-          file.write %Q{language_tabs:\n}
-          file.write %Q{  - json: JSON\n}
-          file.write %Q{  - shell: cURL\n}
-          file.write %Q{---\n\n}
-
-          file.write configuration.api_explanation if configuration.api_explanation
+          file.write markup_index_class.new(index, configuration).render
 
           IndexHelper.sections(index.examples, @configuration).each do |section|
 
