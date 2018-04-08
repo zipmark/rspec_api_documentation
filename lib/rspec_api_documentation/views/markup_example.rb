@@ -3,6 +3,8 @@ require 'mustache'
 module RspecApiDocumentation
   module Views
     class MarkupExample < Mustache
+      SPECIAL_CHARS = /[<>:"\/\\|?*]/.freeze
+
       def initialize(example, configuration)
         @example = example
         @host = configuration.curl_host
@@ -19,12 +21,11 @@ module RspecApiDocumentation
       end
 
       def dirname
-        resource_name.to_s.downcase.gsub(/\s+/, '_').gsub(":", "_")
+        sanitize(resource_name.to_s.downcase)
       end
 
       def filename
-        special_chars = /[<>:"\/\\|?*]/
-        basename = description.downcase.gsub(/\s+/, '_').gsub(special_chars, '')
+        basename = sanitize(description.downcase)
         basename = Digest::MD5.new.update(description).to_s if basename.blank?
         "#{basename}.#{extension}"
       end
@@ -86,6 +87,10 @@ module RspecApiDocumentation
 
       def content_type(headers)
         headers && headers.fetch("Content-Type", nil)
+      end
+
+      def sanitize(name)
+        name.gsub(/\s+/, '_').gsub(SPECIAL_CHARS, '')
       end
     end
   end
