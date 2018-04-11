@@ -28,6 +28,14 @@ describe RspecApiDocumentation::Views::HtmlExample do
     end
   end
 
+  context "when resource name contains special characters for Windows OS" do
+    let(:metadata) { { :resource_name => 'foo<>:"/\|?*bar' } }
+
+    it "removes them" do
+      expect(html_example.dirname).to eq("foobar")
+    end
+  end
+
   describe "multi-character example name" do
     let(:metadata) { { :resource_name => "オーダ" } }
     let(:label) { "Coffee / Teaが順番で並んでいること" }
