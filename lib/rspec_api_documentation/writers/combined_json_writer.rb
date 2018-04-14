@@ -7,7 +7,7 @@ module RspecApiDocumentation
         File.open(configuration.docs_dir.join("combined.json"), "w+") do |f|
           examples = []
           index.examples.each do |rspec_example|
-            examples << Formatter.to_json(JsonExample.new(rspec_example, configuration))
+            examples << Formatter.to_json(JSONExample.new(rspec_example, configuration))
           end
 
           f.write "["

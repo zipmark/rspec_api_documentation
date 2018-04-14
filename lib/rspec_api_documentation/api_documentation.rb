@@ -1,3 +1,5 @@
+require 'rspec_api_documentation/writers/json_iodocs_writer'
+
 module RspecApiDocumentation
   class ApiDocumentation
     attr_reader :configuration, :index

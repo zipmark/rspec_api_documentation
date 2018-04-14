@@ -32,7 +32,7 @@ module RspecApiDocumentation
       end
 
       def examples
-        @index.examples.map { |example| JsonExample.new(example, @configuration) }
+        @index.examples.map { |example| JsonIodocsExample.new(example, @configuration) }
       end
 
       def as_json(opts = nil)
@@ -48,7 +48,7 @@ module RspecApiDocumentation
       end
     end
 
-    class JsonExample
+    class JsonIodocsExample
       def initialize(example, configuration)
         @example = example
       end
