@@ -26,7 +26,7 @@ describe RspecApiDocumentation::Writers::MarkdownWriter do
         FileUtils.mkdir_p(configuration.docs_dir)
 
         writer.write
-        index_file = File.join(configuration.docs_dir, "index.markdown")
+        index_file = File.join(configuration.docs_dir, "index.md")
         expect(File.exists?(index_file)).to be_truthy
       end
     end

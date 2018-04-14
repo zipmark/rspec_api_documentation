@@ -146,7 +146,7 @@ Feature: Generate Markdown documentation from test examples
     And   the exit status should be 0
 
   Scenario: Index file should look like we expect
-    Then the file "doc/api/index.markdown" should contain exactly:
+    Then the file "doc/api/index.md" should contain exactly:
     """
     # Example API
     Example API Description
@@ -155,19 +155,19 @@ Feature: Generate Markdown documentation from test examples
 
     Getting help
 
-    * [Getting welcome message](help/getting_welcome_message.markdown)
+    * [Getting welcome message](help/getting_welcome_message.md)
 
     ## Orders
 
-    * [Creating an order](orders/creating_an_order.markdown)
-    * [Deleting an order](orders/deleting_an_order.markdown)
-    * [Getting a list of orders](orders/getting_a_list_of_orders.markdown)
-    * [Getting a specific order](orders/getting_a_specific_order.markdown)
-    * [Updating an order](orders/updating_an_order.markdown)
+    * [Creating an order](orders/creating_an_order.md)
+    * [Deleting an order](orders/deleting_an_order.md)
+    * [Getting a list of orders](orders/getting_a_list_of_orders.md)
+    * [Getting a specific order](orders/getting_a_specific_order.md)
+    * [Updating an order](orders/updating_an_order.md)
     """
 
   Scenario: Example 'Getting a list of orders' file should look like we expect
-    Then the file "doc/api/orders/getting_a_list_of_orders.markdown" should contain exactly:
+    Then the file "doc/api/orders/getting_a_list_of_orders.md" should contain exactly:
     """
     # Orders API
 
@@ -222,7 +222,7 @@ Feature: Generate Markdown documentation from test examples
     """
 
   Scenario: Example 'Creating an order' file should look like we expect
-    Then the file "doc/api/orders/creating_an_order.markdown" should contain exactly:
+    Then the file "doc/api/orders/creating_an_order.md" should contain exactly:
     """
     # Orders API
 
@@ -266,16 +266,16 @@ Feature: Generate Markdown documentation from test examples
     """
 
   Scenario: Example 'Deleting an order' file should be created
-    Then a file named "doc/api/orders/deleting_an_order.markdown" should exist
+    Then a file named "doc/api/orders/deleting_an_order.md" should exist
 
   Scenario: Example 'Getting a list of orders' file should be created
-    Then a file named "doc/api/orders/getting_a_list_of_orders.markdown" should exist
+    Then a file named "doc/api/orders/getting_a_list_of_orders.md" should exist
 
   Scenario: Example 'Getting a specific order' file should be created
-    Then a file named "doc/api/orders/getting_a_specific_order.markdown" should exist
+    Then a file named "doc/api/orders/getting_a_specific_order.md" should exist
 
   Scenario: Example 'Updating an order' file should be created
-    Then a file named "doc/api/orders/updating_an_order.markdown" should exist
+    Then a file named "doc/api/orders/updating_an_order.md" should exist
 
   Scenario: Example 'Getting welcome message' file should be created
-    Then a file named "doc/api/help/getting_welcome_message.markdown" should exist
+    Then a file named "doc/api/help/getting_welcome_message.md" should exist
