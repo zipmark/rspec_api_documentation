@@ -1,4 +1,5 @@
-FORMAT: A1
+FORMAT: 1A
+# {{ api_name }}
 {{# sections }}
 
 # Group {{ resource_name }}
@@ -48,13 +49,13 @@ explanation: {{ explanation }}
 
     + Headers
 
-        {{{ request_headers_text }}}
+            {{{ request_headers_text }}}
 {{/ request_headers_text }}
 {{# request_body }}
 
     + Body
 
-        {{{ request_body }}}
+            {{{ request_body }}}
 {{/ request_body }}
 {{# has_response? }}
 
@@ -64,13 +65,13 @@ explanation: {{ explanation }}
 
     + Headers
 
-        {{{ response_headers_text }}}
+            {{{ response_headers_text }}}
 {{/ response_headers_text }}
 {{# response_body }}
 
     + Body
 
-        {{{ response_body }}}
+            {{{ response_body }}}
 {{/ response_body }}
 {{/ requests }}
 {{/ examples }}

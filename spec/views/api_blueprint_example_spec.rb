@@ -57,17 +57,9 @@ describe RspecApiDocumentation::Views::ApiBlueprintExample do
     describe 'request_headers_text' do
       subject { view.requests[0][:request_headers_text] }
 
-      context 'when charset=utf-8 is present' do
-        it "just strips that because it's the default for json" do
-          expect(subject).to eq "Content-Type: application/json\n        Another: header; charset=utf-8"
-        end
-      end
-
-      context 'when charset=utf-16 is present' do
-        let(:content_type) { "application/json; charset=utf-16" }
-
-        it "keeps that because it's NOT the default for json" do
-          expect(subject).to eq "Content-Type: application/json; charset=utf-16\n        Another: header; charset=utf-8"
+      context 'when Content-Type is present' do
+        it "removes it" do
+          expect(subject).to eq "Another: header; charset=utf-8"
         end
       end
     end
@@ -93,17 +85,9 @@ describe RspecApiDocumentation::Views::ApiBlueprintExample do
     describe 'response_headers_text' do
       subject { view.requests[0][:response_headers_text] }
 
-      context 'when charset=utf-8 is present' do
-        it "just strips that because it's the default for json" do
-          expect(subject).to eq "Content-Type: application/json\n        Another: header; charset=utf-8"
-        end
-      end
-
-      context 'when charset=utf-16 is present' do
-        let(:content_type) { "application/json; charset=utf-16" }
-
-        it "keeps that because it's NOT the default for json" do
-          expect(subject).to eq "Content-Type: application/json; charset=utf-16\n        Another: header; charset=utf-8"
+      context 'when Content-Type is present' do
+        it "removes it" do
+          expect(subject).to eq "Another: header; charset=utf-8"
         end
       end
     end
