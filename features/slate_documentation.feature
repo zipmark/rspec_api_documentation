@@ -215,9 +215,10 @@ Feature: Generate Slate documentation from test examples
     """
     # Orders
 
+    An Order represents an amount of money to be paid
+
     ## Creating an order
 
-    An Order represents an amount of money to be paid
 
     ### Request
 
