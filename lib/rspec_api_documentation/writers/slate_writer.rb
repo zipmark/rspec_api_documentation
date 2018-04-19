@@ -26,6 +26,7 @@ module RspecApiDocumentation
           IndexHelper.sections(index.examples, @configuration).each do |section|
 
             file.write "# #{section[:resource_name]}\n\n"
+            file.write "#{section[:resource_explanation]}\n\n"
             section[:examples].sort_by!(&:description) unless configuration.keep_source_order
 
             section[:examples].each do |example|

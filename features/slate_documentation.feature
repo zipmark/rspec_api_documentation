@@ -57,6 +57,7 @@ Feature: Generate Slate documentation from test examples
       end
 
       resource 'Orders' do
+        explanation "An Order represents an amount of money to be paid"
         get '/orders' do
           response_field :page, "Current page"
 
@@ -216,6 +217,7 @@ Feature: Generate Slate documentation from test examples
 
     ## Creating an order
 
+    An Order represents an amount of money to be paid
 
     ### Request
 
