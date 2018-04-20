@@ -57,6 +57,7 @@ Feature: Generate Slate documentation from test examples
       end
 
       resource 'Orders' do
+        explanation "An Order represents an amount of money to be paid"
         get '/orders' do
           response_field :page, "Current page"
 
@@ -213,6 +214,8 @@ Feature: Generate Slate documentation from test examples
     Then the file "doc/api/index.html.md" should contain:
     """
     # Orders
+
+    An Order represents an amount of money to be paid
 
     ## Creating an order
 
