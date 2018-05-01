@@ -86,7 +86,7 @@ RspecApiDocumentation.configure do |config|
   # An array of output format(s).
   # Possible values are :json, :html, :combined_text, :combined_json,
   #   :json_iodocs, :textile, :markdown, :append_json, :slate,
-  #   :api_blueprint
+  #   :api_blueprint, :postman
   config.format = [:html]
 
   # Location of templates
@@ -172,6 +172,7 @@ end
 * **markdown**: Generates an index file and example files in Markdown.
 * **api_blueprint**: Generates an index file and example files in [APIBlueprint](https://apiblueprint.org).
 * **append_json**: Lets you selectively run specs without destroying current documentation. See section below.
+* **postman**: (In Alpha) Generates a Postman collection JSON file that you can import
 
 ### append_json
 

@@ -45,6 +45,7 @@ module RspecApiDocumentation
     autoload :CombinedJsonWriter
     autoload :SlateWriter
     autoload :ApiBlueprintWriter
+    autoload :PostmanWriter
   end
 
   module Views
@@ -62,6 +63,9 @@ module RspecApiDocumentation
     autoload :SlateExample
     autoload :ApiBlueprintIndex
     autoload :ApiBlueprintExample
+    autoload :PostmanIndex
+    autoload :PostmanRequestExample
+    autoload :PostmanRequestMetadata
   end
 
   def self.configuration
