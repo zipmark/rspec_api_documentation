@@ -80,13 +80,16 @@ RspecApiDocumentation.configure do |config|
   # Set the application that Rack::Test uses
   config.app = Rails.application
 
+  # Used to provide a configuration for the specification (supported only by 'open_api' format for now) 
+  config.configurations_dir = Rails.root.join("doc", "configurations", "api")
+
   # Output folder
   config.docs_dir = Rails.root.join("doc", "api")
 
   # An array of output format(s).
   # Possible values are :json, :html, :combined_text, :combined_json,
   #   :json_iodocs, :textile, :markdown, :append_json, :slate,
-  #   :api_blueprint
+  #   :api_blueprint, :open_api
   config.format = [:html]
 
   # Location of templates
@@ -172,6 +175,7 @@ end
 * **markdown**: Generates an index file and example files in Markdown.
 * **api_blueprint**: Generates an index file and example files in [APIBlueprint](https://apiblueprint.org).
 * **append_json**: Lets you selectively run specs without destroying current documentation. See section below.
+* **open_api**: Generates [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) (OAS) (Current supported version is 2.0). Can be used for [Swagger-UI](https://swagger.io/tools/swagger-ui/) 
 
 ### append_json
 
@@ -228,6 +232,173 @@ This [format](https://apiblueprint.org) (APIB) has additional functions:
 
 * `attribute`: APIB has attributes besides parameters. Use attributes exactly
   like you'd use `parameter` (see documentation below).
+  
+### open_api 
+
+This [format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) (OAS) has additional functions:
+
+* `authentication(type, value, opts = {})` ([Security schema object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#security-scheme-object))
+
+    The values will be passed through header of the request. Option `name` has to be provided for `apiKey`. 
+    
+    * `authentication :basic, 'Basic Key'`
+    * `authentication :apiKey, 'Api Key', name: 'API_AUTH', description: 'Some description'`
+    
+    You could pass `Symbol` as value. In this case you need to define a `let` with the same name.
+    
+    ```
+    authentication :apiKey, :api_key
+    let(:api_key) { some_value } 
+    ```
+    
+* `route_summary(text)` and `route_description(text)`. ([Operation object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#operation-object)) 
+
+    These two simplest methods accept `String`. 
+    It will be used for route's `summary` and `description`. 
+    
+* Several new options on `parameter` helper.
+
+    - `with_example: true`. This option will adjust your description of the parameter with the passed value.
+    - `default: <value>`. Will provide a default value for the parameter.
+    - `minimum: <integer>`. Will setup upper limit for your parameter. 
+    - `maximum: <integer>`. Will setup lower limit for your parameter.
+    - `enum: [<value>, <value>, ..]`. Will provide a pre-defined list of possible values for your parameter.
+    - `type: [:file, :array, :object, :boolean, :integer, :number, :string]`. Will set a type for the parameter. Most of the type you don't need to provide this option manually. We extract types from values automatically.
+
+
+You also can provide a configuration file in YAML or JSON format with some manual configs. 
+The file should be placed in `configurations_dir` folder with the name `open_api.yml` or `open_api.json`. 
+In this file you able to manually **hide** some endpoints/resources you want to hide from generated API specification but still want to test. 
+It's also possible to pass almost everything to the specification builder manually.
+
+#### Example of configuration file
+
+```yaml
+swagger: '2.0'
+info:
+  title: OpenAPI App
+  description: This is a sample server.
+  termsOfService: 'http://open-api.io/terms/'
+  contact:
+    name: API Support
+    url: 'http://www.open-api.io/support'
+    email: support@open-api.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 1.0.0
+host: 'localhost:3000'
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+  - application/xml
+produces:
+  - application/json
+  - application/xml
+paths: 
+  /orders:
+    hide: true
+  /instructions:
+    hide: false
+    get:
+      description: This description came from configuration file
+      hide: true
+```
+
+#### Example of spec file
+
+```ruby
+  resource 'Orders' do
+    explanation "Orders resource"
+    
+    authentication :apiKey, :api_key, description: 'Private key for API access', name: 'HEADER_KEY'
+    header "Content-Type", "application/json"
+    
+    let(:api_key) { generate_api_key }
+
+    get '/orders' do
+      route_summary "This URL allows users to interact with all orders."
+      route_description "Long description."
+
+      # This is manual way to describe complex parameters
+      parameter :one_level_array, type: :array, items: {type: :string, enum: ['string1', 'string2']}, default: ['string1']
+      parameter :two_level_array, type: :array, items: {type: :array, items: {type: :string}}
+      
+      let(:one_level_array) { ['string1', 'string2'] }
+      let(:two_level_array) { [['123', '234'], ['111']] }
+
+      # This is automatic way
+      # It's possible because we extract parameters definitions from the values
+      parameter :one_level_arr, with_example: true
+      parameter :two_level_arr, with_example: true
+
+      let(:one_level_arr) { ['value1', 'value2'] }
+      let(:two_level_arr) { [[5.1, 3.0], [1.0, 4.5]] }
+
+      context '200' do
+        example_request 'Getting a list of orders' do
+          expect(status).to eq(200)
+          expect(response_body).to eq(<response>)
+        end
+      end
+    end
+
+    put '/orders/:id' do
+      route_summary "This is used to update orders."
+
+      with_options scope: :data, with_example: true do
+        parameter :name, 'The order name', required: true
+        parameter :amount
+        parameter :description, 'The order description'
+      end
+
+      context "200" do
+        let(:id) { 1 }
+
+        example 'Update an order' do
+          request = {
+            data: {
+              name: 'order',
+              amount: 1,
+              description: 'fast order'
+            }
+          }
+          
+          # It's also possible to extract types of parameters when you pass data through `do_request` method.
+          do_request(request)
+          
+          expected_response = {
+            data: {
+              name: 'order',
+              amount: 1,
+              description: 'fast order'
+            }
+          }
+          expect(status).to eq(200)
+          expect(response_body).to eq(<response>)
+        end
+      end
+
+      context "400" do
+        let(:id) { "a" }
+
+        example_request 'Invalid request' do
+          expect(status).to eq(400)
+        end
+      end
+      
+      context "404" do
+        let(:id) { 0 }
+        
+        example_request 'Order is not found' do
+          expect(status).to eq(404)
+        end
+      end
+    end
+  end
+```
 
 ## Filtering and Exclusion
 

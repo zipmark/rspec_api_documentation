@@ -45,6 +45,31 @@ module RspecApiDocumentation
     autoload :CombinedJsonWriter
     autoload :SlateWriter
     autoload :ApiBlueprintWriter
+    autoload :OpenApiWriter
+  end
+
+  module OpenApi
+    extend ActiveSupport::Autoload
+
+    autoload :Helper
+    autoload :Node
+    autoload :Root
+    autoload :Info
+    autoload :Contact
+    autoload :License
+    autoload :Paths
+    autoload :Path
+    autoload :Tag
+    autoload :Operation
+    autoload :Parameter
+    autoload :Responses
+    autoload :Response
+    autoload :Example
+    autoload :Headers
+    autoload :Header
+    autoload :Schema
+    autoload :SecurityDefinitions
+    autoload :SecuritySchema
   end
 
   module Views

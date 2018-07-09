@@ -4,10 +4,13 @@ resource "Orders" do
   header "Accept", "application/json"
   header "Content-Type", "application/json"
 
+  explanation "Orders are top-level business objects"
+
   let(:order) { Order.create(:name => "Old Name", :paid => true, :email => "email@example.com") }
 
   get "/orders" do
-    parameter :page, "Current page of orders"
+    authentication :apiKey, "API_TOKEN", :name => "AUTH_TOKEN"
+    parameter :page, "Current page of orders", with_example: true
 
     let(:page) { 1 }
 
@@ -24,23 +27,31 @@ resource "Orders" do
   end
 
   head "/orders" do
+    authentication :apiKey, "API_TOKEN", :name => "AUTH_TOKEN"
+
     example_request "Getting the headers" do
       expect(response_headers["Cache-Control"]).to eq("max-age=0, private, must-revalidate")
     end
   end
 
   post "/orders" do
-    parameter :name, "Name of order", :required => true, :scope => :order
-    parameter :paid, "If the order has been paid for", :required => true, :scope => :order
-    parameter :email, "Email of user that placed the order", :scope => :order
+    with_options :scope => :order, :with_example => true do
+      parameter :name, "Name of order", :required => true
+      parameter :paid, "If the order has been paid for", :required => true
+      parameter :email, "Email of user that placed the order"
+      parameter :data, "Array of string", :type => :array, :items => {:type => :string}
+    end
 
-    response_field :name, "Name of order", :scope => :order, "Type" => "String"
-    response_field :paid, "If the order has been paid for", :scope => :order, "Type" => "Boolean"
-    response_field :email, "Email of user that placed the order", :scope => :order, "Type" => "String"
+    with_options :scope => :order do
+      response_field :name, "Name of order", :type => :string
+      response_field :paid, "If the order has been paid for", :type => :boolean
+      response_field :email, "Email of user that placed the order", :type => :string
+    end
 
     let(:name) { "Order 1" }
     let(:paid) { true }
     let(:email) { "email@example.com" }
+    let(:data) { ["good", "bad"] }
 
     let(:raw_post) { params.to_json }
 
@@ -61,18 +72,31 @@ resource "Orders" do
   end
 
   get "/orders/:id" do
-    let(:id) { order.id }
+    context "when id is valid" do
+      let(:id) { order.id }
 
-    example_request "Getting a specific order" do
-      expect(response_body).to eq(order.to_json)
-      expect(status).to eq(200)
+      example_request "Getting a specific order" do
+        expect(response_body).to eq(order.to_json)
+        expect(status).to eq(200)
+      end
+    end
+
+    context "when id is invalid" do
+      let(:id) { "a" }
+
+      example_request "Getting an error" do
+        expect(response_body).to eq ""
+        expect(status).to eq 404
+      end
     end
   end
 
   put "/orders/:id" do
-    parameter :name, "Name of order", :scope => :order
-    parameter :paid, "If the order has been paid for", :scope => :order
-    parameter :email, "Email of user that placed the order", :scope => :order
+    with_options :scope => :order, with_example: true do
+      parameter :name, "Name of order"
+      parameter :paid, "If the order has been paid for"
+      parameter :email, "Email of user that placed the order"
+    end
 
     let(:id) { order.id }
     let(:name) { "Updated Name" }

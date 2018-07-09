@@ -1,0 +1,296 @@
+swagger: '2.0'
+info:
+  title: OpenAPI App
+  description: This is a sample server Petstore server.
+  termsOfService: 'http://open-api.io/terms/'
+  contact:
+    name: API Support
+    url: 'http://www.open-api.io/support'
+    email: support@open-api.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 1.0.1
+host: 'localhost:3000'
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+  - application/xml
+produces:
+  - application/json
+  - application/xml
+paths:
+  /orders:
+    get:
+      tags:
+        - Orders
+      summary: Getting a list of orders
+      description: ''
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          in: query
+          description: Current page of orders
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            description: ''
+            type: object
+            properties: {}
+          headers: {}
+          examples:
+            application/json:
+              - id: 1
+                name: Old Name
+                paid: true
+                email: email@example.com
+                created_at: '2017-06-12T14:14:50.481Z'
+                updated_at: '2017-06-12T14:14:50.481Z'
+              - id: 2
+                name: Old Name
+                paid: true
+                email: email@example.com
+                created_at: '2017-06-12T14:14:56.938Z'
+                updated_at: '2017-06-12T14:14:56.938Z'
+              - id: 3
+                name: Order 0
+                paid: true
+                email: email0@example.com
+                created_at: '2017-06-13T13:17:38.719Z'
+                updated_at: '2017-06-13T13:17:38.719Z'
+              - id: 4
+                name: Order 1
+                paid: true
+                email: email1@example.com
+                created_at: '2017-06-13T13:17:38.729Z'
+                updated_at: '2017-06-13T13:17:38.729Z'
+      deprecated: false
+      security:
+        - AUTH_TOKEN: []
+    post:
+      tags:
+        - Orders
+      summary: Creating an order
+      description: ''
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: ''
+          required: false
+          schema:
+            description: ''
+            type: object
+            properties:
+              order:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  paid:
+                    type: boolean
+                  email:
+                    type: string
+                required:
+                  - name
+      responses:
+        '201':
+          description: Created
+          schema:
+            description: ''
+            type: object
+            properties:
+              order:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  paid:
+                    type: boolean
+                  email:
+                    type: string
+          headers: {}
+          examples:
+            application/json:
+              id: 3
+              name: Order 1
+              paid: true
+              email: email@example.com
+              created_at: '2017-06-13T13:17:38.825Z'
+              updated_at: '2017-06-13T13:17:38.825Z'
+      deprecated: false
+      security: []
+    head:
+      tags:
+        - Orders
+      summary: Getting the headers
+      description: ''
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            description: ''
+            type: object
+            properties: {}
+          headers: {}
+          examples: {}
+      deprecated: false
+      security:
+        - AUTH_TOKEN: []
+  '/orders/{id}':
+    get:
+      tags:
+        - Orders
+      summary: Getting a specific order
+      description: ''
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            description: ''
+            type: object
+            properties: {}
+          headers: {}
+          examples:
+            application/json:
+              id: 3
+              name: Old Name
+              paid: true
+              email: email@example.com
+              created_at: '2017-06-13T13:17:38.862Z'
+              updated_at: '2017-06-13T13:17:38.862Z'
+      deprecated: false
+      security: []
+    put:
+      tags:
+        - Orders
+      summary: Updating an order
+      description: ''
+      consumes:
+        - application/json
+      produces: []
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: ''
+          required: false
+          schema:
+            description: ''
+            type: object
+            properties:
+              order:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  paid:
+                    type: string
+                  email:
+                    type: string
+      responses:
+        '204':
+          description: No Content
+          schema:
+            description: ''
+            type: object
+            properties: {}
+          headers: {}
+      deprecated: false
+      security: []
+    delete:
+      tags:
+        - Orders
+      summary: Deleting an order
+      description: ''
+      consumes:
+        - application/json
+      produces: []
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: No Content
+          schema:
+            description: ''
+            type: object
+            properties: {}
+          headers: {}
+      deprecated: false
+      security: []
+  /uploads:
+    post:
+      tags:
+        - Uploads
+      summary: Uploading a new file
+      description: ''
+      consumes:
+        - multipart/form-data
+      produces:
+        - text/html
+      parameters:
+        - name: file
+          in: formData
+          description: New file to upload
+          required: false
+          type: file
+      responses:
+        '201':
+          description: Created
+          schema:
+            description: ''
+            type: object
+            properties: {}
+          headers: {}
+          examples: {}
+      deprecated: false
+      security:
+        - Authorization: []
+securityDefinitions:
+  AUTH_TOKEN:
+    type: apiKey
+    description: ''
+    name: AUTH_TOKEN
+    in: header
+  Authorization:
+    type: basic
+    description: Api Key description
+tags:
+  - name: Orders
+    description: Orders are top-level business objects
+  - name: Uploads
+    description: ''
