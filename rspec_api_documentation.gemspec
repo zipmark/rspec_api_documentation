@@ -30,6 +30,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-its", "~> 1.0"
   s.add_development_dependency "faraday", "~> 0.9", ">= 0.9.0"
   s.add_development_dependency "thin", "~> 1.6", ">= 1.6.3"
+  s.add_development_dependency "nokogiri", "~> 1.8", ">= 1.8.2"
+  s.add_development_dependency "yard", ">= 0.9.11"
 
   s.files        = Dir.glob("lib/**/*") + Dir.glob("templates/**/*")
   s.require_path = "lib"
