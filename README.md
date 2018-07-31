@@ -60,6 +60,10 @@ Consider adding a viewer to enhance the generated documentation. By itself rspec
 
     gem 'raddocs'
 
+    or 
+
+    gem 'apitome'
+
 #### spec/spec_helper.rb
 
 ```ruby
@@ -67,6 +71,15 @@ RspecApiDocumentation.configure do |config|
   config.format = :json
 end
 ```
+
+####
+For both raddocs and apitome, start rails server. Then
+
+    open http://localhost:3000/docs for raddocs
+
+    or
+
+    http://localhost:3000/api/docs for apitome
 
 ## Sample App
 
