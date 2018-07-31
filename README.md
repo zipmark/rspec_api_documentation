@@ -320,21 +320,16 @@ paths:
       hide: true
 ```
 
-#### Example of spec file
+## Example of acceptance spec file
 
 ```ruby
+  # spec/acceptance/orders_spec.rb 
   resource 'Orders' do
     explanation "Orders resource"
     
-    authentication :apiKey, :api_key, description: 'Private key for API access', name: 'HEADER_KEY'
     header "Content-Type", "application/json"
-    
-    let(:api_key) { generate_api_key }
 
     get '/orders' do
-      route_summary "This URL allows users to interact with all orders."
-      route_description "Long description."
-
       # This is manual way to describe complex parameters
       parameter :one_level_array, type: :array, items: {type: :string, enum: ['string1', 'string2']}, default: ['string1']
       parameter :two_level_array, type: :array, items: {type: :array, items: {type: :string}}
@@ -353,13 +348,11 @@ paths:
       context '200' do
         example_request 'Getting a list of orders' do
           expect(status).to eq(200)
-          expect(response_body).to eq(<response>)
         end
       end
     end
 
     put '/orders/:id' do
-      route_summary "This is used to update orders."
 
       with_options scope: :data, with_example: true do
         parameter :name, 'The order name', required: true
@@ -390,7 +383,7 @@ paths:
             }
           }
           expect(status).to eq(200)
-          expect(response_body).to eq(<response>)
+          expect(response_body).to eq(expected_response)
         end
       end
 
