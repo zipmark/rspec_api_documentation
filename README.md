@@ -83,7 +83,7 @@ For both raddocs and apitome, start rails server. Then
 
 ## Sample App
 
-See the `example` folder for a sample Rails app that has been documented.
+See the `example` folder for a sample Rails app that has been documented.  The sample app demonstrates the :open_api format.
 
 
 ## Configuration options
@@ -323,7 +323,9 @@ paths:
 ## Example of acceptance spec file
 
 ```ruby
-  # spec/acceptance/orders_spec.rb 
+  # spec/acceptance/orders_spec.rb
+  require 'rails_helper'
+  require 'rspec_api_documentation/dsl'
   resource 'Orders' do
     explanation "Orders resource"
     
