@@ -74,7 +74,7 @@ module RspecApiDocumentation
           .uniq { |property| property[:name] }
           .map do |property|
             properties = []
-            properties << "required"      if property[:required]
+            properties << "optional"      if !property[:required]
             properties << property[:type] if property[:type]
             if properties.count > 0
               property[:properties_description] = properties.join(", ")
