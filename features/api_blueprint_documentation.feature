@@ -354,12 +354,12 @@ Feature: Generate API Blueprint documentation from test examples
 
     + Parameters
       + id: 1 (required, string) - Order id
-      + optional
+      + optional (optional)
 
     + Attributes (object)
       + name: a name (required) - The order name
-      + amount
-      + description: a description (string) - The order description
+      + amount (optional)
+      + description: a description (optional, string) - The order description
 
     ### Deletes a specific order [DELETE]
 
