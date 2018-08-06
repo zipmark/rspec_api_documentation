@@ -143,7 +143,7 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
         }, {
           name: "option",
           description: nil,
-          properties_description: nil
+          properties_description: 'optional'
         }]
         expect(post_route_with_optionals[:has_attributes?]).to eq false
         expect(post_route_with_optionals[:attributes]).to eq []
@@ -159,7 +159,7 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
           required: false,
           name: "description",
           description: nil,
-          properties_description: nil
+          properties_description: "optional"
         }]
       end
     end
