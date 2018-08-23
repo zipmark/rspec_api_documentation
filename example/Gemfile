@@ -6,7 +6,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'rails', '4.2.5.1'
 gem 'sqlite3'
 gem 'spring', group: :development
-gem 'raddocs', :github => "smartlogic/raddocs"
+gem 'raddocs', '0.4.0'
 
 group :test, :development do
   gem 'byebug'
