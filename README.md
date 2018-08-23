@@ -49,6 +49,10 @@ Generate the docs!
     $ rake docs:generate
     $ open doc/api/index.html
 
+#### Rake task options
+
+* Change where the specs are found for documentation: `rake docs:generate[my_other_folder]` looks in `spec/my_other_folder/**/*_spec.rb`
+
 ### Viewers
 
 Consider adding a viewer to enhance the generated documentation. By itself rspec_api_documentation will generate very simple HTML. All viewers use the generated JSON.
