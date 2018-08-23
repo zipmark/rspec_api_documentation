@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rspec_api_documentation (5.1.0)
+    rspec_api_documentation (6.0.0)
       activesupport (>= 3.0.0)
       mustache (~> 1.0, >= 0.99.4)
       rspec (~> 3.0)
@@ -75,7 +75,7 @@ GEM
     multi_json (1.11.2)
     multi_test (0.1.2)
     multipart-post (2.0.0)
-    mustache (1.0.3)
+    mustache (1.0.5)
     nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     pry (0.11.3)
@@ -157,4 +157,4 @@ DEPENDENCIES
   yard (>= 0.9.11)
 
 BUNDLED WITH
-   1.16.3
+   1.16.4
