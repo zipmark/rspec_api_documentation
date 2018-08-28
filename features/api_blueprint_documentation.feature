@@ -250,6 +250,8 @@ Feature: Generate API Blueprint documentation from test examples
     """
     FORMAT: 1A
     # Example API
+    
+    Example API Description
 
     # Group Instructions
 
