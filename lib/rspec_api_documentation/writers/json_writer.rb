@@ -23,6 +23,10 @@ module RspecApiDocumentation
       end
     end
 
+    # https://github.com/zipmark/rspec_api_documentation/issues/382
+    # backward compatibilty json for configuration of config.format
+    class JsonWriter < JSONWriter; end
+
     class JSONIndex
       def initialize(index, configuration)
         @index = index
