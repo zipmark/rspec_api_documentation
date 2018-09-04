@@ -38,6 +38,7 @@ module RspecApiDocumentation
     autoload :TextileWriter
     autoload :MarkdownWriter
     autoload :JSONWriter
+    autoload :JsonWriter
     autoload :AppendJsonWriter
     autoload :JsonIodocsWriter
     autoload :IndexHelper
