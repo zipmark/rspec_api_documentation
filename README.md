@@ -68,7 +68,7 @@ Consider adding a viewer to enhance the generated documentation. By itself rspec
 
 ```ruby
 RspecApiDocumentation.configure do |config|
-  config.format = :json
+  config.format = :JSON
 end
 ```
 
@@ -188,7 +188,7 @@ RspecApiDocumentation.configure do |config|
   config.docs_dir = Rails.root.join("doc", "api")
 
   # An array of output format(s).
-  # Possible values are :json, :html, :combined_text, :combined_json,
+  # Possible values are :JSON, :html, :combined_text, :combined_json,
   #   :json_iodocs, :textile, :markdown, :append_json, :slate,
   #   :api_blueprint, :open_api
   config.format = [:html]
@@ -245,7 +245,7 @@ RspecApiDocumentation.configure do |config|
   end
 
   # Change how the post body is formatted by default, you can still override by `raw_post`
-  # Can be :json, :xml, or a proc that will be passed the params
+  # Can be :JSON, :xml, or a proc that will be passed the params
   config.request_body_formatter = Proc.new { |params| params }
 
   # Change how the response body is formatted by default
