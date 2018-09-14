@@ -430,7 +430,10 @@ Feature: Generate Open API Specification from test examples
                 "items": {
                   "type": "string"
                 },
-                "example": ["value1", "value2"]
+                "example": [
+                  "value1",
+                  "value2"
+                ]
               },
               {
                 "name": "two_level_arr",
@@ -444,7 +447,16 @@ Feature: Generate Open API Specification from test examples
                     "type": "number"
                   }
                 },
-                "example": [[5.1, 3.0], [1.0, 4.5]]
+                "example": [
+                  [
+                    5.1,
+                    3.0
+                  ],
+                  [
+                    1.0,
+                    4.5
+                  ]
+                ]
               }
             ],
             "responses": {
