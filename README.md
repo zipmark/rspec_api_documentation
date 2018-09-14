@@ -359,7 +359,8 @@ This [format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/
     
 * Several new options on `parameter` helper.
 
-    - `with_example: true`. This option will adjust your description of the parameter with the passed value.
+    - `with_example: true`. This option will adjust your example of the parameter with the passed value.
+    - `example: <value>`. Will provide a example value for the parameter.
     - `default: <value>`. Will provide a default value for the parameter.
     - `minimum: <integer>`. Will setup upper limit for your parameter. 
     - `maximum: <integer>`. Will setup lower limit for your parameter.
