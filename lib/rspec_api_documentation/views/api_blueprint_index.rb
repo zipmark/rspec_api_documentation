@@ -8,7 +8,7 @@ module RspecApiDocumentation
 
       def sections
         super.map do |section|
-          routes = section[:examples].group_by { |e| "#{e.route_uri}#{e.route_optionals}" }.map do |route, examples|
+          routes = section[:examples].group_by { |e| "#{e.route_uri}#{e.route_optionals}#{e.route_name}" }.map do |route, examples|
             attrs  = fields(:attributes, examples)
             params = fields(:parameters, examples)
 
