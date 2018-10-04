@@ -236,10 +236,10 @@ Feature: Generate Slate documentation from test examples
 
     #### Parameters
 
+
     ```json
     name=Order+3&amount=33.0
     ```
-
 
     | Name | Description |
     |:-----|:------------|

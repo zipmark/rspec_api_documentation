@@ -6,26 +6,28 @@
 
 ### Request
 
+{{# requests }}
 {{# curl }}
 ```shell
 {{{ curl }}}
 ```
 {{/ curl }}
+{{/ requests }}
 
 #### Endpoint
 
 `{{ http_method }} {{ route }}`
 
-{{# requests}}
+{{# requests }}
 ```plaintext
 {{ request_method }} {{ request_path }}
 {{ request_headers_text }}
 ```
-{{/ requests}}
+{{/ requests }}
 
 #### Parameters
 
-{{# requests}}
+{{# requests }}
 {{# request_query_parameters_text }}
 ```json
 {{ request_query_parameters_text }}
@@ -52,7 +54,7 @@ None known.
 ### Response
 
 
-{{# response_status}}
+{{# response_status }}
 ```plaintext
 {{ response_headers_text }}
 {{ response_status }} {{ response_status_text}}
@@ -75,4 +77,4 @@ None known.
 | {{#scope}}{{scope}}[{{/scope}}{{ name }}{{#scope}}]{{/scope}} | {{{ description }}} |
 {{/ response_fields }}
 {{/ has_response_fields? }}
-{{/ requests}}
+{{/ requests }}
