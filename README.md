@@ -276,6 +276,7 @@ end
 * **markdown**: Generates an index file and example files in Markdown.
 * **api_blueprint**: Generates an index file and example files in [APIBlueprint](https://apiblueprint.org).
 * **append_json**: Lets you selectively run specs without destroying current documentation. See section below.
+* **slate**: Builds markdown files that can be used with [Slate](https://github.com/lord/slate), a beautiful static documentation builder.
 * **open_api**: Generates [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) (OAS) (Current supported version is 2.0). Can be used for [Swagger-UI](https://swagger.io/tools/swagger-ui/) 
 
 ### append_json
