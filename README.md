@@ -64,7 +64,7 @@ Consider adding a viewer to enhance the generated documentation. By itself rspec
 
     gem 'apitome'
 
-#### spec/spec_helper.rb
+#### config/initializers/rspec_api_documentation.rb
 
 ```ruby
 RspecApiDocumentation.configure do |config|
