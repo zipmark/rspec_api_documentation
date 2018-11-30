@@ -18,7 +18,7 @@ module RspecApiDocumentation
       add_setting :enum
 
       def description_with_example
-        str = description_without_example.dup || ''
+        str = description_without_example ? description_without_example.dup : ''
         if with_example && value
           str << "\n" unless str.empty?
           str << "Eg, `#{value}`"
