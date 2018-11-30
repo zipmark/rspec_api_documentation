@@ -3,7 +3,7 @@ module RspecApiDocumentation
     class Schema < Node
       add_setting :format
       add_setting :title
-      add_setting :description, :default => ''
+      add_setting :description
       add_setting :required
       add_setting :enum
       add_setting :type

@@ -3,7 +3,7 @@ module RspecApiDocumentation
     class Operation < Node
       add_setting :tags, :default => []
       add_setting :summary
-      add_setting :description, :default => ''
+      add_setting :description
       add_setting :externalDocs
       add_setting :operationId
       add_setting :consumes
