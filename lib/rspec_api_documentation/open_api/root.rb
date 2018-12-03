@@ -8,11 +8,11 @@ module RspecApiDocumentation
       add_setting :schemes, :default => %w(http https)
       add_setting :consumes, :default => %w(application/json application/xml)
       add_setting :produces, :default => %w(application/json application/xml)
-      add_setting :paths, :default => {}, :required => true, :schema => { "" => Path }
+      add_setting :paths, :default => {}, :required => true, :schema => { String => Path }
       add_setting :definitions
       add_setting :parameters
       add_setting :responses
-      add_setting :securityDefinitions, :schema => SecurityDefinitions
+      add_setting :securityDefinitions, :schema => { String => SecuritySchema }
       add_setting :security
       add_setting :tags, :default => [], :schema => [Tag]
       add_setting :externalDocs

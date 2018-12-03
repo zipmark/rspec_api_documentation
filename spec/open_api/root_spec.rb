@@ -8,7 +8,6 @@ describe RspecApiDocumentation::OpenApi::Root do
 
   describe "default settings" do
     class RspecApiDocumentation::OpenApi::Info; end
-    class RspecApiDocumentation::OpenApi::Paths; end
 
     its(:swagger) { should == '2.0' }
     its(:info) { should be_a(RspecApiDocumentation::OpenApi::Info) }
@@ -17,7 +16,6 @@ describe RspecApiDocumentation::OpenApi::Root do
     its(:schemes) { should == %w(http https) }
     its(:consumes) { should == %w(application/json application/xml) }
     its(:produces) { should == %w(application/json application/xml) }
-    its(:paths) { should be_a(RspecApiDocumentation::OpenApi::Paths) }
     its(:definitions) { should be_nil }
     its(:parameters) { should be_nil }
     its(:responses) { should be_nil }

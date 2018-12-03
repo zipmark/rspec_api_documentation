@@ -1,12 +1,6 @@
 module RspecApiDocumentation
   module OpenApi
     class Node
-      # this is used to define class of incoming option attribute
-      # If +false+ then do not create new setting
-      # If +true+ then create new setting with raw passed value
-      # If RspecApiDocumentation::OpenApi::Node then create new setting and wrap it in this class
-      CHILD_CLASS = false
-
       # This attribute allow us to hide some of children through configuration file
       attr_accessor :hide
 
@@ -49,8 +43,6 @@ module RspecApiDocumentation
                 value
               end
             assign_setting(name, converted)
-          elsif self.class::CHILD_CLASS
-            add_setting name, :value => self.class::CHILD_CLASS === true ? value : self.class::CHILD_CLASS.new(value)
           else
             public_send("#{name}=", value) if respond_to?("#{name}=")
           end
@@ -98,7 +90,7 @@ module RspecApiDocumentation
             tmp = value.select { |v| !v.hide }.map { |v| v.as_json }
             hash[name] = tmp unless tmp.empty?
           when value.is_a?(Hash) && value.values[0].is_a?(Node)
-            hash[name] = Hash[value.map { |k, v| [k, v.as_json] }]
+            hash[name] = Hash[value.select { |k, v| !v.hide }.map { |k, v| [k, v.as_json] }]
           else
             hash[name] = value
           end unless value.nil?

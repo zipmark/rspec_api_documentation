@@ -48,7 +48,7 @@ module RspecApiDocumentation
       end
 
       def add_security_definitions!
-        security_definitions = OpenApi::SecurityDefinitions.new
+        security_definitions = {}
 
         arr = examples.map do |example|
           example.respond_to?(:authentications) ? example.authentications : nil
@@ -62,7 +62,7 @@ module RspecApiDocumentation
               type: opts[:type],
               in: opts[:in]
             )
-            security_definitions.add_setting security, :value => schema
+            security_definitions[security.to_s] = schema
           end
         end
         specs.securityDefinitions = security_definitions unless arr.empty?
@@ -83,14 +83,14 @@ module RspecApiDocumentation
         specs.safe_assign_setting(:paths, {})
         examples.each do |example|
           route = example.route.to_s
-          specs.paths[route] = OpenApi::Path.new
+          specs.paths[route] ||= OpenApi::Path.new
 
           operation = specs.paths[route].setting(example.http_method) || OpenApi::Operation.new
 
           operation.safe_assign_setting(:tags, [example.resource_name])
           operation.safe_assign_setting(:summary, example.respond_to?(:route_summary) ? example.route_summary : '')
           operation.safe_assign_setting(:description, example.respond_to?(:route_description) ? example.route_description : '')
-          operation.safe_assign_setting(:responses, OpenApi::Responses.new)
+          operation.safe_assign_setting(:responses, {})
           operation.safe_assign_setting(:parameters, extract_parameters(example))
           operation.safe_assign_setting(:consumes, example.requests.map { |request| request[:request_content_type] }.compact.map { |q| q[/[^;]+/] })
           operation.safe_assign_setting(:produces, example.requests.map { |request| request[:response_content_type] }.compact.map { |q| q[/[^;]+/] })
@@ -120,9 +120,9 @@ module RspecApiDocumentation
           if /\A(?<response_content_type>[^;]+)/ =~ request[:response_content_type]
             response.safe_assign_setting(:examples, {})
             response_body = JSON.parse(request[:response_body]) rescue nil
-            response.examples[response_content_type.to_s] = response_body
+            response.examples[response_content_type.to_s] = response_body if response_body
           end
-          responses.add_setting "#{request[:response_status]}", :value => response
+          responses[request[:response_status].to_s] = response
         end
       end
 
