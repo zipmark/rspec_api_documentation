@@ -19,6 +19,7 @@ describe RspecApiDocumentation::OpenApi::Root do
     its(:definitions) { should be_nil }
     its(:parameters) { should be_nil }
     its(:responses) { should be_nil }
+    its(:paths) { should == {} }
     its(:securityDefinitions) { should be_nil }
     its(:security) { should be_nil }
     its(:tags) { should == [] }

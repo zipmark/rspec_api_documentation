@@ -63,7 +63,6 @@ module RspecApiDocumentation
     autoload :Operation
     autoload :Parameter
     autoload :Response
-    autoload :Example
     autoload :Header
     autoload :Schema
     autoload :SecuritySchema
