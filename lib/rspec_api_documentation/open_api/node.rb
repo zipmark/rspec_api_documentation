@@ -36,18 +36,21 @@ module RspecApiDocumentation
         opts.each do |name, value|
           if name.to_s == 'hide'
             self.hide = value
-          elsif self.class::CHILD_CLASS
-            add_setting name, :value => self.class::CHILD_CLASS === true ? value : self.class::CHILD_CLASS.new(value)
           elsif setting_exist?(name.to_sym)
             schema = setting_schema(name)
             converted =
-              case
-              when schema.is_a?(Array) && schema[0] <= Node then value.map { |v| v.is_a?(schema[0]) ? v : schema[0].new(v) }
-              when schema <= Node then value.is_a?(schema) ? value : schema.new(value)
+              if schema.is_a?(Hash) && schema.values[0] <= Node
+                Hash[value.map { |k, v| [k, v.is_a?(schema.values[0]) ? v : schema.values[0].new(v)] }]
+              elsif schema.is_a?(Array) && schema[0] <= Node
+                value.map { |v| v.is_a?(schema[0]) ? v : schema[0].new(v) }
+              elsif schema <= Node
+                value.is_a?(schema) ? value : schema.new(value)
               else
                 value
               end
             assign_setting(name, converted)
+          elsif self.class::CHILD_CLASS
+            add_setting name, :value => self.class::CHILD_CLASS === true ? value : self.class::CHILD_CLASS.new(value)
           else
             public_send("#{name}=", value) if respond_to?("#{name}=")
           end
@@ -94,6 +97,8 @@ module RspecApiDocumentation
           when value.is_a?(Array) && value[0].is_a?(Node)
             tmp = value.select { |v| !v.hide }.map { |v| v.as_json }
             hash[name] = tmp unless tmp.empty?
+          when value.is_a?(Hash) && value.values[0].is_a?(Node)
+            hash[name] = Hash[value.map { |k, v| [k, v.as_json] }]
           else
             hash[name] = value
           end unless value.nil?

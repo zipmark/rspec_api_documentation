@@ -80,11 +80,12 @@ module RspecApiDocumentation
       end
 
       def add_paths!
-        specs.safe_assign_setting(:paths, OpenApi::Paths.new)
+        specs.safe_assign_setting(:paths, {})
         examples.each do |example|
-          specs.paths.add_setting example.route, :value => OpenApi::Path.new
+          route = example.route.to_s
+          specs.paths[route] = OpenApi::Path.new
 
-          operation = specs.paths.setting(example.route).setting(example.http_method) || OpenApi::Operation.new
+          operation = specs.paths[route].setting(example.http_method) || OpenApi::Operation.new
 
           operation.safe_assign_setting(:tags, [example.resource_name])
           operation.safe_assign_setting(:summary, example.respond_to?(:route_summary) ? example.route_summary : '')
@@ -97,7 +98,7 @@ module RspecApiDocumentation
 
           process_responses(operation.responses, example)
 
-          specs.paths.setting(example.route).assign_setting(example.http_method, operation)
+          specs.paths[route].assign_setting(example.http_method, operation)
         end
       end
 
@@ -110,16 +111,16 @@ module RspecApiDocumentation
           )
 
           if request[:response_headers]
-            response.safe_assign_setting(:headers, OpenApi::Headers.new)
+            response.safe_assign_setting(:headers, {})
             request[:response_headers].each do |header, value|
-              response.headers.add_setting header, :value => OpenApi::Header.new('x-example-value' => value)
+              response.headers[header.to_s] = OpenApi::Header.new('x-example-value' => value)
             end
           end
 
           if /\A(?<response_content_type>[^;]+)/ =~ request[:response_content_type]
-            response.safe_assign_setting(:examples, OpenApi::Example.new)
+            response.safe_assign_setting(:examples, {})
             response_body = JSON.parse(request[:response_body]) rescue nil
-            response.examples.add_setting response_content_type, :value => response_body
+            response.examples[response_content_type.to_s] = response_body
           end
           responses.add_setting "#{request[:response_status]}", :value => response
         end
