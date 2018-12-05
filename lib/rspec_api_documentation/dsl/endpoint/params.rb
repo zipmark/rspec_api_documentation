@@ -30,6 +30,16 @@ module RspecApiDocumentation
             unless p[:value]
               cur = extra_params
               [*p[:scope]].each { |scope| cur = cur && (cur[scope.to_sym] || cur[scope.to_s]) }
+
+              # When the current parameter is an array of objects, we use the
+              # first one for the value and add a scope indicator. The
+              # resulting parameter name looks like +props[pictures][][id]+
+              # this.
+              if cur.is_a?(Array) && cur.first.is_a?(Hash)
+                cur = cur.first
+                param[:scope] << ''
+              end
+
               p[:value] = cur && (cur[p[:name].to_s] || cur[p[:name].to_sym])
             end
             p
