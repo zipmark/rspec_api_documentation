@@ -175,11 +175,13 @@ Feature: Generate Open API Specification from test examples
           end
         end
 
-        get '/orders/:id' do
+        get '/orders/:id?year=:year&month=:month' do
           route_summary "This is used to return orders."
           route_description "Returns a specific order."
 
           let(:id) { 1 }
+          let(:year) { 2000 }
+          let(:month) { 6 }
 
           example_request 'Getting a specific order' do
             expect(status).to eq(200)
@@ -594,7 +596,7 @@ Feature: Generate Open API Specification from test examples
             ]
           }
         },
-        "/orders/{id}": {
+        "/orders/{id}?year={year}&month={month}": {
           "get": {
             "tags": [
               "Orders"
