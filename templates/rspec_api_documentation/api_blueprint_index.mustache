@@ -27,6 +27,15 @@ explanation: {{ explanation }}
 + Parameters
 {{# parameters }}
   + {{ name }}{{# example }}: {{ example }}{{/ example }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
+      {{# has_default?}}
+      + Default: `{{default}}`
+      {{/ has_default?}}
+      {{# has_enum?}}
+      + Members
+        {{# enum}}
+          + `{{.}}`
+        {{/ enum}}
+      {{/ has_enum?}}
 {{/ parameters }}
 {{/ has_parameters? }}
 {{# has_attributes? }}

@@ -86,6 +86,9 @@ module RspecApiDocumentation
               property[:properties_description] = nil
             end
 
+            property[:has_default?] = true if property[:default]
+            property[:has_enum?] = true if property[:enum]
+
             property[:description] = nil if description_blank?(property)
             property
           end
