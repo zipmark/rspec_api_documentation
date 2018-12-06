@@ -64,7 +64,13 @@ module RspecApiDocumentation
         settings[name] = opts[:value] if opts[:value]
 
         define_singleton_method("#{name}_schema") { opts[:schema] || NilClass }
-        define_singleton_method("#{name}=") { |value| settings[name] = value }
+        define_singleton_method("#{name}=") do |value|
+          if setting[name].is_a?(Hash) && value.is_a?(Hash)
+            value.each { |k, v| setting[name][k] = setting[name][k] ? setting[name][k].merge(v) : v }
+          else
+            settings[name] = value
+          end
+        end
         define_singleton_method("#{name}") do
           if settings.has_key?(name)
             settings[name]

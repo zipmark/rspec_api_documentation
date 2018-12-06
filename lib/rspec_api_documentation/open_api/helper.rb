@@ -16,7 +16,7 @@ module RspecApiDocumentation
       end
 
       def extract_items(value, opts = {})
-        result = {type: extract_type(value)}
+        result = { type: extract_type(value) }
         if result[:type] == :array
           result[:items] = extract_items(value[0], opts)
         else

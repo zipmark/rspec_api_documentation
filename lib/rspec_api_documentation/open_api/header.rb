@@ -1,12 +1,17 @@
 module RspecApiDocumentation
   module OpenApi
     class Header < Node
-      add_setting :description, :default => ''
-      add_setting :type, :required => true, :default => lambda { |header|
-        Helper.extract_type(header.public_send('x-example-value'))
-      }
-      add_setting :format
-      add_setting 'x-example-value'
+      add_setting :description
+      add_setting :required
+      add_setting :deprecated
+      # add_setting :allowEmptyValue
+      # add_setting :style
+      # add_setting :explode
+      # add_setting :allowReserved
+      add_setting :schema, :schema => Schema
+      add_setting :example
+      # add_setting :examples, :schema => { '' => Example }
+      # add_setting :content, :schema => { '' => Media }
     end
   end
 end

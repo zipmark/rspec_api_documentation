@@ -8,6 +8,7 @@ module RspecApiDocumentation
       add_setting :options, :schema => Operation
       add_setting :head, :schema => Operation
       add_setting :patch, :schema => Operation
+      add_setting :trace, :schema => Operation
     end
   end
 end
