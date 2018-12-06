@@ -424,17 +424,21 @@ Feature: Generate Open API Specification from test examples
               {
                 "name": "one_level_arr",
                 "in": "query",
-                "description": " one level arr\nEg, `[\"value1\", \"value2\"]`",
+                "description": " one level arr",
                 "required": false,
                 "type": "array",
                 "items": {
                   "type": "string"
-                }
+                },
+                "example": [
+                  "value1",
+                  "value2"
+                ]
               },
               {
                 "name": "two_level_arr",
                 "in": "query",
-                "description": " two level arr\nEg, `[[5.1, 3.0], [1.0, 4.5]]`",
+                "description": " two level arr",
                 "required": false,
                 "type": "array",
                 "items": {
@@ -442,7 +446,17 @@ Feature: Generate Open API Specification from test examples
                   "items": {
                     "type": "number"
                   }
-                }
+                },
+                "example": [
+                  [
+                    5.1,
+                    3.0
+                  ],
+                  [
+                    1.0,
+                    4.5
+                  ]
+                ]
               }
             ],
             "responses": {
