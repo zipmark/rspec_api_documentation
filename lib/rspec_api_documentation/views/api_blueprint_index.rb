@@ -89,6 +89,8 @@ module RspecApiDocumentation
             property[:has_default?] = true if property[:default]
             property[:has_enum?] = true if property[:enum]
 
+            property[:annotations] = property[:annotation].lines.map(&:chomp) if property[:annotation]
+
             property[:description] = nil if description_blank?(property)
             property
           end

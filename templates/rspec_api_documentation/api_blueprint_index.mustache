@@ -43,6 +43,9 @@ explanation: {{ explanation }}
 + Attributes (object)
 {{# attributes }}
   + {{ name }}{{# example }}: {{ example }}{{/ example }}{{# properties_description }} ({{ properties_description }}){{/ properties_description }}{{# description }} - {{ description }}{{/ description }}
+  {{# annotations }}
+      {{ . }}
+  {{/ annotations }}
 {{/ attributes }}
 {{/ has_attributes? }}
 {{# http_methods }}
