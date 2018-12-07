@@ -615,7 +615,6 @@ Feature: Generate Open API Specification from test examples
               {
                 "name": "id",
                 "in": "path",
-                "description": "",
                 "required": true,
                 "type": "integer"
               }
@@ -670,7 +669,6 @@ Feature: Generate Open API Specification from test examples
               {
                 "name": "id",
                 "in": "path",
-                "description": "",
                 "required": true,
                 "type": "integer"
               },
@@ -772,7 +770,6 @@ Feature: Generate Open API Specification from test examples
               {
                 "name": "id",
                 "in": "path",
-                "description": "",
                 "required": true,
                 "type": "integer"
               }
