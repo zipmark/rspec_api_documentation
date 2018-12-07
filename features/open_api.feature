@@ -342,19 +342,16 @@ Feature: Generate Open API Specification from test examples
               "200": {
                 "description": "List all instructions",
                 "schema": {
-                  "description": "",
                   "type": "object",
                   "properties": {
                   }
                 },
                 "headers": {
                   "Content-Type": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "text/html;charset=utf-8"
                   },
                   "Content-Length": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "57"
                   }
@@ -463,19 +460,16 @@ Feature: Generate Open API Specification from test examples
               "200": {
                 "description": "Getting a list of orders",
                 "schema": {
-                  "description": "",
                   "type": "object",
                   "properties": {
                   }
                 },
                 "headers": {
                   "Content-Type": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "application/vnd.api+json"
                   },
                   "Content-Length": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "137"
                   }
@@ -523,7 +517,6 @@ Feature: Generate Open API Specification from test examples
                 "description": "",
                 "required": false,
                 "schema": {
-                  "description": "",
                   "type": "object",
                   "properties": {
                     "data": {
@@ -574,19 +567,16 @@ Feature: Generate Open API Specification from test examples
               "201": {
                 "description": "Creating an order",
                 "schema": {
-                  "description": "",
                   "type": "object",
                   "properties": {
                   }
                 },
                 "headers": {
                   "Content-Type": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "application/json"
                   },
                   "Content-Length": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "73"
                   }
@@ -625,7 +615,6 @@ Feature: Generate Open API Specification from test examples
               {
                 "name": "id",
                 "in": "path",
-                "description": "",
                 "required": true,
                 "type": "integer"
               }
@@ -634,19 +623,16 @@ Feature: Generate Open API Specification from test examples
               "200": {
                 "description": "Getting a specific order",
                 "schema": {
-                  "description": "",
                   "type": "object",
                   "properties": {
                   }
                 },
                 "headers": {
                   "Content-Type": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "application/json"
                   },
                   "Content-Length": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "73"
                   }
@@ -683,7 +669,6 @@ Feature: Generate Open API Specification from test examples
               {
                 "name": "id",
                 "in": "path",
-                "description": "",
                 "required": true,
                 "type": "integer"
               },
@@ -693,7 +678,6 @@ Feature: Generate Open API Specification from test examples
                 "description": "",
                 "required": false,
                 "schema": {
-                  "description": "",
                   "type": "object",
                   "properties": {
                     "data": {
@@ -727,19 +711,16 @@ Feature: Generate Open API Specification from test examples
               "200": {
                 "description": "Update an order",
                 "schema": {
-                  "description": "",
                   "type": "object",
                   "properties": {
                   }
                 },
                 "headers": {
                   "Content-Type": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "application/json"
                   },
                   "Content-Length": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "63"
                   }
@@ -750,19 +731,16 @@ Feature: Generate Open API Specification from test examples
               "400": {
                 "description": "Invalid request",
                 "schema": {
-                  "description": "",
                   "type": "object",
                   "properties": {
                   }
                 },
                 "headers": {
                   "Content-Type": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "application/json"
                   },
                   "Content-Length": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "0"
                   }
@@ -792,7 +770,6 @@ Feature: Generate Open API Specification from test examples
               {
                 "name": "id",
                 "in": "path",
-                "description": "",
                 "required": true,
                 "type": "integer"
               }
@@ -801,19 +778,16 @@ Feature: Generate Open API Specification from test examples
               "200": {
                 "description": "Deleting an order",
                 "schema": {
-                  "description": "",
                   "type": "object",
                   "properties": {
                   }
                 },
                 "headers": {
                   "Content-Type": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "text/html;charset=utf-8"
                   },
                   "Content-Length": {
-                    "description": "",
                     "type": "string",
                     "x-example-value": "0"
                   }

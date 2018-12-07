@@ -1,9 +1,9 @@
 module RspecApiDocumentation
   module OpenApi
     class Contact < Node
-      add_setting :name, :default => 'API Support'
-      add_setting :url, :default => 'http://www.open-api.io/support'
-      add_setting :email, :default => 'support@open-api.io'
+      add_setting :name
+      add_setting :url
+      add_setting :email
     end
   end
 end
