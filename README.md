@@ -38,7 +38,7 @@ resource "Orders" do
     example "Listing orders" do
       do_request
 
-      status.should == 200
+      expect(status).to eq 200
     end
   end
 end
