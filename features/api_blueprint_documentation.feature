@@ -64,6 +64,7 @@ Feature: Generate API Blueprint documentation from test examples
       RspecApiDocumentation.configure do |config|
         config.app = App
         config.api_name = "Example API"
+        config.api_host_name = "example.org"
         config.api_explanation = "Example API Description"
         config.format = :api_blueprint
         config.request_body_formatter = :json
@@ -249,6 +250,8 @@ Feature: Generate API Blueprint documentation from test examples
     Then the file "doc/api/index.apib" should contain exactly:
     """
     FORMAT: 1A
+    HOST: example.org
+
     # Example API
 
     # Group Instructions

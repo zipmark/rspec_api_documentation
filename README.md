@@ -222,6 +222,10 @@ RspecApiDocumentation.configure do |config|
 
   # Change the name of the API on index pages
   config.api_name = "API Documentation"
+
+  # HOST key used in apib files metadata, allowing to enable production
+  # proxy at Apiary https://help.apiary.io/faq/enable_production_proxy/
+  config.api_host_name = nil
   
   # Change the description of the API on index pages
   config.api_explanation = "API Description"
