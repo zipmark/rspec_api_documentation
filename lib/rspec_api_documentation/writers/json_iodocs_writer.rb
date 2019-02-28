@@ -37,14 +37,18 @@ module RspecApiDocumentation
 
       def as_json(opts = nil)
         sections.inject({:endpoints => []}) do |h, section|
-          h[:endpoints].push(
-            :name => section[:resource_name],
-            :methods => section[:examples].map do |example|
-              example.as_json(opts)
-            end
-          )
+          h[:endpoints].push(section_hash(section, opts))
           h
         end
+      end
+
+      def section_hash(section, opts = nil)
+        {
+          :name => section[:resource_name],
+          :methods => section[:examples].map do |example|
+            example.as_json(opts)
+          end
+        }
       end
     end
 
