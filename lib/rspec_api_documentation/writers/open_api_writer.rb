@@ -126,6 +126,8 @@ module RspecApiDocumentation
       end
 
       def extract_schema(fields)
+        return if fields.empty?
+        
         schema = {type: 'object', properties: {}}
 
         fields.each do |field|
