@@ -342,9 +342,6 @@ Feature: Generate Open API Specification from test examples
               "200": {
                 "description": "List all instructions",
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
                 },
                 "headers": {
                   "Content-Type": {
@@ -460,9 +457,6 @@ Feature: Generate Open API Specification from test examples
               "200": {
                 "description": "Getting a list of orders",
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
                 },
                 "headers": {
                   "Content-Type": {
@@ -567,9 +561,6 @@ Feature: Generate Open API Specification from test examples
               "201": {
                 "description": "Creating an order",
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
                 },
                 "headers": {
                   "Content-Type": {
@@ -623,9 +614,6 @@ Feature: Generate Open API Specification from test examples
               "200": {
                 "description": "Getting a specific order",
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
                 },
                 "headers": {
                   "Content-Type": {
@@ -711,9 +699,6 @@ Feature: Generate Open API Specification from test examples
               "200": {
                 "description": "Update an order",
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
                 },
                 "headers": {
                   "Content-Type": {
@@ -731,9 +716,6 @@ Feature: Generate Open API Specification from test examples
               "400": {
                 "description": "Invalid request",
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
                 },
                 "headers": {
                   "Content-Type": {
@@ -778,9 +760,6 @@ Feature: Generate Open API Specification from test examples
               "200": {
                 "description": "Deleting an order",
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
                 },
                 "headers": {
                   "Content-Type": {
