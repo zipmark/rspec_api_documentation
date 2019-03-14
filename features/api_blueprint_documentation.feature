@@ -115,6 +115,11 @@ Feature: Generate API Blueprint documentation from test examples
           attribute :name, 'The order name', required: true, :example => 'a name'
           attribute :amount, required: false
           attribute :description, 'The order description', type: 'string', required: false, example: "a description"
+          attribute :category, 'The order category', type: 'string', required: false, default: 'normal', enum: %w[normal priority]
+          attribute :metadata, 'The order metadata', type: 'json', required: false, annotation: <<-MARKDOWN
+    + instructions (optional, string)
+    + notes (optional, string)
+          MARKDOWN
 
           get 'Returns a single order' do
             explanation "This is used to return orders."
@@ -360,6 +365,14 @@ Feature: Generate API Blueprint documentation from test examples
       + name: a name (required) - The order name
       + amount (optional)
       + description: a description (optional, string) - The order description
+      + category (optional, string) - The order category
+          + Default: `normal`
+          + Members
+              + `normal`
+              + `priority`
+      + metadata (optional, json) - The order metadata
+          + instructions (optional, string)
+          + notes (optional, string)
 
     ### Deletes a specific order [DELETE]
 
