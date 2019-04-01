@@ -11,6 +11,7 @@ module RspecApiDocumentation
       add_setting :required, :default => lambda { |parameter| parameter.in.to_s == 'path' ? true : false }
       add_setting :schema
       add_setting :type
+      add_setting :format
       add_setting :items
       add_setting :default
       add_setting :minimum
