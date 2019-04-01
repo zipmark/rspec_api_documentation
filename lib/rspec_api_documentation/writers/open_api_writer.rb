@@ -172,6 +172,7 @@ module RspecApiDocumentation
           description:  opts[:description],
           required:     opts[:required],
           type:         opts[:type] || OpenApi::Helper.extract_type(opts[:value]),
+          format:       opts[:format],
           value:        opts[:value],
           with_example: opts[:with_example],
           default:      opts[:default],
