@@ -192,7 +192,7 @@ Feature: Generate Open API Specification from test examples
 
           parameter :name, 'The order name', required: true, scope: :data, with_example: true
           parameter :amount, required: false, scope: :data, with_example: true
-          parameter :description, 'The order description', required: false, scope: :data, with_example: true
+          parameter :description, 'The order description', required: true, scope: :data, with_example: true
 
           header "Content-Type", "application/json"
 
@@ -700,7 +700,8 @@ Feature: Generate Open API Specification from test examples
                         }
                       },
                       "required": [
-                        "name"
+                        "name",
+                        "description"
                       ]
                     }
                   }

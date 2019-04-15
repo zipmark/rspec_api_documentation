@@ -149,7 +149,10 @@ module RspecApiDocumentation
             opts.each { |k, v| current[:properties][field[:name]][k] = v if v }
           end
 
-          current[:required] ||= [] << field[:name] if field[:required]
+          if field[:required]
+            current[:required] ||= []
+            current[:required] << field[:name]
+          end
         end
 
         OpenApi::Schema.new(schema)
