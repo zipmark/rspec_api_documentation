@@ -57,7 +57,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     ffi (1.9.10)
     gherkin (3.2.0)
-    hashdiff (0.2.3)
+    hashdiff (1.0.0)
     httpclient (2.7.1)
     i18n (0.7.0)
     inch (0.8.0)
@@ -109,7 +109,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
-    safe_yaml (1.0.4)
+    safe_yaml (1.0.5)
     sinatra (1.4.7)
       rack (~> 1.5)
       rack-protection (~> 1.4)
@@ -127,10 +127,10 @@ GEM
     tins (1.16.3)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    webmock (1.22.6)
+    webmock (3.6.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
-      hashdiff
+      hashdiff (>= 0.4.0, < 2.0.0)
     xpath (2.0.0)
       nokogiri (~> 1.3)
     yard (0.9.15)
@@ -153,8 +153,8 @@ DEPENDENCIES
   rspec_api_documentation!
   sinatra (~> 1.4, >= 1.4.4)
   thin (~> 1.6, >= 1.6.3)
-  webmock (~> 1.7)
+  webmock (~> 3.6)
   yard (>= 0.9.11)
 
 BUNDLED WITH
-   1.16.4
+   1.17.2

@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake", "~> 10.1"
   s.add_development_dependency "rack-test", "~> 0.6.2"
   s.add_development_dependency "rack-oauth2", "~> 1.2.2", ">= 1.0.7"
-  s.add_development_dependency "webmock", "~> 1.7"
+  s.add_development_dependency "webmock", "~> 3.6"
   s.add_development_dependency "rspec-its", "~> 1.0"
   s.add_development_dependency "faraday", "~> 0.9", ">= 0.9.0"
   s.add_development_dependency "thin", "~> 1.6", ">= 1.6.3"
