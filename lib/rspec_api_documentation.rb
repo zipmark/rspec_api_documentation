@@ -71,6 +71,7 @@ module RspecApiDocumentation
     autoload :Schema
     autoload :SecurityDefinitions
     autoload :SecuritySchema
+    autoload :XLogo
   end
 
   module Views
