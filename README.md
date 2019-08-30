@@ -258,6 +258,7 @@ RspecApiDocumentation.configure do |config|
   config.html_embedded_css_file = nil
 
   # Removes the DSL method `status`, this is required if you have a parameter named status
+  # In this case you can assert response status with `expect(response_status).to eq 200`
   config.disable_dsl_status!
 
   # Removes the DSL method `method`, this is required if you have a parameter named method
