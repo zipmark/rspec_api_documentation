@@ -38,7 +38,7 @@ resource "Orders" do
     example "Listing orders" do
       do_request
 
-      status.should == 200
+      expect(status).to eq 200
     end
   end
 end
@@ -517,18 +517,18 @@ resource "Account" do
     # default :document is :all
     example "Get a list of all accounts" do
       do_request
-      status.should == 200
+      expect(status).to eq 200
     end
 
     # Don't actually document this example, purely for testing purposes
     example "Get a list on page 2", :document => false do
       do_request(:page => 2)
-      status.should == 404
+      expect(status).to eq 404
     end
 
     # With example_request, you can't change the :document
     example_request "Get a list on page 3", :page => 3 do
-      status.should == 404
+      expect(status).to eq 404
     end
   end
 
@@ -537,12 +537,12 @@ resource "Account" do
 
     example "Creating an account", :document => :private do
       do_request(:email => "eric@example.com")
-      status.should == 201
+      expect(status).to eq 201
     end
 
     example "Creating an account - errors", :document => [:private, :developers] do
       do_request
-      status.should == 422
+      expect(status).to eq 422
     end
   end
 end
@@ -611,7 +611,7 @@ resource "Orders" do
     let(:id) { order.id }
 
     example "Get an order" do
-      path.should == "/orders/1" # `:id` is replaced with the value of `id`
+      expect(path).to eq "/orders/1" # `:id` is replaced with the value of `id`
     end
   end
 
@@ -701,7 +701,7 @@ resource "Orders" do
 
   get "/orders" do
     example_request "Headers" do
-      headers.should == { "Accept" => "application/json", "X-Custom" => "dynamic" }
+      expect(headers).to eq { "Accept" => "application/json", "X-Custom" => "dynamic" }
     end
   end
 end
@@ -740,7 +740,7 @@ resource "Orders" do
     # OR let(:order_item_item_id) { 1 }
 
     example "Creating an order" do
-      params.should eq({
+      expect(params).to eq({
         :order => {
           :name => "My Order",
           :item => {
@@ -829,7 +829,7 @@ resource "Order" do
 
       do_request
 
-      status.should == 200
+      expect(status).to eq 200
     end
   end
 end
@@ -849,7 +849,7 @@ resource "Order" do
     example "Listing orders" do
       do_request
 
-      status.should == 200
+      expect(status).to eq 200
     end
   end
 end
@@ -870,7 +870,7 @@ resource "Order" do
 
       do_request
 
-      status.should == 200
+      expect(status).to eq 200
     end
   end
 end
@@ -892,7 +892,7 @@ resource "Orders" do
 
   get "/orders" do
     example_request "Headers" do
-      headers.should == { "Accept" => "application/json" }
+      expect(headers).to eq { "Accept" => "application/json" }
     end
   end
 end
@@ -912,7 +912,7 @@ resource "Order" do
     example "Listing orders" do
       do_request
 
-      response_body.should == [{ :name => "Order 1" }].to_json
+      expect(response_body).to eq [{ :name => "Order 1" }].to_json
     end
   end
 end
@@ -928,7 +928,7 @@ resource "Order" do
     example "Listing orders" do
       do_request
 
-      response_headers["Content-Type"].should == "application/json"
+      expect(response_headers["Content-Type"]).to eq "application/json"
     end
   end
 end
@@ -944,8 +944,8 @@ resource "Order" do
     example "Listing orders" do
       do_request
 
-      status.should == 200
-      response_status.should == 200
+      expect(status).to eq 200
+      expect(response_status).to eq 200
     end
   end
 end
@@ -963,7 +963,7 @@ resource "Orders" do
 
   get "/orders" do
     example "List orders" do
-      query_string.should == "name=My+Orders"
+      expect(query_string).to eq "name=My+Orders"
     end
   end
 end
