@@ -290,6 +290,14 @@ resource "Order" do
     end
 
     describe "do_callback" do
+      before(:all) do
+        WebMock.enable!
+      end
+
+      after(:all) do
+        WebMock.disable!
+      end
+
       trigger_callback do
         uri = URI.parse(callback_url)
         Net::HTTP.start(uri.host, uri.port) do |http|

@@ -65,8 +65,10 @@ describe RspecApiDocumentation::HttpTestClient do
       test_client.get "/", {}, { "Accept" => "application/json", "Content-Type" => "application/json", "User-Id" => "1" }
     end
 
+    let(:request_headers) { test_client.request_headers }
+
     it "should contain all the headers" do
-      expect(test_client.request_headers).to eq({
+      expect(request_headers).to include({
         "Accept" => "application/json",
         "Content-Type" => "application/json",
         "User-Id" => "1"
@@ -110,7 +112,7 @@ describe RspecApiDocumentation::HttpTestClient do
         expect(metadata[:response_headers]['Content-Type']).to match(/application\/json/)
         expect(metadata[:response_headers]['Content-Length']).to eq('17')
         expect(metadata[:response_content_type]).to match(/application\/json/)
-        expect(metadata[:curl]).to eq(RspecApiDocumentation::Curl.new("POST", "/greet?query=test+query", post_data, {"Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value"}))
+        expect(metadata[:curl].output('http://localhost', 'User-Agent')).to eql(RspecApiDocumentation::Curl.new("POST", "/greet?query=test+query", post_data, {"Content-Type" => "application/json;charset=utf-8", "X-Custom-Header" => "custom header value"}).output('http://localhost', 'User-Agent'))
       end
 
       context "when post data is not json" do

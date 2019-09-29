@@ -5,6 +5,9 @@ Feature: Document callbacks
       """
       require "rspec_api_documentation"
       require "rspec_api_documentation/dsl"
+      require "webmock"
+
+      WebMock.enable!
 
       RspecApiDocumentation.configure do |config|
         config.app = lambda do

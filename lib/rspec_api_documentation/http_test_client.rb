@@ -30,7 +30,7 @@ module RspecApiDocumentation
     LastRequest = Struct.new(:url, :method, :request_headers, :body)
 
     def request_headers
-      env_to_headers(last_request.request_headers)
+      last_request.request_headers
     end
 
     def response_headers
@@ -50,11 +50,11 @@ module RspecApiDocumentation
     end
 
     def request_content_type
-      last_request.request_headers["CONTENT_TYPE"]
+      last_request.request_headers["Content-Type"]
     end
 
     def response_content_type
-      last_response.request_headers["CONTENT_TYPE"]
+      last_response.request_headers["Content-Type"]
     end
 
     def do_request(method, path, params, request_headers)
@@ -70,10 +70,6 @@ module RspecApiDocumentation
     end
 
     protected
-
-    def headers(*args)
-      headers_to_env(super)
-    end
 
     def handle_multipart_body(request_headers, request_body)
       parsed_parameters = Rack::Request.new({

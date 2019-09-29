@@ -5,9 +5,9 @@ module RspecApiDocumentation
   class Curl < Struct.new(:method, :path, :data, :headers)
     attr_accessor :host
 
-    def output(config_host, config_headers_to_filer = nil)
+    def output(config_host, config_headers_to_filter = nil)
       self.host = config_host
-      @config_headers_to_filer = Array(config_headers_to_filer)
+      @config_headers_to_filter = Array(config_headers_to_filter)
       send(method.downcase)
     end
 
@@ -79,9 +79,9 @@ module RspecApiDocumentation
     end
 
     def filter_headers(headers)
-      if !@config_headers_to_filer.empty?
+      if !@config_headers_to_filter.empty?
         headers.reject do |header|
-          @config_headers_to_filer.map(&:downcase).include?(format_header(header).downcase)
+          @config_headers_to_filter.map(&:downcase).include?(format_header(header).downcase)
         end
       else
         headers
