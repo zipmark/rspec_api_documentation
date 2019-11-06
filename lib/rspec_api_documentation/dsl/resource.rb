@@ -93,6 +93,10 @@ module RspecApiDocumentation::DSL
         safe_metadata(:resource_explanation, text)
       end
 
+      def operation_id(name)
+        safe_metadata(:operationId, name)
+      end
+
       private
 
       def field_specification(name, *args)

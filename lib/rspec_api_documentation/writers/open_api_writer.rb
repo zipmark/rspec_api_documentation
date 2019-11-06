@@ -94,6 +94,7 @@ module RspecApiDocumentation
           operation.safe_assign_setting(:consumes, example.requests.map { |request| request[:request_content_type] }.compact.map { |q| q[/[^;]+/] })
           operation.safe_assign_setting(:produces, example.requests.map { |request| request[:response_content_type] }.compact.map { |q| q[/[^;]+/] })
           operation.safe_assign_setting(:security, example.respond_to?(:authentications) ? example.authentications.map { |(k, _)| {k => []} } : [])
+          operation.safe_assign_setting(:operationId, example.operation_id)
 
           process_responses(operation.responses, example)
 
@@ -245,6 +246,11 @@ module RspecApiDocumentation
       def route
         super.gsub(/:(?<parameter>[^\/]+)/, '{\k<parameter>}')
       end
+
+      def operation_id()
+        metadata[:operationId]
+      end
+
     end
   end
 end
