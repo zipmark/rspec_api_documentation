@@ -5,10 +5,10 @@ module RspecApiDocumentation
       add_setting :description
       add_setting :name
       add_setting :in
-      add_setting :flow
-      add_setting :authorizationUrl
-      add_setting :tokenUrl
-      add_setting :scopes
+      add_setting :scheme
+      add_setting :bearerFormat
+      add_setting :flows
+      add_setting :openIdConnectUrl
     end
   end
 end

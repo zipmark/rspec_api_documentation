@@ -53,14 +53,14 @@ Generate the docs!
 
 Consider adding a viewer to enhance the generated documentation. By itself rspec_api_documentation will generate very simple HTML. All viewers use the generated JSON.
 
-* [Raddocs](http://github.com/smartlogic/raddocs/) - Sinatra app
-* [Apitome](https://github.com/modeset/apitome) - Rails engine
+- [Raddocs](http://github.com/smartlogic/raddocs/) - Sinatra app
+- [Apitome](https://github.com/modeset/apitome) - Rails engine
 
 #### Gemfile
 
     gem 'raddocs'
 
-    or 
+    or
 
     gem 'apitome'
 
@@ -73,6 +73,7 @@ end
 ```
 
 ####
+
 For both raddocs and apitome, start rails server. Then
 
     open http://localhost:3000/docs for raddocs
@@ -83,7 +84,7 @@ For both raddocs and apitome, start rails server. Then
 
 ## Sample App
 
-See the `example` folder for a sample Rails app that has been documented.  The sample app demonstrates the :open_api format.
+See the `example` folder for a sample Rails app that has been documented. The sample app demonstrates the :open_api format.
 
 ## Example of spec file
 
@@ -93,14 +94,14 @@ See the `example` folder for a sample Rails app that has been documented.  The s
   require 'rspec_api_documentation/dsl'
   resource 'Orders' do
     explanation "Orders resource"
-    
+
     header "Content-Type", "application/json"
 
     get '/orders' do
       # This is manual way to describe complex parameters
       parameter :one_level_array, type: :array, items: {type: :string, enum: ['string1', 'string2']}, default: ['string1']
       parameter :two_level_array, type: :array, items: {type: :array, items: {type: :string}}
-      
+
       let(:one_level_array) { ['string1', 'string2'] }
       let(:two_level_array) { [['123', '234'], ['111']] }
 
@@ -138,10 +139,10 @@ See the `example` folder for a sample Rails app that has been documented.  The s
               description: 'fast order'
             }
           }
-          
+
           # It's also possible to extract types of parameters when you pass data through `do_request` method.
           do_request(request)
-          
+
           expected_response = {
             data: {
               name: 'order',
@@ -161,10 +162,10 @@ See the `example` folder for a sample Rails app that has been documented.  The s
           expect(status).to eq(400)
         end
       end
-      
+
       context "404" do
         let(:id) { 0 }
-        
+
         example_request 'Order is not found' do
           expect(status).to eq(404)
         end
@@ -173,15 +174,15 @@ See the `example` folder for a sample Rails app that has been documented.  The s
   end
 ```
 
-
 ## Configuration options
+
 ```ruby
 # Values listed are the default values
 RspecApiDocumentation.configure do |config|
   # Set the application that Rack::Test uses
   config.app = Rails.application
 
-  # Used to provide a configuration for the specification (supported only by 'open_api' format for now) 
+  # Used to provide a configuration for the specification (supported only by 'open_api' format for now)
   config.configurations_dir = Rails.root.join("doc", "configurations", "api")
 
   # Output folder
@@ -222,7 +223,7 @@ RspecApiDocumentation.configure do |config|
 
   # Change the name of the API on index pages
   config.api_name = "API Documentation"
-  
+
   # Change the description of the API on index pages
   config.api_explanation = "API Description"
 
@@ -268,17 +269,17 @@ end
 
 ## Format
 
-* **json**: Generates an index file and example files in JSON.
-* **html**: Generates an index file and example files in HTML.
-* **combined_text**: Generates a single file for each resource. Used by [Raddocs](http://github.com/smartlogic/raddocs) for command line docs.
-* **combined_json**: Generates a single file for all examples.
-* **json_iodocs**: Generates [I/O Docs](http://www.mashery.com/product/io-docs) style documentation.
-* **textile**: Generates an index file and example files in Textile.
-* **markdown**: Generates an index file and example files in Markdown.
-* **api_blueprint**: Generates an index file and example files in [APIBlueprint](https://apiblueprint.org).
-* **append_json**: Lets you selectively run specs without destroying current documentation. See section below.
-* **slate**: Builds markdown files that can be used with [Slate](https://github.com/lord/slate), a beautiful static documentation builder.
-* **open_api**: Generates [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) (OAS) (Current supported version is 2.0). Can be used for [Swagger-UI](https://swagger.io/tools/swagger-ui/) 
+- **json**: Generates an index file and example files in JSON.
+- **html**: Generates an index file and example files in HTML.
+- **combined_text**: Generates a single file for each resource. Used by [Raddocs](http://github.com/smartlogic/raddocs) for command line docs.
+- **combined_json**: Generates a single file for all examples.
+- **json_iodocs**: Generates [I/O Docs](http://www.mashery.com/product/io-docs) style documentation.
+- **textile**: Generates an index file and example files in Textile.
+- **markdown**: Generates an index file and example files in Markdown.
+- **api_blueprint**: Generates an index file and example files in [APIBlueprint](https://apiblueprint.org).
+- **append_json**: Lets you selectively run specs without destroying current documentation. See section below.
+- **slate**: Builds markdown files that can be used with [Slate](https://github.com/lord/slate), a beautiful static documentation builder.
+- **open_api**: Generates [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) (OAS) (Current supported version is 2.0). Can be used for [Swagger-UI](https://swagger.io/tools/swagger-ui/)
 
 ### append_json
 
@@ -316,7 +317,7 @@ This will update the current index's examples to include any in the `orders_spec
 
 This [format](https://apiblueprint.org) (APIB) has additional functions:
 
-* `route`: APIB groups URLs together and then below them are HTTP verbs.
+- `route`: APIB groups URLs together and then below them are HTTP verbs.
 
   ```ruby
   route "/orders", "Orders Collection" do
@@ -333,65 +334,66 @@ This [format](https://apiblueprint.org) (APIB) has additional functions:
   If you don't use `route`, then param in `get(param)` should be an URL as
   states in the rest of this documentation.
 
-* `attribute`: APIB has attributes besides parameters. Use attributes exactly
+- `attribute`: APIB has attributes besides parameters. Use attributes exactly
   like you'd use `parameter` (see documentation below).
-  
-### open_api 
+
+### open_api
 
 This [format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) (OAS) has additional functions:
 
-* `authentication(type, value, opts = {})` ([Security schema object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#security-scheme-object))
+- `authentication(type, value, opts = {})` ([Security schema object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#securitySchemeObject))
 
-    The values will be passed through header of the request. Option `name` has to be provided for `apiKey`. 
-    
-    * `authentication :basic, 'Basic Key'`
-    * `authentication :apiKey, 'Api Key', name: 'API_AUTH', description: 'Some description'`
-    
-    You could pass `Symbol` as value. In this case you need to define a `let` with the same name.
-    
-    ```
-    authentication :apiKey, :api_key
-    let(:api_key) { some_value } 
-    ```
-    
-* `route_summary(text)` and `route_description(text)`. ([Operation object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#operation-object)) 
+  - `authentication :basic, 'Basic Key'`
+  - `authentication :bearer, 'Bearer Authentication'`
+  - `authentication :apiKey, 'Api Key'
+  - `authentication :oauth2, 'OAuth2', flows: {...}`
+  - `authentication :openIdConnect, 'OpenIdConnect', openIdConnectUrl: '...'`
+  - `authentication :http, 'HTTP Authorization', scheme: '...'`
 
-    These two simplest methods accept `String`. 
-    It will be used for route's `summary` and `description`. 
-    
-* Several new options on `parameter` helper.
+  You could pass `Symbol` as value. In this case you need to define a `let` with the same name.
 
-    - `with_example: true`. This option will adjust your example of the parameter with the passed value.
-    - `example: <value>`. Will provide a example value for the parameter.
-    - `default: <value>`. Will provide a default value for the parameter.
-    - `minimum: <integer>`. Will setup upper limit for your parameter. 
-    - `maximum: <integer>`. Will setup lower limit for your parameter.
-    - `enum: [<value>, <value>, ..]`. Will provide a pre-defined list of possible values for your parameter.
-    - `type: [:file, :array, :object, :boolean, :integer, :number, :string]`. Will set a type for the parameter. Most of the type you don't need to provide this option manually. We extract types from values automatically.
+  ```
+  authentication :apiKey, :api_key
+  let(:api_key) { some_value }
+  ```
 
+- `route_summary(text)` and `route_description(text)`. ([Operation object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#operation-object))
 
-You also can provide a configuration file in YAML or JSON format with some manual configs. 
-The file should be placed in `configurations_dir` folder with the name `open_api.yml` or `open_api.json`. 
-In this file you able to manually **hide** some endpoints/resources you want to hide from generated API specification but still want to test. 
+  These two simplest methods accept `String`.
+  It will be used for route's `summary` and `description`.
+
+- Several new options on `parameter` helper.
+
+  - `with_example: true`. This option will adjust your example of the parameter with the passed value.
+  - `example: <value>`. Will provide a example value for the parameter.
+  - `default: <value>`. Will provide a default value for the parameter.
+  - `minimum: <integer>`. Will setup upper limit for your parameter.
+  - `maximum: <integer>`. Will setup lower limit for your parameter.
+  - `enum: [<value>, <value>, ..]`. Will provide a pre-defined list of possible values for your parameter.
+  - `type: [:file, :array, :object, :boolean, :integer, :number, :string]`. Will set a type for the parameter. Most of the type you don't need to provide this option manually. We extract types from values automatically.
+
+You also can provide a configuration file in YAML or JSON format with some manual configs.
+The file should be placed in `configurations_dir` folder with the name `open_api.yml` or `open_api.json`.
+In this file you able to manually **hide** some endpoints/resources you want to hide from generated API specification but still want to test.
 It's also possible to pass almost everything to the specification builder manually.
 
 #### Example of configuration file
 
 ```yaml
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: OpenAPI App
   description: This is a sample server.
-  termsOfService: 'http://open-api.io/terms/'
+  termsOfService: "http://open-api.io/terms/"
   contact:
     name: API Support
-    url: 'http://www.open-api.io/support'
+    url: "http://www.open-api.io/support"
     email: support@open-api.io
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
   version: 1.0.0
-host: 'localhost:3000'
+host: "localhost:3000"
 schemes:
   - http
   - https
@@ -401,7 +403,7 @@ consumes:
 produces:
   - application/json
   - application/xml
-paths: 
+paths:
   /orders:
     hide: true
   /instructions:
@@ -410,14 +412,16 @@ paths:
       description: This description came from configuration file
       hide: true
 ```
+
 #### Example of spec file with :open_api format
+
 ```ruby
   resource 'Orders' do
     explanation "Orders resource"
-    
+
     authentication :apiKey, :api_key, description: 'Private key for API access', name: 'HEADER_KEY'
     header "Content-Type", "application/json"
-    
+
     let(:api_key) { generate_api_key }
 
     get '/orders' do
@@ -427,7 +431,7 @@ paths:
       # This is manual way to describe complex parameters
       parameter :one_level_array, type: :array, items: {type: :string, enum: ['string1', 'string2']}, default: ['string1']
       parameter :two_level_array, type: :array, items: {type: :array, items: {type: :string}}
-      
+
       let(:one_level_array) { ['string1', 'string2'] }
       let(:two_level_array) { [['123', '234'], ['111']] }
 
@@ -467,10 +471,10 @@ paths:
               description: 'fast order'
             }
           }
-          
+
           # It's also possible to extract types of parameters when you pass data through `do_request` method.
           do_request(request)
-          
+
           expected_response = {
             data: {
               name: 'order',
@@ -490,10 +494,10 @@ paths:
           expect(status).to eq(400)
         end
       end
-      
+
       context "404" do
         let(:id) { 0 }
-        
+
         example_request 'Order is not found' do
           expect(status).to eq(404)
         end
@@ -573,15 +577,13 @@ end
 
 ### Require the DSL
 
-At the beginning of each acceptance/*_spec.rb file, make sure to require the following to pull in the DSL definitions:
+At the beginning of each acceptance/\*\_spec.rb file, make sure to require the following to pull in the DSL definitions:
 
 ```ruby
 require 'rspec_api_documentation/dsl'
 ```
 
-
 ### Example Group Methods
-
 
 #### resource
 
@@ -687,7 +689,6 @@ resource "Orders" do
 end
 ```
 
-
 #### header
 
 This method takes the header name and value. The value can be a string or a symbol. If it is a symbol it will `send` the symbol, allowing you to `let` header values.
@@ -713,11 +714,12 @@ This method takes the parameter name, a description, and an optional hash of ext
 
 Special values:
 
-* `:required => true` Will display a red '*' to show it's required
-* `:scope => :the_scope` Will scope parameters in the hash, scoping can be nested. See example
-* `:method => :method_name` Will use specified method as a parameter value
+- `:required => true` Will display a red '\*' to show it's required
+- `:scope => :the_scope` Will scope parameters in the hash, scoping can be nested. See example
+- `:method => :method_name` Will use specified method as a parameter value
 
 Retrieving of parameter value goes through several steps:
+
 1. if `method` option is defined and test case responds to this method then this method is used;
 2. if test case responds to scoped method then this method is used;
 3. overwise unscoped method is used.
@@ -759,7 +761,8 @@ end
 This method takes the response field name, a description, and an optional hash of extra metadata that can be displayed in Raddocs as extra columns.
 
 Special values:
-* `:scope => :the_scope` Will scope the response field in the hash
+
+- `:scope => :the_scope` Will scope the response field in the hash
 
 ```ruby
 resource "Orders" do
@@ -772,7 +775,6 @@ resource "Orders" do
   end
 end
 ```
-
 
 You can also group metadata using [with_options](http://api.rubyonrails.org/classes/Object.html#method-i-with_options) to factor out duplications.
 

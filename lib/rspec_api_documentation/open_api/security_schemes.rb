@@ -1,6 +1,6 @@
 module RspecApiDocumentation
   module OpenApi
-    class SecurityDefinitions < Node
+    class SecuritySchemes < Node
       CHILD_CLASS = SecuritySchema
     end
   end

@@ -10,7 +10,7 @@ describe RspecApiDocumentation::OpenApi::Root do
     class RspecApiDocumentation::OpenApi::Info; end
     class RspecApiDocumentation::OpenApi::Paths; end
 
-    its(:swagger) { should == '2.0' }
+    its(:openapi) { should == '3.0.2' }
     its(:info) { should be_a(RspecApiDocumentation::OpenApi::Info) }
     its(:host) { should == 'localhost:3000' }
     its(:basePath) { should be_nil }
@@ -21,7 +21,7 @@ describe RspecApiDocumentation::OpenApi::Root do
     its(:definitions) { should be_nil }
     its(:parameters) { should be_nil }
     its(:responses) { should be_nil }
-    its(:securityDefinitions) { should be_nil }
+    its(:components) { should be_nil }
     its(:security) { should be_nil }
     its(:tags) { should == [] }
     its(:externalDocs) { should be_nil }

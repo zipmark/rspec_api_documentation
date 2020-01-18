@@ -35,7 +35,7 @@ module RspecApiDocumentation
         @specs = OpenApi::Root.new(init_config)
         add_tags!
         add_paths!
-        add_security_definitions!
+        add_components!
         specs.as_json
       end
 
@@ -47,8 +47,17 @@ module RspecApiDocumentation
         index.examples.map { |example| OpenApiExample.new(example) }
       end
 
-      def add_security_definitions!
-        security_definitions = OpenApi::SecurityDefinitions.new
+      def add_components!
+        components = {}
+
+        specs.safe_assign_setting(:components, {})
+        specs.components = {
+          securitySchemes: build_security_shemes
+        }
+      end
+
+      def build_security_shemes
+        security_shemes = OpenApi::SecuritySchemes.new
 
         arr = examples.map do |example|
           example.respond_to?(:authentications) ? example.authentications : nil
@@ -60,12 +69,16 @@ module RspecApiDocumentation
               name: opts[:name],
               description: opts[:description],
               type: opts[:type],
-              in: opts[:in]
+              in: opts[:in],
+              scheme: opts[:scheme],
+              bearerFormat: opts[:bearerFormat],
+              openIdConnectUrl: opts[:openIdConnectUrl],
+              flows: opts[:flows]
             )
-            security_definitions.add_setting security, :value => schema
+            security_shemes.add_setting security, :value => schema
           end
         end
-        specs.securityDefinitions = security_definitions unless arr.empty?
+        arr.present? ? security_shemes.as_json : {}
       end
 
       def add_tags!
@@ -167,15 +180,19 @@ module RspecApiDocumentation
 
       def extract_parameter(opts)
         OpenApi::Parameter.new(
-          name:         opts[:name],
-          in:           opts[:in],
-          description:  opts[:description],
-          required:     opts[:required],
-          type:         opts[:type] || OpenApi::Helper.extract_type(opts[:value]),
-          value:        opts[:value],
-          with_example: opts[:with_example],
-          default:      opts[:default],
-          example:      opts[:example],
+          name:             opts[:name],
+          in:               opts[:in],
+          description:      opts[:description],
+          required:         opts[:required],
+          type:             opts[:type] || OpenApi::Helper.extract_type(opts[:value]),
+          value:            opts[:value],
+          with_example:     opts[:with_example],
+          default:          opts[:default],
+          example:          opts[:example],
+          scheme:           opts[:scheme],
+          bearerFormat:     opts[:bearerFormat],
+          openIdConnectUrl: opts[:openIdConnectUrl],
+          flows:            opts[:flows],
         ).tap do |elem|
           if elem.type == :array
             elem.items = opts[:items] || OpenApi::Helper.extract_items(opts[:value][0], { minimum: opts[:minimum], maximum: opts[:maximum], enum: opts[:enum] })

@@ -73,10 +73,20 @@ module RspecApiDocumentation::DSL
       def authentication(type, value, opts = {})
         name, new_opts =
           case type
-          when :basic then ['Authorization', opts.merge(type: type)]
-          when :apiKey then [opts[:name], opts.merge(type: type, in: :header)]
+          when :basic then [opts[:name] || 'BasicAuth', opts.merge(type: :http, scheme: :basic)]
+          when :apiKey then [opts[:name] || 'ApiKeyAuth', opts.merge(type: type, in: :header)]
+          when :oauth2 then [opts[:name] || 'OAuth2', opts.merge(type: type)]
+          when :openIdConnect then [opts[:name] || 'OpenID', opts.merge(type: type)]  
+          when :bearer then [opts[:name] || 'BearerAuth', opts.merge(type: :http, scheme: :bearer, bearerFormat: 'JWT')]
+          when :http then [opts[:name], opts.merge(type: type)]
           else raise 'Not supported type for authentication'
           end
+        # name, new_opts =
+        #   case type
+        #   when :basic then ['Authorization', opts.merge(type: type)]
+        #   when :apiKey then [opts[:name], opts.merge(type: type, in: :header)]
+        #   else raise 'Not supported type for authentication'
+        #   end
         header(name, value)
         authentications[name] = new_opts
       end

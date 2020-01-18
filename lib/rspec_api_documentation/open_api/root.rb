@@ -1,7 +1,8 @@
 module RspecApiDocumentation
   module OpenApi
     class Root < Node
-      add_setting :swagger, :default => '2.0', :required => true
+      # add_setting :swagger, :default => '2.0', :required => true
+      add_setting :openapi, :default => '3.0.2', :required => true
       add_setting :info, :default => Info.new, :required => true, :schema => Info
       add_setting :host, :default => 'localhost:3000'
       add_setting :basePath
@@ -12,7 +13,8 @@ module RspecApiDocumentation
       add_setting :definitions
       add_setting :parameters
       add_setting :responses
-      add_setting :securityDefinitions, :schema => SecurityDefinitions
+      add_setting :components, :schema => Components
+      # add_setting :securitySchemes, :schema => SecuritySchemes
       add_setting :security
       add_setting :tags, :default => [], :schema => [Tag]
       add_setting :externalDocs
