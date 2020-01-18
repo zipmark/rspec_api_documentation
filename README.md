@@ -380,7 +380,7 @@ It's also possible to pass almost everything to the specification builder manual
 #### Example of configuration file
 
 ```yaml
-swagger: "2.0"
+openapi: 3.0.2
 info:
   title: OpenAPI App
   description: This is a sample server.
