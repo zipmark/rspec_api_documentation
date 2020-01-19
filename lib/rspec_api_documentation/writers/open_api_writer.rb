@@ -184,7 +184,7 @@ module RspecApiDocumentation
           in:               opts[:in],
           description:      opts[:description],
           required:         opts[:required],
-          type:             opts[:type] || OpenApi::Helper.extract_type(opts[:value]),
+          schema:           {type: opts[:type] || OpenApi::Helper.extract_type(opts[:value])},
           value:            opts[:value],
           with_example:     opts[:with_example],
           default:          opts[:default],
@@ -194,7 +194,7 @@ module RspecApiDocumentation
           openIdConnectUrl: opts[:openIdConnectUrl],
           flows:            opts[:flows],
         ).tap do |elem|
-          if elem.type == :array
+          if elem.schema[:type] == :array
             elem.items = opts[:items] || OpenApi::Helper.extract_items(opts[:value][0], { minimum: opts[:minimum], maximum: opts[:maximum], enum: opts[:enum] })
           else
             elem.minimum = opts[:minimum]
