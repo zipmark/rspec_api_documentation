@@ -253,7 +253,7 @@ RspecApiDocumentation.configure do |config|
   # Change how the response body is formatted by default
   # Is proc that will be called with the response_content_type & response_body
   # by default, a response body that is likely to be binary is replaced with the string
-  # "[binary data]" and response_content_type of `application/json` are pretty formated.
+  # "[binary data]" regardless of the media type.  Otherwise, a response_content_type of `application/json` is pretty formatted.
   config.response_body_formatter = Proc.new { |response_content_type, response_body| response_body }
 
   # Change the embedded style for HTML output. This file will not be processed by
