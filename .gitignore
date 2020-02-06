@@ -9,3 +9,4 @@ example/public/docs
 *.swp
 /html/
 /.idea
+Gemfile.lock
