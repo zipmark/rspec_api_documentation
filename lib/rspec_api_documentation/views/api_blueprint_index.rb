@@ -67,6 +67,11 @@ module RspecApiDocumentation
       #     properties_description: "required, string"
       #   }
       def fields(property_name, examples)
+        possible_parameters_values = examples.map do |example| 
+          parameters = example.metadata[:extended_parameters]
+          next parameters.map { |parameter| [parameter[:name], parameter[:value]] }.to_h
+        end
+
         examples
           .map { |example| example.metadata[property_name] }
           .flatten
@@ -79,7 +84,19 @@ module RspecApiDocumentation
             else
               properties << 'optional'
             end
-            properties << property[:type] if property[:type]
+
+            if property.key?(:type) 
+              properties << property[:type] if property[:type]
+            else
+              possible_values = possible_parameters_values.map { |parameters| parameters[property[:name]] }
+              possible_types = possible_values.map { |value| guess_type(value) }
+
+              possible_types.uniq!
+              possible_types.compact!
+
+              properties.concat(possible_types)
+            end
+
             if properties.count > 0
               property[:properties_description] = properties.join(", ")
             else
@@ -94,6 +111,21 @@ module RspecApiDocumentation
             property[:description] = nil if description_blank?(property)
             property
           end
+      end
+
+      def guess_type(value)
+        case value
+        when TrueClass then :boolean
+        when FalseClass then :boolean
+        when Array then :array
+        when Integer then :integer
+        when Float then :number
+        when String then :string
+        when Rack::Test::UploadedFile then :file
+        when NilClass then nil
+        else
+          puts "Warning: unknown type of value #{value}"
+        end
       end
 
       # When no `description` was specified for a parameter, the DSL class
