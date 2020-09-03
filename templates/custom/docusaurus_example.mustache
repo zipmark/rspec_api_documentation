@@ -1,0 +1,102 @@
+---
+id: {{ id }}
+title: {{ resource_name }}
+---
+
+## {{{ description }}}
+
+{{# resource_explanation }}
+
+{{{ resource_explanation }}}
+{{/ resource_explanation }}
+
+### {{ http_method }} {{ route }}
+{{# explanation }}
+
+{{{ explanation }}}
+{{/ explanation }}
+{{# has_parameters? }}
+
+### Parameters
+
+| Name | Description | Required | Scope |
+|------|-------------|----------|-------|
+{{# parameters }}
+| {{{ name }}} | {{{ description }}} | {{{ required }}} | {{{ scope }}} |
+{{/ parameters }}
+
+{{/ has_parameters? }}
+{{# has_response_fields? }}
+
+### Response Fields
+
+| Name | Description | Scope |
+|------|-------------|-------|
+{{# response_fields }}
+| {{{ name }}} | {{{ description }}} | {{{ scope }}} |
+{{/ response_fields }}
+
+{{/ has_response_fields? }}
+{{# requests }}
+### Request
+
+#### Headers
+
+```
+{{{ request_headers_text }}}
+```
+
+#### Route
+
+```
+{{ request_method }} {{{ request_path }}}
+```
+{{# request_query_parameters_text }}
+
+#### Query Parameters
+
+```
+{{{ request_query_parameters_text }}}
+```
+{{/ request_query_parameters_text }}
+{{# request_body }}
+
+#### Body
+
+```
+{{{ request_body }}}
+```
+{{/ request_body }}
+{{# curl }}
+
+#### cURL
+
+```
+{{{ curl }}}
+```
+{{/ curl }}
+
+{{# response_status }}
+### Response
+
+#### Headers
+
+```
+{{ response_headers_text }}
+```
+
+#### Status
+
+```
+{{ response_status }} {{ response_status_text}}
+```
+
+{{# response_body }}
+#### Body
+
+```{{ response_format }}
+{{{ response_body }}}
+```
+{{/ response_body }}
+{{/ response_status }}
+{{/ requests }}
