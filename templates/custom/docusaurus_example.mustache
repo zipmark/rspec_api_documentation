@@ -9,7 +9,7 @@ title: {{ resource_name }} - {{ description }}
 {{{ resource_explanation }}}
 {{/ resource_explanation }}
 
-## {{ description }}
+## {{{ description }}}
 
 ### {{ http_method }} {{ route }}
 {{# explanation }}
@@ -23,7 +23,7 @@ title: {{ resource_name }} - {{ description }}
 | Name | Description | Required | Scope |
 |------|-------------|----------|-------|
 {{# parameters }}
-| {{ name }} | {{ description }} | {{ required }} | {{ scope }} |
+| {{{ name }}} | {{{ description }}} | {{{ required }}} | {{{ scope }}} |
 {{/ parameters }}
 
 {{/ has_parameters? }}
@@ -34,7 +34,7 @@ title: {{ resource_name }} - {{ description }}
 | Name | Description | Scope |
 |------|-------------|-------|
 {{# response_fields }}
-| {{ name }} | {{ description }} | {{ scope }} |
+| {{{ name }}} | {{{ description }}} | {{{ scope }}} |
 {{/ response_fields }}
 
 {{/ has_response_fields? }}
@@ -44,20 +44,20 @@ title: {{ resource_name }} - {{ description }}
 #### Headers
 
 ```
-{{ request_headers_text }}
+{{{ request_headers_text }}}
 ```
 
 #### Route
 
 ```
-{{ request_method }} {{ request_path }}
+{{ request_method }} {{{ request_path }}}
 ```
 {{# request_query_parameters_text }}
 
 #### Query Parameters
 
 ```
-{{ request_query_parameters_text }}
+{{{ request_query_parameters_text }}}
 ```
 {{/ request_query_parameters_text }}
 {{# request_body }}
@@ -72,7 +72,8 @@ title: {{ resource_name }} - {{ description }}
 
 #### cURL
 
-<pre class="request">{{ curl }}
+```
+{{{ curl }}}
 ```
 {{/ curl }}
 

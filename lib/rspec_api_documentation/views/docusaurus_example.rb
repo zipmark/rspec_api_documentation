@@ -21,11 +21,11 @@ module RspecApiDocumentation
       end
 
       def id
-        "#{dirname}_#{description.downcase}"
+        "#{dirname}_#{sanitize(description.downcase)}"
       end
 
       def response_format
-        JSON.parse(response_body)
+        JSON.parse(requests.first[:response_body])
         'json'
       rescue JSON::ParserError
         nil
