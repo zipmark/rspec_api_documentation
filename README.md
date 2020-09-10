@@ -185,6 +185,7 @@ RspecApiDocumentation.configure do |config|
   config.configurations_dir = Rails.root.join("doc", "configurations", "api")
 
   # Output folder
+  # **WARNING*** All contents of the configured directory will be cleared, use a dedicated directory.
   config.docs_dir = Rails.root.join("doc", "api")
 
   # An array of output format(s).
@@ -238,6 +239,7 @@ RspecApiDocumentation.configure do |config|
   config.define_group :public do |config|
     # By default the group's doc_dir is a subfolder under the parent group, based
     # on the group's name.
+    # **WARNING*** All contents of the configured directory will be cleared, use a dedicated directory.
     config.docs_dir = Rails.root.join("doc", "api", "public")
 
     # Change the filter to only include :public examples
