@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
+require 'rack/test'
 require 'rspec_api_documentation/dsl'
 
 describe RspecApiDocumentation::Views::ApiBlueprintIndex do
@@ -161,6 +162,54 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
           description: nil,
           properties_description: "optional"
         }]
+      end
+    end
+  end
+
+  describe '#guess_type' do
+    let(:index) { RspecApiDocumentation::Index.new }
+    let(:order_route) { subject.sections[0][:routes][0] }
+
+    resource "Order" do
+      route '/orders', 'Order' do
+        post "orders" do
+          parameter :desc, required: true
+          parameter :price, required: true
+
+          let(:desc) { "A test order" }
+          let(:price) { 13 }
+
+          let(:config) { RspecApiDocumentation::Configuration.new }
+
+          before do
+            expect(client).to receive(:post)
+            do_request
+
+            index.examples << RspecApiDocumentation::Example.new(client.example, config)
+          end
+
+          it "should guess the parameter type" do
+            order_examples = order_route[:http_methods].map { |http_method| http_method[:examples] }.flatten
+            expect(order_examples.size).to eq 1
+            expect(order_route[:route]).to eq "/orders"
+            expect(order_route[:route_name]).to eq "Order"
+            expect(order_route[:has_parameters?]).to eq true
+            expect(order_route[:parameters]).to eq [
+              {
+                required: true,
+                name: "desc",
+                description: nil,
+                properties_description: "required, string"
+              },
+              {
+                required: true,
+                name: "price",
+                description: nil,
+                properties_description: "required, integer"
+              }
+            ]
+          end
+        end
       end
     end
   end

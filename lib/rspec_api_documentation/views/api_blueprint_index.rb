@@ -67,8 +67,8 @@ module RspecApiDocumentation
       #     properties_description: "required, string"
       #   }
       def fields(property_name, examples)
-        possible_parameters_values = examples.map do |example| 
-          parameters = example.metadata[:extended_parameters]
+        possible_parameters_values = examples.map do |example|
+          parameters = example.metadata[:extended_parameters] || []
           next parameters.map { |parameter| [parameter[:name], parameter[:value]] }.to_h
         end
 
@@ -85,7 +85,7 @@ module RspecApiDocumentation
               properties << 'optional'
             end
 
-            if property.key?(:type) 
+            if property.key?(:type)
               properties << property[:type] if property[:type]
             else
               possible_values = possible_parameters_values.map { |parameters| parameters[property[:name]] }
