@@ -3,7 +3,7 @@ require 'rack/test'
 require 'capybara'
 require 'capybara/server'
 require 'sinatra/base'
-require 'webmock'
+require 'webmock/rspec'
 require 'support/stub_app'
 
 describe RspecApiDocumentation::HttpTestClient do
