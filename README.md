@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.org/zipmark/rspec_api_documentation.svg?branch=master)](https://travis-ci.org/zipmark/rspec_api_documentation)
-[![Dependency Status](https://gemnasium.com/badges/github.com/zipmark/rspec_api_documentation.svg)](https://gemnasium.com/github.com/zipmark/rspec_api_documentation)
 [![Code Climate](https://codeclimate.com/github/zipmark/rspec_api_documentation/badges/gpa.svg)](https://codeclimate.com/github/zipmark/rspec_api_documentation)
 [![Inline docs](https://inch-ci.org/github/zipmark/rspec_api_documentation.svg?branch=master)](https://inch-ci.org/github/zipmark/rspec_api_documentation)
 [![Gem Version](https://badge.fury.io/rb/rspec_api_documentation.svg)](https://badge.fury.io/rb/rspec_api_documentation)
