@@ -2,6 +2,7 @@ Feature: Use OAuth2 MAC client as a test client
   Background:
     Given a file named "app_spec.rb" with:
       """
+      require "webmock/rspec"
       require "rspec_api_documentation"
       require "rspec_api_documentation/dsl"
       require "rack/builder"
