@@ -87,12 +87,9 @@ module RspecApiDocumentation
 
     def record_response_body(response_content_type, response_body)
       return nil if response_body.empty?
-      if response_body.encoding == Encoding::ASCII_8BIT
-        "[binary data]"
-      else
-        formatter = RspecApiDocumentation.configuration.response_body_formatter
-        return formatter.call(response_content_type, response_body)
-      end
+
+      formatter = RspecApiDocumentation.configuration.response_body_formatter
+      formatter.call(response_content_type, response_body)
     end
 
     def clean_out_uploaded_data(params, request_body)
