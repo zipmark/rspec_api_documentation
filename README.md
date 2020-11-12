@@ -370,7 +370,7 @@ This [format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/
     - `maximum: <integer>`. Will setup lower limit for your parameter.
     - `enum: [<value>, <value>, ..]`. Will provide a pre-defined list of possible values for your parameter.
     - `type: [:file, :array, :object, :boolean, :integer, :number, :string]`. Will set a type for the parameter. Most of the type you don't need to provide this option manually. We extract types from values automatically.
-
+    - `format: <value>`. Will set a format of the parameter. ([Read more here](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types))
 
 You also can provide a configuration file in YAML or JSON format with some manual configs. 
 The file should be placed in `configurations_dir` folder with the name `open_api.yml` or `open_api.json`. 
