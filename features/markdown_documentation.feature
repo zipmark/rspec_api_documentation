@@ -184,27 +184,31 @@ Feature: Generate Markdown documentation from test examples
     ### Request
 
     #### Headers
-
-    <pre>Host: example.org</pre>
+    ```
+    Host: example.org
+    ```
 
     #### Route
-
-    <pre>GET /orders</pre>
+    ```
+    GET /orders
+    ```
 
     ### Response
 
     #### Headers
-
-    <pre>Content-Type: application/json
-    Content-Length: 137</pre>
+    ```
+    Content-Type: application/json
+    Content-Length: 137
+    ```
 
     #### Status
-
-    <pre>200 OK</pre>
+    ```
+    200 OK
+    ```
 
     #### Body
-
-    <pre>{
+    ```
+    {
       "page": 1,
       "orders": [
         {
@@ -218,7 +222,8 @@ Feature: Generate Markdown documentation from test examples
           "description": "A great order"
         }
       ]
-    }</pre>
+    }
+    ```
     """
 
   Scenario: Example 'Creating an order' file should look like we expect
@@ -241,28 +246,33 @@ Feature: Generate Markdown documentation from test examples
     ### Request
 
     #### Headers
-
-    <pre>Host: example.org
-    Content-Type: application/x-www-form-urlencoded</pre>
+    ```
+    Host: example.org
+    Content-Type: application/x-www-form-urlencoded
+    ```
 
     #### Route
-
-    <pre>POST /orders</pre>
+    ```
+    POST /orders
+    ```
 
     #### Body
-
-    <pre>name=Order+3&amount=33.0</pre>
+    ```
+    name=Order+3&amount=33.0
+    ```
 
     ### Response
 
     #### Headers
-
-    <pre>Content-Type: text/html;charset=utf-8
-    Content-Length: 0</pre>
+    ```
+    Content-Type: text/html;charset=utf-8
+    Content-Length: 0
+    ```
 
     #### Status
-
-    <pre>201 Created</pre>
+    ```
+    201 Created
+    ```
     """
 
   Scenario: Example 'Deleting an order' file should be created
