@@ -144,7 +144,7 @@ module RspecApiDocumentation
           opts = {enum: field[:enum], minimum: field[:minimum], maximum: field[:maximum]}
 
           if current[:properties][field[:name]][:type] == :array
-            current[:properties][field[:name]][:items] = field[:items] || OpenApi::Helper.extract_items(field[:value][0], opts)
+            current[:properties][field[:name]][:items] = field[:items] || OpenApi::Helper.extract_items(field[:value], opts)
           else
             opts.each { |k, v| current[:properties][field[:name]][k] = v if v }
           end
