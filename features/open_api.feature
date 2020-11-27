@@ -193,6 +193,8 @@ Feature: Generate Open API Specification from test examples
           parameter :name, 'The order name', required: true, scope: :data, with_example: true
           parameter :amount, required: false, scope: :data, with_example: true
           parameter :description, 'The order description', required: true, scope: :data, with_example: true
+          parameter :address, 'The seller address', scope: [:data, :seller]
+          parameter :address, 'The buyer address', scope: [:data, :buyer]
 
           header "Content-Type", "application/json"
 
@@ -697,6 +699,24 @@ Feature: Generate Open API Specification from test examples
                           "type": "string",
                           "example": "fast order",
                           "description": "The order description"
+                        },
+                        "seller": {
+                          "type": "object",
+                          "properties": {
+                            "address": {
+                              "type": "string",
+                              "description": "The seller address"
+                            }
+                          }
+                        },
+                        "buyer": {
+                          "type": "object",
+                          "properties": {
+                            "address": {
+                              "type": "string",
+                              "description": "The buyer address"
+                            }
+                          }
                         }
                       },
                       "required": [
