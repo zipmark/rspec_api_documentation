@@ -159,7 +159,7 @@ module RspecApiDocumentation
       end
 
       def extract_parameters(example)
-        parameters = example.extended_parameters.uniq { |parameter| parameter[:name] }
+        parameters = example.extended_parameters.uniq { |parameter| [parameter[:name], parameter[:scope]] }
 
         extract_known_parameters(parameters.select { |p| !p[:in].nil? }) +
           extract_unknown_parameters(example, parameters.select { |p| p[:in].nil? })
