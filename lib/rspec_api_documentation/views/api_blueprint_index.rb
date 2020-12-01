@@ -1,6 +1,8 @@
 module RspecApiDocumentation
   module Views
     class ApiBlueprintIndex < MarkupIndex
+      delegate :api_host_name, to: :@configuration, prefix: false
+
       def initialize(index, configuration)
         super
         self.template_name = "rspec_api_documentation/api_blueprint_index"
@@ -41,6 +43,10 @@ module RspecApiDocumentation
         @index.examples.map do |example|
           ApiBlueprintExample.new(example, @configuration)
         end
+      end
+
+      def has_host_metadata?
+        api_host_name.present?
       end
 
       private

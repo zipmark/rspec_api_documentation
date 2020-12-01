@@ -1,4 +1,8 @@
 FORMAT: 1A
+{{# has_host_metadata? }}
+HOST: {{ api_host_name }}
+{{/ has_host_metadata? }}
+
 # {{ api_name }}
 {{ api_explanation }}
 {{# sections }}
