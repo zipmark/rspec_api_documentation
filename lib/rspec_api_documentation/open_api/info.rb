@@ -7,6 +7,7 @@ module RspecApiDocumentation
       add_setting :contact, :schema => Contact
       add_setting :license, :schema => License
       add_setting :version, :default => '1.0.0', :required => true
+      add_setting 'x-logo'
     end
   end
 end
