@@ -21,6 +21,7 @@ module RspecApiDocumentation::DSL
         end
       end
 
+      define_action :option
       define_action :get
       define_action :post
       define_action :put
@@ -30,13 +31,13 @@ module RspecApiDocumentation::DSL
 
       def callback(*args, &block)
         begin
-          require 'webmock/rspec'
+          require "webmock/rspec"
         rescue LoadError
           raise "Callbacks require webmock to be installed"
         end
-        self.send(:include, WebMock::API)
+        send(:include, WebMock::API)
 
-        options = if args.last.is_a?(Hash) then args.pop else {} end
+        options = args.last.is_a?(Hash) ? args.pop : {}
         options[:api_doc_dsl] = :callback
         args.push(options)
 
@@ -44,11 +45,11 @@ module RspecApiDocumentation::DSL
       end
 
       def route(*args, &block)
-        raise "You must define the route URI"  if args[0].blank?
+        raise "You must define the route URI" if args[0].blank?
         raise "You must define the route name" if args[1].blank?
         options = args.extract_options!
         options[:route_uri] = args[0].gsub(/\{.*\}/, "")
-        options[:route_optionals] = (optionals = args[0].match(/(\{.*\})/) and optionals[-1])
+        options[:route_optionals] = ((optionals = args[0].match(/(\{.*\})/)) && optionals[-1])
         options[:route_name] = args[1]
         args.push(options)
         context(*args, &block)
@@ -73,9 +74,9 @@ module RspecApiDocumentation::DSL
       def authentication(type, value, opts = {})
         name, new_opts =
           case type
-          when :basic then ['Authorization', opts.merge(type: type)]
+          when :basic then ["Authorization", opts.merge(type: type)]
           when :apiKey then [opts[:name], opts.merge(type: type, in: :header)]
-          else raise 'Not supported type for authentication'
+          else raise "Not supported type for authentication"
           end
         header(name, value)
         authentications[name] = new_opts
@@ -99,7 +100,7 @@ module RspecApiDocumentation::DSL
         options = args.extract_options!
         description = args.pop || "#{Array(options[:scope]).join(" ")} #{name}".humanize
 
-        options.merge(:name => name.to_s, :description => description)
+        options.merge(name: name.to_s, description: description)
       end
 
       def safe_metadata(field, default)
