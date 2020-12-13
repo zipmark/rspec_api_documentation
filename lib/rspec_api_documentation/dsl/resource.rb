@@ -21,7 +21,7 @@ module RspecApiDocumentation::DSL
         end
       end
 
-      define_action :option
+      define_action :options
       define_action :get
       define_action :post
       define_action :put

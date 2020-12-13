@@ -5,10 +5,10 @@ module RspecApiDocumentation
   class ClientBase < Struct.new(:context, :options)
     include Headers
 
-    delegate :example, :app, :to => :context
-    delegate :metadata, :to => :example
+    delegate :example, :app, to: :context
+    delegate :metadata, to: :example
 
-    def option(*args)
+    def options(*args)
       process :options, *args
     end
 
@@ -42,7 +42,7 @@ module RspecApiDocumentation
 
     private
 
-    def process(method, path, params = {}, headers ={})
+    def process(method, path, params = {}, headers = {})
       do_request(method, path, params, headers)
       document_example(method.to_s.upcase, path)
     end
@@ -100,11 +100,11 @@ module RspecApiDocumentation
       params.each do |value|
         if [Hash, Array].member? value.class
           request_body = if value.respond_to?(:has_key?) && value.has_key?(:tempfile)
-                           data = value[:tempfile].read
-                           request_body.gsub(data, "[uploaded data]")
-                         else
-                           clean_out_uploaded_data(value, request_body)
-                         end
+            data = value[:tempfile].read
+            request_body.gsub(data, "[uploaded data]")
+          else
+            clean_out_uploaded_data(value, request_body)
+          end
         end
       end
       request_body
