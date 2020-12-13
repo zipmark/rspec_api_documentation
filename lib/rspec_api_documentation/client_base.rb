@@ -8,6 +8,10 @@ module RspecApiDocumentation
     delegate :example, :app, :to => :context
     delegate :metadata, :to => :example
 
+    def option(*args)
+      process :options, *args
+    end
+
     def get(*args)
       process :get, *args
     end
