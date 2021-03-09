@@ -65,7 +65,7 @@ module RspecApiDocumentation
     end
 
     def format_header(header)
-      header.gsub(/^HTTP_/, '').titleize.split.join("-")
+      header.gsub(/^HTTP_/, '').split(/ |\_|\-/).map! { |part| part.tap(&:capitalize!) }.join('-')
     end
 
     def format_full_header(header, value)
