@@ -37,7 +37,7 @@ Feature: Disable DSL features
 
           example "Checking the method" do
             do_request :method => "ground"
-            expect(http_method).to eq(:get)
+            expect(_http_method).to eq(:get)
             expect(response_body).to eq("ground")
           end
         end
