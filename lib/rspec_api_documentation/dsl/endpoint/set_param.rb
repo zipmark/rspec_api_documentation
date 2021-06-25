@@ -57,7 +57,7 @@ module RspecApiDocumentation
             custom_method_name if example_group.respond_to?(custom_method_name)
           elsif scoped_key && example_group.respond_to?(scoped_key)
             scoped_key
-          elsif key && example_group.respond_to?(key)
+          elsif key && example_group.respond_to?(key) && example_group.public_method(key).arity.zero?
             key
           elsif key && set_value
             key
