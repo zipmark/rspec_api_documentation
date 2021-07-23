@@ -15,7 +15,10 @@ module RspecApiDocumentation::DSL
 
     module ClassMethods
       def example_request(description, params = {}, &block)
-        example description, :caller => block.send(:caller) do
+        metadata = params.fetch(:metadata, {})
+        example_params = {caller: block.send(:caller)}.merge!(metadata)
+
+        example description, example_params do
           do_request(params)
           instance_eval &block if block_given?
         end
