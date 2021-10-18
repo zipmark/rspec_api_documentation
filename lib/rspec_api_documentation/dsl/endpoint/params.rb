@@ -37,7 +37,7 @@ module RspecApiDocumentation
               # this.
               if cur.is_a?(Array) && cur.first.is_a?(Hash)
                 cur = cur.first
-                param[:scope] << ''
+                p[:scope] << ''
               end
 
               p[:value] = cur && (cur[p[:name].to_s] || cur[p[:name].to_sym])
