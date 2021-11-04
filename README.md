@@ -45,7 +45,7 @@ end
 
 Generate the docs!
 
-    $ rake docs:generate
+    $ RAILS_ENV=test rake docs:generate
     $ open doc/api/index.html
 
 ### Viewers
