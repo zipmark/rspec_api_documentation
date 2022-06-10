@@ -3,6 +3,7 @@ require 'active_support/inflector'
 require 'active_support/core_ext/array/extract_options'
 require 'active_support/core_ext/hash/conversions'
 require 'active_support/core_ext/hash/deep_merge'
+require 'active_support/core_ext/hash/keys'
 require 'cgi'
 require 'json'
 
