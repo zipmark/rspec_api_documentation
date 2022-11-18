@@ -18,7 +18,7 @@ module RspecApiDocumentation
 
       def load_config
         return JSON.parse(File.read("#{configurations_dir}/open_api.json")) if File.exist?("#{configurations_dir}/open_api.json")
-        YAML.load_file("#{configurations_dir}/open_api.yml") if File.exist?("#{configurations_dir}/open_api.yml")
+        YAML.load(ERB.new(File.read("#{configurations_dir}/open_api.yml")).result) if File.exist?("#{configurations_dir}/open_api.yml")
       end
     end
 
