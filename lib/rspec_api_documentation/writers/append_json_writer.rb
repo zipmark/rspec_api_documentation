@@ -5,7 +5,7 @@ module RspecApiDocumentation
     class AppendJsonWriter < JsonWriter
       def write
         index_file = docs_dir.join("index.json")
-        if File.exists?(index_file) && (output = File.read(index_file)).length >= 2
+        if File.exist?(index_file) && (output = File.read(index_file)).length >= 2
           existing_index_hash = JSON.parse(output)
         end
         File.open(index_file, "w+") do |f|

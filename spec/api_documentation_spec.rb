@@ -19,7 +19,7 @@ describe RspecApiDocumentation::ApiDocumentation do
       subject.clear_docs
 
       expect(File.directory?(configuration.docs_dir)).to be_truthy
-      expect(File.exists?(test_file)).to be_falsey
+      expect(File.exist?(test_file)).to be_falsey
     end
   end
 

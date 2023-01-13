@@ -14,7 +14,7 @@ module RspecApiDocumentation
       end
 
       def self.clear_docs(docs_dir)
-        if File.exists?(docs_dir)
+        if File.exist?(docs_dir)
           FileUtils.rm_rf(docs_dir, :secure => true)
         end
         FileUtils.mkdir_p(docs_dir)
