@@ -38,6 +38,14 @@ module RspecApiDocumentation
       respond_to?(:parameters) && parameters.present?
     end
 
+    def has_enum?
+      respond_to?(:parameters) && parameters.present? && parameters.any? { |i| i[:enum] }
+    end
+
+    def has_default?
+      respond_to?(:parameters) && parameters.present? && parameters.any? { |i| i[:default] }
+    end
+
     def has_attributes?
       respond_to?(:attributes) && attributes.present?
     end
