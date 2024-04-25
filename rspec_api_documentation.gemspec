@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "sinatra", "~> 2.0.8"
   s.add_development_dependency "aruba", "~> 0.14.14"
   s.add_development_dependency "capybara", "~> 3.39.2"
-  s.add_development_dependency "rake", "~> 10.5.0"
+  s.add_development_dependency "rake", "~> 13.2.1"
   s.add_development_dependency "rack-test", "~> 0.6.3"
   s.add_development_dependency "rack-oauth2", "~> 1.12.0"
   s.add_development_dependency "webmock", "~> 3.8.3"
