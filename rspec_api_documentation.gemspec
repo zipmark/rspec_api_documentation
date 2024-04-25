@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "bundler", ">= 1.16"
   s.add_development_dependency "fakefs", "~> 0.6.0"
-  s.add_development_dependency "sinatra", "~> 1.4.7"
+  s.add_development_dependency "sinatra", "~> 4.0.0"
   s.add_development_dependency "aruba", "~> 0.13.0"
   s.add_development_dependency "capybara", "~> 2.6.2"
   s.add_development_dependency "rake", "~> 10.5.0"
