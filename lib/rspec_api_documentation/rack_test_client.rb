@@ -61,7 +61,7 @@ module RspecApiDocumentation
         rescue LoadError
           raise "#{self.class.name} requires Rack::Test >= 0.5.5. Please add it to your test dependencies."
         end
-      end.new(app)
+      end.new(app || fail("RspecApiDocumentation.configuration.app is nil"))
     end
   end
 end
