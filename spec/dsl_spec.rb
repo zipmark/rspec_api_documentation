@@ -12,6 +12,12 @@ end
 resource "Order" do
   explanation "Order resource explanation"
 
+  let(:context) { |example| double(:app => StubApp, :example => example) }
+
+  before do
+    RspecApiDocumentation.configuration.app ||= context.app
+  end
+
   describe "example metadata" do
     subject { |example| example.metadata }
 

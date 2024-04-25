@@ -9,6 +9,10 @@ describe RspecApiDocumentation::RackTestClient do
 
   subject { test_client }
 
+  before do
+    RspecApiDocumentation.configuration.app ||= context.app
+  end
+
   it { expect(subject).to be_a(RspecApiDocumentation::RackTestClient) }
 
   its(:context) { should equal(context) }
