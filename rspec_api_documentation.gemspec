@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "yard", "~> 0.9.15"
   s.add_development_dependency "inch", "~> 0.8.0"
   s.add_development_dependency "minitest", "~> 5.8.4"
-  s.add_development_dependency "contracts", "~> 0.13.0"
+  s.add_development_dependency "contracts", "~> 0.17"
   s.add_development_dependency "gherkin", "~> 3.2.0"
   s.add_development_dependency "multi_json", "~> 1.11.2"
   s.add_development_dependency "rspec", "~> 3.0"
