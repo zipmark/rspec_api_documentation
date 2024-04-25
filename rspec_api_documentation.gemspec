@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "minitest", "~> 5.8.4"
   s.add_development_dependency "contracts", "~> 0.17"
   s.add_development_dependency "gherkin", "~> 3.2.0"
-  s.add_development_dependency "multi_json", "~> 1.11.2"
+  s.add_development_dependency "multi_json", "~> 1.15.0"
   s.add_development_dependency "rspec", "~> 3.0"
 
   s.files        = Dir.glob("lib/**/*") + Dir.glob("templates/**/*")
