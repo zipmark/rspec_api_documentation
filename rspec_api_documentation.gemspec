@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rack-test", "~> 0.6.3"
   s.add_development_dependency "rack-oauth2", "~> 1.12.0"
   s.add_development_dependency "webmock", "~> 3.8.3"
-  s.add_development_dependency "rspec-its", "~> 1.2.0"
+  s.add_development_dependency "rspec-its", "~> 1.3.0"
   s.add_development_dependency "faraday", "~> 0.9.2"
   s.add_development_dependency "nokogiri", "~> 1.8.4"
   s.add_development_dependency "yard", "~> 0.9.15"
