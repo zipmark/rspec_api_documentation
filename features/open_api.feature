@@ -175,6 +175,20 @@ Feature: Generate Open API Specification from test examples
           end
         end
 
+        get '/orders/:id?year=:year&month=:month' do
+          route_summary "This is used to return orders from a year and a month."
+          route_description "Returns a specific order."
+
+          let(:id) { 1 }
+          let(:year) { 2000 }
+          let(:month) { 6 }
+
+          example_request 'Getting a specific order with query params' do
+            expect(status).to eq(200)
+            expect(response_body).to eq('{"order":{"name":"Order 1","amount":100.0,"description":"A great order"}}')
+          end
+        end
+
         get '/orders/:id' do
           route_summary "This is used to return orders."
           route_description "Returns a specific order."
@@ -273,6 +287,8 @@ Feature: Generate Open API Specification from test examples
           * Getting a list of orders
         POST /orders
           * Creating an order
+        GET /orders/:id?year=:year&month=:month
+          * Getting a specific order with query params
         GET /orders/:id
           * Getting a specific order
         PUT /orders/:id
@@ -286,7 +302,7 @@ Feature: Generate Open API Specification from test examples
         GET /instructions
           * List all instructions
       """
-    And   the output should contain "7 examples, 0 failures"
+    And   the output should contain "8 examples, 0 failures"
     And   the exit status should be 0
 
   Scenario: Index file should look like we expect
@@ -577,6 +593,80 @@ Feature: Generate Open API Specification from test examples
                     "x-example-value": "application/json"
                   },
                   "Content-Length": {
+                    "type": "string",
+                    "x-example-value": "73"
+                  }
+                },
+                "examples": {
+                  "application/json": {
+                    "order": {
+                      "name": "Order 1",
+                      "amount": 100.0,
+                      "description": "A great order"
+                    }
+                  }
+                }
+              }
+            },
+            "deprecated": false,
+            "security": [
+
+            ]
+          }
+        },
+        "/orders/{id}?year={year}&month={month}": {
+          "get": {
+            "tags": [
+              "Orders"
+            ],
+            "summary": "This is used to return orders from a year and a month.",
+            "description": "Returns a specific order.",
+            "consumes": [
+
+            ],
+            "produces": [
+              "application/json"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "description": "",
+                "required": true,
+                "type": "integer"
+              },
+              {
+                "name": "year",
+                "in": "path",
+                "description": "",
+                "required": true,
+                "type": "integer"
+              },
+              {
+                "name": "month",
+                "in": "path",
+                "description": "",
+                "required": true,
+                "type": "integer"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Getting a specific order with query params",
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                  }
+                },
+                "headers": {
+                  "Content-Type": {
+                    "description": "",
+                    "type": "string",
+                    "x-example-value": "application/json"
+                  },
+                  "Content-Length": {
+                    "description": "",
                     "type": "string",
                     "x-example-value": "73"
                   }

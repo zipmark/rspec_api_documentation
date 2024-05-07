@@ -243,7 +243,7 @@ module RspecApiDocumentation
       end
 
       def route
-        super.gsub(/:(?<parameter>[^\/]+)/, '{\k<parameter>}')
+        super.gsub(/:(?<parameter>[^\/|&|\?]+)/, '{\k<parameter>}')
       end
     end
   end
