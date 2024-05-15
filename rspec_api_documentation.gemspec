@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "webmock", "~> 3.23.0"
   s.add_development_dependency "rspec-its", "~> 1.3.0"
   s.add_development_dependency "faraday", "~> 1.0.0"
-  s.add_development_dependency "nokogiri", "~> 1.8.4"
+  s.add_development_dependency "nokogiri", "~> 1.16.5"
   s.add_development_dependency "yard", "~> 0.9.15"
   s.add_development_dependency "inch", "~> 0.8.0"
   s.add_development_dependency "minitest", "~> 5.8.4"
