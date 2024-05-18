@@ -174,6 +174,7 @@ See the `example` folder for a sample Rails app that has been documented.  The s
 
 ## Configuration options
 ```ruby
+require 'rspec_api_documentation'
 # Values listed are the default values
 RspecApiDocumentation.configure do |config|
   # Set the application that Rack::Test uses
