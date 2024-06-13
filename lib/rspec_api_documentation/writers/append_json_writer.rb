@@ -19,7 +19,7 @@ module RspecApiDocumentation
       end
     end
 
-    class AppendJsonIndex < JsonIndex
+    class AppendJsonIndex < JSONIndex
       def initialize(index, configuration, existing_index_hash = nil)
         @index = index
         @configuration = configuration
