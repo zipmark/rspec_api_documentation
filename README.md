@@ -527,8 +527,8 @@ resource "Account" do
       expect(status).to eq 404
     end
 
-    # With example_request, you can't change the :document
-    example_request "Get a list on page 3", :page => 3 do
+    # With example_request, you can change the :document via metadata
+    example_request "Get a list on page 3", :page => 3, :metadata => {:document => false} do
       expect(status).to eq 404
     end
   end
@@ -654,6 +654,13 @@ resource "Orders" do
       # make assertions
     end
   end
+end
+```
+
+For passing metadata to example_request you can use param named `:metadata`
+```ruby
+example_request "Creating an order", :name => "Other name", metadata: {document: :private} do
+  # make assertions
 end
 ```
 
