@@ -44,7 +44,7 @@ module RspecApiDocumentation
     end
 
     def read_request_body
-      input = last_request.env["rack.input"]
+      input = last_request.env["rack.input"] || StringIO.new
       input.rewind
       input.read
     end
