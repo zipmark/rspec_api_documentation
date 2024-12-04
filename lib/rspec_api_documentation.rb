@@ -49,6 +49,7 @@ module RspecApiDocumentation
     autoload :SlateWriter
     autoload :ApiBlueprintWriter
     autoload :OpenApiWriter
+    autoload :DocusaurusWriter
   end
 
   module OpenApi
@@ -73,6 +74,7 @@ module RspecApiDocumentation
     autoload :Schema
     autoload :SecurityDefinitions
     autoload :SecuritySchema
+    autoload :XLogo
   end
 
   module Views
@@ -90,6 +92,8 @@ module RspecApiDocumentation
     autoload :SlateExample
     autoload :ApiBlueprintIndex
     autoload :ApiBlueprintExample
+    autoload :DocusaurusExample
+    autoload :DocusaurusIndex
   end
 
   def self.configuration

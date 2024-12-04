@@ -1,10 +1,14 @@
-# {{ resource_name }} API
+---
+id: {{ id }}
+title: {{ resource_name }}
+---
+
+## {{{ description }}}
+
 {{# resource_explanation }}
 
 {{{ resource_explanation }}}
 {{/ resource_explanation }}
-
-## {{ description }}
 
 ### {{ http_method }} {{ route }}
 {{# explanation }}
@@ -18,7 +22,7 @@
 | Name | Description | Required | Scope |
 |------|-------------|----------|-------|
 {{# parameters }}
-| {{ name }} | {{ description }} | {{ required }} | {{ scope }} |
+| {{{ name }}} | {{{ description }}} | {{{ required }}} | {{{ scope }}} |
 {{/ parameters }}
 
 {{/ has_parameters? }}
@@ -29,7 +33,7 @@
 | Name | Description | Scope |
 |------|-------------|-------|
 {{# response_fields }}
-| {{ name }} | {{ description }} | {{ scope }} |
+| {{{ name }}} | {{{ description }}} | {{{ scope }}} |
 {{/ response_fields }}
 
 {{/ has_response_fields? }}
@@ -38,28 +42,38 @@
 
 #### Headers
 
-<pre>{{ request_headers_text }}</pre>
+```
+{{{ request_headers_text }}}
+```
 
 #### Route
 
-<pre>{{ request_method }} {{ request_path }}</pre>
+```
+{{ request_method }} {{{ request_path }}}
+```
 {{# request_query_parameters_text }}
 
 #### Query Parameters
 
-<pre>{{ request_query_parameters_text }}</pre>
+```
+{{{ request_query_parameters_text }}}
+```
 {{/ request_query_parameters_text }}
 {{# request_body }}
 
 #### Body
 
-<pre>{{{ request_body }}}</pre>
+```
+{{{ request_body }}}
+```
 {{/ request_body }}
 {{# curl }}
 
 #### cURL
 
-<pre class="request">{{ curl }}</pre>
+```
+{{{ curl }}}
+```
 {{/ curl }}
 
 {{# response_status }}
@@ -67,16 +81,22 @@
 
 #### Headers
 
-<pre>{{ response_headers_text }}</pre>
+```
+{{ response_headers_text }}
+```
 
 #### Status
 
-<pre>{{ response_status }} {{ response_status_text}}</pre>
+```
+{{ response_status }} {{ response_status_text}}
+```
 
 {{# response_body }}
 #### Body
 
-<pre>{{{ response_body }}}</pre>
+```{{ response_format }}
+{{{ response_body }}}
+```
 {{/ response_body }}
 {{/ response_status }}
 {{/ requests }}

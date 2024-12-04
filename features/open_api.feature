@@ -73,7 +73,12 @@ Feature: Generate Open API Specification from test examples
             "name": "Apache 2.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
           },
-          "version": "1.0.1"
+          "version": "1.0.1",
+          "x-logo": {
+            "url": "https://redocly.github.io/redoc/petstore-logo.png",
+            "backgroundColor": "#FFFFFF",
+            "altText": "Petstore logo"
+          }
         },
         "host": "localhost:3000",
         "schemes": [
@@ -307,7 +312,12 @@ Feature: Generate Open API Specification from test examples
           "name": "Apache 2.0",
           "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
-        "version": "1.0.1"
+        "version": "1.0.1",
+        "x-logo": {
+          "url": "https://redocly.github.io/redoc/petstore-logo.png",
+          "backgroundColor": "#FFFFFF",
+          "altText": "Petstore logo"
+        }
       },
       "host": "localhost:3000",
       "schemes": [
