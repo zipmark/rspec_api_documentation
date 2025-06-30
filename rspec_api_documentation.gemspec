@@ -14,10 +14,8 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  # s.add_runtime_dependency "rspec", "~> 3.0"
-  s.add_runtime_dependency "rspec", "~> 3.5.0"
-  # s.add_development_dependency "rspec", "~> 3.0"
-  s.add_development_dependency "rspec", "~> 3.5.0"
+  s.add_runtime_dependency "rspec", "~> 3.0"
+  s.add_development_dependency "rspec", "~> 3.0"
   s.add_runtime_dependency "activesupport", ">= 3.0.0"
   s.add_runtime_dependency "mustache", "~> 1.0", ">= 0.99.4"
 
