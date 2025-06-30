@@ -57,6 +57,8 @@ Gem::Specification.new do |s|
     s.add_development_dependency "contracts"
     s.add_development_dependency "gherkin"
     s.add_development_dependency "multi_json"
+    s.add_development_dependency "webrick"
+    s.add_development_dependency "rackup"
   end
 
   s.files        = Dir.glob("lib/**/*") + Dir.glob("templates/**/*")
