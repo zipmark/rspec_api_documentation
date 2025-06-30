@@ -90,6 +90,12 @@ module RspecApiDocumentation
       return nil if response_body.empty?
 
       formatter = RspecApiDocumentation.configuration.response_body_formatter
+      # Only force UTF-8 for text-based content types
+      if response_body.respond_to?(:encoding) && response_body.encoding == Encoding::ASCII_8BIT
+        if response_content_type && (response_content_type.include?('json') || response_content_type.include?('text'))
+          response_body = response_body.force_encoding(Encoding::UTF_8)
+        end
+      end
       formatter.call(response_content_type, response_body)
     end
 

@@ -45,6 +45,7 @@ Gem::Specification.new do |s|
     s.add_development_dependency "aruba"
     s.add_development_dependency "capybara"
     s.add_development_dependency "rake"
+    s.add_development_dependency "rack", "<= 2.1.0"
     s.add_development_dependency "rack-test"
     s.add_development_dependency "rack-oauth2"
     s.add_development_dependency "webmock"

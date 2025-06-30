@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'rack/test'
 require 'capybara'
 require 'capybara/server'
-require 'sinatra/base'
 require 'webmock/rspec'
 require 'support/stub_app'
 
