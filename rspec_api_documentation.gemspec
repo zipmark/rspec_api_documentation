@@ -41,11 +41,11 @@ Gem::Specification.new do |s|
   else
     s.add_development_dependency "bundler", ">= 1.16"
     s.add_development_dependency "fakefs"
-    s.add_development_dependency "sinatra"
+    s.add_development_dependency "sinatra", "~> 2.0"
     s.add_development_dependency "aruba"
     s.add_development_dependency "capybara"
     s.add_development_dependency "rake"
-    s.add_development_dependency "rack"
+    s.add_development_dependency "rack", "~> 2.2"
     s.add_development_dependency "rack-test"
     s.add_development_dependency "rack-oauth2"
     s.add_development_dependency "webmock"
