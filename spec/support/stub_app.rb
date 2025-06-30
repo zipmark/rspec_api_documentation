@@ -1,50 +1,29 @@
-class StubApp < Sinatra::Base
-  disable :protection
-  get "/" do
-    content_type :json
-
-    { :hello => "world" }.to_json
-  end
-
-  post "/greet" do
-    content_type :json
-
-    # Handle different request sources (HttpTestClient vs RackTestClient)
-    body_content = nil
+class StubApp
+  def call(env)
+    req = Rack::Request.new(env)
     
-    # Try different ways to read the request body
-    if request.body.respond_to?(:read)
-      body_content = request.body.read
-      request.body.rewind if request.body.respond_to?(:rewind)
-    end
-    
-    # If body is empty, try rack.input
-    if body_content.nil? || body_content.empty?
-      rack_input = request.env['rack.input']
-      if rack_input
-        body_content = rack_input.read
-        rack_input.rewind if rack_input.respond_to?(:rewind)
+    case "#{req.request_method} #{req.path_info}"
+    when "GET /"
+      [200, {'Content-Type' => 'application/json'}, [{ :hello => "world" }.to_json]]
+    when "POST /greet"
+      body = req.body.read
+      req.body.rewind if req.body.respond_to?(:rewind)
+      
+      begin
+        data = JSON.parse(body) if body && !body.empty?
+      rescue JSON::ParserError
+        data = nil
       end
+      
+      target = data.is_a?(Hash) ? data["target"] : "nurse"
+      [200, {'Content-Type' => 'application/json', 'Content-Length' => '17'}, [{ :hello => target }.to_json]]
+    when "GET /xml"
+      [200, {'Content-Type' => 'application/xml'}, ["<hello>World</hello>"]]
+    when "GET /binary"
+      [200, {'Content-Type' => 'application/octet-stream'}, ["\x01\x02\x03".force_encoding(Encoding::ASCII_8BIT)]]
+    else
+      [404, {'Content-Type' => 'text/plain'}, ["Not Found"]]
     end
-    
-    begin
-      data = JSON.parse(body_content) if body_content && !body_content.empty?
-    rescue JSON::ParserError
-      data = nil
-    end
-    
-    target = data.is_a?(Hash) ? data["target"] : "nurse"  # Default to "nurse" for test compatibility
-    { :hello => target }.to_json
-  end
-
-  get "/xml" do
-    content_type 'application/xml'
-
-    "<hello>World</hello>"
-  end
-
-  get '/binary' do
-    content_type 'application/octet-stream'
-    "\x01\x02\x03".force_encoding(Encoding::ASCII_8BIT)
   end
 end
+

@@ -11,10 +11,10 @@ RspecApiDocumentation.configure do |config|
       # quote it for JSON Parser in documentation reader like APITOME
       return "\"#{response_body}\""
     else
-      return '"[binary data]"'
+      return '[binary data]'
     end
   rescue JSON::ParserError
-    '"[binary data]"'
+    '[binary data]'
   end
 end
 
@@ -24,7 +24,7 @@ RSpec.configure do |config|
       begin
         require 'support/stub_app'
         RspecApiDocumentation.configure do |config|
-          config.app = StubApp unless config.app
+          config.app = StubApp.new unless config.app
         end
       rescue LoadError
         # StubApp not available, skip
