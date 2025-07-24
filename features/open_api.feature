@@ -292,529 +292,505 @@ Feature: Generate Open API Specification from test examples
   Scenario: Index file should look like we expect
     Then the file "doc/api/open_api.json" should contain exactly:
     """
-    {
-      "swagger": "2.0",
-      "info": {
-        "title": "OpenAPI App",
-        "description": "This is a sample of OpenAPI specification.",
-        "termsOfService": "http://open-api.io/terms/",
-        "contact": {
-          "name": "API Support",
-          "url": "http://www.open-api.io/support",
-          "email": "support@open-api.io"
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "OpenAPI App",
+    "description": "This is a sample of OpenAPI specification.",
+    "termsOfService": "http://open-api.io/terms/",
+    "contact": {
+      "name": "API Support",
+      "url": "http://www.open-api.io/support",
+      "email": "support@open-api.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.1"
+  },
+  "host": "localhost:3000",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/not_hided": {},
+    "/instructions": {
+      "get": {
+        "tags": [
+          "Instructions"
+        ],
+        "summary": "This should be used to get all instructions.",
+        "description": "This description came from config.yml 1",
+        "consumes": [],
+        "produces": [
+          "text/html"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List all instructions",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "x-example-value": "text/html;charset=utf-8"
+              },
+              "Content-Length": {
+                "type": "string",
+                "x-example-value": "57"
+              }
+            },
+            "examples": {
+              "text/html": {
+                "data": {
+                  "id": "1",
+                  "type": "instructions",
+                  "attributes": {}
+                }
+              }
+            }
+          }
         },
-        "license": {
-          "name": "Apache 2.0",
-          "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        "deprecated": false,
+        "security": []
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "This URL allows users to interact with all orders.",
+        "description": "Long description.",
+        "consumes": [],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "one_level_array",
+            "in": "query",
+            "description": "One level array",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "string1",
+                "string2"
+              ]
+            },
+            "default": [
+              "string1"
+            ]
+          },
+          {
+            "name": "two_level_array",
+            "in": "query",
+            "description": "Two level array",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "one_level_arr",
+            "in": "query",
+            "description": "One level arr",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "value1",
+              "value2"
+            ]
+          },
+          {
+            "name": "two_level_arr",
+            "in": "query",
+            "description": "Two level arr",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "example": [
+              [
+                5.1,
+                3.0
+              ],
+              [
+                1.0,
+                4.5
+              ]
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Getting a list of orders",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "x-example-value": "application/vnd.api+json"
+              },
+              "Content-Length": {
+                "type": "string",
+                "x-example-value": "137"
+              }
+            },
+            "examples": {
+              "application/vnd.api+json": {
+                "page": 1,
+                "orders": [
+                  {
+                    "name": "Order 1",
+                    "amount": 9.99,
+                    "description": null
+                  },
+                  {
+                    "name": "Order 2",
+                    "amount": 100.0,
+                    "description": "A great order"
+                  }
+                ]
+              }
+            }
+          }
         },
-        "version": "1.0.1"
+        "deprecated": false,
+        "security": []
       },
-      "host": "localhost:3000",
-      "schemes": [
-        "http"
-      ],
-      "consumes": [
-        "application/json"
-      ],
-      "produces": [
-        "application/json"
-      ],
-      "paths": {
-        "/not_hided": {
-        },
-        "/instructions": {
-          "get": {
-            "tags": [
-              "Instructions"
-            ],
-            "summary": "This should be used to get all instructions.",
-            "description": "This description came from config.yml 1",
-            "consumes": [
-
-            ],
-            "produces": [
-              "text/html"
-            ],
-            "parameters": [
-
-            ],
-            "responses": {
-              "200": {
-                "description": "List all instructions",
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
-                },
-                "headers": {
-                  "Content-Type": {
-                    "type": "string",
-                    "x-example-value": "text/html;charset=utf-8"
-                  },
-                  "Content-Length": {
-                    "type": "string",
-                    "x-example-value": "57"
-                  }
-                },
-                "examples": {
-                  "text/html": {
-                    "data": {
-                      "id": "1",
-                      "type": "instructions",
-                      "attributes": {
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "deprecated": false,
-            "security": [
-
-            ]
-          }
-        },
-        "/orders": {
-          "get": {
-            "tags": [
-              "Orders"
-            ],
-            "summary": "This URL allows users to interact with all orders.",
-            "description": "Long description.",
-            "consumes": [
-
-            ],
-            "produces": [
-              "application/vnd.api+json"
-            ],
-            "parameters": [
-              {
-                "name": "one_level_array",
-                "in": "query",
-                "description": " one level array",
-                "required": false,
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "enum": [
-                    "string1",
-                    "string2"
-                  ]
-                },
-                "default": [
-                  "string1"
-                ]
-              },
-              {
-                "name": "two_level_array",
-                "in": "query",
-                "description": " two level array",
-                "required": false,
-                "type": "array",
-                "items": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              {
-                "name": "one_level_arr",
-                "in": "query",
-                "description": " one level arr",
-                "required": false,
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "example": [
-                  "value1",
-                  "value2"
-                ]
-              },
-              {
-                "name": "two_level_arr",
-                "in": "query",
-                "description": " two level arr",
-                "required": false,
-                "type": "array",
-                "items": {
-                  "type": "array",
-                  "items": {
-                    "type": "number"
-                  }
-                },
-                "example": [
-                  [
-                    5.1,
-                    3.0
-                  ],
-                  [
-                    1.0,
-                    4.5
-                  ]
-                ]
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "Getting a list of orders",
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
-                },
-                "headers": {
-                  "Content-Type": {
-                    "type": "string",
-                    "x-example-value": "application/vnd.api+json"
-                  },
-                  "Content-Length": {
-                    "type": "string",
-                    "x-example-value": "137"
-                  }
-                },
-                "examples": {
-                  "application/vnd.api+json": {
-                    "page": 1,
-                    "orders": [
-                      {
-                        "name": "Order 1",
-                        "amount": 9.99,
-                        "description": null
-                      },
-                      {
-                        "name": "Order 2",
-                        "amount": 100.0,
-                        "description": "A great order"
-                      }
-                    ]
-                  }
-                }
-              }
-            },
-            "deprecated": false,
-            "security": [
-
-            ]
-          },
-          "post": {
-            "tags": [
-              "Orders"
-            ],
-            "summary": "This is used to create orders.",
-            "description": "This description came from config.yml 2",
-            "consumes": [
-              "application/json"
-            ],
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "body",
-                "in": "body",
-                "description": "",
-                "required": false,
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "example": "Order 1",
-                          "default": "name",
-                          "description": "Data name"
-                        },
-                        "description": {
-                          "type": "string",
-                          "example": "A description",
-                          "description": "Data description"
-                        },
-                        "amount": {
-                          "type": "number",
-                          "example": 100.0,
-                          "description": "Data amount",
-                          "minimum": 0,
-                          "maximum": 100
-                        },
-                        "values": {
-                          "type": "array",
-                          "example": [
-                            5.0,
-                            1.0
-                          ],
-                          "description": "Data values",
-                          "items": {
-                            "type": "number",
-                            "enum": [
-                              1,
-                              2,
-                              3,
-                              5
-                            ]
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            ],
-            "responses": {
-              "201": {
-                "description": "Creating an order",
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
-                },
-                "headers": {
-                  "Content-Type": {
-                    "type": "string",
-                    "x-example-value": "application/json"
-                  },
-                  "Content-Length": {
-                    "type": "string",
-                    "x-example-value": "73"
-                  }
-                },
-                "examples": {
-                  "application/json": {
-                    "order": {
-                      "name": "Order 1",
-                      "amount": 100.0,
-                      "description": "A great order"
-                    }
-                  }
-                }
-              }
-            },
-            "deprecated": false,
-            "security": [
-
-            ]
-          }
-        },
-        "/orders/{id}": {
-          "get": {
-            "tags": [
-              "Orders"
-            ],
-            "summary": "This is used to return orders.",
-            "description": "Returns a specific order.",
-            "consumes": [
-
-            ],
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "id",
-                "in": "path",
-                "required": true,
-                "type": "integer"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "Getting a specific order",
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
-                },
-                "headers": {
-                  "Content-Type": {
-                    "type": "string",
-                    "x-example-value": "application/json"
-                  },
-                  "Content-Length": {
-                    "type": "string",
-                    "x-example-value": "73"
-                  }
-                },
-                "examples": {
-                  "application/json": {
-                    "order": {
-                      "name": "Order 1",
-                      "amount": 100.0,
-                      "description": "A great order"
-                    }
-                  }
-                }
-              }
-            },
-            "deprecated": false,
-            "security": [
-
-            ]
-          },
-          "put": {
-            "tags": [
-              "Orders"
-            ],
-            "summary": "This is used to update orders.",
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "This is used to create orders.",
+        "description": "This description came from config.yml 2",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
             "description": "",
-            "consumes": [
-              "application/json"
-            ],
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "id",
-                "in": "path",
-                "required": true,
-                "type": "integer"
-              },
-              {
-                "name": "body",
-                "in": "body",
-                "description": "",
-                "required": false,
-                "schema": {
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
                   "type": "object",
                   "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "example": "order",
-                          "description": "The order name"
-                        },
-                        "amount": {
-                          "type": "integer",
-                          "example": 1,
-                          "description": "Data amount"
-                        },
-                        "description": {
-                          "type": "string",
-                          "example": "fast order",
-                          "description": "The order description"
-                        }
-                      },
-                      "required": [
-                        "name",
-                        "description"
-                      ]
+                    "name": {
+                      "type": "string",
+                      "example": "Order 1",
+                      "default": "name",
+                      "description": "Data name"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "A description",
+                      "description": "Data description"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "example": 100.0,
+                      "description": "Data amount",
+                      "minimum": 0,
+                      "maximum": 100
+                    },
+                    "values": {
+                      "type": "array",
+                      "example": [
+                        5.0,
+                        1.0
+                      ],
+                      "description": "Data values",
+                      "items": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5
+                        ]
+                      }
                     }
                   }
                 }
               }
-            ],
-            "responses": {
-              "200": {
-                "description": "Update an order",
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
-                },
-                "headers": {
-                  "Content-Type": {
-                    "type": "string",
-                    "x-example-value": "application/json"
-                  },
-                  "Content-Length": {
-                    "type": "string",
-                    "x-example-value": "63"
-                  }
-                },
-                "examples": {
-                }
-              },
-              "400": {
-                "description": "Invalid request",
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
-                },
-                "headers": {
-                  "Content-Type": {
-                    "type": "string",
-                    "x-example-value": "application/json"
-                  },
-                  "Content-Length": {
-                    "type": "string",
-                    "x-example-value": "0"
-                  }
-                },
-                "examples": {
-                }
-              }
-            },
-            "deprecated": false,
-            "security": [
-
-            ]
-          },
-          "delete": {
-            "tags": [
-              "Orders"
-            ],
-            "summary": "This is used to delete orders.",
-            "description": "",
-            "consumes": [
-              "application/x-www-form-urlencoded"
-            ],
-            "produces": [
-              "text/html"
-            ],
-            "parameters": [
-              {
-                "name": "id",
-                "in": "path",
-                "required": true,
-                "type": "integer"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "Deleting an order",
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                  }
-                },
-                "headers": {
-                  "Content-Type": {
-                    "type": "string",
-                    "x-example-value": "text/html;charset=utf-8"
-                  },
-                  "Content-Length": {
-                    "type": "string",
-                    "x-example-value": "0"
-                  }
-                },
-                "examples": {
-                }
-              }
-            },
-            "deprecated": false,
-            "security": [
-
-            ]
+            }
           }
-        }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creating an order",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "x-example-value": "application/json"
+              },
+              "Content-Length": {
+                "type": "string",
+                "x-example-value": "73"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "order": {
+                  "name": "Order 1",
+                  "amount": 100.0,
+                  "description": "A great order"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": []
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "This is used to return orders.",
+        "description": "Returns a specific order.",
+        "consumes": [],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Getting a specific order",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "x-example-value": "application/json"
+              },
+              "Content-Length": {
+                "type": "string",
+                "x-example-value": "73"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "order": {
+                  "name": "Order 1",
+                  "amount": 100.0,
+                  "description": "A great order"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": []
       },
-      "tags": [
-        {
-          "name": "Orders",
-          "description": "Order's tag description"
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "This is used to update orders.",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "order",
+                      "description": "The order name"
+                    },
+                    "amount": {
+                      "type": "integer",
+                      "example": 1,
+                      "description": "Data amount"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "fast order",
+                      "description": "The order description"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "description"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update an order",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "x-example-value": "application/json"
+              },
+              "Content-Length": {
+                "type": "string",
+                "x-example-value": "63"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "data": {
+                  "name": "order",
+                  "amount": 1,
+                  "description": "fast order"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "x-example-value": "application/json"
+              },
+              "Content-Length": {
+                "type": "string",
+                "x-example-value": "0"
+              }
+            },
+            "examples": {}
+          }
         },
-        {
-          "name": "Instructions",
-          "description": "Instructions help the users use the app."
-        }
-      ]
+        "deprecated": false,
+        "security": []
+      },
+      "delete": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "This is used to delete orders.",
+        "description": "",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "text/html"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleting an order",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "headers": {
+              "Content-Type": {
+                "type": "string",
+                "x-example-value": "text/html;charset=utf-8"
+              },
+              "Content-Length": {
+                "type": "string",
+                "x-example-value": "0"
+              }
+            },
+            "examples": {}
+          }
+        },
+        "deprecated": false,
+        "security": []
+      }
     }
+  },
+  "tags": [
+    {
+      "name": "Orders",
+      "description": "Order's tag description"
+    },
+    {
+      "name": "Instructions",
+      "description": "Instructions help the users use the app."
+    }
+  ]
+}
     """
 
   Scenario: Example 'Deleting an order' file should not be created
