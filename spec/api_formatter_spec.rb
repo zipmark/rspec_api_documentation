@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe RspecApiDocumentation::ApiFormatter do
   let(:metadata) { {} }
-  let(:group) { 
+  let(:group) {
     # Create an anonymous class that inherits from ExampleGroup but doesn't auto-register
     Class.new(RSpec::Core::ExampleGroup) do
       def self.description
         "Orders"
       end
-      
+
       def self.metadata
         {}
       end

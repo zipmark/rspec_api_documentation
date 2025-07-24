@@ -103,7 +103,7 @@ module RspecApiDocumentation
       end
 
       def settings; @settings ||= {} end
-      
+
       private
 
       def instance_settings; @instance_settings ||= [] end

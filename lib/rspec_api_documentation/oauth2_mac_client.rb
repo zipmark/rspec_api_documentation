@@ -87,12 +87,12 @@ module RspecApiDocumentation
       @access_token ||= begin
                           app = ProxyApp.new(self, context.app)
                           stub_request(:any, %r{http://example\.com}).to_rack(app)
-                          
+
                           # Create a Bearer access token as MAC is no longer supported
                           access_token = Rack::OAuth2::AccessToken::Bearer.new(
                             :access_token => options[:identifier] || "1"
                           )
-                          
+
                           access_token
                         end
     end
