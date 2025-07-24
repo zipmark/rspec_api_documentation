@@ -2,14 +2,21 @@ require 'spec_helper'
 require 'rack/test'
 require 'capybara'
 require 'capybara/server'
-require 'sinatra/base'
 require 'webmock/rspec'
 require 'support/stub_app'
 
 describe RspecApiDocumentation::HttpTestClient do
   before(:all) do
+    if RUBY_VERSION < '2.7'
+      skip("Skipped on Ruby #{RUBY_VERSION} (requires >= 2.7)")
+    end
     WebMock.allow_net_connect!
-    server = Capybara::Server.new(StubApp.new, 8888)
+    # Capybara.server= was introduced in later versions
+    # For older versions, we use the Capybara::Server directly with webrick
+    if Capybara.respond_to?(:server=)
+      Capybara.server = :webrick
+    end
+    server = Capybara::Server.new(StubApp.new, port: 8888)
     server.boot
   end
 

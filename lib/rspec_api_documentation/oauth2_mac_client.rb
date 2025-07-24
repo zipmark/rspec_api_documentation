@@ -25,7 +25,13 @@ module RspecApiDocumentation
     end
 
     def response_headers
-      last_response.headers
+      if last_response.respond_to?(:headers)
+        last_response.headers
+      elsif last_response.respond_to?(:env) && last_response.env.respond_to?(:response_headers)
+        last_response.env.response_headers
+      else
+        {}
+      end
     end
 
     def query_string
@@ -33,7 +39,11 @@ module RspecApiDocumentation
     end
 
     def status
-      last_response.status
+      if last_response.respond_to?(:status)
+        last_response.status
+      else
+        last_response.env.status if last_response.respond_to?(:env)
+      end
     end
 
     def response_body
@@ -45,7 +55,13 @@ module RspecApiDocumentation
     end
 
     def response_content_type
-      last_response.content_type
+      if last_response.respond_to?(:content_type)
+        last_response.content_type
+      elsif last_response.respond_to?(:headers)
+        last_response.headers['Content-Type'] || last_response.headers['content-type']
+      else
+        nil
+      end
     end
 
     protected
@@ -71,7 +87,13 @@ module RspecApiDocumentation
       @access_token ||= begin
                           app = ProxyApp.new(self, context.app)
                           stub_request(:any, %r{http://example\.com}).to_rack(app)
-                          Rack::OAuth2::Client.new(options.merge(:host => "example.com", :scheme => "http")).access_token!
+
+                          # Create a Bearer access token as MAC is no longer supported
+                          access_token = Rack::OAuth2::AccessToken::Bearer.new(
+                            :access_token => options[:identifier] || "1"
+                          )
+
+                          access_token
                         end
     end
   end

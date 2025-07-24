@@ -2,7 +2,18 @@ require 'spec_helper'
 
 describe RspecApiDocumentation::ApiFormatter do
   let(:metadata) { {} }
-  let(:group) { RSpec::Core::ExampleGroup.describe("Orders", metadata) }
+  let(:group) {
+    # Create an anonymous class that inherits from ExampleGroup but doesn't auto-register
+    Class.new(RSpec::Core::ExampleGroup) do
+      def self.description
+        "Orders"
+      end
+
+      def self.metadata
+        {}
+      end
+    end
+  }
   let(:output) { StringIO.new }
   let(:formatter) { RspecApiDocumentation::ApiFormatter.new(output) }
 

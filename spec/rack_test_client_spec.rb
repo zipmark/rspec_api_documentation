@@ -1,10 +1,9 @@
 require 'spec_helper'
 require 'rack/test'
-require 'sinatra/base'
 require 'support/stub_app'
 
 describe RspecApiDocumentation::RackTestClient do
-  let(:context) { |example| double(:app => StubApp, :example => example) }
+  let(:context) { |example| double(:app => StubApp.new, :example => example) }
   let(:test_client) { RspecApiDocumentation::RackTestClient.new(context, {}) }
 
   subject { test_client }

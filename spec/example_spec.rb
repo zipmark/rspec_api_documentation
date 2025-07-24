@@ -64,7 +64,7 @@ describe RspecApiDocumentation::Example do
     end
 
     context "when the example is pending" do
-      let(:rspec_example) { rspec_example_group.pending(description, metadata) {} }
+      let(:rspec_example) { rspec_example_group.pending(description, metadata) { raise "Pending example" } }
 
       it { should be_falsey }
     end

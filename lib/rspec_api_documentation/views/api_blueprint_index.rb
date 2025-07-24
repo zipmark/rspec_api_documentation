@@ -103,7 +103,8 @@ module RspecApiDocumentation
       # equals the name, I assume it is blank.
       def description_blank?(property)
         !property[:description] ||
-          property[:description].to_s.strip == property[:name].to_s.strip
+          property[:description].to_s.strip == property[:name].to_s.strip ||
+          property[:description].to_s.strip == property[:name].to_s.humanize
       end
     end
   end

@@ -1,31 +1,29 @@
-class StubApp < Sinatra::Base
-  get "/" do
-    content_type :json
+class StubApp
+  def call(env)
+    req = Rack::Request.new(env)
 
-    { :hello => "world" }.to_json
-  end
+    case "#{req.request_method} #{req.path_info}"
+    when "GET /"
+      [200, {'Content-Type' => 'application/json'}, [{ :hello => "world" }.to_json]]
+    when "POST /greet"
+      body = req.body.read
+      req.body.rewind if req.body.respond_to?(:rewind)
 
-  post "/greet" do
-    content_type :json
+      begin
+        data = JSON.parse(body) if body && !body.empty?
+      rescue JSON::ParserError
+        data = nil
+      end
 
-    request.body.rewind
-    begin
-      data = JSON.parse request.body.read
-    rescue JSON::ParserError
-      request.body.rewind
-      data = request.body.read
+      target = data.is_a?(Hash) ? data["target"] : "nurse"
+      [200, {'Content-Type' => 'application/json', 'Content-Length' => '17'}, [{ :hello => target }.to_json]]
+    when "GET /xml"
+      [200, {'Content-Type' => 'application/xml'}, ["<hello>World</hello>"]]
+    when "GET /binary"
+      [200, {'Content-Type' => 'application/octet-stream'}, ["\x01\x02\x03".force_encoding(Encoding::ASCII_8BIT)]]
+    else
+      [404, {'Content-Type' => 'text/plain'}, ["Not Found"]]
     end
-    { :hello => data["target"] }.to_json
-  end
-
-  get "/xml" do
-    content_type :xml
-
-    "<hello>World</hello>"
-  end
-
-  get '/binary' do
-    content_type 'application/octet-stream'
-    "\x01\x02\x03".force_encoding(Encoding::ASCII_8BIT)
   end
 end
+

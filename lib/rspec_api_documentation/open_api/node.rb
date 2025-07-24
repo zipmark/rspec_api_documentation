@@ -102,9 +102,10 @@ module RspecApiDocumentation
         end
       end
 
+      def settings; @settings ||= {} end
+
       private
 
-      def settings; @settings ||= {} end
       def instance_settings; @instance_settings ||= [] end
       def self.class_settings; @class_settings ||= [] end
     end

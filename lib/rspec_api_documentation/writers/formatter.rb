@@ -3,7 +3,7 @@ module RspecApiDocumentation
     module Formatter
 
       def self.to_json(object)
-        JSON.pretty_generate(object.as_json)
+        JSON.pretty_generate(object.as_json) + "\n"
       end
 
     end

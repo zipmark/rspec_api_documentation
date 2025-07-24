@@ -1,3 +1,4 @@
+require 'logger'  # Ensure Logger is loaded for ActiveSupport 6.1+ compatibility with Ruby <= 2.6
 require 'active_support'
 require 'active_support/inflector'
 require 'active_support/core_ext/array/extract_options'
