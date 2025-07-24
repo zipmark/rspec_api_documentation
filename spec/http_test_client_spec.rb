@@ -8,7 +8,11 @@ require 'support/stub_app'
 describe RspecApiDocumentation::HttpTestClient do
   before(:all) do
     WebMock.allow_net_connect!
-    Capybara.server = :webrick
+    # Capybara.server= was introduced in later versions
+    # For older versions, we use the Capybara::Server directly with webrick
+    if Capybara.respond_to?(:server=)
+      Capybara.server = :webrick
+    end
     server = Capybara::Server.new(StubApp.new, port: 8888)
     server.boot
   end
