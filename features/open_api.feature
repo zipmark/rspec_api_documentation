@@ -290,7 +290,7 @@ Feature: Generate Open API Specification from test examples
     And   the exit status should be 0
 
   Scenario: Index file should look like we expect
-    Then the file "doc/api/open_api.json" should contain exactly:
+    Then the file "doc/api/open_api.json" should contain JSON exactly like:
     """
 {
   "swagger": "2.0",
