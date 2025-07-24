@@ -9,3 +9,9 @@ Capybara.configure do |config|
   config.match = :prefer_exact
   config.ignore_hidden_elements = false
 end
+
+Before('@ruby27_required') do |scenario|
+  if RUBY_VERSION < '2.7'
+    raise Cucumber::Pending, "Skipped on Ruby #{RUBY_VERSION} (requires >= 2.7)"
+  end
+end

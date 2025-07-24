@@ -7,6 +7,9 @@ require 'support/stub_app'
 
 describe RspecApiDocumentation::HttpTestClient do
   before(:all) do
+    if RUBY_VERSION < '2.7'
+      skip("Skipped on Ruby #{RUBY_VERSION} (requires >= 2.7)")
+    end
     WebMock.allow_net_connect!
     # Capybara.server= was introduced in later versions
     # For older versions, we use the Capybara::Server directly with webrick

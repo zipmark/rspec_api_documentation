@@ -1,3 +1,4 @@
+@ruby27_required
 Feature: Generate Open API Specification from test examples
 
   Background:
