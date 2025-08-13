@@ -14,6 +14,7 @@ describe RspecApiDocumentation::Curl do
         "HTTP_ACCEPT" => "application/json",
         "HTTP_X_HEADER" => "header",
         "HTTP_AUTHORIZATION" => %{Token token="mytoken"},
+        "HTTP_DEVICE-ID" => "header",
         "HTTP_HOST" => "example.org",
         "HTTP_COOKIES" => "",
         "HTTP_SERVER" => nil
@@ -26,6 +27,7 @@ describe RspecApiDocumentation::Curl do
     it { should =~ /-X POST/ }
     it { should =~ /-H "Accept: application\/json"/ }
     it { should =~ /-H "X-Header: header"/ }
+    it { should =~ /-H "Device-Id: header"/ }
     it { should =~ /-H "Authorization: Token token=\\"mytoken\\""/ }
     it { should =~ /-H "Server: "/ }
     it { should_not =~ /-H "Host: example\.org"/ }
