@@ -31,6 +31,12 @@
               <tr>
                 <th>Name</th>
                 <th>Description</th>
+                {{# has_enum? }}
+                  <th>Accepted values</th>
+                {{/ has_enum? }}
+                {{# has_default? }}
+                  <th>Default</th>
+                {{/ has_default? }}
               </tr>
             </thead>
             <tbody>
@@ -47,6 +53,12 @@
                 <td>
                   <span class="description">{{ description }}</span>
                 </td>
+                {{# has_enum? }}
+                  <td>{{ enum }}</td>
+                {{/ has_enum? }}
+                {{# has_default? }}
+                  <td>{{ default }}</td>
+                {{/ has_default? }}
               </tr>
               {{/ parameters }}
             </tbody>
