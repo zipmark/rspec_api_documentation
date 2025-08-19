@@ -98,28 +98,36 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
         post_route = sections[1][:routes][1]
         post_route_with_optionals = sections[1][:routes][2]
 
-        comments_examples = comments_route[:http_methods].map { |http_method| http_method[:examples] }.flatten
+        http_methods = comments_route[:http_methods]
+        comments_examples = http_methods.map { |http_method| http_method[:examples] }.flatten
+        examples_has_parameters = http_methods.map { |http_method| http_method[:has_parameters?] }
+        examples_parameters = http_methods.map { |http_method| http_method[:parameters] }
+
         expect(comments_examples.size).to eq 1
         expect(comments_route[:route]).to eq "/comments"
         expect(comments_route[:route_name]).to eq "Comments Collection"
-        expect(comments_route[:has_parameters?]).to eq false
-        expect(comments_route[:parameters]).to eq []
+        expect(examples_has_parameters).to eq [false]
+        expect(examples_parameters).to eq [[]]
         expect(comments_route[:has_attributes?]).to eq false
         expect(comments_route[:attributes]).to eq []
 
-        post_examples = post_route[:http_methods].map { |http_method| http_method[:examples] }.flatten
+        http_methods = post_route[:http_methods]
+        post_examples = http_methods.map { |http_method| http_method[:examples] }.flatten
+        examples_has_parameters = http_methods.map { |http_method| http_method[:has_parameters?] }
+        examples_parameters = http_methods.map { |http_method| http_method[:parameters] }
+
         expect(post_examples.size).to eq 2
         expect(post_route[:route]).to eq "/posts/{id}"
         expect(post_route[:route_name]).to eq "Single Post"
-        expect(post_route[:has_parameters?]).to eq true
-        expect(post_route[:parameters]).to eq [{
+        expect(examples_has_parameters).to eq [true]
+        expect(examples_parameters).to eq [[{
           required: true,
           type: "string",
           example: "1",
           name: "id",
           description: "The id",
           properties_description: "required, string"
-        }]
+        }]]
         expect(post_route[:has_attributes?]).to eq true
         expect(post_route[:attributes]).to eq [{
           required: true,
@@ -128,12 +136,16 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
           properties_description: "required"
         }]
 
-        post_w_optionals_examples = post_route_with_optionals[:http_methods].map { |http_method| http_method[:examples] }.flatten
+        http_methods = post_route_with_optionals[:http_methods]
+        post_w_optionals_examples = http_methods.map { |http_method| http_method[:examples] }.flatten
+        examples_has_parameters = http_methods.map { |http_method| http_method[:has_parameters?] }
+        examples_parameters = http_methods.map { |http_method| http_method[:parameters] }
+
         expect(post_w_optionals_examples.size).to eq 1
         expect(post_route_with_optionals[:route]).to eq "/posts/{id}{?option=:option}"
         expect(post_route_with_optionals[:route_name]).to eq "Single Post"
-        expect(post_route_with_optionals[:has_parameters?]).to eq true
-        expect(post_route_with_optionals[:parameters]).to eq [{
+        expect(examples_has_parameters).to eq [true]
+        expect(examples_parameters).to eq [[{
           required: true,
           type: "string",
           example: "1",
@@ -144,16 +156,20 @@ describe RspecApiDocumentation::Views::ApiBlueprintIndex do
           name: "option",
           description: nil,
           properties_description: 'optional'
-        }]
+        }]]
         expect(post_route_with_optionals[:has_attributes?]).to eq false
         expect(post_route_with_optionals[:attributes]).to eq []
 
-        posts_examples = posts_route[:http_methods].map { |http_method| http_method[:examples] }.flatten
+        http_methods = posts_route[:http_methods]
+        posts_examples = http_methods.map { |http_method| http_method[:examples] }.flatten
+        examples_has_parameters = http_methods.map { |http_method| http_method[:has_parameters?] }
+        examples_parameters = http_methods.map { |http_method| http_method[:parameters] }
+
         expect(posts_examples.size).to eq 1
         expect(posts_route[:route]).to eq "/posts"
         expect(posts_route[:route_name]).to eq "Posts Collection"
-        expect(posts_route[:has_parameters?]).to eq false
-        expect(posts_route[:parameters]).to eq []
+        expect(examples_has_parameters).to eq [false]
+        expect(examples_parameters).to eq [[]]
         expect(posts_route[:has_attributes?]).to eq true
         expect(posts_route[:attributes]).to eq [{
           required: false,
