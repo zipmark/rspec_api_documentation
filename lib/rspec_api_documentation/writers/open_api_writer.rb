@@ -34,7 +34,7 @@ module RspecApiDocumentation
       def as_json
         @specs = OpenApi::Root.new(init_config)
         add_tags!
-        add_paths!
+        add_paths! 
         add_security_definitions!
         specs.as_json
       end
@@ -160,9 +160,23 @@ module RspecApiDocumentation
 
       def extract_parameters(example)
         parameters = example.extended_parameters.uniq { |parameter| parameter[:name] }
-
         extract_known_parameters(parameters.select { |p| !p[:in].nil? }) +
-          extract_unknown_parameters(example, parameters.select { |p| p[:in].nil? })
+          extract_unknown_parameters(example, parameters.select { |p| p[:in].nil? }) +
+          extract_header_parameters(example.requests)
+      end
+
+      def extract_header_parameters(request)
+        request.first[:request_headers].map do |req_headers|
+          OpenApi::Parameter.new(
+            name:        req_headers[0],
+            in:          :header,
+            description: req_headers[1],
+            value:        req_headers[1],
+            type: "string", 
+            with_example: req_headers[1],
+            required:  true
+          )
+        end
       end
 
       def extract_parameter(opts)
@@ -239,6 +253,7 @@ module RspecApiDocumentation
       end
 
       def requests
+
         super.select { |request| request[:request_method].to_s.downcase == http_method.to_s.downcase }
       end
 
