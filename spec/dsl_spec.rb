@@ -54,6 +54,46 @@ resource "Order" do
           end
         end
       end
+
+      context "parameter with the same name as HTTP method" do
+        parameter http_method, "#{http_method} parameter"
+
+        # Simulate ActionDispatch::Integration::RequestHelpers method which
+        # accepts 1+ arguments.
+        #
+        #   def get(path, **args)
+        #     process(:get, path, **args)
+        #   end
+        #
+        # See https://github.com/rails/rails/blob/v6.1.1/actionpack/lib/action_dispatch/testing/integration.rb#L13-L53
+        define_method(http_method) do |_path, **_args|
+          raise "This method should not have been called"
+        end
+
+        context "without defining custom method for value" do
+          example "does not raise error" do
+            expect(client).to receive(http_method)
+
+            do_request
+          end
+        end
+
+        context "with custom method for values defined" do
+          define_method(http_method) { "value" }
+
+          example "uses custom value" do
+            expect(client).to receive(http_method) do |*args|
+              if http_method == :get
+                expect(args).to eq ["/path?get=value", nil, nil]
+              else
+                expect(args).to eq ["/path", { http_method.to_s => "value" }, nil]
+              end
+            end
+
+            do_request
+          end
+        end
+      end
     end
   end
 
