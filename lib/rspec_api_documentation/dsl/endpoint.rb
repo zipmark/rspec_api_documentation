@@ -41,7 +41,7 @@ module RspecApiDocumentation::DSL
       extended_parameters
       extract_route_parameters!
 
-      if http_method == :get && !query_string.blank?
+      if _http_method == :get && !query_string.blank?
         path_or_query += "?#{query_string}"
       else
         if respond_to?(:raw_post)
@@ -61,7 +61,7 @@ module RspecApiDocumentation::DSL
         end
       end
 
-      rspec_api_documentation_client.send(http_method, path_or_query, params_or_body, headers)
+      rspec_api_documentation_client.send(_http_method, path_or_query, params_or_body, headers)
     end
 
     def query_string
@@ -119,12 +119,12 @@ module RspecApiDocumentation::DSL
       end
     end
 
-    def http_method
+    def _http_method
       example.metadata[:method]
     end
 
     def method
-      http_method
+      _http_method
     end
 
     def status
