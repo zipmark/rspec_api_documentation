@@ -52,6 +52,7 @@ describe RspecApiDocumentation::Configuration do
     its(:curl_host) { should be_nil }
     its(:keep_source_order) { should be_falsey }
     its(:api_name) { should == "API Documentation" }
+    its(:api_host_name) { should be_nil }
     its(:api_explanation) { should be_nil }
     its(:client_method) { should == :client }
     its(:io_docs_protocol) { should == "http" }
